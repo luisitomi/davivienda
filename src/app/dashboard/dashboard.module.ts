@@ -6,12 +6,14 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MaterialModule } from '../shared/material.module';
 import { InfoletOrigenComponent } from './components/infolet-origen/infolet-origen.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InfoletGlobalComponent } from './components/infolet-global/infolet-global.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    InfoletOrigenComponent
+    InfoletOrigenComponent,
+    InfoletGlobalComponent
   ],
   imports: [
     CommonModule,
