@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfoletGlobalComponent } from './components/infolet-global/infolet-global.component';
 import { FiltrosCargaComponent } from './components/filtros-carga/filtros-carga.component';
 import { ControlMonitoreoComponent } from './pages/control-monitoreo/control-monitoreo.component';
+import { TablaControlComponent } from './components/tabla-control/tabla-control.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ControlMonitoreoComponent } from './pages/control-monitoreo/control-mon
     InfoletOrigenComponent,
     InfoletGlobalComponent,
     FiltrosCargaComponent,
-    ControlMonitoreoComponent
+    ControlMonitoreoComponent,
+    TablaControlComponent
   ],
   imports: [
     CommonModule,
