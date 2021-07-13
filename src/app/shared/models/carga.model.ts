@@ -1,5 +1,5 @@
 export interface Carga {
-  fecha: Date;
+  fechaCarga: Date;
   origen: String;
   nombreArchivo: String;
   estado: String;

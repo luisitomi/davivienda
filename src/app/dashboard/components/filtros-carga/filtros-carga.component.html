@@ -11,7 +11,7 @@
         <mat-form-field appearance="fill">
           <mat-label for="estado">Estado</mat-label>
           <mat-select id="estado" formControlName="estado">
-            <mat-option *ngFor="let estado of estadoOptions" [value]="estado">{{ estado }}</mat-option>
+            <mat-option *ngFor="let estado of estadoOptions | keyvalue" [value]="estado.value">{{ estado.value }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -39,7 +39,7 @@
         <mat-form-field appearance="fill">
           <mat-label for="tipo-carga">Tipo carga</mat-label>
           <mat-select id="tipo-carga" formControlName="tipoCarga">
-            <mat-option *ngFor="let tipo of tipoOptions" [value]="tipo">{{ tipo }}</mat-option>
+            <mat-option *ngFor="let tipo of tipoOptions | keyvalue" [value]="tipo.value">{{ tipo.value }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

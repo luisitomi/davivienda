@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Estados, Filtros, TipoCarga } from 'src/app/shared';
 
 @Component({
   selector: 'app-filtros-carga',
@@ -7,6 +9,8 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./filtros-carga.component.scss']
 })
 export class FiltrosCargaComponent implements OnInit {
+
+  @Output() filtrarCargas = new EventEmitter<Filtros>();
 
   filterForm = new FormGroup({
     origen: new FormControl(''),
@@ -17,9 +21,9 @@ export class FiltrosCargaComponent implements OnInit {
     tipoCarga: new FormControl(''),
   });
 
-  estadoOptions = ['Error técnico', 'Error funcional', 'Procesado'];
+  estadoOptions = Estados;
 
-  tipoOptions = ['Automático', 'Manual', 'Reverso'];
+  tipoOptions = TipoCarga;
 
   constructor() { }
 
@@ -27,8 +31,7 @@ export class FiltrosCargaComponent implements OnInit {
   }
 
   filter(): void {
-    //TODO: implement this
-    console.log(this.filterForm.value);
+    this.filtrarCargas.emit(this.filterForm.value);
   }
 
 }

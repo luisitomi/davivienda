@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CargasService } from 'src/app/core/services/cargas.service';
-import { Carga } from 'src/app/shared';
+import { Carga, Filtros } from 'src/app/shared';
 
 @Component({
   selector: 'app-control-monitoreo',
@@ -26,6 +26,12 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getCargasSub?.unsubscribe;
+  }
+
+  filtrarCargas(filtros: Filtros): void {
+    this.getCargasSub = this.cargasService.getCargas(filtros.origen, null, '', filtros.estado).subscribe(
+      data => this.cargas = data,
+    );
   }
 
 }
