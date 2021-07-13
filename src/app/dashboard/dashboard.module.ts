@@ -10,6 +10,7 @@ import { InfoletGlobalComponent } from './components/infolet-global/infolet-glob
 import { FiltrosCargaComponent } from './components/filtros-carga/filtros-carga.component';
 import { ControlMonitoreoComponent } from './pages/control-monitoreo/control-monitoreo.component';
 import { TablaControlComponent } from './components/tabla-control/tabla-control.component';
+import { DetalleArchivoComponent } from './components/detalle-archivo/detalle-archivo.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { TablaControlComponent } from './components/tabla-control/tabla-control.
     InfoletGlobalComponent,
     FiltrosCargaComponent,
     ControlMonitoreoComponent,
-    TablaControlComponent
+    TablaControlComponent,
+    DetalleArchivoComponent,
   ],
   imports: [
     CommonModule,

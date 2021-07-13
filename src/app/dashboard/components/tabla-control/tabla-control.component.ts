@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Carga } from 'src/app/shared';
 
 @Component({
@@ -9,6 +9,8 @@ import { Carga } from 'src/app/shared';
 export class TablaControlComponent implements OnInit {
 
   @Input() cargas: Carga[] = [];
+
+  @Output() mostrarDetalle = new EventEmitter<number>();
 
   displayedColumns: String[] = [
     'numeracion',
@@ -28,11 +30,16 @@ export class TablaControlComponent implements OnInit {
     'creditoXLA',
     'debitoGL',
     'creditoGL',
+    'acciones',
   ];
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  clickVer(cargaId: number): void {
+    this.mostrarDetalle.emit(cargaId);
   }
 
 }

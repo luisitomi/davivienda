@@ -1,0 +1,44 @@
+.evol-detalle-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1%;
+}
+
+.evol-detalle-panel {
+  flex: 1 0 49%;
+}
+
+.evol-detalle-item {
+
+  ::ng-deep {
+    .mat-list-item-content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.evol-detalle-control {
+
+  h3 {
+    text-align: center;
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2%;
+
+    button {
+      flex: 1 0 49%;
+    }
+  }
+
+}

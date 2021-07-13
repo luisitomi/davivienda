@@ -1,9 +1,9 @@
 <mat-card>
-  <mat-card-content>
+  <mat-card-content class="evol-tabla-container">
     <table mat-table [dataSource]="cargas">
 
       <!-- Columna Numeracion -->
-      <ng-container matColumnDef="numeracion">
+      <ng-container matColumnDef="numeracion" sticky>
         <th mat-header-cell *matHeaderCellDef>No.</th>
         <td mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
       </ng-container>
@@ -21,7 +21,7 @@
       </ng-container>
 
       <!-- Columna Nombre Archivo -->
-      <ng-container matColumnDef="nombreArchivo">
+      <ng-container matColumnDef="nombreArchivo" sticky>
         <th mat-header-cell *matHeaderCellDef>Nombre Archivo</th>
         <td mat-cell *matCellDef="let element"> {{ element.nombreArchivo }} </td>
       </ng-container>
@@ -102,6 +102,12 @@
       <ng-container matColumnDef="creditoGL">
         <th mat-header-cell *matHeaderCellDef>Credito GL</th>
         <td mat-cell *matCellDef="let element"> {{ element.creditoGL }} </td>
+      </ng-container>
+
+      <!-- Columna Acciones -->
+      <ng-container matColumnDef="acciones" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element"><button mat-flat-button color="accent" (click)="clickVer(element.id)">Ver</button></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

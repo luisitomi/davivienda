@@ -1,4 +1,5 @@
 export interface Carga {
+  id: number;
   fechaCarga: Date;
   origen: String;
   nombreArchivo: String;
