@@ -6,32 +6,32 @@
     <mat-list class="evol-infolet-list">
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Archivos procesados</h2>
-        <h2>6</h2>
+        <h2>{{ infolet?.archivosProcesados }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Transacciones cargadas</h2>
-        <h2>50000</h2>
+        <h2>{{ infolet?.transaccionesCargadas }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Asientos Accounting Hub</h2>
-        <h2>50000</h2>
+        <h2>{{ infolet?.asientosAccountingHub }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Asientos General Accounting</h2>
-        <h2>5000</h2>
+        <h2>{{ infolet?.asientosGeneralAccounting }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Movimiento neto de hoy</h2>
-        <h2>COP 34557600</h2>
+        <h2>{{ infolet?.movimientoNetoHoy | currency:'COP' }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Movimiento neto de ayer</h2>
-        <h2>COP 43838200</h2>
+        <h2>{{ infolet?.movimientoNetoAyer | currency:'COP' }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
@@ -39,7 +39,7 @@
         <div class="evol-infolet-rate-indicator">
           <mat-icon class="evol-rate-arrow-down">arrow_drop_down</mat-icon>
           <mat-icon class="evol-rate-arrow-up">arrow_drop_up</mat-icon>
-          <h2>-21.17%</h2>
+          <h2>{{ infolet!!.variacion / 100 | percent:'.0-2' }}</h2>
         </div>
       </mat-list-item>
     </mat-list>
