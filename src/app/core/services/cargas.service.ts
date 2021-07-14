@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,13 +23,15 @@ export class CargasService {
     nombreArchivo: string = '',
     tipoCarga: string = '',
   ): Observable<Carga[]> {
-    return this.http.get<Carga[]>(this.url).pipe(
-      map(cargas => cargas.filter(c =>
-        c.origen.includes(origen) &&
-        c.estado.includes(estado) &&
-        c.nombreArchivo.includes(nombreArchivo)
-      )),
-    );
+    let params = new HttpParams()
+      .set('origen', origen)
+      .set('fecha', fechaCarga?.toUTCString() || '')
+      .set('job-id', jobId)
+      .set('estado', estado)
+      .set('nombre-archivo', nombreArchivo)
+      .set('tipo', tipoCarga);
+
+    return this.http.get<Carga[]>(this.url, { params: params });
   }
 
   getCargaById(id: number): Observable<Carga | undefined> {

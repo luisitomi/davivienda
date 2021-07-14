@@ -5,6 +5,11 @@ import { LayoutComponent } from './core/components/layout/layout.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     component: LayoutComponent,
     children: [
       {
@@ -15,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    redirectTo: '/dashboard'
   }
 ];
 

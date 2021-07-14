@@ -34,7 +34,12 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
   }
 
   filtrarCargas(filtros: Filtros): void {
-    this.getCargasSub = this.cargasService.getCargas(filtros.origen, null, '', filtros.estado).subscribe(
+    this.getCargasSub = this.cargasService.getCargas(
+      filtros.origen,
+      filtros.fechaCarga,
+      filtros.jobId,
+      filtros.estado
+    ).subscribe(
       data => this.cargas = data,
     );
   }

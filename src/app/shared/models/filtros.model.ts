@@ -1,7 +1,7 @@
 export interface Filtros {
   origen: string,
   estado: string,
-  fechaCarga: string,
+  fechaCarga: Date,
   jobId: string,
   nombreArchivo: string,
   tipoCarga: string,

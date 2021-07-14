@@ -5,12 +5,16 @@
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label for="origen">Origen</mat-label>
-          <input matInput id="origen" formControlName="origen">
+          <mat-select id="origen" formControlName="origen">
+            <mat-option [value]="''">Todos</mat-option>
+            <mat-option *ngFor="let origen of origenOptions | keyvalue" [value]="origen.value">{{ origen.value }}</mat-option>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label for="estado">Estado</mat-label>
           <mat-select id="estado" formControlName="estado">
+            <mat-option [value]="''">Todos</mat-option>
             <mat-option *ngFor="let estado of estadoOptions | keyvalue" [value]="estado.value">{{ estado.value }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -39,6 +43,7 @@
         <mat-form-field appearance="fill">
           <mat-label for="tipo-carga">Tipo carga</mat-label>
           <mat-select id="tipo-carga" formControlName="tipoCarga">
+            <mat-option [value]="''">Todos</mat-option>
             <mat-option *ngFor="let tipo of tipoOptions | keyvalue" [value]="tipo.value">{{ tipo.value }}</mat-option>
           </mat-select>
         </mat-form-field>

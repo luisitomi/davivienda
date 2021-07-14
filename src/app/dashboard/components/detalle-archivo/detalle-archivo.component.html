@@ -47,14 +47,14 @@
 
     <div class="evol-detalle-control evol-detalle-panel">
       <h3>Control</h3>
-      <div>
-        <button mat-button>Stage Debit</button>
-        <button mat-button>Stage Credit</button>
-        <button mat-button>XLA Debit</button>
-        <button mat-button>XLA Debit</button>
-        <button mat-button>GL Debit</button>
-        <button mat-button>GL Debit</button>
-      </div>
+      <ul>
+        <li><p>Stage Debit</p><p>{{ carga.debitoStage }}</p></li>
+        <li><p>Stage Credit</p><p>{{ carga.creditoStage }}</p></li>
+        <li><p>XLA Debit</p><p>{{ carga.debitoXLA }}</p></li>
+        <li><p>XLA Debit</p><p>{{ carga.creditoXLA }}</p></li>
+        <li><p>GL Debit</p><p>{{ carga.debitoGL }}</p></li>
+        <li><p>GL Debit</p><p>{{ carga.creditoGL }}</p></li>
+      </ul>
     </div>
   </div>
 </div>
