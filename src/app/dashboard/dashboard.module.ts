@@ -11,6 +11,9 @@ import { FiltrosCargaComponent } from './components/filtros-carga/filtros-carga.
 import { ControlMonitoreoComponent } from './pages/control-monitoreo/control-monitoreo.component';
 import { TablaControlComponent } from './components/tabla-control/tabla-control.component';
 import { DetalleArchivoComponent } from './components/detalle-archivo/detalle-archivo.component';
+import { ReprocesoComponent } from './pages/reproceso/reproceso.component';
+import { CorreccionDatosComponent } from './components/correccion-datos/correccion-datos.component';
+import { EditarFiltroComponent } from './components/editar-filtro/editar-filtro.component';
 
 
 @NgModule({
@@ -22,6 +25,9 @@ import { DetalleArchivoComponent } from './components/detalle-archivo/detalle-ar
     ControlMonitoreoComponent,
     TablaControlComponent,
     DetalleArchivoComponent,
+    ReprocesoComponent,
+    CorreccionDatosComponent,
+    EditarFiltroComponent,
   ],
   imports: [
     CommonModule,
