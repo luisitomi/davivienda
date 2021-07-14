@@ -1,21 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Carga, Estados, Origen, Reversado } from 'src/app/shared';
+import { map } from 'rxjs/operators';
+import { Carga } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CargasService {
 
-  cargas: Carga[] = [
-    { id: 1, fechaCarga: new Date(), origen: Origen.Cobis, nombreArchivo: 'prueba.XML', estado: Estados.ErrorFuncional, reversado: Reversado.Error, jobImportAccounting: 876549, jobCreateAccounting: 254879, cantidadH: 100, cantidadL: 200, ultimoProceso: 145763, debitoStage: 50000, creditoStage: 50000, debitoXLA: 50000, creditoXLA: 50000, debitoGL: 50000, creditoGL: 50000, },
-    { id: 2, fechaCarga: new Date(), origen: Origen.Siglease, nombreArchivo: 'prueba1.XML', estado: Estados.ErrorTecnico, reversado: Reversado.Si, jobImportAccounting: 876549, jobCreateAccounting: 254879, cantidadH: 100, cantidadL: 200, ultimoProceso: 145763, debitoStage: 50000, creditoStage: 50000, debitoXLA: 50000, creditoXLA: 50000, debitoGL: 50000, creditoGL: 50000, },
-    { id: 3, fechaCarga: new Date(), origen: Origen.Siglease, nombreArchivo: 'prueba2.XML', estado: Estados.Procesado, reversado: Reversado.No, jobImportAccounting: 876549, jobCreateAccounting: 254879, cantidadH: 100, cantidadL: 200, ultimoProceso: 145763, debitoStage: 50000, creditoStage: 50000, debitoXLA: 50000, creditoXLA: 50000, debitoGL: 50000, creditoGL: 50000, },
-    { id: 4, fechaCarga: new Date(), origen: Origen.Cobis, nombreArchivo: 'prueba3.XML', estado: Estados.Procesado, reversado: Reversado.No, jobImportAccounting: 876549, jobCreateAccounting: 254879, cantidadH: 100, cantidadL: 200, ultimoProceso: 145763, debitoStage: 50000, creditoStage: 50000, debitoXLA: 50000, creditoXLA: 50000, debitoGL: 50000, creditoGL: 50000, },
-    { id: 5, fechaCarga: new Date(), origen: Origen.Siglease, nombreArchivo: 'prueba4.XML', estado: Estados.Procesado, reversado: Reversado.Si, jobImportAccounting: 876549, jobCreateAccounting: 254879, cantidadH: 100, cantidadL: 200, ultimoProceso: 145763, debitoStage: 50000, creditoStage: 50000, debitoXLA: 50000, creditoXLA: 50000, debitoGL: 50000, creditoGL: 50000, },
-  ]
+  url: string = 'http://rutadelservicio.com/api/v1.0/cargas';
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+  ) { }
 
   getCargas(
     origen: string = '',
@@ -25,19 +23,19 @@ export class CargasService {
     nombreArchivo: string = '',
     tipoCarga: string = '',
   ): Observable<Carga[]> {
-    return new Observable<Carga[]>(subscriber => {
-      subscriber.next(this.cargas.filter(carga =>
-        carga.origen.includes(origen) &&
-        carga.estado.includes(estado) &&
-        carga.nombreArchivo.includes(nombreArchivo)
-      ));
-    });
+    return this.http.get<Carga[]>(this.url).pipe(
+      map(cargas => cargas.filter(c =>
+        c.origen.includes(origen) &&
+        c.estado.includes(estado) &&
+        c.nombreArchivo.includes(nombreArchivo)
+      )),
+    );
   }
 
-  getCargaById(id: number): Observable<Carga> {
-    return new Observable<Carga>(subscriber => {
-      subscriber.next(this.cargas.find(carga => carga.id === id));
-    });
+  getCargaById(id: number): Observable<Carga | undefined> {
+    return this.http.get<Carga[]>(this.url).pipe(
+      map(cargas => cargas.find(carga => carga.id === id)),
+    );
   }
 
 }

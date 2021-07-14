@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { LayoutComponent } from './components/layout/layout.component';
   imports: [
     CommonModule,
     RouterModule,
+    HttpClientModule,
   ],
   exports: [
     LayoutComponent
