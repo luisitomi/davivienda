@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CorreccionColumna } from 'src/app/shared/models/correccion-columna.model';
-import { CorreccionFiltro } from 'src/app/shared/models/correccion-filtro.model';
+import { MatDialog } from '@angular/material/dialog';
+import { CorreccionColumnasService } from 'src/app/core/services/correccion-columnas.service';
+import { CorreccionFiltrosService } from 'src/app/core/services/correccion-filtros.service';
+import { EditarColumnaComponent } from '../editar-columna/editar-columna.component';
+import { EditarFiltroComponent } from '../editar-filtro/editar-filtro.component';
 
 @Component({
   selector: 'app-correccion-datos',
@@ -9,21 +12,29 @@ import { CorreccionFiltro } from 'src/app/shared/models/correccion-filtro.model'
 })
 export class CorreccionDatosComponent implements OnInit {
 
-  filtros: CorreccionFiltro[] = [
-    { columna: 'PRODUCTO', criterio: 'igual a', valor: 'TARJETA DAVIVIENDA' },
-    { columna: 'CLIENTE', criterio: 'contiene', valor: 'RAMIEZ' },
-  ];
-  columnas: CorreccionColumna[] = [
-    { columna: 'Fecha contable', tipo: 'Fecha', valor: '20210128' },
-    { columna: 'Fecha contable', tipo: 'Fecha', valor: '20210128' },
-  ];
-
   filtrosDisplayedColumns: string[] = ['numeracion', 'columna', 'criterio', 'valor'];
   columnasDisplayedColumns: string [] = ['numeracion', 'columna', 'tipo', 'valor'];
 
-  constructor() { }
+  constructor(
+    public correccionFiltrosService: CorreccionFiltrosService,
+    public correccionColumnasService: CorreccionColumnasService,
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
+
+  }
+
+  crearFiltro() {
+    const dialogRef = this.dialog.open(EditarFiltroComponent, {
+      width: '300px',
+    });
+  }
+
+  crearColumna() {
+    const dialogRef = this.dialog.open(EditarColumnaComponent, {
+      width: '300px',
+    });
   }
 
 }

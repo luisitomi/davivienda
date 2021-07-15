@@ -14,6 +14,7 @@ import { DetalleArchivoComponent } from './components/detalle-archivo/detalle-ar
 import { ReprocesoComponent } from './pages/reproceso/reproceso.component';
 import { CorreccionDatosComponent } from './components/correccion-datos/correccion-datos.component';
 import { EditarFiltroComponent } from './components/editar-filtro/editar-filtro.component';
+import { EditarColumnaComponent } from './components/editar-columna/editar-columna.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { EditarFiltroComponent } from './components/editar-filtro/editar-filtro.
     ReprocesoComponent,
     CorreccionDatosComponent,
     EditarFiltroComponent,
+    EditarColumnaComponent,
   ],
   imports: [
     CommonModule,

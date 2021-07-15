@@ -1,12 +1,12 @@
 <div class="evol-correccion-seccion-header">
   <h3>Filtros</h3>
-  <button mat-icon-button><mat-icon>add</mat-icon></button>
+  <button mat-icon-button (click)="crearFiltro()"><mat-icon>add</mat-icon></button>
 </div>
 
 <mat-divider></mat-divider>
 
 <h3>Filtros Seleccionados</h3>
-<table mat-table [dataSource]="filtros">
+<table mat-table [dataSource]="correccionFiltrosService.getFiltros()">
 
   <!-- Columna Numeracion -->
   <ng-container matColumnDef="numeracion">
@@ -45,13 +45,13 @@
 
 <div class="evol-correccion-seccion-header">
   <h3>Columnas a actualizar</h3>
-  <button mat-icon-button><mat-icon>add</mat-icon></button>
+  <button mat-icon-button (click)="crearColumna()"><mat-icon>add</mat-icon></button>
 </div>
 
 <mat-divider></mat-divider>
 
 <h3>Columnas Seleccionadas</h3>
-<table mat-table [dataSource]="columnas">
+<table mat-table [dataSource]="correccionColumnasService.getColumnas()">
 
   <!-- Columna Numeracion -->
   <ng-container matColumnDef="numeracion">
