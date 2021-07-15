@@ -33,6 +33,15 @@
     <td mat-cell *matCellDef="let filtro">{{ filtro.valor }}</td>
   </ng-container>
 
+  <!-- Columna Acciones -->
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let filtro">
+      <button mat-icon-button (click)="editarFiltro(filtro)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button (click)="eliminarFiltro(filtro)"><mat-icon>clear</mat-icon></button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="filtrosDisplayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: filtrosDisplayedColumns;"></tr>
 
@@ -79,12 +88,21 @@
     <td mat-cell *matCellDef="let columna">{{ columna.valor }}</td>
   </ng-container>
 
+  <!-- Columna Acciones -->
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let columna">
+      <button mat-icon-button (click)="editarColumna(columna)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button (click)="eliminarColumna(columna)"><mat-icon>clear</mat-icon></button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="columnasDisplayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: columnasDisplayedColumns;"></tr>
 
 </table>
 
 <div class="evol-correccion-footer">
-  <button mat-flat-button color="primary" [disabled]="columnas.data.length === 0 && filtros.data.length === 0">Actualizar {{ cantidadRegistros | i18nPlural:registroMapping }}</button>
+  <button mat-flat-button color="primary" [disabled]="columnas.data.length === 0 || filtros.data.length === 0">Actualizar {{ cantidadRegistros | i18nPlural:registroMapping }}</button>
 </div>
 

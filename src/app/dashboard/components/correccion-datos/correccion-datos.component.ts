@@ -17,8 +17,8 @@ import { EditarFiltroComponent } from '../editar-filtro/editar-filtro.component'
 })
 export class CorreccionDatosComponent implements OnInit, OnDestroy {
 
-  filtrosDisplayedColumns: string[] = ['numeracion', 'columna', 'criterio', 'valor'];
-  columnasDisplayedColumns: string [] = ['numeracion', 'columna', 'tipo', 'valor'];
+  filtrosDisplayedColumns: string[] = ['numeracion', 'columna', 'criterio', 'valor', 'acciones'];
+  columnasDisplayedColumns: string [] = ['numeracion', 'columna', 'tipo', 'valor', 'acciones'];
 
   filtros = new MatTableDataSource<CorreccionFiltro>();
   columnas = new MatTableDataSource<CorreccionColumna>();
@@ -62,16 +62,38 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     this.dialog.closeAll();
   }
 
-  crearFiltro() {
+  crearFiltro(): void {
     const dialogRef = this.dialog.open(EditarFiltroComponent, {
       width: '300px',
     });
   }
 
-  crearColumna() {
+  editarFiltro(filtro: CorreccionFiltro): void {
+    const dialogRef = this.dialog.open(EditarFiltroComponent, {
+      width: '300px',
+      data: filtro,
+    });
+  }
+
+  eliminarFiltro(filtro: CorreccionFiltro) {
+    this.correccionFiltrosService.removeFiltro(filtro);
+  }
+
+  crearColumna(): void {
     const dialogRef = this.dialog.open(EditarColumnaComponent, {
       width: '300px',
     });
+  }
+
+  editarColumna(columna: CorreccionColumna): void {
+    const dialogRef = this.dialog.open(EditarColumnaComponent, {
+      width: '300px',
+      data: columna,
+    });
+  }
+
+  eliminarColumna(columna: CorreccionColumna): void {
+    this.correccionColumnasService.removeColumna(columna);
   }
 
   calcularCantidadRegistros(): void {

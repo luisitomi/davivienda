@@ -23,7 +23,7 @@ export class CorreccionColumnasService {
   }
 
   removeColumna(columna: CorreccionColumna): void {
-    this.columnas = this.columnas.filter(c => c !== c);
+    this.columnas = this.columnas.filter(c => c !== columna);
     this.columnasSubject.next(this.columnas);
   }
 
