@@ -31,6 +31,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.getCargasSub?.unsubscribe();
     this.getCargaByIdSub?.unsubscribe();
+    this.dialog.closeAll();
   }
 
   filtrarCargas(filtros: Filtros): void {

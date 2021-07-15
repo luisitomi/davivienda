@@ -61,7 +61,7 @@
 
 <div mat-dialog-actions>
   <button mat-flat-button color="accent">Reversar</button>
-  <button mat-flat-button color="accent">Corregir Cabeceras</button>
-  <button mat-flat-button color="accent">Corregir Líneas</button>
+  <button mat-flat-button color="accent" [routerLink]="['dashboard/reproceso', carga.id, elemento.Cabeceras]">Corregir Cabeceras</button>
+  <button mat-flat-button color="accent" [routerLink]="['dashboard/reproceso', carga.id, elemento.Lineas]">Corregir Líneas</button>
   <button mat-flat-button color="accent">Reprocesar</button>
 </div>
