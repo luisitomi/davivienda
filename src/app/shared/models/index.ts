@@ -6,3 +6,4 @@ export * from './columna.model';
 export * from './correccion-columna.model';
 export * from './correccion-filtro.model';
 export * from './cantidad-registros.response';
+export * from './usuario.model';

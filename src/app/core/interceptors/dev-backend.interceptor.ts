@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Carga, Estados, Origen, Reversado } from 'src/app/shared';
+import { Carga, Estados, Origen, Reversado, Roles } from 'src/app/shared';
 import * as moment from 'moment';
 
 @Injectable()
@@ -34,6 +34,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
         case url.endsWith('/calcular-registros') && method === 'GET':
           return getCantidadRegistros();
+
+        case url.endsWith('/usuario') && method === 'GET':
+          return getUsuario();
 
         default:
           return next.handle(request);
@@ -85,6 +88,10 @@ export class DevBackendInterceptor implements HttpInterceptor {
         default:
           return ok({ cantidad: 0 });
       }
+    }
+
+    function getUsuario() {
+      return ok({ id: 235, nombre: 'Ulises Valdivieso', email: 'ulises.valdivieso@davivienda.biz', rol: Roles.AdminCarga });
     }
   }
 
