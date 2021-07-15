@@ -1,12 +1,13 @@
 <div class="evol-correccion-seccion-header">
-  <h3>Filtros</h3>
-  <button mat-icon-button (click)="crearFiltro()"><mat-icon>add</mat-icon></button>
+  <h3>Filtros Seleccionados</h3>
+  <button mat-icon-button (click)="crearFiltro()" *ngIf="filtros.data.length > 0"><mat-icon>add</mat-icon></button>
 </div>
 
 <mat-divider></mat-divider>
 
-<h3>Filtros Seleccionados</h3>
-<table mat-table [dataSource]="correccionFiltrosService.getFiltros()">
+<p class="evol-correccion-empty-help" *ngIf="filtros.data.length === 0">No tiene filtros agregados, <a (click)="crearFiltro()" mat-button>haga click para agregar uno</a></p>
+
+<table mat-table [dataSource]="filtros" *ngIf="filtros.data.length > 0">
 
   <!-- Columna Numeracion -->
   <ng-container matColumnDef="numeracion">
@@ -38,20 +39,21 @@
 </table>
 
 <div class="evol-correccion-footer">
-  <button mat-flat-button color="accent">Aplicar criterios</button>
+  <button mat-flat-button color="accent" [disabled]="filtros.data.length === 0" (click)="calcularCantidadRegistros()">Aplicar criterios</button>
 </div>
 
-<p>Se aplicarán cambios en 1900 registros</p>
+<p>Se aplicarán cambios en {{ cantidadRegistros | i18nPlural: registroMapping }}</p>
 
 <div class="evol-correccion-seccion-header">
   <h3>Columnas a actualizar</h3>
-  <button mat-icon-button (click)="crearColumna()"><mat-icon>add</mat-icon></button>
+  <button mat-icon-button (click)="crearColumna()" *ngIf="columnas.data.length > 0"><mat-icon>add</mat-icon></button>
 </div>
 
 <mat-divider></mat-divider>
 
-<h3>Columnas Seleccionadas</h3>
-<table mat-table [dataSource]="correccionColumnasService.getColumnas()">
+<p class="evol-correccion-empty-help" *ngIf="columnas.data.length === 0">No tiene columnas agregadas, <a (click)="crearColumna()" mat-button>haga click para agregar una</a></p>
+
+<table mat-table [dataSource]="columnas" *ngIf="columnas.data.length > 0">
 
   <!-- Columna Numeracion -->
   <ng-container matColumnDef="numeracion">
@@ -83,6 +85,6 @@
 </table>
 
 <div class="evol-correccion-footer">
-  <button mat-flat-button color="primary">Actualizar registro(s)</button>
+  <button mat-flat-button color="primary" [disabled]="columnas.data.length === 0 && filtros.data.length === 0">Actualizar {{ cantidadRegistros | i18nPlural:registroMapping }}</button>
 </div>
 

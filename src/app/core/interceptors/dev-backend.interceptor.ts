@@ -32,6 +32,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/cargas') && method === 'GET':
           return getCargas();
 
+        case url.endsWith('/calcular-registros') && method === 'GET':
+          return getCantidadRegistros();
+
         default:
           return next.handle(request);
       }
@@ -64,6 +67,24 @@ export class DevBackendInterceptor implements HttpInterceptor {
         jobId !== null && jobId !== '' ? c.jobCreateAccounting === +jobId : 1 === 1 &&
         c.nombreArchivo.includes(nombreArchivo || '')
       ));
+    }
+
+    function getCantidadRegistros() {
+      let f = params.get('filtros');
+      let filtros = f !== null ? JSON.parse(f) : null;
+
+      switch (filtros.length) {
+        case 0:
+          return ok({ cantidad: 1273 });
+        case 1:
+          return ok({ cantidad: 402 });
+        case 2:
+          return ok({ cantidad: 56 });
+        case 3:
+          return ok({ cantidad: 1 });
+        default:
+          return ok({ cantidad: 0 });
+      }
     }
   }
 
