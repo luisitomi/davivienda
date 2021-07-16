@@ -8,3 +8,5 @@ export * from './correccion-filtro.model';
 export * from './cantidad-registros.response';
 export * from './usuario.model';
 export * from './estado-dia.model';
+export * from './salida.model';
+export * from './filtro-salida.model';

@@ -33,7 +33,7 @@ export class FiltrosCargaComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterForm.setValue({
-      origen: this.origen,
+      origen: this.origen || '',
       estado: '',
       fechaCarga: new Date(),
       jobId: '',

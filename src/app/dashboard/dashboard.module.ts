@@ -16,6 +16,9 @@ import { CorreccionDatosComponent } from './components/correccion-datos/correcci
 import { EditarFiltroComponent } from './components/editar-filtro/editar-filtro.component';
 import { EditarColumnaComponent } from './components/editar-columna/editar-columna.component';
 import { CierreDiarioComponent } from './pages/cierre-diario/cierre-diario.component';
+import { ControlSalidaComponent } from './pages/control-salida/control-salida.component';
+import { FiltrosSalidaComponent } from './components/filtros-salida/filtros-salida.component';
+import { TablaSalidasComponent } from './components/tabla-salidas/tabla-salidas.component';
 
 
 @NgModule({
@@ -32,6 +35,9 @@ import { CierreDiarioComponent } from './pages/cierre-diario/cierre-diario.compo
     EditarFiltroComponent,
     EditarColumnaComponent,
     CierreDiarioComponent,
+    ControlSalidaComponent,
+    FiltrosSalidaComponent,
+    TablaSalidasComponent,
   ],
   imports: [
     CommonModule,

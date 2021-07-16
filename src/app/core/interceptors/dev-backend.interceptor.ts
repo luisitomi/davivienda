@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Carga, Estados, Origen, Reversado, Roles } from 'src/app/shared';
+import { Carga, Estados, Origen, Reversado, Roles, Salida } from 'src/app/shared';
 import * as moment from 'moment';
 
 @Injectable()
@@ -37,6 +37,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
         case url.endsWith('/usuario') && method === 'GET':
           return getUsuario();
+
+        case url.endsWith('/salidas') && method === 'GET':
+          return getSalidas();
 
         default:
           return next.handle(request);
@@ -92,6 +95,24 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
     function getUsuario() {
       return ok({ id: 235, nombre: 'Ulises Valdivieso', email: 'ulises.valdivieso@davivienda.biz', rol: Roles.AdminCarga });
+    }
+
+    function getSalidas() {
+      let salidas: Salida[] = [
+        { id: 1, fecha: moment().toDate(), interfaz: 'GLCAI', nombreArchivo: 'GLCAI_2123134_001.zip', estado: 'Leído', cantidadLineas: 200, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 2, fecha: moment().toDate(), interfaz: 'GLCAI', nombreArchivo: 'GLCAI_2123133_002.zip', estado: 'Leído', cantidadLineas: 300, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 3, fecha: moment().toDate(), interfaz: 'BODEGA DE DATOS', nombreArchivo: 'BODEGADATOS_2123134_001.zip', estado: 'Leído', cantidadLineas: 250, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 4, fecha: moment().toDate(), interfaz: 'GLCAI', nombreArchivo: 'GLCAI_2123134_003.zip', estado: 'Leído', cantidadLineas: 210, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 5, fecha: moment().toDate(), interfaz: 'BODEGA DE DATOS', nombreArchivo: 'BODEGADATOS_2123134_002.zip', estado: 'Leído', cantidadLineas: 340, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 6, fecha: moment().toDate(), interfaz: 'BODEGA DE DATOS', nombreArchivo: 'BODEGADATOS_2123134_003.zip', estado: 'Leído', cantidadLineas: 240, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 7, fecha: moment().toDate(), interfaz: 'BODEGA DE DATOS', nombreArchivo: 'BODEGADATOS_2123134_004.zip', estado: 'Leído', cantidadLineas: 160, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 8, fecha: moment().toDate(), interfaz: 'GLCAI', nombreArchivo: 'GLCAI_2123134_004.zip', estado: 'Leído', cantidadLineas: 270, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 9, fecha: moment().toDate(), interfaz: 'BODEGA DE DATOS', nombreArchivo: 'BODEGADATOS_2123134_005.zip', estado: 'Leído', cantidadLineas: 540, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 10, fecha: moment().toDate(), interfaz: 'GLCAI', nombreArchivo: 'GLCAI_2123134_005.zip', estado: 'Leído', cantidadLineas: 130, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+        { id: 11, fecha: moment().toDate(), interfaz: 'GLCAI', nombreArchivo: 'GLCAI_2123134_006.zip', estado: 'Leído', cantidadLineas: 420, fechaGeneracion: moment().toDate(), fechaLectura: moment().toDate() },
+      ];
+
+      return ok(salidas);
     }
   }
 
