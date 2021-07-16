@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CargasService } from 'src/app/core/services/cargas.service';
 import { Carga, Filtros } from 'src/app/shared';
@@ -12,6 +13,8 @@ import { DetalleArchivoComponent } from '../../components/detalle-archivo/detall
 })
 export class ControlMonitoreoComponent implements OnInit, OnDestroy {
 
+  origen?: string;
+
   cargas: Carga[] = [];
 
   getCargasSub?: Subscription;
@@ -19,11 +22,14 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
 
   constructor(
     private cargasService: CargasService,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.getCargasSub = this.cargasService.getCargas().subscribe(
+    this.origen = this.route.snapshot.queryParams.origen;
+
+    this.getCargasSub = this.cargasService.getCargas(this.origen).subscribe(
       data => this.cargas = data,
     );
   }

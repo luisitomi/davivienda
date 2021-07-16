@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Input } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
@@ -9,6 +9,8 @@ import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
   styleUrls: ['./filtros-carga.component.scss']
 })
 export class FiltrosCargaComponent implements OnInit {
+
+  @Input() origen?: string;
 
   @Output() filtrarCargas = new EventEmitter<Filtros>();
 
@@ -30,6 +32,14 @@ export class FiltrosCargaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.filterForm.setValue({
+      origen: this.origen,
+      estado: '',
+      fechaCarga: new Date(),
+      jobId: '',
+      nombreArchivo: '',
+      tipoCarga: ''
+    });
   }
 
   filter(): void {

@@ -66,8 +66,8 @@ export class DevBackendInterceptor implements HttpInterceptor {
       return ok(cargas.filter(c =>
         c.origen.includes(origen || '') &&
         c.estado.includes(estado || '') &&
-        fecha !== null && fecha !== '' ? moment(c.fechaCarga).isSame(moment(fecha), 'day') : true &&
-        jobId !== null && jobId !== '' ? c.jobCreateAccounting === +jobId : 1 === 1 &&
+        (fecha !== null && fecha !== '' ? moment(c.fechaCarga).isSame(moment(fecha), 'day') : true) &&
+        (jobId !== null && jobId !== '' ? c.jobCreateAccounting === +jobId : true) &&
         c.nombreArchivo.includes(nombreArchivo || '')
       ));
     }
