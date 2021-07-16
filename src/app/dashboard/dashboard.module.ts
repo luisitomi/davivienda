@@ -15,6 +15,7 @@ import { ReprocesoComponent } from './pages/reproceso/reproceso.component';
 import { CorreccionDatosComponent } from './components/correccion-datos/correccion-datos.component';
 import { EditarFiltroComponent } from './components/editar-filtro/editar-filtro.component';
 import { EditarColumnaComponent } from './components/editar-columna/editar-columna.component';
+import { CierreDiarioComponent } from './pages/cierre-diario/cierre-diario.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { EditarColumnaComponent } from './components/editar-columna/editar-colum
     CorreccionDatosComponent,
     EditarFiltroComponent,
     EditarColumnaComponent,
+    CierreDiarioComponent,
   ],
   imports: [
     CommonModule,
