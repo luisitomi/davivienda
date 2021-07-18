@@ -10,3 +10,5 @@ export * from './usuario.model';
 export * from './estado-dia.model';
 export * from './salida.model';
 export * from './filtro-salida.model';
+export * from './sincronizacion.model';
+export * from './filtro-sincronizacion.model';

@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Carga, Estados, Origen, Reversado, Roles, Salida } from 'src/app/shared';
+import { Carga, Estados, Origen, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
 import * as moment from 'moment';
 
 @Injectable()
@@ -40,6 +40,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
         case url.endsWith('/salidas') && method === 'GET':
           return getSalidas();
+
+        case url.endsWith('/sincronizaciones') && method === 'GET':
+          return getSyncs();
 
         default:
           return next.handle(request);
@@ -113,6 +116,20 @@ export class DevBackendInterceptor implements HttpInterceptor {
       ];
 
       return ok(salidas);
+    }
+
+    function getSyncs() {
+      console.log(params);
+      let syncs: Sincronizacion[] = [
+        { id: 1, fecha: moment().toDate(), proceso: 'GLCAI', estado: 'Error de Lectura' },
+        { id: 2, fecha: moment().toDate(), proceso: 'BODEGA DE DATOS', estado: 'Leído' },
+        { id: 3, fecha: moment().toDate(), proceso: 'BODEGA DE DATOS', estado: 'Leído' },
+        { id: 4, fecha: moment().toDate(), proceso: 'BODEGA DE DATOS', estado: 'Leído' },
+        { id: 5, fecha: moment().toDate(), proceso: 'GLCAI', estado: 'Error de Lectura' },
+        { id: 6, fecha: moment().toDate(), proceso: 'GLCAI', estado: 'Leído' },
+      ];
+
+      return ok(syncs);
     }
   }
 

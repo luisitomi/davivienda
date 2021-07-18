@@ -19,6 +19,9 @@ import { CierreDiarioComponent } from './pages/cierre-diario/cierre-diario.compo
 import { ControlSalidaComponent } from './pages/control-salida/control-salida.component';
 import { FiltrosSalidaComponent } from './components/filtros-salida/filtros-salida.component';
 import { TablaSalidasComponent } from './components/tabla-salidas/tabla-salidas.component';
+import { ControlSincronizacionesComponent } from './pages/control-sincronizaciones/control-sincronizaciones.component';
+import { FiltrosSincronizacionesComponent } from './components/filtros-sincronizaciones/filtros-sincronizaciones.component';
+import { TablaSincronizacionesComponent } from './components/tabla-sincronizaciones/tabla-sincronizaciones.component';
 
 
 @NgModule({
@@ -38,6 +41,9 @@ import { TablaSalidasComponent } from './components/tabla-salidas/tabla-salidas.
     ControlSalidaComponent,
     FiltrosSalidaComponent,
     TablaSalidasComponent,
+    ControlSincronizacionesComponent,
+    FiltrosSincronizacionesComponent,
+    TablaSincronizacionesComponent,
   ],
   imports: [
     CommonModule,
