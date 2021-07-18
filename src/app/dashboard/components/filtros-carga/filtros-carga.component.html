@@ -22,10 +22,13 @@
 
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
-          <mat-label for="fecha-carga">Fecha de Carga</mat-label>
-          <input matInput [matDatepicker]="picker" id="fecha-carga" formControlName="fechaCarga">
+          <mat-label>Fecha de Carga</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matInput matStartDate formControlName="despuesDe" placeholder="Después de">
+            <input matInput matEndDate formControlName="antesDe" placeholder="Antes de">
+          </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
 
         <mat-form-field appearance="fill">

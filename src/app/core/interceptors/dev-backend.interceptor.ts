@@ -56,7 +56,8 @@ export class DevBackendInterceptor implements HttpInterceptor {
     function getCargas() {
       let origen = params.get('origen');
       let estado = params.get('estado');
-      let fecha = params.get('fecha');
+      let despuesDe = params.get('despues-de');
+      let antesDe = params.get('antes-de');
       let jobId = params.get('job-id');
       let nombreArchivo = params.get('nombre-archivo');
       let tipo = params.get('tipo');
@@ -72,7 +73,7 @@ export class DevBackendInterceptor implements HttpInterceptor {
       return ok(cargas.filter(c =>
         c.origen.includes(origen || '') &&
         c.estado.includes(estado || '') &&
-        (fecha !== null && fecha !== '' ? moment(c.fechaCarga).isSame(moment(fecha), 'day') : true) &&
+        (despuesDe !== null && despuesDe !== '' && antesDe !== null && antesDe !== '' ? moment(c.fechaCarga).isBetween(moment(despuesDe), moment(antesDe), 'day', '[]') : true) &&
         (jobId !== null && jobId !== '' ? c.jobCreateAccounting === +jobId : true) &&
         c.nombreArchivo.includes(nombreArchivo || '')
       ));

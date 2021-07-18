@@ -17,7 +17,8 @@ export class CargasService {
 
   getCargas(
     origen: string = '',
-    fechaCarga: Date | null = null,
+    despuesDe: Date | null = null,
+    antesDe: Date | null = null,
     jobId: string = '',
     estado: string = '',
     nombreArchivo: string = '',
@@ -25,7 +26,8 @@ export class CargasService {
   ): Observable<Carga[]> {
     let params = new HttpParams()
       .set('origen', origen)
-      .set('fecha', fechaCarga?.toUTCString() || '')
+      .set('despues-de', despuesDe?.toISOString() || '')
+      .set('antes-de', antesDe?.toISOString() || '')
       .set('job-id', jobId)
       .set('estado', estado)
       .set('nombre-archivo', nombreArchivo)

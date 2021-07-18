@@ -17,7 +17,8 @@ export class FiltrosCargaComponent implements OnInit {
   filterForm = new FormGroup({
     origen: new FormControl(''),
     estado: new FormControl(''),
-    fechaCarga: new FormControl(new Date()),
+    despuesDe: new FormControl(new Date()),
+    antesDe: new FormControl(new Date()),
     jobId: new FormControl(''),
     nombreArchivo: new FormControl(''),
     tipoCarga: new FormControl(''),
@@ -35,7 +36,8 @@ export class FiltrosCargaComponent implements OnInit {
     this.filterForm.setValue({
       origen: this.origen || '',
       estado: '',
-      fechaCarga: new Date(),
+      despuesDe: new Date(),
+      antesDe: new Date(),
       jobId: '',
       nombreArchivo: '',
       tipoCarga: ''
