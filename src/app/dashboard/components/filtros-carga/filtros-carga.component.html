@@ -1,0 +1,81 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>Filtros</mat-panel-title>
+    <mat-panel-description class="evol-filtro-desc">
+      <span *ngIf="filterForm.value.origen === '' &&
+        filterForm.value.estado === '' &&
+        esHoy(filterForm.value.despuesDe) &&
+        esHoy(filterForm.value.antesDe) &&
+        filterForm.value.jobId === '' &&
+        filterForm.value.nombreArchivo === '' &&
+        filterForm.value.tipoCarga === ''; else elseBlock">
+        Mostrando todas las cargas de hoy
+      </span>
+      <ng-template #elseBlock>
+        <span>Tiene filtros aplicados</span>
+      </ng-template>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <form [formGroup]="filterForm" (ngSubmit)="filter()">
+
+    <div class="evol-filtro-container">
+
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label for="origen">Origen</mat-label>
+          <mat-select id="origen" formControlName="origen">
+            <mat-option [value]="''">Todos</mat-option>
+            <mat-option *ngFor="let origen of origenOptions | keyvalue" [value]="origen.value">{{ origen.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="estado">Estado</mat-label>
+          <mat-select id="estado" formControlName="estado">
+            <mat-option [value]="''">Todos</mat-option>
+            <mat-option *ngFor="let estado of estadoOptions | keyvalue" [value]="estado.value">{{ estado.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Carga</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matInput matStartDate formControlName="despuesDe" placeholder="Después de">
+            <input matInput matEndDate formControlName="antesDe" placeholder="Antes de">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="job-id">Job ID - Carga</mat-label>
+          <input matInput id="job-id" formControlName="jobId">
+        </mat-form-field>
+      </div>
+
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label for="nombre-archivo">Nombre Archivo</mat-label>
+          <input matInput id="nombre-archivo" formControlName="nombreArchivo">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="tipo-carga">Tipo carga</mat-label>
+          <mat-select id="tipo-carga" formControlName="tipoCarga">
+            <mat-option [value]="''">Todos</mat-option>
+            <mat-option *ngFor="let tipo of tipoOptions | keyvalue" [value]="tipo.value">{{ tipo.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <mat-action-row>
+      <button type="submit" mat-flat-button color="accent">Filtrar</button>
+    </mat-action-row>
+  </form>
+
+</mat-expansion-panel>

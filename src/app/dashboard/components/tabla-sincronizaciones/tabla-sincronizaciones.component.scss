@@ -1,0 +1,42 @@
+.evol-tabla-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 540px;
+}
+
+table {
+  width: 540px;
+}
+
+%column {
+  padding: 1em;
+  text-align: center;
+}
+
+%column-left {
+  text-align: left;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+.mat-column-fecha {
+  @extend %column;
+}
+
+.mat-column-proceso {
+  @extend %column;
+  @extend %column-left;
+}
+
+.mat-column-estado {
+  @extend %column;
+}
+
+

@@ -1,0 +1,57 @@
+.evol-detalle-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1%;
+}
+
+.evol-detalle-panel {
+  flex: 1 0 49%;
+}
+
+.evol-detalle-item {
+
+  ::ng-deep {
+    .mat-list-item-content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.evol-detalle-control {
+
+  h3 {
+    text-align: center;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2%;
+
+    li {
+      border-bottom: solid 1px rgba(0, 0, 0, .12);
+      box-sizing: border-box;
+      display: flex;
+      flex: 1 0 49%;
+      flex-direction: row;
+      font-weight: 500;
+      justify-content: space-between;
+      padding: 1em;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,56 @@
+<form [formGroup]="filtrosForm" (ngSubmit)="onFiltrar()">
+  <mat-card class="evol-filtro-card">
+    <mat-card-content class="evol-filtro-container">
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label for="interfaz">Interfaz de Salida</mat-label>
+          <mat-select id="interfaz" formControlName="interfaz">
+            <mat-option [value]="''">Todos</mat-option>
+            <mat-option *ngFor="let interfaz of interfazOptions" [value]="interfaz">{{ interfaz }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="estado">Estado</mat-label>
+          <mat-select id="estado" formControlName="estado">
+            <mat-option [value]="''">Todos</mat-option>
+            <mat-option *ngFor="let estado of estadoOptions" [value]="estado">{{ estado }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Generación</mat-label>
+          <mat-date-range-input [rangePicker]="genPicker">
+            <input matStartDate formControlName="genInicio" placeholder="Fecha inicio">
+            <input matEndDate formControlName="genFin" placeholder="Fecha fin">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="genPicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #genPicker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Lectura</mat-label>
+          <mat-date-range-input [rangePicker]="readPicker">
+            <input matStartDate formControlName="readInicio" placeholder="Fecha inicio">
+            <input matEndDate formControlName="readFin" placeholder="Fecha fin">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="readPicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #readPicker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label for="archivo">Nombre Archivo</mat-label>
+          <input matInput formControlName="nombreArchivo">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-footer class="evol-filtro-footer">
+      <button type="submit" mat-flat-button color="accent">Filtrar</button>
+    </mat-card-footer>
+  </mat-card>
+</form>
