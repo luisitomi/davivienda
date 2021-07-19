@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Nueva Línea</h1>
 
 <form [formGroup]="editarLineaForm" (ngSubmit)="onSave()">
-  <div mat-dialog-content>
+  <div mat-dialog-content class="evol-editar-linea-container">
     <mat-form-field appearance="fill">
       <mat-label for="combinacion">Combinación Contable</mat-label>
       <input matInput id="combinacion" formControlName="combinacionContable">

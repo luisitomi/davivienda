@@ -36,13 +36,15 @@ export class LineasComponent implements OnInit, OnDestroy {
 
   nuevaLinea(): void {
     const dialogRef = this.dialog.open(EditarLineaComponent, {
-      width: '60%',
+      width: '80%',
+      maxWidth: '400px',
     });
   }
 
   editarLinea(linea: Linea): void {
     const dialogRef = this.dialog.open(EditarLineaComponent, {
-      width: '60%',
+      width: '80%',
+      maxWidth: '400px',
       data: linea,
     });
   }
