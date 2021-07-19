@@ -10,6 +10,12 @@
   justify-content: space-around;
 }
 
+.evol-filtro-desc {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2em;
+}
+
 .evol-filtro-section {
   display: flex;
   flex-direction: column;

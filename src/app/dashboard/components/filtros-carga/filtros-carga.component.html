@@ -1,6 +1,25 @@
-<form [formGroup]="filterForm" (ngSubmit)="filter()">
-  <mat-card class="evol-filtro-card">
-    <mat-card-content class="evol-filtro-container">
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>Filtros</mat-panel-title>
+    <mat-panel-description class="evol-filtro-desc">
+      <span *ngIf="filterForm.value.origen === '' &&
+        filterForm.value.estado === '' &&
+        esHoy(filterForm.value.despuesDe) &&
+        esHoy(filterForm.value.antesDe) &&
+        filterForm.value.jobId === '' &&
+        filterForm.value.nombreArchivo === '' &&
+        filterForm.value.tipoCarga === ''; else elseBlock">
+        Mostrando todas las cargas de hoy
+      </span>
+      <ng-template #elseBlock>
+        <span>Tiene filtros aplicados</span>
+      </ng-template>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <form [formGroup]="filterForm" (ngSubmit)="filter()">
+
+    <div class="evol-filtro-container">
 
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
@@ -52,9 +71,11 @@
         </mat-form-field>
       </div>
 
-    </mat-card-content>
-    <mat-card-footer class="evol-filtro-footer">
+    </div>
+
+    <mat-action-row>
       <button type="submit" mat-flat-button color="accent">Filtrar</button>
-    </mat-card-footer>
-  </mat-card>
-</form>
+    </mat-action-row>
+  </form>
+
+</mat-expansion-panel>

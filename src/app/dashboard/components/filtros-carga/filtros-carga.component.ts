@@ -1,6 +1,7 @@
 import { EventEmitter, Input } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
 
 @Component({
@@ -46,6 +47,10 @@ export class FiltrosCargaComponent implements OnInit {
 
   filter(): void {
     this.filtrarCargas.emit(this.filterForm.value);
+  }
+
+  esHoy(fecha: Date): boolean {
+    return moment(fecha).isSame(moment(), 'day');
   }
 
 }
