@@ -1,0 +1,30 @@
+<form [formGroup]="cabeceraForm">
+  <mat-form-field appearance="fill">
+    <mat-label for="origen">Origen</mat-label>
+    <input matInput formControlName="origen">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label for="periodo">Periodo Contable</mat-label>
+    <input matInput id="periodo" formControlName="periodoContable" [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label for="numero">Número</mat-label>
+    <input matInput formControlName="numero">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label for="descripcion">Descripción</mat-label>
+    <input matInput formControlName="descripcion">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label for="fecha">Fecha Contable</mat-label>
+    <input matInput id="fecha" formControlName="fechaContable" [matDatepicker]="picker2">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+</form>

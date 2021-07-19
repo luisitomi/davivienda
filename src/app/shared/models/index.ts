@@ -12,3 +12,4 @@ export * from './salida.model';
 export * from './filtro-salida.model';
 export * from './sincronizacion.model';
 export * from './filtro-sincronizacion.model';
+export * from './linea.model';
