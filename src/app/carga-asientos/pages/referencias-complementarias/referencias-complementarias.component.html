@@ -1,0 +1,38 @@
+<div class="evol-page">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Referencias Complementarias</mat-card-title>
+      <button mat-icon-button><mat-icon>add</mat-icon></button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="referencias">
+
+        <!-- Columna Referencia Complementaria -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Referencia Complementaria</th>
+          <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+        </ng-container>
+
+        <!-- Coluumna Valor -->
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let element">{{ element.valor }}</td>
+        </ng-container>
+
+        <!-- Coluumna Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button><mat-icon>clear</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

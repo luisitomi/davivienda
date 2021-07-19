@@ -17,7 +17,6 @@ export class EditarLineaComponent {
     moneda: new FormControl('COP', Validators.required),
     debito: new FormControl(null, Validators.required),
     credito: new FormControl(null, Validators.required),
-    columnasReferenciales: new FormControl('', Validators.required),
   });
 
   monedaOptions: string[] = ['COP', 'USD'];
@@ -27,7 +26,8 @@ export class EditarLineaComponent {
     @Inject(MAT_DIALOG_DATA) public linea: Linea,
     private asientoManualService: AsientoManualService,
   ) {
-    if (linea !== null) {
+    if (this.linea !== null) {
+      let { columnasReferenciales, ...linea } = this.linea;
       this.editarLineaForm.setValue(linea);
     }
   }
@@ -38,9 +38,9 @@ export class EditarLineaComponent {
 
   onSave(): void {
     if (this.linea === null) {
-      this.asientoManualService.addLinea(this.editarLineaForm.value);
+      this.asientoManualService.addLinea({ ...this.editarLineaForm.value, columnasReferenciales: [] });
     } else {
-      this.asientoManualService.editLinea(this.editarLineaForm.value);
+      this.asientoManualService.editLinea({ ...this.editarLineaForm.value, columnasReferencias: this.linea.columnasReferenciales });
     }
     this.dialogRef.close();
   }

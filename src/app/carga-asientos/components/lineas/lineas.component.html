@@ -43,7 +43,11 @@
         <!-- Columna Referenciales -->
         <ng-container matColumnDef="referenciales">
           <th mat-header-cell *matHeaderCellDef>Columnas Referenciales</th>
-          <td mat-cell *matCellDef="let element">{{ element.columnasReferenciales }}</td>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="goReferencias(element.index)">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </td>
         </ng-container>
 
         <!-- Columna Acciones -->

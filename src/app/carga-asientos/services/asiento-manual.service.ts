@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Linea } from 'src/app/shared';
-import { CargaAsientosModule } from '../carga-asientos.module';
+import { map } from 'rxjs/operators';
+import { Linea, ReferenciaComplementaria } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +35,11 @@ export class AsientoManualService {
       .sort((a, b) => a.index > b.index ? 1 : -1)
       .map((l, i) => ({ ...l, index: i + 1 }));
     this.lineasSubject.next(this.lineas);
+  }
+
+  getReferencias(index: number): Observable<ReferenciaComplementaria[] | undefined> {
+    return this.lineasSubject.asObservable().pipe(
+      map(lineas => lineas.find(l => l.index === index)?.columnasReferenciales),
+    );
   }
 }

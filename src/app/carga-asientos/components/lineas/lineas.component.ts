@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Linea } from 'src/app/shared';
 import { AsientoManualService } from '../../services/asiento-manual.service';
@@ -22,6 +23,7 @@ export class LineasComponent implements OnInit, OnDestroy {
   constructor(
     private asientoManualService: AsientoManualService,
     private dialog: MatDialog,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +53,10 @@ export class LineasComponent implements OnInit, OnDestroy {
 
   quitarLinea(linea: Linea): void {
     this.asientoManualService.removeLinea(linea);
+  }
+
+  goReferencias(index: number): void {
+    this.router.navigate(['carga-asientos/referencias-complementarias', index]);
   }
 
 }

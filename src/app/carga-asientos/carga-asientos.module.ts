@@ -9,6 +9,7 @@ import { FormularioCabeceraComponent } from './components/formulario-cabecera/fo
 import { LineasComponent } from './components/lineas/lineas.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EditarLineaComponent } from './components/editar-linea/editar-linea.component';
+import { ReferenciasComplementariasComponent } from './pages/referencias-complementarias/referencias-complementarias.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { EditarLineaComponent } from './components/editar-linea/editar-linea.com
     FormularioCabeceraComponent,
     LineasComponent,
     EditarLineaComponent,
+    ReferenciasComplementariasComponent,
   ],
   imports: [
     CommonModule,

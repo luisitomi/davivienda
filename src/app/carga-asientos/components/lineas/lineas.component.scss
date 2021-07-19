@@ -23,6 +23,11 @@ table {
 
 %column {
   padding: 0 1em;
+  text-align: center;
+}
+
+%column-left {
+  text-align: left;
 }
 
 .mat-column-index {
@@ -31,6 +36,7 @@ table {
 
 .mat-column-combinacion {
   @extend %column;
+  @extend %column-left;
   width: 30em;
 }
 
@@ -53,4 +59,5 @@ table {
 
 .mat-column-acciones {
   @extend %column;
+  min-width: 100px;
 }
