@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CargaAsientosManualComponent } from './pages/carga-asientos-manual/carga-asientos-manual.component';
 import { NuevoAsientoManualComponent } from './pages/nuevo-asiento-manual/nuevo-asiento-manual.component';
 import { ReferenciasComplementariasComponent } from './pages/referencias-complementarias/referencias-complementarias.component';
 
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'referencias-complementarias/:linea',
     component: ReferenciasComplementariasComponent,
+  },
+  {
+    path: 'carga-asientos-manual',
+    component: CargaAsientosManualComponent,
   },
   {
     path: '**',

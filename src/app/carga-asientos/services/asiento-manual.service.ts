@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Asiento, CabeceraAsiento, Linea, ReferenciaComplementaria } from 'src/app/shared';
+import { Asiento, CabeceraAsiento, Linea, ReferenciaComplementaria, ResultadoCarga } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { Asiento, CabeceraAsiento, Linea, ReferenciaComplementaria } from 'src/a
 export class AsientoManualService {
 
   url: string = 'http://urldelservidor.com/api/v1.0/nuevo-asiento-manual';
+  urlCarga: string = 'http://urldelservidor.com/api/v1.0/carga-asientos-manual';
 
   private cabecera = new BehaviorSubject<CabeceraAsiento | undefined>(undefined);
   private lineas: Linea[] = [];
@@ -48,7 +49,6 @@ export class AsientoManualService {
   }
 
   editLinea(linea: Linea): void {
-    console.log(linea);
     this.lineas = this.lineas.map(l => l.index === linea.index ? linea : l);
     this.lineasSubject.next(this.lineas);
   }
@@ -99,6 +99,12 @@ export class AsientoManualService {
     }
 
     this.lineasSubject.next(this.lineas);
+  }
+
+  cargarAsientos(file: any): Observable<ResultadoCarga> {
+    let formData = new FormData();
+    formData.append('archivo', file);
+    return this.http.post<ResultadoCarga>(this.urlCarga, formData);
   }
 
 }

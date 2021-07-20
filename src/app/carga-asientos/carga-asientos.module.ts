@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { EditarLineaComponent } from './components/editar-linea/editar-linea.component';
 import { ReferenciasComplementariasComponent } from './pages/referencias-complementarias/referencias-complementarias.component';
 import { EditarReferenciaComponent } from './components/editar-referencia/editar-referencia.component';
+import { CargaAsientosManualComponent } from './pages/carga-asientos-manual/carga-asientos-manual.component';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 
 @NgModule({
@@ -21,6 +23,7 @@ import { EditarReferenciaComponent } from './components/editar-referencia/editar
     EditarLineaComponent,
     ReferenciasComplementariasComponent,
     EditarReferenciaComponent,
+    CargaAsientosManualComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +31,7 @@ import { EditarReferenciaComponent } from './components/editar-referencia/editar
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    NgxMatFileInputModule,
     CargaAsientosRoutingModule,
   ]
 })

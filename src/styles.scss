@@ -12,6 +12,7 @@ $background-color: #ddd;
   justify-content: center;
   display: flex;
   gap: 2em;
+  min-height: calc(100% - 64px);
   padding: 2em;
   flex-wrap: wrap;
   width: 100%;

@@ -37,7 +37,6 @@ export class CierreDiarioComponent implements OnInit, OnDestroy {
   }
 
   filtrar(): void {
-    console.log(this.cierreForm.value);
     let { inicio, fin } = this.cierreForm.value;
     this.getEstadosSub = this.estadosDiaService.getEstados(inicio, fin).subscribe(
       estados => this.estados.data = estados,
