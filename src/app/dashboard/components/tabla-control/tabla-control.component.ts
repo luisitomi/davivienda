@@ -10,6 +10,8 @@ export class TablaControlComponent implements OnInit {
 
   @Input() cargas: Carga[] = [];
 
+  @Input() loading: boolean = false;
+
   @Output() mostrarDetalle = new EventEmitter<number>();
 
   displayedColumns: String[] = [

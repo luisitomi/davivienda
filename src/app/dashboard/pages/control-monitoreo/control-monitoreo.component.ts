@@ -17,6 +17,8 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
 
   cargas: Carga[] = [];
 
+  loadingCargas: boolean = false;
+
   getCargasSub?: Subscription;
   getCargaByIdSub?: Subscription;
 
@@ -27,10 +29,14 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.loadingCargas = true;
+
     this.origen = this.route.snapshot.queryParams.origen;
 
     this.getCargasSub = this.cargasService.getCargas(this.origen).subscribe(
       data => this.cargas = data,
+      error => console.log(error),
+      () => this.loadingCargas = false,
     );
   }
 
@@ -41,6 +47,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
   }
 
   filtrarCargas(filtros: Filtros): void {
+    this.loadingCargas = true;
     this.getCargasSub = this.cargasService.getCargas(
       filtros.origen,
       filtros.despuesDe,
@@ -49,6 +56,8 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
       filtros.estado
     ).subscribe(
       data => this.cargas = data,
+      error => console.log(error),
+      () => this.loadingCargas = false,
     );
   }
 

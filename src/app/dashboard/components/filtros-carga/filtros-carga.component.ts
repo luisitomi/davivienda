@@ -1,6 +1,7 @@
-import { EventEmitter, Input } from '@angular/core';
+import { EventEmitter, Input, ViewChild } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import * as moment from 'moment';
 import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
 
@@ -14,6 +15,8 @@ export class FiltrosCargaComponent implements OnInit {
   @Input() origen?: string;
 
   @Output() filtrarCargas = new EventEmitter<Filtros>();
+
+  @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
 
   filterForm = new FormGroup({
     origen: new FormControl(''),
@@ -47,6 +50,7 @@ export class FiltrosCargaComponent implements OnInit {
 
   filter(): void {
     this.filtrarCargas.emit(this.filterForm.value);
+    this.panel?.close();
   }
 
   esHoy(fecha: Date): boolean {

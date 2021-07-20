@@ -28,3 +28,11 @@ $background-color: #ddd;
   justify-content: flex-end;
   gap: 1em;
 }
+
+.evol-tabla-progress {
+  height: auto !important;
+
+  .mat-header-cell {
+    padding: 0 !important;
+  }
+}
