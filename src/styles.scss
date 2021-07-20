@@ -16,3 +16,14 @@ $background-color: #ddd;
   flex-wrap: wrap;
   width: 100%;
 }
+
+.evol-header-space-between {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.evol-footer-actions {
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 1em;
+}

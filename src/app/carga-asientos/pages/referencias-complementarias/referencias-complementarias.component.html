@@ -1,6 +1,6 @@
 <div class="evol-page">
-  <mat-card>
-    <mat-card-header>
+  <mat-card class="evol-card">
+    <mat-card-header class="evol-header-space-between">
       <mat-card-title>Referencias Complementarias</mat-card-title>
       <button mat-icon-button (click)="nuevaReferencia()"><mat-icon>add</mat-icon></button>
     </mat-card-header>
@@ -34,5 +34,9 @@
 
       </table>
     </mat-card-content>
+
+    <mat-card-actions class="evol-footer-actions">
+      <button mat-flat-button color="accent" [routerLink]="['nuevo-asiento-manual']">Grabar</button>
+    </mat-card-actions>
   </mat-card>
 </div>

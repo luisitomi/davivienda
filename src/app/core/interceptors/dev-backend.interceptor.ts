@@ -44,6 +44,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/sincronizaciones') && method === 'GET':
           return getSyncs();
 
+        case url.endsWith('/nuevo-asiento-manual') && method === 'POST':
+          return postAsiento();
+
         default:
           return next.handle(request);
       }
@@ -131,6 +134,11 @@ export class DevBackendInterceptor implements HttpInterceptor {
       ];
 
       return ok(syncs);
+    }
+
+    function postAsiento() {
+      console.log(body);
+      return ok({ id: 546, message: 'asiento creado satisfactoriamente' });
     }
   }
 

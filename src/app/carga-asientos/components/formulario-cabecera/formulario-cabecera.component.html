@@ -1,6 +1,10 @@
 <form [formGroup]="cabeceraForm">
 
   <mat-card>
+    <mat-card-header>
+      <mat-card-title>Cabecera</mat-card-title>
+    </mat-card-header>
+
     <mat-card-content class="evol-form-container">
 
       <div class="evol-form-section">
@@ -45,6 +49,10 @@
       </div>
 
     </mat-card-content>
+
+    <mat-card-actions class="evol-footer-actions">
+      <button mat-flat-button color="accent" (click)="save()" [disabled]="!cabeceraForm.valid || !hayLineas">Grabar Asiento</button>
+    </mat-card-actions>
   </mat-card>
 
 </form>

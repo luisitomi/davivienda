@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Linea, ReferenciaComplementaria } from 'src/app/shared';
+import { Asiento, CabeceraAsiento, Linea, ReferenciaComplementaria } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsientoManualService {
 
+  url: string = 'http://urldelservidor.com/api/v1.0/nuevo-asiento-manual';
+
+  private cabecera = new BehaviorSubject<CabeceraAsiento | undefined>(undefined);
   private lineas: Linea[] = [];
   private lineasSubject: BehaviorSubject<Linea[]> = new BehaviorSubject(this.lineas);
 
@@ -16,8 +19,27 @@ export class AsientoManualService {
     private http: HttpClient,
   ) { }
 
+  grabarAsiento(): Observable<any> {
+    let asiento: Asiento = { cabecera: this.cabecera.value!!, lineas: this.lineas };
+    return this.http.post<any>(this.url, { body: asiento });
+  }
+
+  getCabecera(): Observable<CabeceraAsiento | undefined> {
+    return this.cabecera.asObservable();
+  }
+
+  setCabecera(cabecera: CabeceraAsiento): void {
+    this.cabecera.next(cabecera);
+  }
+
   getLineas(): Observable<Linea[]> {
     return this.lineasSubject.asObservable();
+  }
+
+  hayLineas(): Observable<boolean> {
+    return this.lineasSubject.asObservable().pipe(
+      map(lineas => lineas.length > 0),
+    );
   }
 
   addLinea(linea: Linea): void {
