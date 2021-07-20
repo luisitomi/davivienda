@@ -40,7 +40,7 @@ export class EditarLineaComponent {
     if (this.linea === null) {
       this.asientoManualService.addLinea({ ...this.editarLineaForm.value, columnasReferenciales: [] });
     } else {
-      this.asientoManualService.editLinea({ ...this.editarLineaForm.value, columnasReferencias: this.linea.columnasReferenciales });
+      this.asientoManualService.editLinea({ ...this.editarLineaForm.value, columnasReferenciales: this.linea.columnasReferenciales });
     }
     this.dialogRef.close();
   }

@@ -10,6 +10,7 @@ import { LineasComponent } from './components/lineas/lineas.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EditarLineaComponent } from './components/editar-linea/editar-linea.component';
 import { ReferenciasComplementariasComponent } from './pages/referencias-complementarias/referencias-complementarias.component';
+import { EditarReferenciaComponent } from './components/editar-referencia/editar-referencia.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ReferenciasComplementariasComponent } from './pages/referencias-complem
     LineasComponent,
     EditarLineaComponent,
     ReferenciasComplementariasComponent,
+    EditarReferenciaComponent,
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 export interface ReferenciaComplementaria {
-  id: number;
+  index: number;
   nombre: string;
   valor: string;
 }
