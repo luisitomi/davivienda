@@ -53,6 +53,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/origenes') && method === 'GET':
           return getOrigenes();
 
+        case url.endsWith('/estados-carga') && method === 'GET':
+          return getEstadosCarga();
+
         default:
           return next.handle(request);
       }
@@ -157,6 +160,12 @@ export class DevBackendInterceptor implements HttpInterceptor {
       let origenes = ['COBIS', 'SIGLEASE'];
 
       return ok(origenes);
+    }
+
+    function getEstadosCarga() {
+      let estados = ['Procesado', 'Error Técnico', 'Error Funcional'];
+
+      return ok(estados);
     }
   }
 

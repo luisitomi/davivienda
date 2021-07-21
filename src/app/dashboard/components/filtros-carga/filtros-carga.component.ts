@@ -5,8 +5,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { EstadosCargaService } from 'src/app/core/services/estados-carga.service';
 import { OrigenService } from 'src/app/core/services/origen.service';
-import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
+import { Filtros, TipoCarga } from 'src/app/shared';
 
 @Component({
   selector: 'app-filtros-carga',
@@ -31,15 +32,17 @@ export class FiltrosCargaComponent implements OnInit, OnDestroy {
     tipoCarga: new FormControl(''),
   });
 
-  origenOptions: string[]= [];
+  origenOptions: string[] = [];
   getOrigenesSub?: Subscription;
 
-  estadoOptions = Estados;
+  estadoOptions: string[] = [];
+  getEstadosSub?: Subscription;
 
   tipoOptions = TipoCarga;
 
   constructor(
-    public origenService: OrigenService,
+    private origenService: OrigenService,
+    private estadosCargaService: EstadosCargaService,
   ) { }
 
   ngOnInit(): void {
@@ -47,11 +50,16 @@ export class FiltrosCargaComponent implements OnInit, OnDestroy {
       origenes => this.origenOptions = origenes,
     );
 
+    this.getEstadosSub = this.estadosCargaService.getEstados().subscribe(
+      estados => this.estadoOptions = estados,
+    );
+
     this.filterForm.patchValue({ origen: this.origen || '' });
   }
 
   ngOnDestroy(): void {
     this.getOrigenesSub?.unsubscribe();
+    this.getEstadosSub?.unsubscribe();
   }
 
   filter(): void {

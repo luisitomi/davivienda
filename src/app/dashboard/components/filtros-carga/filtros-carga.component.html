@@ -36,7 +36,7 @@
           <mat-label for="estado">Estado</mat-label>
           <mat-select id="estado" formControlName="estado">
             <mat-option [value]="''">Todos</mat-option>
-            <mat-option *ngFor="let estado of estadoOptions | keyvalue" [value]="estado.value">{{ estado.value }}</mat-option>
+            <mat-option *ngFor="let estado of estadoOptions" [value]="estado">{{ estado }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
