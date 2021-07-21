@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
 import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
+import { FiltrosPendientesComponent } from './components/filtros-pendientes/filtros-pendientes.component';
 
 
 @NgModule({
   declarations: [
-    AsientosPendientesComponent
+    AsientosPendientesComponent,
+    FiltrosPendientesComponent
   ],
   imports: [
     CommonModule,
