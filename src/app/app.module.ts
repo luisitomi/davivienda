@@ -9,6 +9,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { INTERCEPTORS } from 'src/environments/environment';
 import { CargaAsientosModule } from './carga-asientos/carga-asientos.module';
+import { AprobacionModule } from './aprobacion/aprobacion.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CargaAsientosModule } from './carga-asientos/carga-asientos.module';
     DashboardModule,
     BrowserAnimationsModule,
     CargaAsientosModule,
+    AprobacionModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
