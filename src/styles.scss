@@ -4,15 +4,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-$background-color: #ddd;
+.evol-header-space-between {
+  align-items: center;
+  justify-content: space-between;
+}
 
-.evol-page {
-  box-sizing: border-box;
-  background-color: $background-color;
-  justify-content: center;
-  display: flex;
-  gap: 2em;
-  padding: 2em;
-  flex-wrap: wrap;
+.evol-footer-actions {
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 1em;
+}
+
+.evol-tabla-progress {
+  height: auto !important;
+
+  .mat-header-cell {
+    padding: 0 !important;
+  }
+}
+
+.mat-form-field {
   width: 100%;
 }

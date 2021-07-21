@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Carga, Estados, Origen, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
+import { Carga, Estados, Origen, ResultadoCarga, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
 import * as moment from 'moment';
 
 @Injectable()
@@ -43,6 +43,18 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
         case url.endsWith('/sincronizaciones') && method === 'GET':
           return getSyncs();
+
+        case url.endsWith('/nuevo-asiento-manual') && method === 'POST':
+          return postAsiento();
+
+        case url.endsWith('/carga-asientos-manual') && method === 'POST':
+          return postArchivo();
+
+        case url.endsWith('/origenes') && method === 'GET':
+          return getOrigenes();
+
+        case url.endsWith('/estados-carga') && method === 'GET':
+          return getEstadosCarga();
 
         default:
           return next.handle(request);
@@ -131,6 +143,29 @@ export class DevBackendInterceptor implements HttpInterceptor {
       ];
 
       return ok(syncs);
+    }
+
+    function postAsiento() {
+      console.log(body);
+      return ok({ id: 546, message: 'asiento creado satisfactoriamente' });
+    }
+
+    function postArchivo() {
+      console.log((body as FormData).get('archivo'));
+      let response: ResultadoCarga = { estadoArchivo: 'OK', asientosCargados: 1000, asientosRechazados: 100, asientosAprobados: 400, asientosPendientes: 500, log: '23432533_23423.log' };
+      return ok(response);
+    }
+
+    function getOrigenes() {
+      let origenes = ['COBIS', 'SIGLEASE'];
+
+      return ok(origenes);
+    }
+
+    function getEstadosCarga() {
+      let estados = ['Procesado', 'Error Técnico', 'Error Funcional'];
+
+      return ok(estados);
     }
   }
 

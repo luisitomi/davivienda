@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Nueva Línea</h1>
+
+<form [formGroup]="editarLineaForm" (ngSubmit)="onSave()">
+  <div mat-dialog-content class="evol-editar-linea-container">
+    <mat-form-field appearance="fill">
+      <mat-label for="combinacion">Combinación Contable</mat-label>
+      <input matInput id="combinacion" formControlName="combinacionContable">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="moneda">Moneda</mat-label>
+      <mat-select id="moneda" formControlName="moneda">
+        <mat-option *ngFor="let m of monedaOptions" [value]="m">{{ m }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="debito">Débito</mat-label>
+      <input matInput id="debito" formControlName="debito">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="credito">Crédito</mat-label>
+      <input matInput id="credito" formControlName="credito">
+    </mat-form-field>
+  </div>
+
+  <mat-dialog-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" type="submit" [disabled]="!editarLineaForm.valid">Guardar</button>
+  </mat-dialog-actions>
+</form>

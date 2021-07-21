@@ -1,0 +1,58 @@
+<form [formGroup]="cabeceraForm">
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Cabecera</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="evol-form-container">
+
+      <div class="evol-form-section">
+
+        <mat-form-field appearance="fill">
+          <mat-label for="origen">Origen</mat-label>
+          <input matInput formControlName="origen">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="periodo">Periodo Contable</mat-label>
+          <input matInput id="periodo" formControlName="periodoContable" [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+      <div class="evol-form-section">
+
+        <mat-form-field appearance="fill">
+          <mat-label for="numero">Número</mat-label>
+          <input matInput formControlName="numero">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="descripcion">Descripción</mat-label>
+          <input matInput formControlName="descripcion">
+        </mat-form-field>
+
+      </div>
+
+      <div class="evol-form-section">
+
+        <mat-form-field appearance="fill">
+          <mat-label for="fecha">Fecha Contable</mat-label>
+          <input matInput id="fecha" formControlName="fechaContable" [matDatepicker]="picker2">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions class="evol-footer-actions">
+      <button mat-flat-button color="accent" (click)="save()" [disabled]="!cabeceraForm.valid || !hayLineas">Grabar Asiento</button>
+    </mat-card-actions>
+  </mat-card>
+
+</form>

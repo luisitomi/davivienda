@@ -1,4 +1,4 @@
-<mat-expansion-panel>
+<mat-expansion-panel hideToggle>
   <mat-expansion-panel-header>
     <mat-panel-title>Filtros</mat-panel-title>
     <mat-panel-description class="evol-filtro-desc">
@@ -14,6 +14,8 @@
       <ng-template #elseBlock>
         <span>Tiene filtros aplicados</span>
       </ng-template>
+
+      <mat-icon>filter_list</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
 
@@ -26,7 +28,7 @@
           <mat-label for="origen">Origen</mat-label>
           <mat-select id="origen" formControlName="origen">
             <mat-option [value]="''">Todos</mat-option>
-            <mat-option *ngFor="let origen of origenOptions | keyvalue" [value]="origen.value">{{ origen.value }}</mat-option>
+            <mat-option *ngFor="let origen of origenOptions" [value]="origen">{{ origen }}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -34,7 +36,7 @@
           <mat-label for="estado">Estado</mat-label>
           <mat-select id="estado" formControlName="estado">
             <mat-option [value]="''">Todos</mat-option>
-            <mat-option *ngFor="let estado of estadoOptions | keyvalue" [value]="estado.value">{{ estado.value }}</mat-option>
+            <mat-option *ngFor="let estado of estadoOptions" [value]="estado">{{ estado }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -42,24 +44,24 @@
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Carga</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matInput matStartDate formControlName="despuesDe" placeholder="Después de">
-            <input matInput matEndDate formControlName="antesDe" placeholder="Antes de">
+          <mat-date-range-input [rangePicker]="picker" disabled>
+            <input matInput matStartDate formControlName="despuesDe" placeholder="Después de" autocomplete="off">
+            <input matInput matEndDate formControlName="antesDe" placeholder="Antes de" autocomplete="off">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label for="job-id">Job ID - Carga</mat-label>
-          <input matInput id="job-id" formControlName="jobId">
+          <input matInput id="job-id" formControlName="jobId" autocomplete="off">
         </mat-form-field>
       </div>
 
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label for="nombre-archivo">Nombre Archivo</mat-label>
-          <input matInput id="nombre-archivo" formControlName="nombreArchivo">
+          <input matInput id="nombre-archivo" formControlName="nombreArchivo" autocomplete="off">
         </mat-form-field>
 
         <mat-form-field appearance="fill">

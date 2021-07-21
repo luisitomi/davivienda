@@ -1,7 +1,8 @@
-<div class="evol-page">
-  <mat-card>
-    <mat-card-content>
-      <form [formGroup]="cierreForm" (ngSubmit)="filtrar()">
+<div class="evol-cierre-diario">
+  <form [formGroup]="cierreForm" (ngSubmit)="filtrar()">
+    <mat-card>
+      <mat-card-content>
+
         <mat-form-field appearance="fill">
           <mat-label>Fecha</mat-label>
           <mat-date-range-input [rangePicker]="picker">
@@ -12,10 +13,16 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
 
-        <button mat-flat-button color="accent" type="submit">Filtrar</button>
-      </form>
+      </mat-card-content>
 
-      <mat-divider></mat-divider>
+      <mat-card-actions class="evol-footer-actions">
+        <button mat-flat-button color="accent" type="submit">Filtrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+  <mat-card>
+    <mat-card-content>
 
       <table mat-table [dataSource]="estados">
 

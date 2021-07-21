@@ -1,0 +1,30 @@
+.evol-card {
+  max-width: 100%;
+}
+
+%column {
+  padding: 0 1em;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+table {
+  width: 460px;
+}
+
+.mat-column-nombre {
+  @extend %column;
+  width: 200px;
+}
+
+.mat-column-valor {
+  @extend %column;
+  width: 150px;
+}
+
+.mat-column-acciones {
+  @extend %column;
+  width: 110px;
+}

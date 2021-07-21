@@ -1,0 +1,63 @@
+.evol-card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.evol-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.evol-tabla-container {
+  width: 800px;
+  overflow: auto;
+}
+
+table {
+  width: 800px;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+%column {
+  padding: 0 1em;
+  text-align: center;
+}
+
+%column-left {
+  text-align: left;
+}
+
+.mat-column-index {
+  @extend %column;
+}
+
+.mat-column-combinacion {
+  @extend %column;
+  @extend %column-left;
+  width: 30em;
+}
+
+.mat-column-moneda {
+  @extend %column;
+}
+
+.mat-column-debito {
+  @extend %column;
+}
+
+.mat-column-credito {
+  @extend %column;
+}
+
+.mat-column-referenciales {
+  @extend %column;
+  width: 30em;
+}
+
+.mat-column-acciones {
+  @extend %column;
+  min-width: 100px;
+}

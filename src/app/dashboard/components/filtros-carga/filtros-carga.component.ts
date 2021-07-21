@@ -1,19 +1,26 @@
-import { EventEmitter, Input } from '@angular/core';
+import { EventEmitter, Input, ViewChild } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import * as moment from 'moment';
-import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
+import { Subscription } from 'rxjs';
+import { EstadosCargaService } from 'src/app/core/services/estados-carga.service';
+import { OrigenService } from 'src/app/core/services/origen.service';
+import { Filtros, TipoCarga } from 'src/app/shared';
 
 @Component({
   selector: 'app-filtros-carga',
   templateUrl: './filtros-carga.component.html',
   styleUrls: ['./filtros-carga.component.scss']
 })
-export class FiltrosCargaComponent implements OnInit {
+export class FiltrosCargaComponent implements OnInit, OnDestroy {
 
   @Input() origen?: string;
 
   @Output() filtrarCargas = new EventEmitter<Filtros>();
+
+  @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
 
   filterForm = new FormGroup({
     origen: new FormControl(''),
@@ -25,28 +32,39 @@ export class FiltrosCargaComponent implements OnInit {
     tipoCarga: new FormControl(''),
   });
 
-  origenOptions = Origen;
+  origenOptions: string[] = [];
+  getOrigenesSub?: Subscription;
 
-  estadoOptions = Estados;
+  estadoOptions: string[] = [];
+  getEstadosSub?: Subscription;
 
   tipoOptions = TipoCarga;
 
-  constructor() { }
+  constructor(
+    private origenService: OrigenService,
+    private estadosCargaService: EstadosCargaService,
+  ) { }
 
   ngOnInit(): void {
-    this.filterForm.setValue({
-      origen: this.origen || '',
-      estado: '',
-      despuesDe: new Date(),
-      antesDe: new Date(),
-      jobId: '',
-      nombreArchivo: '',
-      tipoCarga: ''
-    });
+    this.getOrigenesSub = this.origenService.getOrigenes().subscribe(
+      origenes => this.origenOptions = origenes,
+    );
+
+    this.getEstadosSub = this.estadosCargaService.getEstados().subscribe(
+      estados => this.estadoOptions = estados,
+    );
+
+    this.filterForm.patchValue({ origen: this.origen || '' });
+  }
+
+  ngOnDestroy(): void {
+    this.getOrigenesSub?.unsubscribe();
+    this.getEstadosSub?.unsubscribe();
   }
 
   filter(): void {
     this.filtrarCargas.emit(this.filterForm.value);
+    this.panel?.close();
   }
 
   esHoy(fecha: Date): boolean {

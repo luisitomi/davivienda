@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { INTERCEPTORS } from 'src/environments/environment';
+import { CargaAsientosModule } from './carga-asientos/carga-asientos.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { INTERCEPTORS } from 'src/environments/environment';
     CoreModule,
     DashboardModule,
     BrowserAnimationsModule,
+    CargaAsientosModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
