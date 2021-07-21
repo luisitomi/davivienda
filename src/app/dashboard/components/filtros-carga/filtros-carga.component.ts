@@ -1,8 +1,11 @@
 import { EventEmitter, Input, ViewChild } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { OrigenService } from 'src/app/core/services/origen.service';
 import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
 
 @Component({
@@ -10,7 +13,7 @@ import { Estados, Filtros, Origen, TipoCarga } from 'src/app/shared';
   templateUrl: './filtros-carga.component.html',
   styleUrls: ['./filtros-carga.component.scss']
 })
-export class FiltrosCargaComponent implements OnInit {
+export class FiltrosCargaComponent implements OnInit, OnDestroy {
 
   @Input() origen?: string;
 
@@ -28,24 +31,27 @@ export class FiltrosCargaComponent implements OnInit {
     tipoCarga: new FormControl(''),
   });
 
-  origenOptions = Origen;
+  origenOptions: string[]= [];
+  getOrigenesSub?: Subscription;
 
   estadoOptions = Estados;
 
   tipoOptions = TipoCarga;
 
-  constructor() { }
+  constructor(
+    public origenService: OrigenService,
+  ) { }
 
   ngOnInit(): void {
-    this.filterForm.setValue({
-      origen: this.origen || '',
-      estado: '',
-      despuesDe: new Date(),
-      antesDe: new Date(),
-      jobId: '',
-      nombreArchivo: '',
-      tipoCarga: ''
-    });
+    this.getOrigenesSub = this.origenService.getOrigenes().subscribe(
+      origenes => this.origenOptions = origenes,
+    );
+
+    this.filterForm.patchValue({ origen: this.origen || '' });
+  }
+
+  ngOnDestroy(): void {
+    this.getOrigenesSub?.unsubscribe();
   }
 
   filter(): void {

@@ -50,6 +50,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/carga-asientos-manual') && method === 'POST':
           return postArchivo();
 
+        case url.endsWith('/origenes') && method === 'GET':
+          return getOrigenes();
+
         default:
           return next.handle(request);
       }
@@ -148,6 +151,12 @@ export class DevBackendInterceptor implements HttpInterceptor {
       console.log((body as FormData).get('archivo'));
       let response: ResultadoCarga = { estadoArchivo: 'OK', asientosCargados: 1000, asientosRechazados: 100, asientosAprobados: 400, asientosPendientes: 500, log: '23432533_23423.log' };
       return ok(response);
+    }
+
+    function getOrigenes() {
+      let origenes = ['COBIS', 'SIGLEASE'];
+
+      return ok(origenes);
     }
   }
 

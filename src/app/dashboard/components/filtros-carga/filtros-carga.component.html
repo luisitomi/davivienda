@@ -28,7 +28,7 @@
           <mat-label for="origen">Origen</mat-label>
           <mat-select id="origen" formControlName="origen">
             <mat-option [value]="''">Todos</mat-option>
-            <mat-option *ngFor="let origen of origenOptions | keyvalue" [value]="origen.value">{{ origen.value }}</mat-option>
+            <mat-option *ngFor="let origen of origenOptions" [value]="origen">{{ origen }}</mat-option>
           </mat-select>
         </mat-form-field>
 
