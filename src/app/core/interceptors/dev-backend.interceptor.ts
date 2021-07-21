@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Carga, EstadoDia, Estados, Origen, ResultadoCarga, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
+import { Carga, EstadoDia, Estados, Infolet, Origen, ResultadoCarga, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
 import * as moment from 'moment';
 import { ResultadoCierre } from 'src/app/shared/models/resultado-cierre.response';
 
@@ -71,6 +71,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/estados-dia') && method === 'POST':
           return cerrar();
 
+        case url.endsWith('/infolets') && method === 'GET':
+          return getInfolets();
+
         default:
           return next.handle(request);
       }
@@ -78,6 +81,33 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
     function ok(body: any) {
       return of(new HttpResponse({ status: 200, body }));
+    }
+
+    function getInfolets() {
+      let infolets: Infolet[] = [
+        {
+          origen: 'COBIS',
+          estado: 'En proceso',
+          archivosProcesados: 4,
+          transaccionesCargadas: 13000,
+          asientosAccountingHub: 12000,
+          asientosGeneralAccounting: 1000,
+          movimientoNetoHoy: 12000000,
+          movimientoNetoAyer: 14000000,
+          variacion: 12.54,
+        },
+        {
+          archivosProcesados: 6,
+          transaccionesCargadas: 50000,
+          asientosAccountingHub: 50000,
+          asientosGeneralAccounting: 5000,
+          movimientoNetoHoy: 34546908,
+          movimientoNetoAyer: 43567450,
+          variacion: -21.45,
+        },
+      ];
+
+      return ok(infolets);
     }
 
     function getCargas() {

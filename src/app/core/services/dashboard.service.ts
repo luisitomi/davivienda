@@ -1,45 +1,26 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InfoletGlobal, InfoletOrigen } from 'src/app/shared';
+import { switchMap } from 'rxjs/operators';
+import { Infolet } from 'src/app/shared';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  infoletOrigen: InfoletOrigen = {
-    origen: 'COBIS',
-    estado: 'En proceso',
-    archivosProcesados: 4,
-    transaccionesCargadas: 13000,
-    asientosAccountingHub: 12000,
-    asientosGeneralAccounting: 1000,
-    movimientoNetoHoy: 12000000,
-    movimientoNetoAyer: 14000000,
-    variacion: 12.54,
-  };
+  endpoint: string = '/infolets';
 
-  infoletGlobal: InfoletGlobal = {
-    archivosProcesados: 6,
-    transaccionesCargadas: 50000,
-    asientosAccountingHub: 50000,
-    asientosGeneralAccounting: 5000,
-    movimientoNetoHoy: 34546908,
-    movimientoNetoAyer: 43567450,
-    variacion: -21.45,
-  };
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+  ) { }
 
-  constructor() { }
-
-  getInfoletOrigen(): Observable<InfoletOrigen> {
-    return new Observable<InfoletOrigen>(subscriber => {
-      subscriber.next(this.infoletOrigen);
-    });
+  getInfolets(): Observable<Infolet[]> {
+    return this.configService.getApiUrl().pipe(
+      switchMap(url => this.http.get<Infolet[]>(url + this.endpoint)),
+    );
   }
 
-  getInfoletGlobal(): Observable<InfoletGlobal> {
-    return new Observable<InfoletGlobal>(subscriber => {
-      subscriber.next(this.infoletGlobal);
-    });
-  }
 }
