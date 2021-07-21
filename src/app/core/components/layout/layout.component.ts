@@ -24,7 +24,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   loadUsuarioSub?: Subscription;
 
   menuOptions: Menu[] = [
-    { texto: 'Infolet', link: 'dashboard', },
+    { texto: 'Infolet', link: 'dashboard/infolet', },
     { texto: 'Control de Salidas', link: 'dashboard/control-salidas', },
     { texto: 'Control de Sincronizaciones', link: 'dashboard/control-sincronizaciones', },
     { texto: 'Cierre Diario', link: 'dashboard/cierre-diario', },

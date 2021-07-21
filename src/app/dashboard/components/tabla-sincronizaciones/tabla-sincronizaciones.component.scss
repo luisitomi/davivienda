@@ -6,11 +6,11 @@
 
 .evol-tabla-wrapper {
   overflow: auto;
-  width: 540px;
+  width: 600px;
 }
 
 table {
-  width: 540px;
+  width: 600px;
 }
 
 %column {
@@ -28,15 +28,18 @@ table {
 
 .mat-column-fecha {
   @extend %column;
+  width: 200px;
 }
 
 .mat-column-proceso {
   @extend %column;
   @extend %column-left;
+  width: 200px;
 }
 
 .mat-column-estado {
   @extend %column;
+  width: 150px;
 }
 
 
