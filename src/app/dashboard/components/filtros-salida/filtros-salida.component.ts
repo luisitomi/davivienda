@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { FiltroSalida } from 'src/app/shared';
 
 @Component({
@@ -10,6 +11,8 @@ import { FiltroSalida } from 'src/app/shared';
 export class FiltrosSalidaComponent implements OnInit {
 
   @Output() filtrar = new EventEmitter<FiltroSalida>();
+
+  @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
 
   filtrosForm = new FormGroup({
     interfaz: new FormControl(''),
@@ -31,6 +34,7 @@ export class FiltrosSalidaComponent implements OnInit {
 
   onFiltrar(): void {
     this.filtrar.emit(this.filtrosForm.value);
+    this.panel?.close();
   }
 
 }

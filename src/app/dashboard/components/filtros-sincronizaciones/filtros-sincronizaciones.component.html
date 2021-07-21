@@ -19,12 +19,12 @@
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Lectura</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
+          <mat-date-range-input [rangePicker]="picker" disabled>
             <input matStartDate formControlName="readInicio" placeholder="Fecha inicio">
             <input matEndDate formControlName="readFin" placeholder="Fecha fin">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
         </mat-form-field>
       </div>
     </mat-card-content>

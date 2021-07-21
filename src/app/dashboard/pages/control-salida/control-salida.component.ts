@@ -12,6 +12,8 @@ export class ControlSalidaComponent implements OnInit, OnDestroy {
 
   salidas: Salida[] = [];
 
+  loadingSalidas: boolean = false;
+
   getSalidasSub?: Subscription;
 
   constructor(
@@ -35,6 +37,8 @@ export class ControlSalidaComponent implements OnInit, OnDestroy {
   }
 
   filtrar(filtroSalida: FiltroSalida): void {
+    this.loadingSalidas = true;
+
     this.getSalidasSub = this.salidasService.getSalidas(
       filtroSalida.interfaz,
       filtroSalida.estado,
@@ -45,6 +49,8 @@ export class ControlSalidaComponent implements OnInit, OnDestroy {
       filtroSalida.nombreArchivo,
     ).subscribe(
       salidas => this.salidas = salidas,
+      error => console.log(error),
+      () => this.loadingSalidas = false,
     );
   }
 

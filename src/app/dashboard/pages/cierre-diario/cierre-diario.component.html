@@ -64,7 +64,15 @@
           <td mat-cell *matCellDef="let element"> {{ element.ejecutor }} </td>
         </ng-container>
 
+        <!-- Columna unica para Progress Bar-->
+        <ng-container matColumnDef="progress">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+            <mat-progress-bar mode="indeterminate" *ngIf="loadingEstados"></mat-progress-bar>
+          </th>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>

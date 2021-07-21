@@ -10,6 +10,8 @@ export class TablaSalidasComponent implements OnInit {
 
   @Input() salidas: Salida[] = [];
 
+  @Input() loading: boolean = false;
+
   displayedColumns: string[] = ['fecha', 'interfaz', 'nombreArchivo', 'estado', 'cantidadLineas', 'fechaGeneracion', 'fechaLectura'];
 
   constructor() { }

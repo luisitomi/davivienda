@@ -22,3 +22,9 @@
   justify-content: flex-end;
   padding: .5em;
 }
+
+.mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 0;
+}
