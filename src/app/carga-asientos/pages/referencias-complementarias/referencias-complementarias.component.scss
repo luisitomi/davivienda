@@ -11,7 +11,7 @@
 }
 
 table {
-  width: 450px;
+  width: 460px;
 }
 
 .mat-column-nombre {
@@ -26,5 +26,5 @@ table {
 
 .mat-column-acciones {
   @extend %column;
-  width: 100px;
+  width: 110px;
 }
