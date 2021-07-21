@@ -24,6 +24,8 @@ export class CierreDiarioComponent implements OnInit, OnDestroy {
 
   getEstadosSub?: Subscription;
 
+  loadingEstados: boolean = false;
+
   constructor(
     private estadosDiaService: EstadosDiaService,
   ) { }
@@ -37,14 +39,20 @@ export class CierreDiarioComponent implements OnInit, OnDestroy {
   }
 
   filtrar(): void {
+    this.loadingEstados = true;
     let { inicio, fin } = this.cierreForm.value;
     this.getEstadosSub = this.estadosDiaService.getEstados(inicio, fin).subscribe(
-      estados => this.estados.data = estados,
+      estados => {
+        this.estados.data = estados;
+        this.loadingEstados = false;
+      },
     );
   }
 
   cerrarDia(id: number) {
-    this.estadosDiaService.cerrarDia(id);
+    this.estadosDiaService.cerrarDia(id).subscribe(
+      res => this.estados.data = this.estados.data.map(e => e.id === id ? { ...e, estado: 'Cerrado' } : e),
+    );
   }
 
 }

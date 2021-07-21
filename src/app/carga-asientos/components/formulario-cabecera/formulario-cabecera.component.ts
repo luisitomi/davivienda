@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { OrigenService } from 'src/app/core/services/origen.service';
 import { AsientoManualService } from '../../services/asiento-manual.service';
 
 @Component({
@@ -25,11 +26,20 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
 
   getHayLineasSub?: Subscription;
 
+  origenOptions: string[] = [];
+
+  getOrigenSub?: Subscription;
+
   constructor(
     private asientoManualService: AsientoManualService,
+    private origenService: OrigenService,
   ) { }
 
   ngOnInit(): void {
+    this.getOrigenSub = this.origenService.getOrigenes().subscribe(
+      origenes => this.origenOptions = origenes,
+    );
+
     this.getCabeceraSub = this.asientoManualService.getCabecera().pipe(
       take(1),
     ).subscribe(
@@ -51,6 +61,7 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getHayLineasSub?.unsubscribe();
+    this.getOrigenSub?.unsubscribe();
   }
 
   save(): void {

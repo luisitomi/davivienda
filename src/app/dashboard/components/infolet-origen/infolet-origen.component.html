@@ -1,19 +1,19 @@
 <mat-card class="evol-infolet-card">
   <mat-card-header>
-    <h2>Infolet Origen</h2>
+    <h2>{{ title }}</h2>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content class="evol-infolet-content">
     <mat-list class="evol-infolet-list">
-      <mat-list-item>
+      <mat-list-item *ngIf="infolet?.origen !== undefined">
         <h2 class="evol-infolet-item-desc">Origen</h2>
         <h2>{{ infolet?.origen }}</h2>
       </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
+      <mat-divider *ngIf="infolet?.origen !== undefined"></mat-divider>
+      <mat-list-item *ngIf="infolet?.estado !== undefined">
         <h2 class="evol-infolet-item-desc">Estado de integración</h2>
         <h2>{{ infolet?.estado }}</h2>
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="infolet?.estado !== undefined"></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Archivos procesados</h2>
         <h2>{{ infolet?.archivosProcesados }}</h2>
@@ -56,7 +56,7 @@
   </mat-card-content>
   <mat-card-footer class="evol-infolet-footer">
     <button mat-flat-button color="accent" class="evol-infolet-button"
-      routerLink="controlymonitoreo"
+      routerLink="/dashboard/controlymonitoreo"
       [queryParams]="{ origen: infolet?.origen }"
     >Ver</button>
   </mat-card-footer>

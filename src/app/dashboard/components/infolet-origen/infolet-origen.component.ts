@@ -1,31 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
-import { InfoletOrigen } from 'src/app/shared';
+import { Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Infolet } from 'src/app/shared';
 
 @Component({
   selector: 'app-infolet-origen',
   templateUrl: './infolet-origen.component.html',
   styleUrls: ['./infolet-origen.component.scss']
 })
-export class InfoletOrigenComponent implements OnInit, OnDestroy {
+export class InfoletOrigenComponent implements OnInit {
 
-  infolet?: InfoletOrigen;
+  title: string = '';
 
-  getInfoletSub?: Subscription;
+  @Input() infolet?: Infolet;
 
-  constructor(
-    private dashboardService: DashboardService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getInfoletSub = this.dashboardService.getInfoletOrigen().subscribe(
-      data => this.infolet = data,
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.getInfoletSub?.unsubscribe();
+    this.title = this.infolet?.origen !== undefined ? 'Infolet de Origen' : 'Infolet Global de Integración';
   }
 
 }

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { FiltroSincronizacion } from 'src/app/shared';
 
 @Component({
@@ -10,6 +11,8 @@ import { FiltroSincronizacion } from 'src/app/shared';
 export class FiltrosSincronizacionesComponent implements OnInit {
 
   @Output() filtrar = new EventEmitter<FiltroSincronizacion>();
+
+  @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
 
   filtrosForm = new FormGroup({
     proceso: new FormControl(),
@@ -27,6 +30,7 @@ export class FiltrosSincronizacionesComponent implements OnInit {
 
   onFiltrar(): void {
     this.filtrar.emit(this.filtrosForm.value);
+    this.panel?.close();
   }
 
 }

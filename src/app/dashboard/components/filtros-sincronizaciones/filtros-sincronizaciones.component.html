@@ -1,6 +1,15 @@
 <form [formGroup]="filtrosForm" (ngSubmit)="onFiltrar()">
-  <mat-card class="evol-filtro-card">
-    <mat-card-content class="evol-filtro-container">
+
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Filtros</mat-panel-title>
+      <mat-panel-description>
+        <span></span>
+        <mat-icon>filter_list</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="evol-filtro-container">
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label for="proceso">Proceso de Sincronización</mat-label>
@@ -19,18 +28,20 @@
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Lectura</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
+          <mat-date-range-input [rangePicker]="picker" disabled>
             <input matStartDate formControlName="readInicio" placeholder="Fecha inicio">
             <input matEndDate formControlName="readFin" placeholder="Fecha fin">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
         </mat-form-field>
       </div>
-    </mat-card-content>
+    </div>
 
-    <mat-card-actions class="evol-footer-actions">
+    <mat-action-row class="evol-footer-actions">
       <button type="submit" mat-flat-button color="accent">Filtrar</button>
-    </mat-card-actions>
-  </mat-card>
+    </mat-action-row>
+
+  </mat-expansion-panel>
+
 </form>

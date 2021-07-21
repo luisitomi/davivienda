@@ -9,7 +9,7 @@ import { ReprocesoComponent } from './pages/reproceso/reproceso.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'infolet',
     component: DashboardComponent,
   },
   {
@@ -32,6 +32,11 @@ const routes: Routes = [
     path: 'control-sincronizaciones',
     component: ControlSincronizacionesComponent,
   },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'infolet',
+  }
 ];
 
 @NgModule({

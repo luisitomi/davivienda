@@ -15,6 +15,8 @@ export class ControlSincronizacionesComponent implements OnInit, OnDestroy {
 
   getSyncsSub?: Subscription;
 
+  loadingSyncs: boolean = false;
+
   constructor(
     private sincronizacionesService: SincronizacionesService,
   ) { }
@@ -33,6 +35,7 @@ export class ControlSincronizacionesComponent implements OnInit, OnDestroy {
   }
 
   filtrar(filtroSync: FiltroSincronizacion): void {
+    this.loadingSyncs = true;
     this.getSyncsSub = this.sincronizacionesService.getSincronizaciones(
       filtroSync.proceso,
       filtroSync.estado,
@@ -40,6 +43,8 @@ export class ControlSincronizacionesComponent implements OnInit, OnDestroy {
       filtroSync.readFin,
     ).subscribe(
       syncs => this.sincronizaciones = syncs,
+      error => console.log(error),
+      () => this.loadingSyncs = false,
     );
   }
 

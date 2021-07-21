@@ -17,3 +17,4 @@ export * from './cabecera-asiento.model';
 export * from './linea.model';
 export * from './referencia-complementaria.model';
 export * from './resultado-carga.model';
+export * from './infolet.model';

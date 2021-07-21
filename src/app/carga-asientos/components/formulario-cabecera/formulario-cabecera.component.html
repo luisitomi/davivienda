@@ -11,12 +11,14 @@
 
         <mat-form-field appearance="fill">
           <mat-label for="origen">Origen</mat-label>
-          <input matInput formControlName="origen">
+          <mat-select id="origen" formControlName="origen">
+            <mat-option *ngFor="let origen of origenOptions" [value]="origen">{{ origen }}</mat-option>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label for="periodo">Periodo Contable</mat-label>
-          <input matInput id="periodo" formControlName="periodoContable" [matDatepicker]="picker">
+          <input matInput id="periodo" formControlName="periodoContable" [matDatepicker]="picker" autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -27,12 +29,12 @@
 
         <mat-form-field appearance="fill">
           <mat-label for="numero">Número</mat-label>
-          <input matInput formControlName="numero">
+          <input matInput formControlName="numero" autocomplete="off">
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label for="descripcion">Descripción</mat-label>
-          <input matInput formControlName="descripcion">
+          <input matInput formControlName="descripcion" autocomplete="off">
         </mat-form-field>
 
       </div>
@@ -41,7 +43,7 @@
 
         <mat-form-field appearance="fill">
           <mat-label for="fecha">Fecha Contable</mat-label>
-          <input matInput id="fecha" formControlName="fechaContable" [matDatepicker]="picker2">
+          <input matInput id="fecha" formControlName="fechaContable" [matDatepicker]="picker2" autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>

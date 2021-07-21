@@ -10,6 +10,8 @@ export class TablaSincronizacionesComponent implements OnInit {
 
   @Input() sincronizaciones: Sincronizacion[] = [];
 
+  @Input() loading: boolean = false;
+
   displayedColumns: string[] = ['numeracion', 'fecha', 'proceso', 'estado'];
 
   constructor() { }
