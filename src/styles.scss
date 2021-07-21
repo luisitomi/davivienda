@@ -4,20 +4,6 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-$background-color: #ddd;
-
-.evol-page {
-  box-sizing: border-box;
-  background-color: $background-color;
-  justify-content: center;
-  display: flex;
-  gap: 2em;
-  min-height: calc(100% - 64px);
-  padding: 2em;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
 .evol-header-space-between {
   align-items: center;
   justify-content: space-between;

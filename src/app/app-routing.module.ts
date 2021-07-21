@@ -15,10 +15,12 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        data: { title: 'Data Governance' },
       },
       {
         path: 'carga-asientos',
         loadChildren: () => import('./carga-asientos/carga-asientos.module').then(m => m.CargaAsientosModule),
+        data: { title: 'Carga Manual' },
       },
     ]
   },

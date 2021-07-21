@@ -1,6 +1,17 @@
 <mat-toolbar>
-  <span>Gobierno de Integración de Cargas</span>
+  <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+  <span>{{ title }}</span>
   <span class="evol-toolbar-spacer"></span>
   <span>{{ nombreUsuario }}</span>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<mat-drawer-container>
+  <mat-drawer #drawer mode="side">
+    <mat-nav-list>
+      <mat-list-item *ngFor="let menu of menuOptions" [routerLink]="menu.link">{{ menu.texto }}</mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

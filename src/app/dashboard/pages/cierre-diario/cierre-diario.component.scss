@@ -1,3 +1,13 @@
+.evol-cierre-diario {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
 %column {
   box-sizing: border-box;
   padding: 0 2em;

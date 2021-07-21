@@ -1,8 +1,9 @@
-.evol-nuevo-aiento {
+.evol-nuevo-asiento {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100%;
+  gap: 2em;
 }
 
 .evol-asiento-cabecera {

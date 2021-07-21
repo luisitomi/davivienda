@@ -1,3 +1,13 @@
+$background-color: #ddd;
+
 .evol-toolbar-spacer {
   flex: 1 1 auto;
+}
+
+.mat-drawer-content {
+  box-sizing: border-box;
+  background-color: $background-color;
+  min-height: calc(100vh - 64px);
+  padding: 2em;
+  width: 100vw;
 }
