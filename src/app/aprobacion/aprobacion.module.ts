@@ -7,12 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
 import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
 import { FiltrosPendientesComponent } from './components/filtros-pendientes/filtros-pendientes.component';
+import { TablaAsientosComponent } from './components/tabla-asientos/tabla-asientos.component';
 
 
 @NgModule({
   declarations: [
     AsientosPendientesComponent,
     FiltrosPendientesComponent,
+    TablaAsientosComponent,
   ],
   imports: [
     CommonModule,

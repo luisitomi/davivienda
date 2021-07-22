@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Asiento, CabeceraAsiento, Linea, ReferenciaComplementaria, ResultadoCarga } from 'src/app/shared';
+import { CabeceraAsiento, Linea, ReferenciaComplementaria, ResultadoCarga } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class AsientoManualService {
   ) { }
 
   grabarAsiento(): Observable<any> {
-    let asiento: Asiento = { cabecera: this.cabecera.value!!, lineas: this.lineas };
-    return this.http.post<any>(this.url, { body: asiento });
+    let asiento = { cabecera: this.cabecera.value!!, lineas: this.lineas };
+    return this.http.post<any>(this.url, { body: { asiento } });
   }
 
   getCabecera(): Observable<CabeceraAsiento | undefined> {

@@ -1,3 +1,4 @@
-<div>
-  <app-filtros-pendientes></app-filtros-pendientes>
+<div class="evol-asientos-pendientes">
+  <app-filtros-pendientes (filtros)="filtrar($event)"></app-filtros-pendientes>
+  <app-tabla-asientos [asientos]="asientos" [loading]="loadingAsientos"></app-tabla-asientos>
 </div>
