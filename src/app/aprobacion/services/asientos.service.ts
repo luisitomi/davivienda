@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ConfigService } from 'src/app/core/services/config.service';
 import { Asiento } from 'src/app/shared';
 import { FiltroAsiento } from '../models/filtro-asiento.model';
+import { ResultadoEnvio } from '../models/resultado-envio.response';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,24 @@ export class AsientosService {
 
     return this.configService.getApiUrl().pipe(
       switchMap(url => this.http.get<Asiento[]>(url + this.endpoint, { params })),
+    );
+  }
+
+  aprobar(asientos: Asiento[]): Observable<boolean> {
+    let body = { accion: 'aprobar', asientos };
+
+    return this.configService.getApiUrl().pipe(
+      switchMap(url => this.http.post<ResultadoEnvio>(url + this.endpoint, body)),
+      map(res => true),
+    );
+  }
+
+  rechazar(asientos: Asiento[]): Observable<boolean> {
+    let body = { accion: 'rechazar', asientos };
+
+    return this.configService.getApiUrl().pipe(
+      switchMap(url => this.http.post<ResultadoEnvio>(url + this.endpoint, body)),
+      map(res => true),
     );
   }
 }

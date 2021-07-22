@@ -86,6 +86,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/asientos') && method === 'GET':
           return getAsientos();
 
+        case url.endsWith('/asientos') && method === 'POST':
+          return postAsientos();
+
         default:
           return next.handle(request);
       }
@@ -267,6 +270,13 @@ export class DevBackendInterceptor implements HttpInterceptor {
       ];
 
       return ok(asientos);
+    }
+
+    function postAsientos() {
+      console.log('hola');
+      let res = { message: 'Asientos modificados con exito' };
+
+      return ok(res);
     }
 
   }
