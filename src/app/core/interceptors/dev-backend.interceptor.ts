@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Carga, EstadoDia, Estados, Infolet, Origen, ResultadoCarga, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
+import { Asiento, Carga, EstadoDia, Estados, Infolet, Origen, ResultadoCarga, Reversado, Roles, Salida, Sincronizacion } from 'src/app/shared';
 import * as moment from 'moment';
 import { ResultadoCierre } from 'src/app/shared/models/resultado-cierre.response';
 
@@ -73,6 +73,18 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
         case url.endsWith('/infolets') && method === 'GET':
           return getInfolets();
+
+        case url.endsWith('/usuarios') && method === 'GET':
+          return getUsuarios();
+
+        case url.endsWith('/cuentas') && method === 'GET':
+          return getCuentas();
+
+        case url.endsWith('/estados-asiento') && method === 'GET':
+          return getEstadosAsiento();
+
+        case url.endsWith('/asientos') && method === 'GET':
+          return getAsientos();
 
         default:
           return next.handle(request);
@@ -225,6 +237,36 @@ export class DevBackendInterceptor implements HttpInterceptor {
       estados = estados.map(e => e.id === id ? { ...e, estado: 'Cerrado' } : e);
       let res: ResultadoCierre = {};
       return ok(res);
+    }
+
+    function getUsuarios() {
+      let users: string[] = ['SLUJAN', 'AMURILLO', 'JGINEZ', 'ZRIVERA'];
+
+      return ok(users);
+    }
+
+    function getCuentas() {
+      let cuentas: string[] = ['WER1234-12', 'ETER-0878-34', 'TREW-345-123-45'];
+
+      return ok(cuentas);
+    }
+
+    function getEstadosAsiento() {
+      let estados: string[] = ['Pendiente de aprobación'];
+
+      return ok(estados);
+    }
+
+    function getAsientos() {
+      let asientos: Asiento[] = [
+        { id: 1, fechaCarga: moment().subtract(5, 'day').toDate(), usuario: 'SLUJAN', comprobante: 'FMG093453234', fechaContable: moment().subtract(3, 'day').toDate(), descripcion: 'Asientos de compe.', cargos: 1300, abonos: 3400, },
+        { id: 2, fechaCarga: moment().subtract(5, 'day').toDate(), usuario: 'SLUJAN', comprobante: 'FMG3436543564', fechaContable: moment().subtract(3, 'day').toDate(), descripcion: 'Asientos de compe.', cargos: 200, abonos: 300, },
+        { id: 3, fechaCarga: moment().subtract(4, 'day').toDate(), usuario: 'AMURILLO', comprobante: 'FMG043456575', fechaContable: moment().subtract(2, 'day').toDate(), descripcion: 'Asientos de ajuste', cargos: 1100, abonos: 400, },
+        { id: 4, fechaCarga: moment().subtract(4, 'day').toDate(), usuario: 'JGINEZ', comprobante: 'FMG09343478456', fechaContable: moment().subtract(2, 'day').toDate(), descripcion: 'Asientos de ajuste', cargos: 1600, abonos: 900, },
+        { id: 5, fechaCarga: moment().subtract(2, 'day').toDate(), usuario: 'JGINEZ', comprobante: 'FMG0934578645', fechaContable: moment().subtract(1, 'day').toDate(), descripcion: 'Asientos genericos', cargos: 2300, abonos: 1780, },
+      ];
+
+      return ok(asientos);
     }
 
   }

@@ -12,7 +12,7 @@ import { FiltrosPendientesComponent } from './components/filtros-pendientes/filt
 @NgModule({
   declarations: [
     AsientosPendientesComponent,
-    FiltrosPendientesComponent
+    FiltrosPendientesComponent,
   ],
   imports: [
     CommonModule,
