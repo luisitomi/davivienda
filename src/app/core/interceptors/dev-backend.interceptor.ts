@@ -92,6 +92,15 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.split('/').slice(-2)[0] === 'asientos' && /^[0-9]*$/.test(url.split('/').slice(-1)[0]) && method === 'GET':
           return getAsientoPorId();
 
+        case url.endsWith('/niveles') && method === 'GET':
+          return getNiveles();
+
+        case url.endsWith('/limites') && method === 'GET':
+          return getLimites();
+
+        case url.endsWith('/limites') && method === 'POST':
+          return postLimites();
+
         default:
           return next.handle(request);
       }
@@ -302,6 +311,29 @@ export class DevBackendInterceptor implements HttpInterceptor {
       };
 
       return ok(asiento);
+    }
+
+    function getNiveles() {
+      let niveles: string[] = ['Automático'].concat(Array.from({ length: 10 }, (x, i) => (i + 1).toString()));
+
+      return ok(niveles);
+    }
+
+    function getLimites() {
+      let limites: any[] = [
+        { empiezaCon: '1', importeMaximo: 10000, codigo: 'COP' },
+        { empiezaCon: '2', importeMaximo: 1000000, codigo: 'COP' },
+        { empiezaCon: '1010', importeMaximo: 250000, codigo: 'USD' },
+        { empiezaCon: '3', importeMaximo: 30000, codigo: 'USD' },
+        { empiezaCon: '1100', importeMaximo: 1500000, codigo: 'COP' },
+        { empiezaCon: '1110', importeMaximo: 1000000, codigo: 'COP' },
+      ];
+
+      return ok(limites);
+    }
+
+    function postLimites() {
+      return ok('ok');
     }
 
   }

@@ -10,6 +10,8 @@ import { FiltrosPendientesComponent } from './components/filtros-pendientes/filt
 import { TablaAsientosComponent } from './components/tabla-asientos/tabla-asientos.component';
 import { ResumenAsientoComponent } from './pages/resumen-asiento/resumen-asiento.component';
 import { TablaResumenAsientoComponent } from './components/tabla-resumen-asiento/tabla-resumen-asiento.component';
+import { ConfiguracionLimitesComponent } from './pages/configuracion-limites/configuracion-limites.component';
+import { TablaLimitesComponent } from './components/tabla-limites/tabla-limites.component';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { TablaResumenAsientoComponent } from './components/tabla-resumen-asiento
     TablaAsientosComponent,
     ResumenAsientoComponent,
     TablaResumenAsientoComponent,
+    ConfiguracionLimitesComponent,
+    TablaLimitesComponent,
   ],
   imports: [
     CommonModule,

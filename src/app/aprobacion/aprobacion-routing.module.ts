@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
+import { ConfiguracionLimitesComponent } from './pages/configuracion-limites/configuracion-limites.component';
 import { ResumenAsientoComponent } from './pages/resumen-asiento/resumen-asiento.component';
 
 const routes: Routes = [
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'resumen-asiento/:id',
     component: ResumenAsientoComponent,
+  },
+  {
+    path: 'configuracion-limites',
+    component: ConfiguracionLimitesComponent,
   },
   {
     path: '',

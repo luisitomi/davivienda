@@ -31,6 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     { texto: 'Nuevo asiento manual', link: 'carga-asientos/nuevo-asiento-manual', },
     { texto: 'Carga manual', link: 'carga-asientos/carga-asientos-manual', },
     { texto: 'Asientos Pendientes', link: 'aprobacion/asientos-pendientes', },
+    { texto: 'Configuración de Límites', link: 'aprobacion/configuracion-limites', },
   ];
 
   constructor(
