@@ -19,7 +19,6 @@ pipelines:
             - node
           script:
             - npm install
-            - npm test
       - step:
           name: Code linting
           script:
@@ -36,7 +35,6 @@ pipelines:
               - node
             script:
               - npm install
-              - npm test
               - apt update && apt install zip
               # Exclude files to be ignored
               - zip -r app-$BITBUCKET_BUILD_NUMBER.zip . -x *.git* bitbucket-pipelines.yml
