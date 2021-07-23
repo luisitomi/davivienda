@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { first, switchMap } from 'rxjs/operators';
 import { Infolet } from 'src/app/shared';
 import { ConfigService } from './config.service';
 
@@ -19,6 +19,7 @@ export class DashboardService {
 
   getInfolets(): Observable<Infolet[]> {
     return this.configService.getApiUrl().pipe(
+      first(),
       switchMap(url => this.http.get<Infolet[]>(url + this.endpoint)),
     );
   }

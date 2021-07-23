@@ -42,10 +42,9 @@ export class CierreDiarioComponent implements OnInit, OnDestroy {
     this.loadingEstados = true;
     let { inicio, fin } = this.cierreForm.value;
     this.getEstadosSub = this.estadosDiaService.getEstados(inicio, fin).subscribe(
-      estados => {
-        this.estados.data = estados;
-        this.loadingEstados = false;
-      },
+      estados => this.estados.data = estados,
+      error => console.log(error),
+      () => this.loadingEstados = false,
     );
   }
 

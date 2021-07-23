@@ -101,6 +101,12 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/limites') && method === 'POST':
           return postLimites();
 
+        case url.endsWith('interfaces') && method === 'GET':
+          return getInterfaces();
+
+        case url.endsWith('estados-salida') && method === 'GET':
+          return getEstadosSalida();
+
         default:
           return next.handle(request);
       }
@@ -311,6 +317,18 @@ export class DevBackendInterceptor implements HttpInterceptor {
       };
 
       return ok(asiento);
+    }
+
+    function getInterfaces() {
+      let interfaces: string[] = ['GLCAI', 'BODEGA DE DATOS'];
+
+      return ok(interfaces);
+    }
+
+    function getEstadosSalida() {
+      let estados: string[] = ['Error de Generación', 'Error de Lectura', 'Generado', 'Leído'];
+
+      return ok(estados);
     }
 
     function getNiveles() {

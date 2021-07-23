@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from 'src/app/core/services/config.service';
 import { Limite } from '../models/limite.model';
 
@@ -20,6 +20,7 @@ export class LimitesService {
 
   getNiveles(): Observable<string[]> {
     return this.configService.getApiUrl().pipe(
+      first(),
       switchMap(url => this.http.get<string[]>(url + this.nivelesEndpoint)),
     );
   }
@@ -28,12 +29,14 @@ export class LimitesService {
     let params = new HttpParams().set('nivel', nivel);
 
     return this.configService.getApiUrl().pipe(
+      first(),
       switchMap(url => this.http.get<Limite[]>(url + this.limitesEndPoint, { params })),
     );
   }
 
   cambiarLimites(limites: Limite[]): Observable<string> {
     return this.configService.getApiUrl().pipe(
+      first(),
       switchMap(url => this.http.post<string>(url + this.limitesEndPoint, limites)),
     );
   }

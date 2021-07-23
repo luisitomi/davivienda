@@ -46,10 +46,7 @@ export class ConfiguracionLimitesComponent implements OnInit, OnDestroy {
   buscar(): void {
     this.loadingLimites = true;
     this.getLimitesSub = this.limitesService.getLimites(this.nivelForm.value).subscribe(
-      limites => {
-        this.limites = limites;
-        this.loadingLimites = false;
-      },
+      limites => this.limites = limites,
       error => console.log(error),
       () => this.loadingLimites = false,
     );

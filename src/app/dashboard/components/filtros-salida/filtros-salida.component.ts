@@ -1,6 +1,8 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { Subscription } from 'rxjs';
+import { SalidasService } from 'src/app/core/services/salidas.service';
 import { FiltroSalida } from 'src/app/shared';
 
 @Component({
@@ -8,7 +10,7 @@ import { FiltroSalida } from 'src/app/shared';
   templateUrl: './filtros-salida.component.html',
   styleUrls: ['./filtros-salida.component.scss']
 })
-export class FiltrosSalidaComponent implements OnInit {
+export class FiltrosSalidaComponent implements OnInit, OnDestroy {
 
   @Output() filtrar = new EventEmitter<FiltroSalida>();
 
@@ -24,12 +26,29 @@ export class FiltrosSalidaComponent implements OnInit {
     nombreArchivo: new FormControl(),
   });
 
-  interfazOptions = ['GLCAI', 'BODEGA DE DATOS'];
-  estadoOptions = ['Error de Generación', 'Error de Lectura', 'Generado', 'Leído'];
+  interfazOptions: string[] = [];
+  estadoOptions: string[] = [];
 
-  constructor() { }
+  getInterfacesSub?: Subscription;
+  getEstadosSub?: Subscription;
+
+  constructor(
+    private salidasService: SalidasService,
+  ) { }
 
   ngOnInit(): void {
+    this.getInterfacesSub = this.salidasService.getInterfaces().subscribe(
+      interfaces => this.interfazOptions = interfaces,
+    );
+
+    this.getEstadosSub = this.salidasService.getEstados().subscribe(
+      estados => this.estadoOptions = estados,
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.getInterfacesSub?.unsubscribe();
+    this.getEstadosSub?.unsubscribe();
   }
 
   onFiltrar(): void {

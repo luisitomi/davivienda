@@ -2,18 +2,37 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { first, switchMap } from 'rxjs/operators';
 import { Salida } from 'src/app/shared';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SalidasService {
 
-  url = 'http://rutadelservidor.com/api/v1.0/salidas';
+  salidaEndpoint: string = '/salidas';
+  interfazEndpoint: string = '/interfaces';
+  estadosEndpoint: string = '/estados-salida';
 
   constructor(
     private http: HttpClient,
+    private configService: ConfigService,
   ) { }
+
+  getInterfaces(): Observable<string[]> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<string[]>(url + this.interfazEndpoint)),
+    );
+  }
+
+  getEstados(): Observable<string[]> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<string[]>(url + this.estadosEndpoint)),
+    );
+  }
 
   getSalidas(
     interfaz: string = '',
@@ -33,6 +52,10 @@ export class SalidasService {
       .set('fecha-fin-lectura', moment(fechaReadFin).toISOString())
       .set('nombre-archivo', nombreArchivo);
 
-    return this.http.get<Salida[]>(this.url, { params: params });
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<Salida[]>(url + this.salidaEndpoint, { params })),
+    );
   }
+
 }

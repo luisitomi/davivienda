@@ -47,10 +47,7 @@ export class AsientosPendientesComponent implements OnInit, OnDestroy {
   filtrar(filtros: FiltroAsiento): void {
     this.loadingAsientos = true;
     this.getAsientosSub = this.asientosService.getAsientos(filtros).subscribe(
-      asientos => {
-        this.asientos = asientos;
-        this.loadingAsientos = false;
-      },
+      asientos => this.asientos = asientos,
       error => console.log(error),
       () => this.loadingAsientos = false,
     );
