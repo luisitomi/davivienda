@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AsientosPendientesComponent } from './asientos-pendientes.component';
 
@@ -8,7 +10,8 @@ describe('AsientosPendientesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AsientosPendientesComponent ]
+      declarations: [ AsientosPendientesComponent ],
+      imports: [ HttpClientModule, MatSnackBarModule ],
     })
     .compileComponents();
   });

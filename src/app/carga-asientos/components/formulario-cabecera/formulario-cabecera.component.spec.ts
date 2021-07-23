@@ -1,4 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormularioCabeceraComponent } from './formulario-cabecera.component';
 
@@ -8,7 +11,8 @@ describe('FormularioCabeceraComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormularioCabeceraComponent ]
+      declarations: [ FormularioCabeceraComponent ],
+      imports: [ HttpClientModule, MatSnackBarModule, RouterTestingModule ],
     })
     .compileComponents();
   });

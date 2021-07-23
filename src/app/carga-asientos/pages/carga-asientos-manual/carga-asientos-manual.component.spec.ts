@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CargaAsientosManualComponent } from './carga-asientos-manual.component';
@@ -8,7 +9,8 @@ describe('CargaAsientosManualComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CargaAsientosManualComponent ]
+      declarations: [ CargaAsientosManualComponent ],
+      imports: [ HttpClientModule ],
     })
     .compileComponents();
   });

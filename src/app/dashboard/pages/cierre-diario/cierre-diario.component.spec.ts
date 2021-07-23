@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CierreDiarioComponent } from './cierre-diario.component';
@@ -8,7 +9,8 @@ describe('CierreDiarioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CierreDiarioComponent ]
+      declarations: [ CierreDiarioComponent ],
+      imports: [ HttpClientModule ],
     })
     .compileComponents();
   });

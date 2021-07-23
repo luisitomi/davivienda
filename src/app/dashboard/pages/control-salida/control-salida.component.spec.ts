@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ControlSalidaComponent } from './control-salida.component';
@@ -8,7 +9,8 @@ describe('ControlSalidaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ControlSalidaComponent ]
+      declarations: [ ControlSalidaComponent ],
+      imports: [ HttpClientModule ],
     })
     .compileComponents();
   });
