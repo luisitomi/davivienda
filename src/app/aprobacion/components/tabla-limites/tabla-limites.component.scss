@@ -40,15 +40,3 @@ table {
 .mat-input-element {
   text-align: end;
 }
-
-/* Ocultar arrows para input tipo number en chrome, etc*/
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Ocultar arrows para input tipo number en firefox*/
-input[type=number] {
-  -moz-appearance: textfield;
-}

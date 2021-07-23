@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrigenService } from 'src/app/core/services/origen.service';
@@ -33,6 +35,8 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
   constructor(
     private asientoManualService: AsientoManualService,
     private origenService: OrigenService,
+    private snackBar: MatSnackBar,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +70,15 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
 
   save(): void {
     this.asientoManualService.grabarAsiento().subscribe(
-      res => console.log(res),
+      res => {
+        this.snackBar.open('Asiento registrado', undefined, {
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+          duration: 3000,
+        });
+        this.asientoManualService.clear();
+        this.router.navigate(['/dashboard/infolet']);
+      },
     );
   }
 

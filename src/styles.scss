@@ -26,3 +26,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-form-field {
   width: 100%;
 }
+
+.evol-input-number {
+  /* Ocultar arrows para input tipo number en chrome, etc*/
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Ocultar arrows para input tipo number en firefox*/
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .mat-input-element {
+    text-align: right;
+  }
+}

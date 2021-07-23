@@ -4,7 +4,7 @@
   <div mat-dialog-content class="evol-editar-linea-container">
     <mat-form-field appearance="fill">
       <mat-label for="combinacion">Combinación Contable</mat-label>
-      <input matInput id="combinacion" formControlName="combinacionContable">
+      <input matInput id="combinacion" formControlName="combinacionContable" autocomplete="off">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -15,13 +15,20 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label for="debito">Débito</mat-label>
-      <input matInput id="debito" formControlName="debito">
+      <mat-label for="tipo">Tipo</mat-label>
+      <mat-select id="tipo" formControlName="tipo" (ngModelChange)="cambiarTipo($event)">
+        <mat-option *ngFor="let tipo of tipoOptions | keyvalue" [value]="tipo.value">{{ tipo.value }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="editarLineaForm.value.tipo === tipoOptions.Debito" class="evol-input-number">
+      <mat-label for="debito">Débito</mat-label>
+      <input matInput type="number" id="debito" formControlName="debito" autocomplete="off">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="editarLineaForm.value.tipo === tipoOptions.Credito" class="evol-input-number">
       <mat-label for="credito">Crédito</mat-label>
-      <input matInput id="credito" formControlName="credito">
+      <input matInput type="number" id="credito" formControlName="credito" autocomplete="off">
     </mat-form-field>
   </div>
 

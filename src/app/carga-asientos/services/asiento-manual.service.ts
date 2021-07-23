@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { first, map, switchMap, tap } from 'rxjs/operators';
+import { ConfigService } from 'src/app/core/services/config.service';
 import { CabeceraAsiento, Linea, ReferenciaComplementaria, ResultadoCarga } from 'src/app/shared';
 
 @Injectable({
@@ -9,8 +10,8 @@ import { CabeceraAsiento, Linea, ReferenciaComplementaria, ResultadoCarga } from
 })
 export class AsientoManualService {
 
-  url: string = 'http://urldelservidor.com/api/v1.0/nuevo-asiento-manual';
-  urlCarga: string = 'http://urldelservidor.com/api/v1.0/carga-asientos-manual';
+  asientoEndpoint: string = '/nuevo-asiento-manual';
+  cargaEndpoint: string = '/carga-asientos-manual';
 
   private cabecera = new BehaviorSubject<CabeceraAsiento | undefined>(undefined);
   private lineas: Linea[] = [];
@@ -18,11 +19,15 @@ export class AsientoManualService {
 
   constructor(
     private http: HttpClient,
+    private configService: ConfigService,
   ) { }
 
   grabarAsiento(): Observable<any> {
     let asiento = { cabecera: this.cabecera.value!!, lineas: this.lineas };
-    return this.http.post<any>(this.url, { body: { asiento } });
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url + this.asientoEndpoint ,{ body: asiento })),
+    );
   }
 
   getCabecera(): Observable<CabeceraAsiento | undefined> {
@@ -104,7 +109,15 @@ export class AsientoManualService {
   cargarAsientos(file: any): Observable<ResultadoCarga> {
     let formData = new FormData();
     formData.append('archivo', file);
-    return this.http.post<ResultadoCarga>(this.urlCarga, formData);
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<ResultadoCarga>(url + this.cargaEndpoint, formData)),
+    );
+  }
+
+  clear(): void {
+    this.cabecera.next(undefined);
+    this.lineas = [];
   }
 
 }
