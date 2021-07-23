@@ -107,6 +107,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('estados-salida') && method === 'GET':
           return getEstadosSalida();
 
+        case url.endsWith('estados-sincronizacion') && method === 'GET':
+          return getEstadosSync();
+
         default:
           return next.handle(request);
       }
@@ -352,6 +355,12 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
     function postLimites() {
       return ok('ok');
+    }
+
+    function getEstadosSync() {
+      let estados: string[] = ['Error de Lectura', 'Leído'];
+
+      return ok(estados);
     }
 
   }
