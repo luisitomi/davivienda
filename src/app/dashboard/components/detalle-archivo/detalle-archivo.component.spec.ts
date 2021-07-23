@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DetalleArchivoComponent } from './detalle-archivo.component';
 
@@ -8,7 +9,11 @@ describe('DetalleArchivoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DetalleArchivoComponent ]
+      declarations: [ DetalleArchivoComponent ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ]
     })
     .compileComponents();
   });

@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltrosPendientesComponent } from './filtros-pendientes.component';
@@ -8,7 +9,8 @@ describe('FiltrosPendientesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FiltrosPendientesComponent ]
+      declarations: [ FiltrosPendientesComponent ],
+      imports: [ HttpClientModule ],
     })
     .compileComponents();
   });

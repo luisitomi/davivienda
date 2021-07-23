@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltrosSincronizacionesComponent } from './filtros-sincronizaciones.component';
@@ -8,7 +9,8 @@ describe('FiltrosSincronizacionesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FiltrosSincronizacionesComponent ]
+      declarations: [ FiltrosSincronizacionesComponent ],
+      imports: [ HttpClientModule ],
     })
     .compileComponents();
   });

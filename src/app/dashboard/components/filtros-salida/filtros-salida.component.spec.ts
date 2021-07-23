@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltrosSalidaComponent } from './filtros-salida.component';
@@ -8,7 +9,8 @@ describe('FiltrosSalidaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FiltrosSalidaComponent ]
+      declarations: [ FiltrosSalidaComponent ],
+      imports: [ HttpClientModule ],
     })
     .compileComponents();
   });

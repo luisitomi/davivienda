@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ConfiguracionLimitesComponent } from './configuracion-limites.component';
 
@@ -8,7 +10,8 @@ describe('ConfiguracionLimitesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfiguracionLimitesComponent ]
+      declarations: [ ConfiguracionLimitesComponent ],
+      imports: [ HttpClientModule, MatSnackBarModule ],
     })
     .compileComponents();
   });

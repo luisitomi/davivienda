@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { EditarLineaComponent } from './editar-linea.component';
 
@@ -8,7 +10,12 @@ describe('EditarLineaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditarLineaComponent ]
+      declarations: [ EditarLineaComponent ],
+      imports: [ HttpClientModule ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: null },
+      ],
     })
     .compileComponents();
   });
