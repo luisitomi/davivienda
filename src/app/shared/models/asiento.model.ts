@@ -1,5 +1,8 @@
+import { Cuenta } from "./cuenta.model";
+
 export interface Asiento {
   id: number;
+  origen: string;
   fechaCarga: Date;
   usuario: string;
   comprobante: string;
@@ -7,5 +10,5 @@ export interface Asiento {
   descripcion: string;
   cargos: number;
   abonos: number;
-
+  cuentas?: Cuenta[];
 }

@@ -11,6 +11,7 @@ export * from './filtro-salida.model';
 export * from './sincronizacion.model';
 export * from './filtro-sincronizacion.model';
 export * from './asiento.model';
+export * from './cuenta.model';
 export * from './cabecera-asiento.model';
 export * from './linea.model';
 export * from './referencia-complementaria.model';

@@ -1,0 +1,18 @@
+.evol-resumen-asiento {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+
+.evol-resumen-asiento-list {
+  ::ng-deep {
+    .mat-list-item-content {
+      justify-content: space-between;
+    }
+  }
+}
+
+.evol-tabla-control {
+  width: 100%;
+}

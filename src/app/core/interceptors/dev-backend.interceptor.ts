@@ -89,6 +89,9 @@ export class DevBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/asientos') && method === 'POST':
           return postAsientos();
 
+        case url.split('/').slice(-2)[0] === 'asientos' && /^[0-9]*$/.test(url.split('/').slice(-1)[0]) && method === 'GET':
+          return getAsientoPorId();
+
         default:
           return next.handle(request);
       }
@@ -262,21 +265,43 @@ export class DevBackendInterceptor implements HttpInterceptor {
 
     function getAsientos() {
       let asientos: Asiento[] = [
-        { id: 1, fechaCarga: moment().subtract(5, 'day').toDate(), usuario: 'SLUJAN', comprobante: 'FMG093453234', fechaContable: moment().subtract(3, 'day').toDate(), descripcion: 'Asientos de compe.', cargos: 1300, abonos: 3400, },
-        { id: 2, fechaCarga: moment().subtract(5, 'day').toDate(), usuario: 'SLUJAN', comprobante: 'FMG3436543564', fechaContable: moment().subtract(3, 'day').toDate(), descripcion: 'Asientos de compe.', cargos: 200, abonos: 300, },
-        { id: 3, fechaCarga: moment().subtract(4, 'day').toDate(), usuario: 'AMURILLO', comprobante: 'FMG043456575', fechaContable: moment().subtract(2, 'day').toDate(), descripcion: 'Asientos de ajuste', cargos: 1100, abonos: 400, },
-        { id: 4, fechaCarga: moment().subtract(4, 'day').toDate(), usuario: 'JGINEZ', comprobante: 'FMG09343478456', fechaContable: moment().subtract(2, 'day').toDate(), descripcion: 'Asientos de ajuste', cargos: 1600, abonos: 900, },
-        { id: 5, fechaCarga: moment().subtract(2, 'day').toDate(), usuario: 'JGINEZ', comprobante: 'FMG0934578645', fechaContable: moment().subtract(1, 'day').toDate(), descripcion: 'Asientos genericos', cargos: 2300, abonos: 1780, },
+        { id: 1, origen: 'COBIS', fechaCarga: moment().subtract(5, 'day').toDate(), usuario: 'SLUJAN', comprobante: 'FMG093453234', fechaContable: moment().subtract(3, 'day').toDate(), descripcion: 'Asientos de compe.', cargos: 1300, abonos: 3400, },
+        { id: 2, origen: 'COBIS', fechaCarga: moment().subtract(5, 'day').toDate(), usuario: 'SLUJAN', comprobante: 'FMG3436543564', fechaContable: moment().subtract(3, 'day').toDate(), descripcion: 'Asientos de compe.', cargos: 200, abonos: 300, },
+        { id: 3, origen: 'SIGLEASE', fechaCarga: moment().subtract(4, 'day').toDate(), usuario: 'AMURILLO', comprobante: 'FMG043456575', fechaContable: moment().subtract(2, 'day').toDate(), descripcion: 'Asientos de ajuste', cargos: 1100, abonos: 400, },
+        { id: 4, origen: 'SIGLEASE', fechaCarga: moment().subtract(4, 'day').toDate(), usuario: 'JGINEZ', comprobante: 'FMG09343478456', fechaContable: moment().subtract(2, 'day').toDate(), descripcion: 'Asientos de ajuste', cargos: 1600, abonos: 900, },
+        { id: 5, origen: 'COBIS', fechaCarga: moment().subtract(2, 'day').toDate(), usuario: 'JGINEZ', comprobante: 'FMG0934578645', fechaContable: moment().subtract(1, 'day').toDate(), descripcion: 'Asientos genericos', cargos: 2300, abonos: 1780, },
       ];
 
       return ok(asientos);
     }
 
     function postAsientos() {
-      console.log('hola');
       let res = { message: 'Asientos modificados con exito' };
 
       return ok(res);
+    }
+
+    function getAsientoPorId() {
+      let asiento: Asiento = {
+        id: Number(url.split('/').slice(-1)[0]),
+        usuario: 'JLUJAN',
+        origen: 'COBIS',
+        comprobante: 'FMG2354564',
+        fechaCarga: moment().toDate(),
+        fechaContable: moment().toDate(),
+        descripcion: 'Asiento regular',
+        cargos: 5460,
+        abonos: 10090,
+        cuentas: [
+          { primerDigito: 1, cuenta: 10100, nombre: 'Primera cuenta', moneda: 'COP', debito: 10600, credito: 45640, neto: 9080 },
+          { primerDigito: 2, cuenta: 20100, nombre: 'Segunda cuenta', moneda: 'COP', debito: 6700, credito: 4650, neto: 4536 },
+          { primerDigito: 3, cuenta: 30100, nombre: 'Tercera cuenta', moneda: 'COP', debito: 54090, credito: 1290, neto: 98070 },
+          { primerDigito: 6, cuenta: 60100, nombre: 'Cuarta cuenta', moneda: 'USD', debito: 4730, credito: 560, neto: 1250 },
+          { primerDigito: 8, cuenta: 80100, nombre: 'Quinta cuenta', moneda: 'COP', debito: 12000, credito: 3240, neto: 6570 },
+        ],
+      };
+
+      return ok(asiento);
     }
 
   }

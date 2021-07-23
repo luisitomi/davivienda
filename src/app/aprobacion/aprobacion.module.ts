@@ -8,6 +8,8 @@ import { MaterialModule } from '../shared/material.module';
 import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
 import { FiltrosPendientesComponent } from './components/filtros-pendientes/filtros-pendientes.component';
 import { TablaAsientosComponent } from './components/tabla-asientos/tabla-asientos.component';
+import { ResumenAsientoComponent } from './pages/resumen-asiento/resumen-asiento.component';
+import { TablaResumenAsientoComponent } from './components/tabla-resumen-asiento/tabla-resumen-asiento.component';
 
 
 @NgModule({
@@ -15,6 +17,8 @@ import { TablaAsientosComponent } from './components/tabla-asientos/tabla-asient
     AsientosPendientesComponent,
     FiltrosPendientesComponent,
     TablaAsientosComponent,
+    ResumenAsientoComponent,
+    TablaResumenAsientoComponent,
   ],
   imports: [
     CommonModule,

@@ -34,7 +34,15 @@ export class AsientosService {
     );
   }
 
-  aprobar(asientos: Asiento[]): Observable<boolean> {
+  getAsientoPorId(id: number, agrupadox6: boolean = false): Observable<Asiento> {
+    let params = new HttpParams()
+      .set('agrupadox6', agrupadox6);
+    return this.configService.getApiUrl().pipe(
+      switchMap(url => this.http.get<Asiento>(url + this.endpoint + '/' + id, { params })),
+    );
+  }
+
+  aprobar(asientos: number[]): Observable<boolean> {
     let body = { accion: 'aprobar', asientos };
 
     return this.configService.getApiUrl().pipe(
@@ -43,7 +51,7 @@ export class AsientosService {
     );
   }
 
-  rechazar(asientos: Asiento[]): Observable<boolean> {
+  rechazar(asientos: number[]): Observable<boolean> {
     let body = { accion: 'rechazar', asientos };
 
     return this.configService.getApiUrl().pipe(

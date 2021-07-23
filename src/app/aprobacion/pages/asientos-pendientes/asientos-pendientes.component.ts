@@ -57,7 +57,7 @@ export class AsientosPendientesComponent implements OnInit, OnDestroy {
   }
 
   aprobar(asientos: Asiento[]): void {
-    this.aprobarSub = this.asientosService.aprobar(asientos).subscribe(
+    this.aprobarSub = this.asientosService.aprobar(asientos.map(a => a.id)).subscribe(
       ok => {
         this.openSnackBar('Asientos aprobados');
         this.filtrar(this.filtros);
@@ -66,7 +66,7 @@ export class AsientosPendientesComponent implements OnInit, OnDestroy {
   }
 
   rechazar(asientos: Asiento[]): void {
-    this.rechazarSub = this.asientosService.rechazar(asientos).subscribe(
+    this.rechazarSub = this.asientosService.rechazar(asientos.map(a => a.id)).subscribe(
       ok => {
         this.openSnackBar('Asientos rechazados');
         this.filtrar(this.filtros);
