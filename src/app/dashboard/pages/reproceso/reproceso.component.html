@@ -1,0 +1,33 @@
+<div class="evol-page evol-reproceso">
+  <h1>Corrección de datos - {{ elemento }}</h1>
+
+  <div class="evol-reproceso-container">
+    <mat-card class="evol-reproceso-panel">
+      <mat-list class="evol-reproceso-info">
+        <mat-list-item>
+          <h2>Origen</h2>
+          <h2>{{ carga?.origen }}</h2>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <h2>Fecha</h2>
+          <h2>{{ carga?.fechaCarga | date:'shortDate' }}</h2>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <h2>Archivo</h2>
+          <h2>{{ carga?.nombreArchivo }}</h2>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+
+    <mat-card class="evol-reproceso-panel">
+      <app-correccion-datos></app-correccion-datos>
+    </mat-card>
+  </div>
+
+</div>

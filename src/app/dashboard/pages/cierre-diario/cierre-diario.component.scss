@@ -1,0 +1,35 @@
+.evol-cierre-diario {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+%column {
+  box-sizing: border-box;
+  padding: 0 2em;
+}
+
+.mat-column-fecha {
+  @extend %column;
+}
+
+.mat-column-estado {
+  @extend %column;
+}
+
+.mat-column-acciones {
+  @extend %column;
+  min-width: 127px;
+}
+
+.mat-column-fechaCierre {
+  @extend %column;
+}
+
+.mat-column-ejecutor {
+  @extend %column;
+}

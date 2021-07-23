@@ -1,0 +1,49 @@
+<div class="evol-resumen-asiento">
+
+  <mat-card class="evol-resumen-section">
+
+    <mat-card-content>
+      <mat-list class="evol-resumen-asiento-list">
+        <mat-list-item>
+          <h3>Origen</h3>
+          <h3>{{ asiento?.origen }}</h3>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3>Comprobante</h3>
+          <h3>{{ asiento?.comprobante }}</h3>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3>Fecha Contable</h3>
+          <h3>{{ asiento?.fechaContable | date:'shortDate' }}</h3>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3>Descripción</h3>
+          <h3>{{ asiento?.descripcion }}</h3>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3>Usuario</h3>
+          <h3>{{ asiento?.usuario }}</h3>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3>Agrupar cuenta a 6 dígitos</h3>
+          <mat-slide-toggle (change)="getAsiento($event.checked)"></mat-slide-toggle>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+
+    <mat-card-actions class="evol-footer-actions">
+      <button mat-flat-button color="primary" (click)="aprobar()">Aprobar</button>
+      <button mat-flat-button color="warn" (click)="rechazar()">Rechazar</button>
+      <button mat-flat-button>Descargar</button>
+    </mat-card-actions>
+
+  </mat-card>
+
+  <app-tabla-resumen-asiento [cuentas]="asiento?.cuentas!!" class="evol-tabla-control evol-resumen-section"></app-tabla-resumen-asiento>
+
+</div>

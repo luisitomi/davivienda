@@ -1,0 +1,26 @@
+.evol-reproceso {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.evol-reproceso-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
+}
+
+.evol-reproceso-panel {
+  min-width: 393px;
+}
+
+.evol-reproceso-info {
+
+  ::ng-deep {
+    .mat-list-item-content {
+      justify-content: space-between;
+    }
+  }
+}

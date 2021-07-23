@@ -1,0 +1,55 @@
+.evol-correccion-seccion-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+.evol-correccion-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1em 0;
+}
+
+.evol-correccion-empty-help {
+  margin-bottom: 0;
+  padding: 2em;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
+%column {
+  text-align: center;
+}
+
+.mat-column-numeracion {
+  @extend %column;
+}
+
+.mat-column-criterio {
+  @extend %column;
+}
+
+.mat-column-valor {
+  @extend %column;
+}
+
+.mat-column-tipo {
+  @extend %column;
+}
+
+.mat-column-columna {
+  @extend %column;
+}
+
+.mat-column-acciones {
+  @extend %column;
+}

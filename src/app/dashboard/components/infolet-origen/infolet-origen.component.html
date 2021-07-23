@@ -1,0 +1,63 @@
+<mat-card class="evol-infolet-card">
+  <mat-card-header>
+    <h2>{{ title }}</h2>
+  </mat-card-header>
+  <mat-card-content class="evol-infolet-content">
+    <mat-list class="evol-infolet-list">
+      <mat-list-item *ngIf="infolet?.origen !== undefined">
+        <h2 class="evol-infolet-item-desc">Origen</h2>
+        <h2>{{ infolet?.origen }}</h2>
+      </mat-list-item>
+      <mat-divider *ngIf="infolet?.origen !== undefined"></mat-divider>
+      <mat-list-item *ngIf="infolet?.estado !== undefined">
+        <h2 class="evol-infolet-item-desc">Estado de integración</h2>
+        <h2>{{ infolet?.estado }}</h2>
+      </mat-list-item>
+      <mat-divider *ngIf="infolet?.estado !== undefined"></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Archivos procesados</h2>
+        <h2>{{ infolet?.archivosProcesados }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Transacciones cargadas</h2>
+        <h2>{{ infolet?.transaccionesCargadas }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Asientos Accounting Hub</h2>
+        <h2>{{ infolet?.asientosAccountingHub }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Asientos General Accounting</h2>
+        <h2>{{ infolet?.asientosGeneralAccounting }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Movimiento neto de hoy</h2>
+        <h2>{{ infolet?.movimientoNetoHoy | currency:'COP':'code' }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Movimiento neto de ayer</h2>
+        <h2>{{ infolet?.movimientoNetoAyer | currency:'COP':'code' }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Variación</h2>
+        <div class="evol-infolet-rate-indicator">
+          <mat-icon class="evol-rate-arrow-down" *ngIf="infolet!!.variacion < 0">arrow_drop_down</mat-icon>
+          <mat-icon class="evol-rate-arrow-up" *ngIf="infolet!!.variacion > 0">arrow_drop_up</mat-icon>
+          <h2>{{ infolet!!.variacion / 100 | percent:'.0-2' }}</h2>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-footer class="evol-infolet-footer">
+    <button mat-flat-button color="accent" class="evol-infolet-button"
+      routerLink="/dashboard/controlymonitoreo"
+      [queryParams]="{ origen: infolet?.origen }"
+    >Ver</button>
+  </mat-card-footer>
+</mat-card>
