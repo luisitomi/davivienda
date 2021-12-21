@@ -1,0 +1,44 @@
+.evol-tabla-container {
+  display: flex;
+  justify-content: center;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 1000px;
+}
+
+table {
+  width: 1000px;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+}
+
+%column {
+  padding: 0 1em;
+}
+
+.mat-column-numeracion {
+  text-align: center;
+}
+
+.mat-column-fuente {
+  @extend %column;
+  width: 120px;
+}
+
+.mat-column-valores {
+  @extend %column;
+  text-align: center;
+}
+
+.mat-column-tipo {
+  @extend %column;
+  text-align: center;
+}
+
+.mat-column-campo {
+  @extend %column;
+}

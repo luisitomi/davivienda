@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Configuración Cuenta
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label for="defecto">Cuenta por Defecto</mat-label>
+      <input matInput [disabled]="true" [value]="cuentaPorDefecto">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="cuenta">Nueva cuenta por defecto</mat-label>
+      <input matInput id="cuenta" [matAutocomplete]="auto" #cuentaInput>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of cuentaOptions" [value]="option" (click)="elegirCuenta(option)">{{ option }}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </mat-card-content>
+
+  <mat-card-actions class="evol-footer-actions">
+    <button mat-flat-button color="primary" [disabled]="!cuentaElegida" (click)="guardar()">Guardar</button>
+  </mat-card-actions>
+</mat-card>

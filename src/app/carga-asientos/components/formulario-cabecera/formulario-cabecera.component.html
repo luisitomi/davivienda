@@ -12,15 +12,15 @@
         <mat-form-field appearance="fill">
           <mat-label for="origen">Origen</mat-label>
           <mat-select id="origen" formControlName="origen">
-            <mat-option *ngFor="let origen of origenOptions" [value]="origen">{{ origen }}</mat-option>
+            <mat-option *ngFor="let origen of origenOptions" [value]="origen.APPLICATION_SHORT_NAME">{{ origen.APPLICATION_NAME }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label for="periodo">Periodo Contable</mat-label>
-          <input matInput id="periodo" formControlName="periodoContable" [matDatepicker]="picker" autocomplete="off">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-select id="periodo" formControlName="periodoContable">
+            <mat-option *ngFor="let periodo of periodoOptions" [value]="periodo">{{ periodo }}</mat-option>
+          </mat-select>
         </mat-form-field>
 
       </div>

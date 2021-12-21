@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "8040a3a8-4e07-4aa3-8589-30f1018dc807"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -102,6 +105,212 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "interfaz-monitoreo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/interfaz-monitoreo",
+      "sourceRoot": "projects/interfaz-monitoreo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/interfaz-monitoreo",
+            "index": "projects/interfaz-monitoreo/src/index.html",
+            "main": "projects/interfaz-monitoreo/src/main.ts",
+            "polyfills": "projects/interfaz-monitoreo/src/polyfills.ts",
+            "tsConfig": "projects/interfaz-monitoreo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/interfaz-monitoreo/src/favicon.ico",
+              "projects/interfaz-monitoreo/src/assets"
+            ],
+            "styles": [
+              "projects/interfaz-monitoreo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "3mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "100kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/interfaz-monitoreo/src/environments/environment.ts",
+                  "with": "projects/interfaz-monitoreo/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "interfaz-monitoreo:build:production"
+            },
+            "development": {
+              "browserTarget": "interfaz-monitoreo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "interfaz-monitoreo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/interfaz-monitoreo/src/test.ts",
+            "polyfills": "projects/interfaz-monitoreo/src/polyfills.ts",
+            "tsConfig": "projects/interfaz-monitoreo/tsconfig.spec.json",
+            "karmaConfig": "projects/interfaz-monitoreo/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/interfaz-monitoreo/src/favicon.ico",
+              "projects/interfaz-monitoreo/src/assets"
+            ],
+            "styles": [
+              "projects/interfaz-monitoreo/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "carga-asientos-manuales": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/carga-asientos-manuales",
+      "sourceRoot": "projects/carga-asientos-manuales/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/carga-asientos-manuales",
+            "index": "projects/carga-asientos-manuales/src/index.html",
+            "main": "projects/carga-asientos-manuales/src/main.ts",
+            "polyfills": "projects/carga-asientos-manuales/src/polyfills.ts",
+            "tsConfig": "projects/carga-asientos-manuales/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/carga-asientos-manuales/src/favicon.ico",
+              "projects/carga-asientos-manuales/src/assets"
+            ],
+            "styles": [
+              "projects/carga-asientos-manuales/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/carga-asientos-manuales/src/environments/environment.ts",
+                  "with": "projects/carga-asientos-manuales/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "carga-asientos-manuales:build:production"
+            },
+            "development": {
+              "browserTarget": "carga-asientos-manuales:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "carga-asientos-manuales:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/carga-asientos-manuales/src/test.ts",
+            "polyfills": "projects/carga-asientos-manuales/src/polyfills.ts",
+            "tsConfig": "projects/carga-asientos-manuales/tsconfig.spec.json",
+            "karmaConfig": "projects/carga-asientos-manuales/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/carga-asientos-manuales/src/favicon.ico",
+              "projects/carga-asientos-manuales/src/assets"
+            ],
+            "styles": [
+              "projects/carga-asientos-manuales/src/styles.scss"
             ],
             "scripts": []
           }

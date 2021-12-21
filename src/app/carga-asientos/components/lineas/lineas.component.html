@@ -19,7 +19,12 @@
         <!-- Columna Combinacion Contable -->
         <ng-container matColumnDef="combinacion">
           <th mat-header-cell *matHeaderCellDef>Combinación Contable</th>
-          <td mat-cell *matCellDef="let element">{{ element.combinacionContable }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.combinacionContable }}
+            <button mat-icon-button (click)="goCombinacion(element.index)">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </td>
         </ng-container>
 
         <!-- Columna Moneda -->

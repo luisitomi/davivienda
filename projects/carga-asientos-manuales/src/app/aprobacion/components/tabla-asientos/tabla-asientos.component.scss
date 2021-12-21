@@ -1,0 +1,54 @@
+.mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 1000px;
+}
+
+table {
+  width: 1000px;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+%column {
+  padding: 0 1em;
+  text-align: center;
+}
+
+.mat-column-fechaCarga {
+  @extend %column;
+}
+
+.mat-column-usuario {
+  @extend %column;
+}
+
+.mat-column-comprobante {
+  @extend %column;
+}
+
+.mat-column-fechaContable {
+  @extend %column;
+}
+
+.mat-column-descripcion {
+  @extend %column;
+}
+
+.mat-column-cargos {
+  @extend %column;
+}
+
+.mat-column-abonos {
+  @extend %column;
+}
+
+.mat-column-acciones {
+  @extend %column;
+}

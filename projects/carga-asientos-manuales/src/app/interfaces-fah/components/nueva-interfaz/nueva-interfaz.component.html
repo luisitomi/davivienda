@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Nueva Interfaz</h2>
+<form [formGroup]="nuevoForm">
+
+  <mat-dialog-content>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="nombre">Nombre Técnico</mat-label>
+      <input matInput id="nombre" formControlName="nombre" autocomplete="off">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="descripcion">Descripción</mat-label>
+      <input matInput id="descripcion" formControlName="descripcion" autocomplete="off">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="estado">Estado</mat-label>
+      <mat-select id="estado" formControlName="estado">
+        <mat-option *ngFor="let estado of estadoOptions" [value]="estado">{{ estado }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="periodicidad">Periodicidad</mat-label>
+      <mat-select id="periodicidad" formControlName="periodicidad">
+        <mat-option *ngFor="let periodicidad of periodicidadOptions" [value]="periodicidad">{{ periodicidad }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" (click)="crear()" [disabled]="!nuevoForm.valid">Crear</button>
+  </mat-dialog-actions>
+
+</form>
+

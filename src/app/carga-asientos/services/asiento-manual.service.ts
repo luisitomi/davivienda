@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
 import { ConfigService } from 'src/app/core/services/config.service';
-import { CabeceraAsiento, Linea, ReferenciaComplementaria, ResultadoCarga } from 'src/app/shared';
+import { CabeceraAsiento, ResultadoCarga } from 'src/app/shared';
+import { Linea } from '../models/linea.model';
+import { ReferenciaComplementaria } from '../models/referencia-complementaria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +65,19 @@ export class AsientoManualService {
       .sort((a, b) => a.index > b.index ? 1 : -1)
       .map((l, i) => ({ ...l, index: i + 1 }));
     this.lineasSubject.next(this.lineas);
+  }
+
+  setCombinacionContable(lineaIndex: number, combinacionContable: string): void {
+    let linea = this.lineas.find(l => l.index === lineaIndex);
+    if (linea) {
+      linea.combinacionContable = combinacionContable;
+    }
+  }
+
+  getCombinacionContable(linea: number): Observable<string | undefined> {
+    return this.lineasSubject.asObservable().pipe(
+      map(lineas => lineas.find(l => l.index === linea)?.combinacionContable),
+    );
   }
 
   getReferencias(index: number): Observable<ReferenciaComplementaria[] | undefined> {

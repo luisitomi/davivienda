@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Nuevo Filtro</h2>
+
+<form [formGroup]="nuevoForm" (ngSubmit)="guardar()">
+
+  <mat-dialog-content>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="fuente">Fuente</mat-label>
+      <mat-select id="fuente" formControlName="fuente">
+        <mat-option *ngFor="let fuente of fuenteOptions" [value]="fuente">{{ fuente }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="valores">Valores de Filtro</mat-label>
+      <input matInput id="valores" formControlName="valores" autocomplete="off">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="tipo">Tipo de Filtro</mat-label>
+      <mat-select id="tipo" formControlName="tipo">
+        <mat-option *ngFor="let tipo of tipoOptions" [value]="tipo">{{ tipo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="campo">Campo de Filtro</mat-label>
+      <mat-select id="campo" formControlName="campo">
+        <mat-option *ngFor="let campo of campoOptions" [value]="campo">{{ campo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" type="submit" [disabled]="nuevoForm.invalid">Guardar</button>
+  </mat-dialog-actions>
+</form>

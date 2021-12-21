@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Valores</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-actions class="evol-footer-actions">
+    <button mat-flat-button color="primary" [disabled]="noHayCambios" (click)="onGuardar()">Guardar</button>
+    <button mat-flat-button color="accent" (click)="onNuevo()">Nuevo</button>
+    <button mat-flat-button color="warn" [disabled]="selected === null" (click)="onEliminar()">Eliminar</button>
+  </mat-card-actions>
+
+  <mat-card-content class="evol-tabla-container">
+
+    <div class="evol-tabla-wrapper">
+      <table mat-table [dataSource]="valores">
+
+        <!-- Columna Nombre -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let element">{{ element.oldNombre }}</td>
+        </ng-container>
+
+        <!-- Columna Nuevo Valor -->
+        <ng-container matColumnDef="nuevoNombre">
+          <th mat-header-cell *matHeaderCellDef>Nuevo Valor</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="element.nombre" (ngModelChange)="cambioValor()">
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['nombre', 'nuevoNombre']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['nombre', 'nuevoNombre']"
+        class="evol-tabla-row"
+        [class.evol-tabla-row-selected]="selected === row"
+        (click)="selected = selected === row ? null : row"></tr>
+      </table>
+    </div>
+
+  </mat-card-content>
+</mat-card>

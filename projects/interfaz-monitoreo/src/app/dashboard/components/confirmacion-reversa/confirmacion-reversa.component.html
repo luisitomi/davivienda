@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Confirmación</h2>
+<mat-dialog-content>
+  <p>{{texto}}</p>
+</mat-dialog-content>
+<form [formGroup]="filterForm" >
+
+  <div class="evol-filtro-section">
+ 
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput  formControlName="fechaContable" [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    
+   <!-- <mat-form-field appearance="fill">
+      <mat-label>Fecha de Contable</mat-label>
+      <mat-date-range-input [rangePicker]="picker" disabled>
+        <input  matStartDate formControlName="fechaContable" placeholder="Fecha Contable" >
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+    </mat-form-field> -->
+
+    </div>
+
+
+</form>
+
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button (click)="onCancelar()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="onAceptar()">Aceptar</button>
+</mat-dialog-actions>

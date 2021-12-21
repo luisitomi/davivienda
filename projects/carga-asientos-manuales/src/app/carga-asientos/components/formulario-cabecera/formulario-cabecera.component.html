@@ -1,0 +1,61 @@
+<form [formGroup]="cabeceraForm">
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Cabecera</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="evol-form-container">
+
+      <div class="evol-form-section">
+
+        <mat-form-field appearance="fill">
+          <mat-label for="origen">Origen</mat-label>
+          <mat-select id="origen" formControlName="origen">
+            <mat-option *ngFor="let origen of origenOptions" [value]="origen.ORIGEN">{{ origen.ORIGEN }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="periodo">Periodo Contable</mat-label>
+          <mat-select id="periodo" formControlName="periodoContable">
+            <mat-option *ngFor="let periodo of periodoOptions" [value]="periodo">{{ periodo }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
+      <div class="evol-form-section">
+
+        <mat-form-field appearance="fill">
+          <mat-label for="numero">Número</mat-label>
+          <input matInput formControlName="numero" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="descripcion">Descripción</mat-label>
+          <input matInput formControlName="descripcion" autocomplete="off">
+        </mat-form-field>
+
+      </div>
+
+      <div class="evol-form-section">
+
+        <mat-form-field appearance="fill">
+          <mat-label for="fecha">Fecha Contable</mat-label>
+          <input matInput id="fecha" formControlName="fechaContable" [matDatepicker]="picker2" autocomplete="off">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions class="evol-footer-actions">
+      <button mat-flat-button color="accent" (click)="saveCabecera()" [disabled]="!cabeceraForm.valid ">Guardar Cabecera</button>
+      <button mat-flat-button color="accent" (click)="save()" [disabled]="!cabeceraForm.valid || !hayLineas">Grabar Asiento</button>
+    </mat-card-actions>
+  </mat-card>
+
+</form>

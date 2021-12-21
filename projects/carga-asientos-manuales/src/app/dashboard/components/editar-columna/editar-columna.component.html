@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Nueva Columna</h1>
+
+<form [formGroup]="editarColumnaForm" (ngSubmit)="onSave()">
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label for="columna">Columna</mat-label>
+      <mat-select id="columna" formControlName="columna" required>
+        <mat-option *ngFor="let c of columnas" [value]="c.nombre">{{ c.nombre }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <p>Tipo</p>
+    <p>{{ tipo }}</p>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="valor">Valor</mat-label>
+      <input matInput formControlName="valor" required>
+    </mat-form-field>
+  </div>
+
+  <mat-dialog-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" type="submit" [disabled]="!editarColumnaForm.valid">{{ boton }}</button>
+  </mat-dialog-actions>
+</form>

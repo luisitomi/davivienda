@@ -1,0 +1,39 @@
+<div class="evol-interfaces-page">
+
+  <form [formGroup]="filtrosForm" (ngSubmit)="buscar()">
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Control de Interfaces - FAH</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="nombre">Nombre Técnico de Interfaz</mat-label>
+          <input matInput id="nombre" formControlName="nombre" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="descripcion">Descripción de Interfaz</mat-label>
+          <input matInput id="descripcion" formControlName="descripcion" autocomplete="off">
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-actions class="evol-footer-actions">
+        <button mat-flat-button color="accent" type="submit">Buscar</button>
+      </mat-card-actions>
+    </mat-card>
+
+  </form>
+
+  <app-tabla-interfaces
+    [interfaces]="interfaces"
+    [loading]="loadingInterfaces"
+    [estados]="estados"
+    [tiempos]="tiempos"
+    (nuevo)="nuevaInterfaz()"
+    (actualizar)="actualizar($event)"
+    (eliminar)="eliminar($event)"></app-tabla-interfaces>
+
+</div>

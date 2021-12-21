@@ -1,8 +1,9 @@
+import { ElementRef, ViewChild } from '@angular/core';
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Linea } from 'src/app/shared';
 import { TipoLinea } from '../../enums/tipo-linea.enum';
+import { Linea } from '../../models/linea.model';
 import { AsientoManualService } from '../../services/asiento-manual.service';
 
 @Component({
@@ -12,11 +13,13 @@ import { AsientoManualService } from '../../services/asiento-manual.service';
 })
 export class EditarLineaComponent {
 
+  @ViewChild('debitoControl') debitoElementRef?: ElementRef;
+  @ViewChild('creditoControl') creditoElementRef?: ElementRef;
+
   editarLineaForm = new FormGroup({
     index: new FormControl(0),
-    combinacionContable: new FormControl('', Validators.required),
     moneda: new FormControl('COP', Validators.required),
-    tipo: new FormControl(''),
+    tipo: new FormControl(),
     debito: new FormControl(null),
     credito: new FormControl(null),
   });
@@ -31,7 +34,7 @@ export class EditarLineaComponent {
     private asientoManualService: AsientoManualService,
   ) {
     if (this.linea !== null) {
-      let { columnasReferenciales, ...linea } = this.linea;
+      let { columnasReferenciales, combinacionContable, ...linea } = this.linea;
       this.editarLineaForm.setValue(linea);
     }
   }
@@ -42,9 +45,9 @@ export class EditarLineaComponent {
 
   onSave(): void {
     if (this.linea === null) {
-      this.asientoManualService.addLinea({ ...this.editarLineaForm.value, columnasReferenciales: [] });
+      this.asientoManualService.addLinea({ ...this.editarLineaForm.value, columnasReferenciales: [], combinacionContable: undefined });
     } else {
-      this.asientoManualService.editLinea({ ...this.editarLineaForm.value, columnasReferenciales: this.linea.columnasReferenciales });
+      this.asientoManualService.editLinea({ ...this.editarLineaForm.value, columnasReferenciales: this.linea.columnasReferenciales, combinacionContable: this.linea.combinacionContable });
     }
     this.dialogRef.close();
   }
@@ -53,18 +56,22 @@ export class EditarLineaComponent {
     let debito = this.editarLineaForm.controls.debito;
     let credito = this.editarLineaForm.controls.credito;
 
-    debito.clearValidators();
-    credito.clearValidators();
+    setTimeout(() => {
+      if (tipo === this.tipoOptions.Debito) {
+        debito.enable();
+        credito.disable();
+        this.editarLineaForm.patchValue({ credito: null });
+        this.debitoElementRef?.nativeElement.focus();
+      }
 
-    if(tipo === this.tipoOptions.Debito) {
-      debito.setValidators(Validators.required);
-      this.editarLineaForm.patchValue({ credito: null });
-    }
+      if (tipo === this.tipoOptions.Credito) {
+        debito.disable();
+        credito.enable();
+        this.editarLineaForm.patchValue({ debito: null });
+        this.creditoElementRef?.nativeElement.focus();
+      }
+    });
 
-    if(tipo === this.tipoOptions.Credito) {
-      credito.setValidators(Validators.required);
-      this.editarLineaForm.patchValue({ debito: null });
-    }
   }
 
 }

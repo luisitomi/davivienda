@@ -1,0 +1,83 @@
+<h1 mat-dialog-title>Detalle de Archivo</h1>
+<mat-progress-bar *ngIf="loadingCargas"  mode="indeterminate" value="40"></mat-progress-bar>
+<div mat-dialog-content>
+  <div class="evol-detalle-content">
+    <mat-list class="evol-detalle-panel evol-detalle-item">
+      <mat-list-item>
+        <h3>Origen</h3>
+        <h3>{{ carga.origen }}</h3>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <h3>Fecha</h3>
+        <h3>{{ carga.fechaCargaStr }}</h3>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <h3>Nombre</h3>
+        <h3>{{ carga.nombreArchivo }}</h3>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <h3>Estado</h3>
+        <h3>{{ carga.estado }}</h3>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <h3>Job Import Accounting</h3>
+        <h3>{{ carga.jobImportAccounting }}</h3>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <h3>Job Create Accounting</h3>
+        <h3>{{ carga.jobCreateAccounting }}</h3>
+      </mat-list-item>
+    </mat-list>
+
+    <mat-divider></mat-divider>
+
+    <div class="evol-detalle-control evol-detalle-panel">
+      <h3>Control</h3>
+      <ul>
+        <li><p>Stage Debit</p><p>{{ carga.debitoStage }}</p></li>
+        <li><p>Stage Credit</p><p>{{ carga.creditoStage }}</p></li>
+        <li><p>XLA Debit</p><p>{{ carga.debitoXLA }}</p></li>
+        <li><p>XLA Debit</p><p>{{ carga.creditoXLA }}</p></li>
+        <li><p>GL Debit</p><p>{{ carga.debitoGL }}</p></li>
+        <li><p>GL Debit</p><p>{{ carga.creditoGL }}</p></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions>
+  
+    <button mat-flat-button color="accent"  (click)="reversar()" *ngIf="carga.reversado !== reversado"  >Reversar</button>
+ 
+
+    <button mat-flat-button color="accent" disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estado != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Cabeceras]">Corregir Cabeceras</button>
+  <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estado != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Lineas]">Corregir Líneas</button>
+  <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estado != 'REPROCESADO'" (click)="reprocesar()">Reprocesar</button>
+
+
+  <!--
+  <ng-template appHasPermission [feature]="reverso" [permission]="canReversar">
+    <button mat-flat-button color="accent" (click)="reversar()" *ngIf="carga.reversado !== reversado">Reversar</button>
+  </ng-template>
+  <ng-template  appHasPermission [feature]="reproceso" [permission]="canReprocesar">
+    <button mat-flat-button color="accent" [routerLink]="['dashboard/reproceso', carga.id, elemento.Cabeceras]">Corregir Cabeceras</button>
+  <button mat-flat-button color="accent" [routerLink]="['dashboard/reproceso', carga.id, elemento.Lineas]">Corregir Líneas</button>
+  <button mat-flat-button color="accent" (click)="reprocesar()">Reprocesar</button>
+  </ng-template>
+-->
+</mat-dialog-actions>

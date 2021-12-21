@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './core/components/layout/layout.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { LoginComponent } from './core/pages/login/login.component';
 
 const routes: Routes = [
+  {
+    path: 'authenticate',
+    component: LoginComponent,
+  },
   {
     path: '',
     redirectTo: 'dashboard',
@@ -11,6 +17,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [ AuthGuard ],
     children: [
       {
         path: 'dashboard',
@@ -26,6 +33,21 @@ const routes: Routes = [
         path: 'aprobacion',
         loadChildren: () => import('./aprobacion/aprobacion.module').then(m => m.AprobacionModule),
         data: { title: 'Aprobación' },
+      },
+      {
+        path: 'interfaces-fah',
+        loadChildren: () => import('./interfaces-fah/interfaces-fah.module').then(m => m.InterfacesFahModule),
+        data: { title: 'Interfaces FAH' },
+      },
+      {
+        path: 'filtros-odi',
+        loadChildren: () => import('./filtros-odi/filtros-odi.module').then(m => m.FiltrosOdiModule),
+        data: { title: 'Filtros ODI' },
+      },
+      {
+        path: 'cuadre-caja',
+        loadChildren: () => import('./cuadre-caja/cuadre-caja.module').then(m => m.CuadreCajaModule),
+        data: { title: 'Cuadre Caja' },
       },
     ]
   },

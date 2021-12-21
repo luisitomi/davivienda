@@ -1,0 +1,47 @@
+<form [formGroup]="criteriosForm" (ngSubmit)="onBuscar()">
+
+  <mat-expansion-panel hideToggle>
+
+    <mat-expansion-panel-header>
+      <mat-panel-title>Buscar</mat-panel-title>
+      <mat-panel-description>
+        <span></span>
+        <mat-icon>filter_list</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="fecha">Fecha  de corte</mat-label>
+      <input id="fecha" matInput [matDatepicker]="picker" formControlName="fechaCorte">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="sucursal">Sucursal</mat-label>
+      <mat-select id="sucursal" formControlName="sucursal">
+        <mat-option *ngFor="let sucursal of sucursalOptions" [value]="sucursal.VALUE_NAME">{{ sucursal.DESCRIPTION_NAME }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="oficina">Oficina</mat-label>
+      <mat-select id="oficina" formControlName="oficina">
+        <mat-option *ngFor="let oficina of oficinaOptions" [value]="oficina.VALUE_NAME">{{ oficina.DESCRIPTION_NAME }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="cuenta">Cuenta</mat-label>
+      <mat-select id="cuenta" formControlName="cuenta">
+        <mat-option *ngFor="let cuentaContable of cuentaContableOptions" [value]="cuentaContable.VALUE_NAME">{{ cuentaContable.DESCRIPTION_NAME }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-action-row class="evol-footer-actions">
+      <button mat-flat-button color="accent" type="submit">Consultar</button>
+    </mat-action-row>
+
+  </mat-expansion-panel>
+
+</form>

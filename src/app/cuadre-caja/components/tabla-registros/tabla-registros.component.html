@@ -1,0 +1,76 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Registros</mat-card-title>
+  </mat-card-header>
+
+  <mat-action-row>
+    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Exportar</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngFor="let formato of formatoOptions" (click)="descargar(formato)">{{ formato }}</button>
+    </mat-menu>
+  </mat-action-row>
+
+  <mat-card-content class="evol-tabla-container">
+
+    <div class="evol-tabla-wrapper">
+
+      <table mat-table [dataSource]="registros">
+
+        <!-- Columna Fecha -->
+        <ng-container matColumnDef="fecha" sticky>
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let element">{{ element.fecha | date:'shortDate' }}</td>
+        </ng-container>
+
+        <!-- Columna Sucursal -->
+        <ng-container matColumnDef="sucursal">
+          <th mat-header-cell *matHeaderCellDef>Sucursal</th>
+          <td mat-cell *matCellDef="let element">{{ element.sucursal }}</td>
+        </ng-container>
+
+        <!-- Columna Oficina -->
+        <ng-container matColumnDef="oficina">
+          <th mat-header-cell *matHeaderCellDef>Oficina</th>
+          <td mat-cell *matCellDef="let element">{{ element.oficina }}</td>
+        </ng-container>
+
+        <!-- Columna Saldo IDO Normal -->
+        <ng-container matColumnDef="saldoIDONormal">
+          <th mat-header-cell *matHeaderCellDef>Saldo IDO Jornada Normal</th>
+          <td mat-cell *matCellDef="let element">{{ element.saldoIDONormal }}</td>
+        </ng-container>
+
+        <!-- Columna Saldo IDO Adicional -->
+        <ng-container matColumnDef="saldoIDOAdicional">
+          <th mat-header-cell *matHeaderCellDef>Saldo IDO Jornada Adicional</th>
+          <td mat-cell *matCellDef="let element">{{ element.saldoIDOAdicional }}</td>
+        </ng-container>
+
+        <!-- Columna Saldo FAH -->
+        <ng-container matColumnDef="saldoFAH">
+          <th mat-header-cell *matHeaderCellDef>Saldo FAH</th>
+          <td mat-cell *matCellDef="let element">{{ element.saldoFAH }}</td>
+        </ng-container>
+
+        <!-- Columna Diferencia -->
+        <ng-container matColumnDef="diferencia">
+          <th mat-header-cell *matHeaderCellDef>Diferencia</th>
+          <td mat-cell *matCellDef="let element">{{ element.diferencia }}</td>
+        </ng-container>
+
+        <!-- Columna Progress -->
+        <ng-container matColumnDef="progress">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+          </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </div>
+
+  </mat-card-content>
+</mat-card>

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Maestra } from 'projects/interfaz-monitoreo/src/app/shared/models/maestra.model';
 import { Observable } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { switchMap,first } from 'rxjs/operators';
+import { Origen } from 'src/app/shared';
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -11,15 +13,29 @@ export class OrigenService {
 
   endpoint: string = '/origenes';
 
+  url = 'https://02p-fahlogicapp-d01.azurewebsites.net:443/api/TsSyncOrigenesToAzureWs/triggers/manual/invoke?api-version=2020-05-01-preview&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5MmNurkZT1uLGTAULkvo4nsVI9tibYfb6iYhAhTinio';
+  urlOrigen ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/701094b4d4da46078377cda8173daab3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SA8ZcMpHX_1Aey0laSaCmp0WX6hPPS9aKNXFPw9U_CU";
+
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
   ) { }
 
-  getOrigenes(): Observable<string[]> {
+  getOrigenes(): Observable<Origen[]> {
+    return this.configService.getApiUrl().pipe(
+      switchMap(url => this.http.post<Origen[]>(this.url,{
+        "Columnas": "APPLICATION_NAME, APPLICATION_SHORT_NAME",
+        "Tabla": "[xxbol].[TS_FAH_ORIGENES_ALL]"
+    })),
+    );
+
+    
+  }
+
+  getOrigenMonitoreo(): Observable<Maestra[]> {
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.get<string[]>(url + this.endpoint)),
+      switchMap(url => this.http.get<Maestra[]>(this.urlOrigen)),
     );
   }
-}
+} 

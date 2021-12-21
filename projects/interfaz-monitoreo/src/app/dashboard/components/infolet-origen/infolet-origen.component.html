@@ -1,0 +1,72 @@
+<mat-card class="evol-infolet-card">
+  <form [formGroup]="filterForm">
+  <mat-card-header>
+    <h2>{{ title }}</h2>
+  </mat-card-header>
+  <mat-card-content class="evol-infolet-content">
+    <mat-list class="evol-infolet-list">
+      <mat-list-item *ngIf="infolet?.origen !== null">
+        <h2 class="evol-infolet-item-desc">Origen</h2>
+      
+          <mat-form-field appearance="fill" >
+            <mat-label>Select an option</mat-label>
+            <mat-select formControlName="origen" (selectionChange)="seleccionarOrigen()">
+              <mat-option *ngFor="let origen of origenOptions" [value]="origen.ORIGEN">{{ origen.ORIGEN }}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          
+
+      </mat-list-item>
+      <mat-divider *ngIf="infolet?.origen !== null"></mat-divider>
+      <mat-list-item *ngIf="infolet?.estado !== undefined">
+        <h2 class="evol-infolet-item-desc">Estado de integración</h2>
+        <h2>{{ infolet?.estado }}</h2>
+      </mat-list-item>
+      <mat-divider *ngIf="infolet?.estado !== undefined"></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Archivos procesados</h2>
+        <h2>{{ infolet?.archivosProcesados }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Transacciones cargadas</h2>
+        <h2>{{ infolet?.transaccionesCargadas }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Asientos Accounting Hub</h2>
+        <h2>{{ infolet?.asientosAccountingHub }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Asientos General Accounting</h2>
+        <h2>{{ infolet?.asientosGeneralAccounting }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Movimiento neto de hoy</h2>
+        <h2>{{ infolet?.movimientoNetoHoy | currency:'COP':'code' }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Movimiento neto de ayer</h2>
+        <h2>{{ infolet?.movimientoNetoAyer | currency:'COP':'code' }}</h2>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <h2 class="evol-infolet-item-desc">Variación</h2>
+        <div class="evol-infolet-rate-indicator">
+          <mat-icon class="evol-rate-arrow-down" *ngIf="(infolet?.variacion || 0) < 0">arrow_drop_down</mat-icon>
+          <mat-icon class="evol-rate-arrow-up" *ngIf="(infolet?.variacion || 0) > 0">arrow_drop_up</mat-icon>
+          <h2>{{ infolet?.variacion || 0 / 100 | percent:'.0-2' }}</h2>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-footer class="evol-infolet-footer">
+    <button mat-flat-button color="accent" class="evol-infolet-button" (click)="goDetalle()">Ver</button>
+  </mat-card-footer>
+
+</form>
+</mat-card>

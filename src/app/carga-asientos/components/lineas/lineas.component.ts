@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Linea } from 'src/app/shared';
+import { Linea } from '../../models/linea.model';
 import { AsientoManualService } from '../../services/asiento-manual.service';
+import { CombinacionContableComponent } from '../combinacion-contable/combinacion-contable.component';
 import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
 
 @Component({
@@ -28,7 +29,11 @@ export class LineasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getLineasSub = this.asientoManualService.getLineas().subscribe(
-      lineas => this.lineas.data = lineas,
+      lineas => {
+        this.lineas.data = lineas;
+        lineas.forEach(l => console.log(l));
+        lineas.forEach(l => console.log(l.combinacionContable));
+      },
     );
   }
 
@@ -57,6 +62,14 @@ export class LineasComponent implements OnInit, OnDestroy {
 
   goReferencias(index: number): void {
     this.router.navigate(['carga-asientos/referencias-complementarias', index]);
+  }
+
+  goCombinacion(index: number): void {
+    this.dialog.open(CombinacionContableComponent, {
+      width: '80%',
+      maxWidth: '600px',
+      data: index,
+    });
   }
 
 }

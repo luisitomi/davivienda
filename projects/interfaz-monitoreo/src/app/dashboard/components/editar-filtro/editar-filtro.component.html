@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Nuevo filtro</h1>
+
+<form [formGroup]="editarFiltroForm" (ngSubmit)="onSave()">
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label for="columna">Columna</mat-label>
+      <mat-select id="columna" formControlName="columna" required>
+        <mat-option *ngFor="let c of columnaOptions" [value]="c.valor">{{ c.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="criterio">Criterio</mat-label>
+      <mat-select id="criterio" formControlName="criterio" required>
+        <mat-option *ngFor="let c of criterioOptions" [value]="c">{{ c }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="valor">Valor</mat-label>
+      <input matInput formControlName="valor" required>
+    </mat-form-field>
+  </div>
+
+  <mat-dialog-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" type="submit" [disabled]="!editarFiltroForm.valid">{{ boton }}</button>
+  </mat-dialog-actions>
+</form>

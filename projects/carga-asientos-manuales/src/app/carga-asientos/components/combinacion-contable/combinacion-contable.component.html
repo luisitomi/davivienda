@@ -1,0 +1,99 @@
+<h2 mat-dialog-title>Combinación Contable</h2>
+
+<form [formGroup]="combinacionForm" (ngSubmit)="setCombinacionContable()">
+
+  <mat-dialog-content>
+
+  <!--  <mat-form-field appearance="fill">
+      <mat-label for="comp1">Componente 1</mat-label>
+      <mat-select id="comp1" formControlName="comp1">
+        <mat-option *ngFor="let parte1 of parte1Options" [value]="parte1.codigo">{{ parte1.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Assignee</mat-label>
+      <input type="text" matInput formControlName="comp1" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" >
+        <mat-option *ngFor="let option of filteredParte1Options | async" [value]="option.codigo">
+          {{option.valor}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp2">Componente 2</mat-label>
+      <mat-select id="comp2" formControlName="comp2">
+        <mat-option *ngFor="let parte2 of parte2Options" [value]="parte2.codigo">{{ parte2.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp3">Componente 3</mat-label>
+      <mat-select id="comp3" formControlName="comp3">
+        <mat-option *ngFor="let parte3 of parte3Options" [value]="parte3.codigo">{{ parte3.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp4">Componente 4</mat-label>
+      <mat-select id="comp4" formControlName="comp4">
+        <mat-option *ngFor="let parte4 of parte4Options" [value]="parte4.codigo">{{ parte4.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp5">Componente 5</mat-label>
+      <mat-select id="comp5" formControlName="comp5">
+        <mat-option *ngFor="let parte5 of parte5Options" [value]="parte5.codigo">{{ parte5.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp6">Componente 6</mat-label>
+      <mat-select id="comp6" formControlName="comp6">
+        <mat-option *ngFor="let parte6 of parte6Options" [value]="parte6.codigo">{{ parte6.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp7">Componente 7</mat-label>
+      <mat-select id="comp7" formControlName="comp7">
+        <mat-option *ngFor="let parte7 of parte7Options" [value]="parte7.codigo">{{ parte7.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp8">Componente 8</mat-label>
+      <mat-select id="comp8" formControlName="comp8">
+        <mat-option *ngFor="let parte8 of parte8Options" [value]="parte8.codigo">{{ parte8.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp9">Componente 9</mat-label>
+      <mat-select id="comp9" formControlName="comp9">
+        <mat-option *ngFor="let parte9 of parte9Options" [value]="parte9.codigo">{{ parte9.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp10">Componente 10</mat-label>
+      <mat-select id="comp10" formControlName="comp10">
+        <mat-option *ngFor="let parte10 of parte10Options" [value]="parte10.codigo">{{ parte10.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="comp11">Componente 11</mat-label>
+      <mat-select id="comp11" formControlName="comp11">
+        <mat-option *ngFor="let parte11 of parte11Options" [value]="parte11.codigo">{{ parte11.valor }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-flat-button color="accent" type="submit" [disabled]="combinacionForm.invalid">Guardar</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,42 @@
+.evol-tabla-limites-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 620px;
+}
+
+table {
+  width: 620px;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+}
+
+%column {
+  padding: 1em;
+}
+
+.mat-column-empiezaCon {
+  @extend %column;
+}
+
+.mat-column-importeMaximo {
+  @extend %column;
+  text-align: right;
+  width: 200px;
+}
+
+.mat-column-nuevoValor {
+  @extend %column;
+  width: 200px;
+}
+
+
+.mat-input-element {
+  text-align: end;
+}
