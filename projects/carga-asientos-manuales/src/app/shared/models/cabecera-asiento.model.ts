@@ -5,3 +5,11 @@ export interface CabeceraAsiento {
   descripcion: string;
   fechaContable: Date;
 }
+
+export interface HeadboardSeat {
+  origen: string;
+  period: string;
+  number: string;
+  description: string;
+  date: Date;
+}

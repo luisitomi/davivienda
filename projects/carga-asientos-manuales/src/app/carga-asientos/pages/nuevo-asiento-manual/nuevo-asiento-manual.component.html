@@ -1,4 +1,10 @@
 <div class="evol-nuevo-asiento">
-  <app-formulario-cabecera (saveCabeceraAsiento)="SaveCabeceraAsiento($event)" class="evol-asiento-cabecera"></app-formulario-cabecera>
+  <app-formulario-cabecera [disabledForm]="disabledForm" (dataValidate)="dataValidate($event)" (processValidate)="processValidate($event)" class="evol-asiento-cabecera"></app-formulario-cabecera>
+  <mat-card-actions class="evol-footer-actions">
+    <button *ngIf="visibleForm" mat-flat-button color="accent" (click)="saveHeadboard()" [disabled]="!validateForm">Guardar Cabecera</button>
+  </mat-card-actions>
   <app-lineas class="evol-asiento-lineas"></app-lineas>
+  <mat-card-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" [disabled]="!validateTable">Guardar Asientos</button>
+  </mat-card-actions>
 </div>

@@ -1,13 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrigenService } from '../../../core/services/origen.service';
-import { CabeceraAsiento, Origen } from '../../../shared';
+import { HeadboardSeat, Origen } from '../../../shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
-import { AsientoManualService } from '../../services/asiento-manual.service';
 import { PeriodoContableService } from '../../services/periodo-contable.service';
 
 @Component({
@@ -16,7 +13,9 @@ import { PeriodoContableService } from '../../services/periodo-contable.service'
   styleUrls: ['./formulario-cabecera.component.scss']
 })
 export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements OnInit, OnDestroy {
-  @Output() saveCabeceraAsiento = new EventEmitter<CabeceraAsiento>();
+  @Input() disabledForm: boolean;
+  @Output() processValidate = new EventEmitter<boolean>();
+  @Output() dataValidate = new EventEmitter<HeadboardSeat>();
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   title = "Cabecera";
   form: FormGroup;
@@ -29,11 +28,8 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   showTable = false;
 
   constructor(
-    private asientoManualService: AsientoManualService,
     private origenService: OrigenService,
     private periodoContableService: PeriodoContableService,
-    private snackBar: MatSnackBar,
-    private router: Router,
     private formBuilder: FormBuilder,
   ) {
     super();
@@ -43,20 +39,6 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.createForm();
     this.getOrigen();
     this.getPeriod();
-  }
-
-  save(): void {
-    this.asientoManualService.grabarAsiento().subscribe(
-      res => {
-        this.snackBar.open('Asiento registrado');
-        this.asientoManualService.clear();
-        this.router.navigate(['/dashboard/infolet']);
-      },
-    );
-  }
-
-  saveCabecera(): void {
-    this.saveCabeceraAsiento.emit(this.form.value);
   }
 
   createForm(): void {
@@ -119,6 +101,8 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       ]);
     }
     this.form.get(`${control}`)?.updateValueAndValidity();
+    this.processValidate.emit(this.form.valid);
+    this.dataValidate.emit(this.form.value);
   }
 
   validate() {  

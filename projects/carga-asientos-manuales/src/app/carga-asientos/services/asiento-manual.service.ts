@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 import { CabeceraAsiento, ResultadoCarga } from '../../shared';
+import { CabeceraAsientoInsert } from '../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../shared/models/linea-asiento-insert.model';
 
 import { Linea } from '../models/linea.model';
@@ -42,7 +43,7 @@ export class AsientoManualService {
       switchMap(url => this.http.post<any>(url + this.asientoEndpoint ,{ body: asiento })),
     );
   }
-  grabarAsientoCabecera(prmBean: any): Observable<any> {
+  grabarAsientoCabecera(prmBean: CabeceraAsientoInsert): Observable<any> {
     return this.configService.getApiUrl().pipe(
       first(),
       switchMap(url => this.http.post<any>(url + this.TsInsertCargaAsientoHeaderWS ,prmBean)),

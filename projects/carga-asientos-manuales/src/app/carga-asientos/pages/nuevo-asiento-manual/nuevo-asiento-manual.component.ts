@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CabeceraAsiento } from '../../../shared';
+import { HeadboardSeat } from '../../../shared';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { AsientoManualService } from '../../services/asiento-manual.service';
 
@@ -8,47 +10,52 @@ import { AsientoManualService } from '../../services/asiento-manual.service';
   templateUrl: './nuevo-asiento-manual.component.html',
   styleUrls: ['./nuevo-asiento-manual.component.scss']
 })
-export class NuevoAsientoManualComponent implements OnInit {
-
-  constructor(private asientoManualService: AsientoManualService,) { }
+export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements OnInit {
+  disabledForm = false;
+  validateForm = false;
+  visibleForm = true;
+  validateTable = false;
+  visibleTable = false;
+  dataHeader: HeadboardSeat;
+  constructor(private asientoManualService: AsientoManualService) {
+    super();
+  }
 
   ngOnInit(): void {
   }
 
-
-  SaveCabeceraAsiento(cabeceraAsiento : CabeceraAsiento){
-    let header = new CabeceraAsientoInsert();
-    header.LegderName="";
-    header.SourceName=cabeceraAsiento.origen;
-    header.TrxNumber=cabeceraAsiento.numero;
-    header.AccountingDate="";
-    header.Description=cabeceraAsiento.descripcion;
-    header.Usuario="";
-
-    if (cabeceraAsiento.fechaContable != null) {
-      let day = cabeceraAsiento.fechaContable.getDate();
-      let month = cabeceraAsiento.fechaContable.getMonth() + 1;
-      let year = cabeceraAsiento.fechaContable.getFullYear();
-
-      if (month < 10) {
-        header.AccountingDate = `${day}/0${month}/${year}`;
-      } else {
-        header.AccountingDate = `${day}/${month}/${year}`;
-      }
-    } else {
-      header.AccountingDate = "";
+  dataValidate(data: HeadboardSeat){
+    if (this.validateForm) {
+      this.dataHeader = data;
     }
-
-    console.log('cabeceraAsiento')
-    this.asientoManualService.grabarAsientoCabecera(header).subscribe(res => {
-      if (res.status == 'OK') {
-        this.asientoManualService.setIdCabecera(res.Id);
-        
-      } else {
-
-      }
-  });
- console.log(cabeceraAsiento)
   }
 
+  processValidate(validate: any){
+    this.validateForm = validate;
+  }
+
+  saveHeadboard(): void {
+    if (this.validateForm) {
+      const request: CabeceraAsientoInsert = {
+        Id: 0,
+        LegderName: '',
+        SourceName: this.dataHeader?.origen,
+        TrxNumber: this.dataHeader?.number,
+        AccountingDate: '12/12/2021',
+        Description: this.dataHeader?.description,
+        Company: '',
+        Usuario: '',
+      }
+      const $Header = this.asientoManualService.grabarAsientoCabecera(request).subscribe(res => {
+        if (res.status == appConstants.responseStatus.OK) {
+          this.asientoManualService.setIdCabecera(res.Id);
+          this.visibleForm = false;
+          this.visibleTable = true;
+          this.validateForm = false;
+          this.disabledForm = true;
+        }
+      });
+      this.arrayToDestroy.push($Header);
+    }
+  }
 }
