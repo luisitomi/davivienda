@@ -8,6 +8,7 @@ import { FormularioCabeceraComponent } from './formulario-cabecera.component';
 import { TitleHeaderModule } from '../../../shared/component/ui/title-header/title-header.module';
 import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
+import { SelectModule } from '../../../shared/component/ui/select/select.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-
     TitleHeaderModule,
     InputModule,
     FormErrorsModule,
+    SelectModule,
   ],
   exports: [FormularioCabeceraComponent],
 })

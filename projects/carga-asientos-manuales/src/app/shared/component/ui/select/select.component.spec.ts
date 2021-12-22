@@ -1,19 +1,19 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { InputComponent } from './input.component';
+import { SelectComponent } from './select.component';
 
-describe('InputComponent', () => {
+describe('SelectComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
-        InputComponent
+        SelectComponent
       ],
     }).compileComponents();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(InputComponent);
+    const fixture = TestBed.createComponent(SelectComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });

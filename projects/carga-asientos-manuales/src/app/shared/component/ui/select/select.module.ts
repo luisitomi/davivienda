@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import '@angular/common/locales/global/es-CO';
-import { InputComponent } from './input.component';
+import { SelectComponent } from './select.component';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { DirectivesModule } from '../directives/directives.module';
-import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatInputModule } from '@angular/material/input';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 @NgModule({
   declarations: [
-    InputComponent
+    SelectComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    DirectivesModule,
     NgxMatFileInputModule,
     MatInputModule,
+    MatSelectModule,
   ],
-  exports: [InputComponent],
+  exports: [SelectComponent],
 })
-export class InputModule { }
+export class SelectModule { }

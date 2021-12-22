@@ -1,0 +1,15 @@
+<mat-form-field appearance="fill">
+  <mat-label [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
+    <ng-content select="[header]"></ng-content>
+  </mat-label>
+  <mat-select
+    matInput
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [ngModel]="selected"
+    (selectionChange)="changeDropdown($event)"
+    [ngClass]="{ 'is-invalid-input u-mb0': error }">
+    <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
+  </mat-select>
+  <ng-content></ng-content>
+ </mat-form-field>

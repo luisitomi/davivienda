@@ -1,3 +1,3 @@
-<div [hidden]="!shouldShowErrors()">
+<div [hidden]="!shouldShowErrors() && !focusout">
   <mat-error class="error-message u-block u-mb0" [innerHTML]="error" *ngFor="let error of listOfErrors(); trackBy: trackByFn"></mat-error>
 </div>

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import '@angular/common/locales/global/es-CO';
 import { TitleHeaderComponent } from './title-header.component';
-import { MaterialModule } from '../../../material.module';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    MaterialModule,
+    MatCardModule,
   ],
   exports: [TitleHeaderComponent],
 })
