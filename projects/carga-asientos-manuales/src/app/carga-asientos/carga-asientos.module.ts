@@ -16,12 +16,12 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { SharedModule } from '../shared';
 import { CombinacionContableComponent } from './components/combinacion-contable/combinacion-contable.component';
 import { cargaAsientosInterceptorProvider } from './interceptors/carga-asientos.interceptor';
+import { FormularioCabeceraModule } from './components/formulario-cabecera/formulario-cabecera.module';
 
 
 @NgModule({
   declarations: [
     NuevoAsientoManualComponent,
-    FormularioCabeceraComponent,
     LineasComponent,
     EditarLineaComponent,
     ReferenciasComplementariasComponent,
@@ -38,6 +38,7 @@ import { cargaAsientosInterceptorProvider } from './interceptors/carga-asientos.
     NgxMatFileInputModule,
     CargaAsientosRoutingModule,
     SharedModule,
+    FormularioCabeceraModule,
   ],
   providers: [
     cargaAsientosInterceptorProvider,

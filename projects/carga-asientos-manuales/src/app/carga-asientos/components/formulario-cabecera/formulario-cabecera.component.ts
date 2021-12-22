@@ -42,6 +42,10 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
   periodoOptions: string[] = [];
   getPeriodosSub?: Subscription;
 
+
+  /*INITIAL - BORRAR CANTES*/
+  title = "Cabecera";
+
   constructor(
     private asientoManualService: AsientoManualService,
     private origenService: OrigenService,
