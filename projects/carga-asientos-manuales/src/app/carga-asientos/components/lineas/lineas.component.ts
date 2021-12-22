@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -20,6 +20,11 @@ export class LineasComponent implements OnInit, OnDestroy {
   getLineasSub?: Subscription;
 
   displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
+
+
+  /*OFICIAL*/
+  @Input() visibleTable: boolean;
+  /*-------*/
 
   constructor(
     private asientoManualService: AsientoManualService,
