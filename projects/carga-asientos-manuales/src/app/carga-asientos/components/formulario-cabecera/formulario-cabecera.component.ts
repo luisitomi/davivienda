@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrigenService } from '../../../core/services/origen.service';
 import { CabeceraAsiento, Origen } from '../../../shared';
+import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { AsientoManualService } from '../../services/asiento-manual.service';
 import { PeriodoContableService } from '../../services/periodo-contable.service';
 
@@ -44,7 +45,9 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
 
 
   /*INITIAL - BORRAR CANTES*/
+  @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   title = "Cabecera";
+  form: FormGroup;
 
   constructor(
     private asientoManualService: AsientoManualService,
@@ -52,6 +55,7 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
     private periodoContableService: PeriodoContableService,
     private snackBar: MatSnackBar,
     private router: Router,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +84,7 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
     this.getHayLineasSub = this.asientoManualService.hayLineas().subscribe(
       v => this.hayLineas = v,
     );
+    this.createForm();
   }
 
   ngOnDestroy(): void {
@@ -108,4 +113,22 @@ export class FormularioCabeceraComponent implements OnInit, OnDestroy {
     this.panel?.close();
   }
 */
+
+  createForm(): void {
+    this.form = this.formBuilder.group({
+      numero: [null, [Validators.required]],
+      descripcion: [null, [Validators.required]],
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      this.formInvalid.emit(this.form.invalid);
+    });
+  }
+
+  showErrors(control: string): boolean {
+    return (
+      (this.form.controls[control].dirty || this.form.controls[control].touched) &&
+      !isEmpty(this.form.controls[control].errors)
+    );
+  }
 }

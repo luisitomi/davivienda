@@ -57,3 +57,29 @@
   </mat-card>
 
 </form>
+
+<form [formGroup]="form" autocomplete="off">
+  <mat-card>
+    <app-title-header [Title]="title"></app-title-header>
+    <mat-card-content class="evol-form-container">
+      <div class="evol-form-section">
+        <app-input [label]="'Número'" formControlName="numero" [error]="showErrors('numero')"></app-input>
+        <app-form-errors [control]="form.controls['numero']"></app-form-errors>
+        <app-input [label]="'Descripción'" formControlName="descripcion" [error]="showErrors('descripcion')"></app-input>
+        <app-form-errors [control]="form.controls['descripcion']"></app-form-errors>
+      </div>
+      <div class="evol-form-section">
+        <app-input [label]="'Número'" formControlName="numero" [error]="showErrors('numero')" [onlyNumber]="true"></app-input>
+        <app-form-errors [control]="form.controls['numero']"></app-form-errors>
+        <app-input [label]="'Descripción'" formControlName="descripcion" [error]="showErrors('descripcion')"></app-input>
+        <app-form-errors [control]="form.controls['descripcion']"></app-form-errors>
+      </div>
+      <div class="evol-form-section">
+        <app-input [label]="'Número'" formControlName="numero" [error]="showErrors('numero')"></app-input>
+        <app-form-errors [control]="form.controls['numero']"></app-form-errors>
+        <app-input [label]="'Descripción'" formControlName="descripcion" [error]="showErrors('descripcion')"></app-input>
+        <app-form-errors [control]="form.controls['descripcion']"></app-form-errors>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>

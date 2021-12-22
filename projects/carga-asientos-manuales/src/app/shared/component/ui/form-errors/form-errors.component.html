@@ -1,0 +1,7 @@
+<div [hidden]="!shouldShowErrors()">
+  <span
+    class="error-message u-block u-mb0"
+    *ngFor="let error of listOfErrors(); trackBy: trackByFn"
+    [innerHTML]="error"
+  ></span>
+</div>
