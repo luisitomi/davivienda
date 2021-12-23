@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({ template: '' })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class UnsubcribeOnDestroy implements OnDestroy {
   unsubscribeDestroy$: Subject<boolean> = new Subject();
   arrayToDestroy: Array<any> = [];

@@ -24,6 +24,7 @@ export class LineasComponent implements OnInit, OnDestroy {
 
   /*OFICIAL*/
   @Input() visibleTable: boolean;
+  title = "Líneas";
   /*-------*/
 
   constructor(

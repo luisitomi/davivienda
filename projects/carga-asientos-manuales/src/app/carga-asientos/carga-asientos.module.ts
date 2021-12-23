@@ -17,12 +17,12 @@ import { SharedModule } from '../shared';
 import { CombinacionContableComponent } from './components/combinacion-contable/combinacion-contable.component';
 import { cargaAsientosInterceptorProvider } from './interceptors/carga-asientos.interceptor';
 import { FormularioCabeceraModule } from './components/formulario-cabecera/formulario-cabecera.module';
+import { LineasModule } from './components/lineas/lineas.module';
 
 
 @NgModule({
   declarations: [
     NuevoAsientoManualComponent,
-    LineasComponent,
     EditarLineaComponent,
     ReferenciasComplementariasComponent,
     EditarReferenciaComponent,
@@ -39,6 +39,7 @@ import { FormularioCabeceraModule } from './components/formulario-cabecera/formu
     CargaAsientosRoutingModule,
     SharedModule,
     FormularioCabeceraModule,
+    LineasModule,
   ],
   providers: [
     cargaAsientosInterceptorProvider,

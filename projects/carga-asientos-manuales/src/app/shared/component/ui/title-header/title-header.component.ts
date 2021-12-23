@@ -7,4 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class TitleHeaderComponent {
   @Input() Title: string;
+  @Input() ViewIcon: boolean;
+  @Input() IconType: string;
 }
