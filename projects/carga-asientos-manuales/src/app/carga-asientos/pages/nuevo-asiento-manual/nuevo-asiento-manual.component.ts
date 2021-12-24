@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { HeadboardSeat } from '../../../shared';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
@@ -8,13 +8,22 @@ import { ManualLading } from '../../../shared/models/manualLoading.model';
   templateUrl: './nuevo-asiento-manual.component.html',
   styleUrls: ['./nuevo-asiento-manual.component.scss']
 })
-export class NuevoAsientoManualComponent {
+export class NuevoAsientoManualComponent implements AfterViewChecked {
   disabledForm = false;
   validateForm = false;
   visibleForm = true;
   validateTable = false;
   visibleTable = false;
   dataHeader: HeadboardSeat;
+
+  constructor(
+    private cdRef:ChangeDetectorRef,
+  ) {
+  }
+
+  ngAfterViewChecked(){
+    this.cdRef.detectChanges();
+  }
 
   proceesAutomaty(validate: boolean){
     if(validate){

@@ -35,9 +35,11 @@
 
 <form [formGroup]="form" autocomplete="off">
   <div mat-dialog-content class="evol-editar-linea-container">
-    <app-select (selectionChange)="onFocusOutEvent('currency')" [label]="'Moneda'" formControlName="currency" [options]="currencys" [error]="showErrors('currency')"></app-select>
+    <app-select (changeOption)="onFocusOutEvent('currency')" [label]="'Moneda'" formControlName="currency" [options]="currencys" [error]="showErrors('currency')"></app-select>
     <app-form-errors [control]="form.controls['currency']"></app-form-errors>
-    <app-select (selectionChange)="onFocusOutEvent('type');changeSelection($event)" [label]="'Tipo'" formControlName="type" [options]="types" [error]="showErrors('type')"></app-select>
+    <app-select (changeOption)="onFocusOutEvent('type');changeSelection($event)" [label]="'Tipo'" formControlName="type" [options]="types" [error]="showErrors('type')"></app-select>
     <app-form-errors [control]="form.controls['type']"></app-form-errors>
+    <app-input (input)="onFocusOutEvent('amount')" (focusout)="onFocusOutEvent('amount')" [label]="inputName" formControlName="amount" [error]="showErrors('amount')" [onlyNumber]="true"></app-input>
+    <app-form-errors [control]="form.controls['amount']"></app-form-errors>
   </div>
 </form>

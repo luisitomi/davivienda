@@ -9,7 +9,7 @@
         <app-form-errors [control]="form.controls['period']"></app-form-errors>
       </div>
       <div class="evol-form-section">
-        <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('number')" (focusout)="onFocusOutEvent('number')" [label]="'Número'" formControlName="number" [error]="showErrors('number')" [onlyNumber]="true"></app-input>
+        <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('number')" (focusout)="onFocusOutEvent('number')" [label]="'Número'" formControlName="number" [error]="showErrors('number')"></app-input>
         <app-form-errors [control]="form.controls['number']"></app-form-errors>
         <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
         <app-form-errors [control]="form.controls['description']"></app-form-errors>
