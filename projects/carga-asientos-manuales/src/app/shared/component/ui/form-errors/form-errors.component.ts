@@ -8,7 +8,6 @@ import { AbstractControl, AbstractControlDirective } from '@angular/forms';
 })
 export class FormErrorsComponent {
   @Input() messageCustom: string;
-  @Input() focusout: boolean;
   @Input() public control: AbstractControlDirective | AbstractControl;
 
   readonly errorMessages: any = {
@@ -19,14 +18,10 @@ export class FormErrorsComponent {
   };
 
   shouldShowErrors() {
-    if(this.focusout && this.control.value){
-      return (this.control.errors && this.control.value)
-    } else {
-      return (
-        (this.control && this.control.errors && (this.control.dirty || this.control.touched)) ||
-        (this.control && this.control.invalid && !!this.control.value)
-      );
-    }    
+    return (
+      (this.control && this.control.errors && (this.control.dirty || this.control.touched)) ||
+      (this.control && this.control.invalid && !!this.control.value)
+    );  
   }
 
   listOfErrors() {

@@ -18,7 +18,7 @@ export class SelectComponent {
   @Output() changeOption: EventEmitter<EventDropdown> = new EventEmitter<EventDropdown>();
   @ViewChild(MatSelect, { static: true }) dropdown: MatSelect;
 
-  selected: DropdownItemType;
+  @Input() selected: DropdownItemType;
 
   @Input()
   get options(): Array<DropdownItem> {
@@ -67,7 +67,7 @@ export class SelectComponent {
     if (!this.inputValue && this.dropdown) {
     } else if (typeof value === 'string' && value && this.dropdown && this.options) {
       if (!this.selected || this.selected.value !== value) {
-        this.selected = this.options.find((o) => o === value);
+        this.selected = this.options.find((o) => o.value === value);
       }
     }
     if (!this.disabled) {
@@ -86,7 +86,7 @@ export class SelectComponent {
     this.changeOption.emit({
       originalEvent: event?.originalEvent,
       dropdownItem: event?.value,
-      value: event?.value?.value,
+      value: event?.value,
     });
   }
 

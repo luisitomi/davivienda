@@ -47,20 +47,13 @@ export class LineasComponent implements OnInit, OnDestroy {
     this.getLineasSub?.unsubscribe();
   }
 
-  nuevaLinea(): void {
-    console.log('getIdCabecera: ' + this.asientoManualService.getIdCabecera())
-    const dialogRef = this.dialog.open(EditarLineaComponent, {
-      width: '80%',
-      maxWidth: '400px',
-    });
-  }
+  
 
   editarLinea(linea: Linea): void {
-    console.log(linea)
     const dialogRef = this.dialog.open(EditarLineaComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: linea,
+      data: { data: linea, type: 1 },
     });
   }
 
@@ -77,6 +70,14 @@ export class LineasComponent implements OnInit, OnDestroy {
       width: '80%',
       maxWidth: '600px',
       data: index,
+    });
+  }
+
+  newLine(): void {
+    const dialogRef = this.dialog.open(EditarLineaComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: { data: null, type: 0 },
     });
   }
 

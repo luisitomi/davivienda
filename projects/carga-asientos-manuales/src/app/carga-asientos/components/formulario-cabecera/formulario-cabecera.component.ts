@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { OrigenService } from '../../../core/services/origen.service';
 import { HeadboardSeat, Origen } from '../../../shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
@@ -17,6 +17,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   @Output() processValidate = new EventEmitter<boolean>();
   @Output() dataValidate = new EventEmitter<HeadboardSeat>();
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() proceesAutomaty = new EventEmitter<boolean>();
   title = "Cabecera";
   form: FormGroup;
   origens: Array<DropdownItem>;
@@ -26,6 +27,8 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   focusoutNumber = false;
   focusoutDescription = false;
   showTable = false;
+  selectOrigen = "";
+  selectPeriod = "";
 
   constructor(
     private origenService: OrigenService,
@@ -39,6 +42,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.createForm();
     this.getOrigen();
     this.getPeriod();
+    this.updateForm();
   }
 
   createForm(): void {
@@ -51,6 +55,23 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
     });
+  }
+
+  updateForm(): void {
+    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    if (model?.header) {
+      this.form.patchValue({
+        origen: model?.header?.SourceName,
+        period: model?.header?.Period,
+        number: model?.header?.TrxNumber,
+        description: model?.header?.Description,
+      });
+      this.selectOrigen = model?.header?.SourceName;
+      this.selectPeriod = model?.header?.Period;
+    }
+    this.processValidate.emit(this.form.valid);
+    this.dataValidate.emit(this.form.value);
+    this.proceesAutomaty.emit(this.form.valid);
   }
 
   showErrors(control: string): boolean {
@@ -84,7 +105,19 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.arrayToDestroy.push($period);
   }
 
-  onFocusOutEvent(control: string) {
+  changeOption(event: any){
+    this.form.patchValue({
+      origen: event?.value,
+    });
+  }
+
+  changeOptionP(event: any){
+    this.form.patchValue({
+      period: event?.value,
+    });
+  }
+
+  onFocusOutEvent(control: string): void {
     this.focusoutOrigen = this.focusoutOrigen && !this.form.get(`${control}`)?.value ? true : control === 'origen' && !this.focusoutOrigen ? true : false;
     this.focusoutPeriod = this.focusoutPeriod && !this.form.get(`${control}`)?.value ? true : control === 'period' && !this.focusoutPeriod ? true : false;
     this.focusoutNumber = this.focusoutNumber && !this.form.get(`${control}`)?.value ? true : control === 'number' && !this.focusoutNumber ? true : false;
@@ -105,7 +138,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.dataValidate.emit(this.form.value);
   }
 
-  validate() {  
+  validate(): ValidationErrors {  
     return { required: true };
   }
 }

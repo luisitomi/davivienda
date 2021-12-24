@@ -1,27 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeadboardSeat } from '../../../shared';
-import { appConstants } from '../../../shared/component/app-constants/app-constants';
-import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
-import { AsientoManualService } from '../../services/asiento-manual.service';
+import { ManualLading } from '../../../shared/models/manualLoading.model';
 
 @Component({
   selector: 'app-nuevo-asiento-manual',
   templateUrl: './nuevo-asiento-manual.component.html',
   styleUrls: ['./nuevo-asiento-manual.component.scss']
 })
-export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements OnInit {
+export class NuevoAsientoManualComponent {
   disabledForm = false;
   validateForm = false;
   visibleForm = true;
   validateTable = false;
   visibleTable = false;
   dataHeader: HeadboardSeat;
-  constructor(private asientoManualService: AsientoManualService) {
-    super();
-  }
 
-  ngOnInit(): void {
+  proceesAutomaty(validate: boolean){
+    if(validate){
+      this.saveHeadboard();
+    }
   }
 
   dataValidate(data: HeadboardSeat){
@@ -30,13 +28,13 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     }
   }
 
-  processValidate(validate: any){
+  processValidate(validate: boolean){
     this.validateForm = validate;
   }
 
   saveHeadboard(): void {
     if (this.validateForm) {
-      const request: CabeceraAsientoInsert = {
+      const header: CabeceraAsientoInsert = {
         Id: 0,
         LegderName: '',
         SourceName: this.dataHeader?.origen,
@@ -45,17 +43,17 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         Description: this.dataHeader?.description,
         Company: '',
         Usuario: '',
+        Period: this.dataHeader?.period,
       }
-      const $Header = this.asientoManualService.grabarAsientoCabecera(request).subscribe(res => {
-        if (res.status == appConstants.responseStatus.OK) {
-          this.asientoManualService.setIdCabecera(res.Id);
-          this.visibleForm = false;
-          this.visibleTable = true;
-          this.validateForm = false;
-          this.disabledForm = true;
-        }
-      });
-      this.arrayToDestroy.push($Header);
+      const request: ManualLading = {
+        header: header,
+      }
+      localStorage.removeItem('model');
+      localStorage.setItem('model',JSON.stringify(request));
+      this.visibleForm = false;
+      this.visibleTable = true;
+      this.validateForm = false;
+      this.disabledForm = true;
     }
   }
 }

@@ -1,10 +1,10 @@
-import { ElementRef, ViewChild } from '@angular/core';
+import { OnInit, EventEmitter, Output } from '@angular/core';
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
-import { TipoLinea } from '../../enums/tipo-linea.enum';
-import { Linea } from '../../models/linea.model';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { isEmpty } from '../../../shared/component/helpers/general.helper';
+import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { AsientoManualService } from '../../services/asiento-manual.service';
 
 @Component({
@@ -12,107 +12,89 @@ import { AsientoManualService } from '../../services/asiento-manual.service';
   templateUrl: './editar-linea.component.html',
   styleUrls: ['./editar-linea.component.scss']
 })
-export class EditarLineaComponent {
+export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit{
+  @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
+  form: FormGroup;
+  currencys: Array<DropdownItem>;
+  types: Array<DropdownItem>;
 
-  @ViewChild('debitoControl') debitoElementRef?: ElementRef;
-  @ViewChild('creditoControl') creditoElementRef?: ElementRef;
-
-  editarLineaForm = new FormGroup({
-    index: new FormControl(0),
-    moneda: new FormControl('COP', Validators.required),
-    tipo: new FormControl(),
-    debito: new FormControl(0),
-    credito: new FormControl(0),
-  });
-
-  monedaOptions: string[] = ['COP', 'USD'];
-
-  tipoOptions = TipoLinea;
+  focusoutCurrency: boolean;
+  focusoutType: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<EditarLineaComponent>,
-    @Inject(MAT_DIALOG_DATA) public linea: Linea,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private asientoManualService: AsientoManualService,
+    private formBuilder: FormBuilder,
   ) {
-    if (this.linea !== null) {
-      debugger;
-      if (this.linea.credito == undefined){
-        this.linea.credito = 0;
-      }
-      if (this.linea.debito == undefined){
-        this.linea.debito = 0;
-      }
-      let { columnasReferenciales, combinacionContable, ...linea } = this.linea;
-    
-      this.editarLineaForm.setValue(linea);
-    //  this.editarLineaForm.setValue({index: linea.index, moneda: linea.moneda, tipo: linea.tipoComprobante});
-    }
+    super();
   }
   ngOnInit(){
-    console.log(this.editarLineaForm.value);
+    this.getCurrencys();
+    this.getTypes();
+    this.createForm();
   }
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-  onSaveLinea(linea: Linea): void {
 
-    let lineaAsiento = new LineaAsientoInsert();
-    lineaAsiento.Id = this.asientoManualService.getIdCabecera();
-    lineaAsiento.nroLinea= linea.index;
-
-  lineaAsiento.SegGlAccount= linea.cuentaContable;
-  lineaAsiento.SegOficina= linea.oficina;
-  lineaAsiento.SegSucursal= linea.proyecto;
-  lineaAsiento.SegProyecto= linea.proyecto;
-  lineaAsiento.SegSubProyecto= linea.subproyecto;
-  lineaAsiento.SegTipoComprobante= linea.tipoComprobante;
-  lineaAsiento.SegIntecompany= linea.intecompania;
-  lineaAsiento.SegVinculado= linea.vinculado;
-  lineaAsiento.SegF1= linea.futuro1;
-  lineaAsiento.SegF2= linea.futuro2;
-  lineaAsiento.SegCurrency= linea.moneda;
-  lineaAsiento.EnteredDebit= (linea.debito == null ? "" : linea.debito.toString() );
-  lineaAsiento.EnteredCredit= (linea.credito == null ? "" : linea.credito.toString() );
-  lineaAsiento.Description= "";
-  lineaAsiento.Usuario= "";
-
-    this.asientoManualService.grabarAsientoLinea(lineaAsiento).subscribe(res => {
-      console.log(res)
+  createForm(): void {
+    this.form = this.formBuilder.group({
+      index: [null, [Validators.required]],
+      currency: [null, [Validators.required]],
+      type: [null, [Validators.required]],
+      debit: [null],
+      credit:[null],
+    });
+    this.form.valueChanges.subscribe(() => {
+      this.formInvalid.emit(this.form.invalid);
     });
   }
-  onSave(): void {
-    
-    console.log(this.editarLineaForm.value);
-    if (this.linea === null) {
-      this.asientoManualService.addLinea({ ...this.editarLineaForm.value, columnasReferenciales: [], combinacionContable: undefined });
+
+  showErrors(control: string): boolean {
+    return (
+      (this.form.controls[control].dirty || this.form.controls[control].touched) &&
+      !isEmpty(this.form.controls[control].errors)
+    );
+  }
+
+  onFocusOutEvent(control: string) {
+    console.log(control);
+    this.focusoutCurrency = this.focusoutCurrency && !this.form.get(`${control}`)?.value ? true : control === 'currency' && !this.focusoutCurrency ? true : false;
+    this.focusoutType = this.focusoutType && !this.form.get(`${control}`)?.value ? true : control === 'type' && !this.focusoutCurrency ? true : false;
+    this.form.get(`${control}`)?.clearValidators();
+    if (!this.form.get(`${control}`)?.value) {
+      this.form.get(`${control}`)?.setValidators([
+        Validators.required,
+        this.validate,
+      ]);
     } else {
-      this.asientoManualService.editLinea({ ...this.editarLineaForm.value, columnasReferenciales: this.linea.columnasReferenciales, combinacionContable: this.linea.combinacionContable });
+      this.form.get(`${control}`)?.setValidators([
+        Validators.required,
+      ]);
     }
-
-    this.onSaveLinea(this.editarLineaForm.value);
-    this.dialogRef.close();
+    this.form.get(`${control}`)?.updateValueAndValidity();
   }
 
-  cambiarTipo(tipo: string): void {
-    let debito = this.editarLineaForm.controls.debito;
-    let credito = this.editarLineaForm.controls.credito;
-
-    setTimeout(() => {
-      if (tipo === this.tipoOptions.Debito) {
-        debito.enable();
-        credito.disable();
-        this.editarLineaForm.patchValue({ credito: null });
-        this.debitoElementRef?.nativeElement.focus();
-      }
-
-      if (tipo === this.tipoOptions.Credito) {
-        debito.disable();
-        credito.enable();
-        this.editarLineaForm.patchValue({ debito: null });
-        this.creditoElementRef?.nativeElement.focus();
-      }
-    });
-
+  validate(): ValidationErrors {  
+    return { required: true };
   }
 
+  getCurrencys(): void {
+    this.currencys = (DATA_CURRENCY || []).map((data) => ({
+      label: data,
+      value: data,
+    }));
+  }
+
+  getTypes(): void {
+    this.types = (DATA_TYPE || []).map((data) => ({
+      label: data,
+      value: data,
+    }));
+  }
+
+  changeSelection(event: any): void {
+    console.log(event);
+  }
 }
+
+const DATA_CURRENCY = ['COP', 'USD'];
+const DATA_TYPE = ['Débito', 'Crédito'];

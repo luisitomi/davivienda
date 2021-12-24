@@ -6,7 +6,7 @@
     matInput
     [placeholder]="placeholder"
     [disabled]="disabled"
-    [ngModel]="selected"
+    [ngModel]="selected?.value || selected"
     (selectionChange)="changeDropdown($event)"
     [ngClass]="{ 'is-invalid-input u-mb0': error }">
     <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>

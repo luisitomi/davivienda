@@ -23,7 +23,6 @@ import { LineasModule } from './components/lineas/lineas.module';
 @NgModule({
   declarations: [
     NuevoAsientoManualComponent,
-    EditarLineaComponent,
     ReferenciasComplementariasComponent,
     EditarReferenciaComponent,
     CargaAsientosManualComponent,

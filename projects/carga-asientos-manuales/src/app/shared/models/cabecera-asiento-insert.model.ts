@@ -3,6 +3,7 @@ export class CabeceraAsientoInsert {
     LegderName: string;
     SourceName: string;
     TrxNumber: string;
+    Period: string
 
     AccountingDate : string;
     Description: string;
