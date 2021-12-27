@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
 import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
@@ -16,11 +17,12 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   title = "Líneas";
   lineList: Array<LineaAsientoInsert> = [];
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
-  displayedColumns: string[] = ['combinacion', 'moneda', 'debito', 'credito', 'acciones'];
+  displayedColumns: string[] = ['combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
     private cdRef:ChangeDetectorRef,
+    private router: Router,
   ) { }
 
   ngAfterViewChecked(){
@@ -33,6 +35,10 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       this.lines.data = model?.line || [];
       this.proceesLine.emit(!!this.lines.data.length);
     }
+  }
+
+  addReference(index: number): void {
+    this.router.navigate(['carga-asientos/referencias-complementarias', index]);
   }
 
   editLine(data: LineaAsientoInsert, index: number): void {
