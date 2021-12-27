@@ -42,6 +42,21 @@ export class ReferenciasComplementariasComponent implements OnInit {
     }
   }
 
+  deleteReference(index: number): void {
+    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    if (model?.line) {
+      this.lineList = model?.line;
+      const indexList = this.lineList[this.index].columnasReferenciales || [];
+      indexList.splice(index, 1);
+      this.lineList[this.index].columnasReferenciales = indexList;
+      const request: ManualLading = {
+        header: model?.header,
+        line: this.lineList
+      }
+      this.setDataLocal(request);
+    }
+  }
+
   newReference(): void {
     const dialogRef = this.dialog.open(EditarReferenciaComponent, {
       width: '80%',
