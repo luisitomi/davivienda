@@ -33,14 +33,18 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
     }
   }
 
-  dataValidate(data: HeadboardSeat){
+  dataValidate(data: HeadboardSeat): void {
     if (this.validateForm) {
       this.dataHeader = data;
     }
   }
 
-  processValidate(validate: boolean){
+  processValidate(validate: boolean): void {
     this.validateForm = validate;
+  }
+
+  proceesLine(validate: boolean): void {
+    this.validateTable = validate;
   }
 
   saveHeadboard(): void {

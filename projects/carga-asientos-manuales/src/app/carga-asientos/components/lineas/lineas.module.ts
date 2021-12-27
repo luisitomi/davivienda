@@ -8,6 +8,7 @@ import { TitleHeaderModule } from '../../../shared/component/ui/title-header/tit
 import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { EditarLineaModule } from '../editar-linea/editar-linea.module';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
     TitleHeaderModule,
     InputModule,
     EditarLineaModule,
+    MatTableModule,
   ],
   exports: [LineasComponent],
 })
