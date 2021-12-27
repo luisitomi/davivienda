@@ -3,7 +3,6 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
-import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
@@ -13,7 +12,7 @@ import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.
   templateUrl: './editar-linea.component.html',
   styleUrls: ['./editar-linea.component.scss'],
 })
-export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked{
+export class EditarLineaComponent implements OnInit, AfterViewChecked{
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
   currencys: Array<DropdownItem>;
@@ -30,7 +29,6 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
     private formBuilder: FormBuilder,
     private cdRef:ChangeDetectorRef,
   ) {
-    super();
   }
 
   ngOnInit(){
@@ -116,7 +114,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
   save(): void {
     if (this.form.valid) {
       const valueForm = this.form.value;
-      const request : LineaAsientoInsert = {
+      const request: LineaAsientoInsert = {
         Id: 0,
         nroLinea: 0,
         SegGlAccount: '',
@@ -134,6 +132,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
         EnteredCredit: valueForm.type === appConstants.typeCredit.DEBITO ? '' : valueForm.amount,
         Description: '',
         Usuario: '',
+        columnasReferenciales: undefined,
       }
       this.dialogRef.close(request);
     }

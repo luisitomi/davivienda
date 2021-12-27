@@ -1,64 +1,63 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ManualLading } from '../../../shared/models/manualLoading.model';
 import { EditarReferenciaComponent } from '../../components/editar-referencia/editar-referencia.component';
 import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
-import { AsientoManualService } from '../../services/asiento-manual.service';
+import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 
 @Component({
   selector: 'app-referencias-complementarias',
   templateUrl: './referencias-complementarias.component.html',
   styleUrls: ['./referencias-complementarias.component.scss']
 })
-export class ReferenciasComplementariasComponent implements OnInit, OnDestroy {
-
-  linea: number = 0;
-
-  referencias: MatTableDataSource<ReferenciaComplementaria> = new MatTableDataSource();
-
-  displayedColumns: string[] = ['nombre', 'valor', 'acciones'];
-
-  getReferancias?: Subscription;
+export class ReferenciasComplementariasComponent implements OnInit {
+  title = "Referencias Complementarias";
+  index: number;
+  lineList: Array<LineaAsientoInsert> = [];
 
   constructor(
-    private route: ActivatedRoute,
-    private asientoManualService: AsientoManualService,
     private dialog: MatDialog,
-  ) { }
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.activatedRoute.params.subscribe(params => {
+      this.index = +params['linea'];
+    });
+  }
 
   ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
-    this.linea = Number(routeParams.get('linea'));
-
-    this.getReferancias = this.asientoManualService.getReferencias(this.linea).subscribe(
-      referencias => this.referencias.data = referencias || [],
-    );
+    
   }
 
-  ngOnDestroy(): void {
-    this.getReferancias?.unsubscribe();
-  }
-
-  nuevaReferencia(): void {
+  newReference(): void {
     const dialogRef = this.dialog.open(EditarReferenciaComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { linea: this.linea },
+      data: { data: null, type: 0 },
+      panelClass: 'my-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      if (model?.line) {
+        this.lineList = model?.line;
+      }
+      let indexList: Array<ReferenciaComplementaria> = [];
+      if (result?.nombre) {
+        indexList = this.lineList[this.index].columnasReferenciales || [];
+        indexList.push(result);
+      }
+      this.lineList[this.index].columnasReferenciales = indexList;
+      const request: ManualLading = {
+        header: model?.header,
+        line: this.lineList
+      }
+      this.setDataLocal(request);
     });
   }
 
-  editarReferencia(referencia: ReferenciaComplementaria): void {
-    const dialogRef = this.dialog.open(EditarReferenciaComponent, {
-      width: '80%',
-      maxWidth: '400px',
-      data: { linea: this.linea, referencia },
-    });
+  setDataLocal(request: ManualLading): void {
+    localStorage.removeItem('model');
+    localStorage.setItem('model',JSON.stringify(request));
   }
-
-  quitarReferencia(referencia: ReferenciaComplementaria): void {
-    this.asientoManualService.removeReferencia(this.linea, referencia);
-  }
-
 }

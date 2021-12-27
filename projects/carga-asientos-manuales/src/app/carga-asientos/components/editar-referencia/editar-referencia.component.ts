@@ -1,46 +1,82 @@
-import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AsientoManualService } from '../../services/asiento-manual.service';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { isEmpty } from '../../../shared/component/helpers/general.helper';
+import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
 
 @Component({
   selector: 'app-editar-referencia',
   templateUrl: './editar-referencia.component.html',
   styleUrls: ['./editar-referencia.component.scss']
 })
-export class EditarReferenciaComponent {
-
-  linea: number = 0;
-
-  editarRefForm = new FormGroup({
-    index: new FormControl(0),
-    nombre: new FormControl('', Validators.required),
-    valor: new FormControl(null, Validators.required),
-  });
+export class EditarReferenciaComponent implements OnInit {
+  @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
+  form: FormGroup;
+  focusoutName: boolean;
+  focusoutValue: boolean;
+  loading: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<EditarReferenciaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private asientoManualService: AsientoManualService,
+    private formBuilder: FormBuilder,
+    private cdRef:ChangeDetectorRef,
   ) {
-    this.linea = this.data.linea;
-
-    if (this.data.referencia !== undefined) {
-      this.editarRefForm.setValue(this.data.referencia);
-    }
+  }
+  ngOnInit(): void {
+    this.createForm();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  ngAfterViewChecked(){
+    this.cdRef.detectChanges();
   }
 
-  onSave(): void {
-    if(this.data.referencia === undefined) {
-      this.asientoManualService.addReferencia(this.linea, this.editarRefForm.value);
+  createForm(): void {
+    this.form = this.formBuilder.group({
+      name: [null, [Validators.required]],
+      value: [null, [Validators.required]],
+    });
+    this.form.valueChanges.subscribe(() => {
+      this.formInvalid.emit(this.form.invalid);
+    });
+  }
+
+  onFocusOutEvent(control: string) {
+    this.focusoutName = this.focusoutName && !this.form.get(`${control}`)?.value ? true : control === 'name' && !this.focusoutName ? true : false;
+    this.focusoutValue = this.focusoutValue && !this.form.get(`${control}`)?.value ? true : control === 'value' && !this.focusoutValue ? true : false;
+    this.form.get(`${control}`)?.clearValidators();
+    if (!this.form.get(`${control}`)?.value) {
+      this.form.get(`${control}`)?.setValidators([
+        Validators.required,
+        this.validate,
+      ]);
     } else {
-      this.asientoManualService.editReferencia(this.linea, this.editarRefForm.value);
+      this.form.get(`${control}`)?.setValidators([
+        Validators.required,
+      ]);
     }
-    this.dialogRef.close();
+    this.form.get(`${control}`)?.updateValueAndValidity();
   }
 
+  validate(): ValidationErrors {  
+    return { required: true };
+  }
+
+  showErrors(control: string): boolean {
+    return (
+      (this.form.controls[control].dirty || this.form.controls[control].touched) &&
+      !isEmpty(this.form.controls[control].errors)
+    );
+  }
+
+  save(): void {
+    if (this.form.valid) {
+      const valueForm = this.form.value;
+      const request: ReferenciaComplementaria = {
+        index: 0,
+        nombre: valueForm.name,
+        valor: valueForm.value,
+      };
+      this.dialogRef.close(request);
+    }
+  }
 }

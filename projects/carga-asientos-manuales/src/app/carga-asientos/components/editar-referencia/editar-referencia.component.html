@@ -1,19 +1,13 @@
+<app-close></app-close>
 <h1 mat-dialog-title>Nueva Referencia Complementaria</h1>
-
-<form [formGroup]="editarRefForm" (ngSubmit)="onSave()">
-  <div mat-dialog-content>
-    <mat-form-field appearance="fill">
-      <mat-label for="nombre">Referencia Complementaria</mat-label>
-      <input matInput id="nombre" formControlName="nombre" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="evol-input-number">
-      <mat-label for="valor">Valor</mat-label>
-      <input matInput type="number" min="0" id="valor" formControlName="valor" autocomplete="off">
-    </mat-form-field>
-  </div>
-
-  <mat-dialog-actions class="evol-footer-actions">
-    <button mat-flat-button type="submit" color="accent" [disabled]="!editarRefForm.valid">Guardar</button>
-  </mat-dialog-actions>
+<form [formGroup]="form" autocomplete="off">
+    <div mat-dialog-content class="evol-editar-linea-container">
+        <app-input (input)="onFocusOutEvent('name')" (focusout)="onFocusOutEvent('name')" [label]="'Referencia Complementaria'" formControlName="name" [error]="showErrors('name')"></app-input>
+        <app-form-errors [control]="form.controls['name']"></app-form-errors>
+        <app-input [onlyNumber]="true"  (input)="onFocusOutEvent('value')" (focusout)="onFocusOutEvent('value')" [label]="'Valor'" formControlName="value" [error]="showErrors('value')"></app-input>
+        <app-form-errors [control]="form.controls['value']"></app-form-errors>
+    </div>
+    <mat-dialog-actions class="evol-footer-actions">
+        <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
+    </mat-dialog-actions>
 </form>

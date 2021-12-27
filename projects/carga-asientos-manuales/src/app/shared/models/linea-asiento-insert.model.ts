@@ -1,3 +1,5 @@
+import { ReferenciaComplementaria } from "../../carga-asientos/models/referencia-complementaria.model";
+
 export class LineaAsientoInsert {
 	Id:number;
 	nroLinea:number;
@@ -16,4 +18,5 @@ export class LineaAsientoInsert {
 	EnteredCredit:string;
 	Description:string;
 	Usuario:string;
+	columnasReferenciales?: ReferenciaComplementaria[];
   }
