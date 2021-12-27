@@ -132,7 +132,7 @@ export class EditarLineaComponent implements OnInit, AfterViewChecked{
         EnteredCredit: valueForm.type === appConstants.typeCredit.DEBITO ? '' : valueForm.amount,
         Description: '',
         Usuario: '',
-        columnasReferenciales: undefined,
+        columnasReferenciales: [],
       }
       this.dialogRef.close(request);
     }
