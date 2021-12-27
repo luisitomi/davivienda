@@ -1,1 +1,9 @@
-<button mat-flat-button color="accent" [class.spinner]="loading" [type]="type" [disabled]="disabled">{{ label }}</button>
+<button
+    mat-button
+    [ngClass]="class === 'flat' ? 'mat-flat-button' : 'mat-icon-button'"
+    [color]="color"
+    [class.spinner]="loading"
+    [type]="type"
+    [disabled]="disabled">
+        {{ label }}<mat-icon>{{ icon }}</mat-icon>
+</button>

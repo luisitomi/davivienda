@@ -9,6 +9,7 @@ import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { EditarLineaModule } from '../editar-linea/editar-linea.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
     InputModule,
     EditarLineaModule,
     MatTableModule,
+    ActionsModule,
   ],
   exports: [LineasComponent],
 })

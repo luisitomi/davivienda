@@ -10,6 +10,6 @@
     <app-form-errors [control]="form.controls['amount']"></app-form-errors>
   </div>
   <mat-dialog-actions class="evol-footer-actions">
-    <app-actions (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
+    <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
   </mat-dialog-actions>
 </form>

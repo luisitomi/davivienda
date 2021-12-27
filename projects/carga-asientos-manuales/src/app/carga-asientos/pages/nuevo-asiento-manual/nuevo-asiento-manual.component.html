@@ -1,10 +1,10 @@
 <div class="evol-nuevo-asiento">
   <app-formulario-cabecera [disabledForm]="disabledForm" (proceesAutomaty)="proceesAutomaty($event)" (dataValidate)="dataValidate($event)" (processValidate)="processValidate($event)" class="evol-asiento-cabecera"></app-formulario-cabecera>
   <mat-card-actions *ngIf="visibleForm" class="evol-footer-actions">
-    <app-actions (click)="saveHeadboard()" [disabled]="!validateForm" [label]="'Guardar Cabecera'"></app-actions>
+    <app-actions [color]="'accent'" [class]="'flat'" (click)="saveHeadboard()" [disabled]="!validateForm" [label]="'Guardar Cabecera'"></app-actions>
   </mat-card-actions>
   <app-lineas (proceesLine)="proceesLine($event)" [visibleTable]="visibleTable" class="evol-asiento-lineas"></app-lineas>
   <mat-card-actions *ngIf="visibleTable" class="evol-footer-actions">
-    <app-actions  [disabled]="!validateTable" [label]="'Guardar Cabecera'"></app-actions>
+    <app-actions [color]="'accent'" [class]="'flat'" [disabled]="!validateTable" [label]="'Guardar Cabecera'"></app-actions>
   </mat-card-actions>
 </div>

@@ -7,6 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class ActionsComponent {
   @Input() label = '';
+  @Input() color: string;
+  @Input() icon: string;
+  @Input() class: string;
   @Input()
   @Input() iconPos = 'right';
   @Input() cssClass = '';
