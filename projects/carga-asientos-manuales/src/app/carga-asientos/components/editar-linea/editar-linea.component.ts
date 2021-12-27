@@ -2,14 +2,16 @@ import { OnInit, EventEmitter, Output, AfterViewChecked, ChangeDetectorRef } fro
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
+import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 
 @Component({
   selector: 'app-editar-linea',
   templateUrl: './editar-linea.component.html',
-  styleUrls: ['./editar-linea.component.scss']
+  styleUrls: ['./editar-linea.component.scss'],
 })
 export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked{
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -19,6 +21,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
   inputName: string;
   focusoutCurrency: boolean;
   focusoutType: boolean;
+  loading = false;
 
   constructor(
     public dialogRef: MatDialogRef<EditarLineaComponent>,
@@ -41,7 +44,6 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
 
   createForm(): void {
     this.form = this.formBuilder.group({
-      index: [null, [Validators.required]],
       currency: [null, [Validators.required]],
       type: [null, [Validators.required]],
       amount: [null, [Validators.required]],
@@ -96,6 +98,36 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
 
   changeSelection(event: any): void {
     this.inputName = event?.value;
+  }
+
+  save(): void {
+    if (this.form.valid) {
+      const valueForm = this.form.value;
+      if (this.data.type) {
+
+      } else {
+        const request : LineaAsientoInsert = {
+          Id: 0,
+          nroLinea: 0,
+          SegGlAccount: '',
+          SegOficina: '',
+          SegSucursal: '',
+          SegProyecto: '',
+          SegSubProyecto: '',
+          SegTipoComprobante: '',
+          SegIntecompany: '',
+          SegVinculado: '',
+          SegF1: '',
+          SegF2: '',
+          SegCurrency: valueForm.currency,
+          EnteredDebit: valueForm.currency === appConstants.typeCredit.DEBITO ? valueForm.amount : '',
+          EnteredCredit: !(valueForm.currency === appConstants.typeCredit.DEBITO) ? valueForm.amount : '',
+          Description: '',
+          Usuario: '',
+        }
+        this.dialogRef.close(request);
+      }
+    }
   }
 }
 

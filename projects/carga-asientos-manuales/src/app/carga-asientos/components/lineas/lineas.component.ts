@@ -1,11 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Linea } from '../../models/linea.model';
-import { AsientoManualService } from '../../services/asiento-manual.service';
-import { CombinacionContableComponent } from '../combinacion-contable/combinacion-contable.component';
+import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
+import { ManualLading } from '../../../shared/models/manualLoading.model';
 import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
 
 @Component({
@@ -13,64 +9,17 @@ import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
   templateUrl: './lineas.component.html',
   styleUrls: ['./lineas.component.scss']
 })
-export class LineasComponent implements OnInit, OnDestroy {
-
-  lineas: MatTableDataSource<Linea> = new MatTableDataSource();
-
-  getLineasSub?: Subscription;
-
-  displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
-
-
-  /*OFICIAL*/
+export class LineasComponent implements OnInit {
   @Input() visibleTable: boolean;
   title = "Líneas";
-  /*-------*/
+  lineList: Array<LineaAsientoInsert> = [];
 
   constructor(
-    private asientoManualService: AsientoManualService,
     private dialog: MatDialog,
-    private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.getLineasSub = this.asientoManualService.getLineas().subscribe(
-      lineas => {
-        this.lineas.data = lineas;
-        lineas.forEach(l => console.log(l));
-        lineas.forEach(l => console.log(l.combinacionContable));
-      },
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.getLineasSub?.unsubscribe();
-  }
-
-  
-
-  editarLinea(linea: Linea): void {
-    const dialogRef = this.dialog.open(EditarLineaComponent, {
-      width: '80%',
-      maxWidth: '400px',
-      data: { data: linea, type: 1 },
-    });
-  }
-
-  quitarLinea(linea: Linea): void {
-    this.asientoManualService.removeLinea(linea);
-  }
-
-  goReferencias(index: number): void {
-    this.router.navigate(['carga-asientos/referencias-complementarias', index]);
-  }
-
-  goCombinacion(index: number): void {
-    this.dialog.open(CombinacionContableComponent, {
-      width: '80%',
-      maxWidth: '600px',
-      data: index,
-    });
+    //
   }
 
   newLine(): void {
@@ -78,6 +27,21 @@ export class LineasComponent implements OnInit, OnDestroy {
       width: '80%',
       maxWidth: '400px',
       data: { data: null, type: 0 },
+      panelClass: 'my-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      if (model?.line) {
+        this.lineList = model?.line;
+      }
+      this.lineList.push(result);
+      const request: ManualLading = {
+        header: model?.header,
+        line: this.lineList,
+      }
+      localStorage.removeItem('model');
+      localStorage.setItem('model',JSON.stringify(request));
     });
   }
 

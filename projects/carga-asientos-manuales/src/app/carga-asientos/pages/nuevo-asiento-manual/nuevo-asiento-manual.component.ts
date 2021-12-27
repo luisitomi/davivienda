@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { HeadboardSeat } from '../../../shared';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
+import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
 
 @Component({
@@ -15,6 +16,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
   validateTable = false;
   visibleTable = false;
   dataHeader: HeadboardSeat;
+  lineList: Array<LineaAsientoInsert>;
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -43,6 +45,10 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
 
   saveHeadboard(): void {
     if (this.validateForm) {
+      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      if (model?.line) {
+        this.lineList = model?.line;
+      }
       const header: CabeceraAsientoInsert = {
         Id: 0,
         LegderName: '',
@@ -56,6 +62,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
       }
       const request: ManualLading = {
         header: header,
+        line: this.lineList,
       }
       localStorage.removeItem('model');
       localStorage.setItem('model',JSON.stringify(request));

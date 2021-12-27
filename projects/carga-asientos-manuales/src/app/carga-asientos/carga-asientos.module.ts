@@ -18,11 +18,11 @@ import { CombinacionContableComponent } from './components/combinacion-contable/
 import { cargaAsientosInterceptorProvider } from './interceptors/carga-asientos.interceptor';
 import { FormularioCabeceraModule } from './components/formulario-cabecera/formulario-cabecera.module';
 import { LineasModule } from './components/lineas/lineas.module';
+import { NewManualModule } from './pages/nuevo-asiento-manual/nuevo-asiento-manual.module';
 
 
 @NgModule({
   declarations: [
-    NuevoAsientoManualComponent,
     ReferenciasComplementariasComponent,
     EditarReferenciaComponent,
     CargaAsientosManualComponent,
@@ -37,8 +37,7 @@ import { LineasModule } from './components/lineas/lineas.module';
     NgxMatFileInputModule,
     CargaAsientosRoutingModule,
     SharedModule,
-    FormularioCabeceraModule,
-    LineasModule,
+    NewManualModule,
   ],
   providers: [
     cargaAsientosInterceptorProvider,

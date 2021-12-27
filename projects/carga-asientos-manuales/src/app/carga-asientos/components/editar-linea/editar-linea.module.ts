@@ -6,6 +6,9 @@ import { EditarLineaComponent } from './editar-linea.component';
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
 import { InputModule } from '../../../shared/component/ui/input/input.module';
+import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
+import { CloseModule } from '../../../shared/component/ui/close/close.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,9 @@ import { InputModule } from '../../../shared/component/ui/input/input.module';
     SelectModule,
     FormErrorsModule,
     InputModule,
+    ActionsModule,
+    CloseModule,
+    MatDialogModule,
   ],
   entryComponents: [EditarLineaComponent],
 })
