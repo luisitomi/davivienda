@@ -52,9 +52,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
     dialogRef.afterClosed().subscribe(result => {
       const model = JSON.parse(localStorage.getItem('model') || '{}');
-      if (model?.line) {
-        this.lineList = model?.line;
-      }
+      this.lineList = model?.line || [];
       this.lineList.splice(index, 1);
       if (result?.SegCurrency) {
         this.lineList.splice(index, 0, result);
@@ -87,9 +85,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
     dialogRef.afterClosed().subscribe(result => {
       const model = JSON.parse(localStorage.getItem('model') || '{}');
-      if (model?.line) {
-        this.lineList = model?.line;
-      }
+      this.lineList = model?.line || [];
       if (result?.SegCurrency) {
         this.lineList.push(result);
       }
