@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
 
@@ -20,10 +21,15 @@ export class EditarReferenciaComponent implements OnInit {
     public dialogRef: MatDialogRef<EditarReferenciaComponent>,
     private formBuilder: FormBuilder,
     private cdRef:ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }
+  
   ngOnInit(): void {
     this.createForm();
+    if (this.data?.type === appConstants.typeEvent.EDIT) {
+      this.updateForm();
+    }
   }
 
   ngAfterViewChecked(){
@@ -37,6 +43,13 @@ export class EditarReferenciaComponent implements OnInit {
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
+    });
+  }
+
+  updateForm(): void {
+    this.form.patchValue({
+      name: this.data?.data?.nombre,
+      value: this.data?.data?.valor,
     });
   }
 
