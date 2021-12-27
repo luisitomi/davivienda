@@ -35,17 +35,39 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  editLine(data: LineaAsientoInsert, index: number): void {
+    const dialogRef = this.dialog.open(EditarLineaComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: { data: data, type: 1 },
+      panelClass: 'my-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      if (model?.line) {
+        this.lineList = model?.line;
+      }
+      this.lineList.splice(index, 1);
+      if (result?.SegCurrency) {
+        this.lineList.splice(index, 0, result);
+      }
+      const request: ManualLading = {
+        header: model?.header,
+        line: this.lineList,
+      }
+      this.setDataLocal(request, this.lineList);
+    });
+  }
+
   deleteLine(index: number): void {
     this.lines.data.splice(index, 1);
-    this.lines.data = this.lines.data;
     const model = JSON.parse(localStorage.getItem('model') || '{}');
     const request: ManualLading = {
       header: model?.header,
       line: this.lines.data,
     }
-    localStorage.removeItem('model');
-    localStorage.setItem('model',JSON.stringify(request));
-    this.proceesLine.emit(!!this.lines.data.length);
+    this.setDataLocal(request, this.lines.data);
   }
 
   newLine(): void {
@@ -64,15 +86,18 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       if (result?.SegCurrency) {
         this.lineList.push(result);
       }
-      this.lines.data = this.lineList;
       const request: ManualLading = {
         header: model?.header,
         line: this.lineList,
       }
-      localStorage.removeItem('model');
-      localStorage.setItem('model',JSON.stringify(request));
-      this.proceesLine.emit(!!this.lines.data.length);
+      this.setDataLocal(request, this.lineList);
     });
   }
 
+  setDataLocal(request: ManualLading, lits: Array<LineaAsientoInsert>): void {
+    localStorage.removeItem('model');
+    localStorage.setItem('model',JSON.stringify(request));
+    this.proceesLine.emit(!!this.lines.data.length);
+    this.lines.data = lits;
+  }
 }

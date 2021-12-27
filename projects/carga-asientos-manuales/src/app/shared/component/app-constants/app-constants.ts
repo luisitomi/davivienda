@@ -4,5 +4,11 @@ export const appConstants = {
     },
     typeCredit: {
         DEBITO: 'Débito',
+        CREDITO: 'Crédito',
+    },
+    typeEvent: {
+        SAVE: 0,
+        EDIT: 1,
+        DELETE: 2,
     }
 }

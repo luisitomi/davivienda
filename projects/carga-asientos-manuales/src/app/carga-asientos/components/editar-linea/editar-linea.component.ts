@@ -22,6 +22,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
   focusoutCurrency: boolean;
   focusoutType: boolean;
   loading = false;
+  selectType: string;
 
   constructor(
     public dialogRef: MatDialogRef<EditarLineaComponent>,
@@ -36,6 +37,9 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
     this.getCurrencys();
     this.getTypes();
     this.createForm();
+    if (this.data?.type === appConstants.typeEvent.EDIT) {
+      this.updateForm();
+    }
   }
 
   ngAfterViewChecked(){
@@ -51,6 +55,15 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
     });
+  }
+
+  updateForm(): void {
+    this.form.patchValue({
+      currency: this.data?.data?.SegCurrency,
+      type: this.data?.data?.EnteredDebit ? appConstants.typeCredit.DEBITO : appConstants.typeCredit.CREDITO,
+      amount: this.data?.data?.EnteredDebit ? this.data?.data?.EnteredDebit : this.data?.data?.EnteredCredit,
+    });
+    this.selectType = this.data?.data?.EnteredDebit ? appConstants.typeCredit.DEBITO : appConstants.typeCredit.CREDITO;
   }
 
   showErrors(control: string): boolean {
@@ -103,30 +116,26 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
   save(): void {
     if (this.form.valid) {
       const valueForm = this.form.value;
-      if (this.data.type) {
-
-      } else {
-        const request : LineaAsientoInsert = {
-          Id: 0,
-          nroLinea: 0,
-          SegGlAccount: '',
-          SegOficina: '',
-          SegSucursal: '',
-          SegProyecto: '',
-          SegSubProyecto: '',
-          SegTipoComprobante: '',
-          SegIntecompany: '',
-          SegVinculado: '',
-          SegF1: '',
-          SegF2: '',
-          SegCurrency: valueForm.currency,
-          EnteredDebit: valueForm.type === appConstants.typeCredit.DEBITO ? valueForm.amount : '',
-          EnteredCredit: valueForm.type === appConstants.typeCredit.DEBITO ? '' : valueForm.amount,
-          Description: '',
-          Usuario: '',
-        }
-        this.dialogRef.close(request);
+      const request : LineaAsientoInsert = {
+        Id: 0,
+        nroLinea: 0,
+        SegGlAccount: '',
+        SegOficina: '',
+        SegSucursal: '',
+        SegProyecto: '',
+        SegSubProyecto: '',
+        SegTipoComprobante: '',
+        SegIntecompany: '',
+        SegVinculado: '',
+        SegF1: '',
+        SegF2: '',
+        SegCurrency: valueForm.currency,
+        EnteredDebit: valueForm.type === appConstants.typeCredit.DEBITO ? valueForm.amount : '',
+        EnteredCredit: valueForm.type === appConstants.typeCredit.DEBITO ? '' : valueForm.amount,
+        Description: '',
+        Usuario: '',
       }
+      this.dialogRef.close(request);
     }
   }
 }
