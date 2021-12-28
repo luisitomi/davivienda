@@ -123,19 +123,22 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  newComplementary(index: number): void {
+  complementary(index: number): void {
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    this.lineList = model?.line || [];
+    const complem = this.lineList[index]?.SegGlAccount || undefined;
+    
     const dialogRef = this.dialog.open(CombinacionContableComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: null, type: appConstants.typeEvent.SAVE },
+      data: { data: complem ? complem : null, type: complem ? appConstants.typeEvent.EDIT : appConstants.typeEvent.SAVE },
       panelClass: 'my-dialog',
       maxHeight: '600px',
     });
+
     dialogRef.afterClosed().subscribe(result => {
-      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-      this.lineList = model?.line || [];
-      this.lineList[index].SegGlAccount = undefined;
-      if (result?.comp1) {
+      this.lineList[index].SegGlAccount = this.lineList[index].SegGlAccount ||  undefined;
+      if (result?.comp2) {
         this.lineList[index].SegGlAccount = result;
       }
       const request: ManualLading = {
