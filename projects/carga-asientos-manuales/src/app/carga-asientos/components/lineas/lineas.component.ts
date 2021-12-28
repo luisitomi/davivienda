@@ -2,6 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, On
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
 import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
@@ -30,7 +31,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     if (model?.line) {
       this.lines.data = model?.line || [];
       let number = 1;
@@ -55,7 +56,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       this.lineList = model?.line || [];
       this.lineList.splice(index, 1);
       if (result?.SegCurrency) {
@@ -71,7 +72,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
   deleteLine(index: number): void {
     this.lines.data.splice(index, 1);
-    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     const request: ManualLading = {
       header: model?.header,
       line: this.lines.data,
@@ -88,7 +89,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       this.lineList = model?.line || [];
       if (result?.SegCurrency) {
         this.lineList.push(result);
@@ -102,8 +103,8 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   setDataLocal(request: ManualLading, lits: Array<LineaAsientoInsert>): void {
-    localStorage.removeItem('model');
-    localStorage.setItem('model',JSON.stringify(request));
+    localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+    localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
     this.proceesLine.emit(!!this.lines.data.length);
     this.lines.data = lits;
   }

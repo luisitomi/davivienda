@@ -6,6 +6,7 @@ import { EditarReferenciaComponent } from '../../components/editar-referencia/ed
 import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 
 @Component({
   selector: 'app-referencias-complementarias',
@@ -34,7 +35,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
   }
 
   getReferncesByid(): void {
-    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     if (model?.line) {
       this.lineList = model?.line;
       const indexList = this.lineList[this.index].columnasReferenciales || [];
@@ -56,7 +57,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       if (model?.line) {
         this.lineList = model?.line;
       }
@@ -74,7 +75,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
   }
 
   deleteReference(index: number): void {
-    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     if (model?.line) {
       this.lineList = model?.line;
       const indexList = this.lineList[this.index].columnasReferenciales || [];
@@ -97,7 +98,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       if (model?.line) {
         this.lineList = model?.line;
       }
@@ -116,8 +117,8 @@ export class ReferenciasComplementariasComponent implements OnInit {
   }
 
   setDataLocal(request: ManualLading): void {
-    localStorage.removeItem('model');
-    localStorage.setItem('model',JSON.stringify(request));
+    localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+    localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
     this.getReferncesByid();
   }
 

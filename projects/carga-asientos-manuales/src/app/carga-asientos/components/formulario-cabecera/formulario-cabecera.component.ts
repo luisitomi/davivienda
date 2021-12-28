@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { OrigenService } from '../../../core/services/origen.service';
 import { HeadboardSeat, Origen } from '../../../shared';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
@@ -10,7 +12,7 @@ import { PeriodoContableService } from '../../services/periodo-contable.service'
 @Component({
   selector: 'app-formulario-cabecera',
   templateUrl: './formulario-cabecera.component.html',
-  styleUrls: ['./formulario-cabecera.component.scss']
+  styleUrls: ['./formulario-cabecera.component.scss'],
 })
 export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements OnInit, OnDestroy {
   @Input() disabledForm: boolean;
@@ -51,6 +53,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       period: [null, [Validators.required]],
       number: [null, [Validators.required]],
       description: [null, [Validators.required]],
+      accountingDate: [null, [Validators.required]],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
@@ -58,13 +61,15 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   updateForm(): void {
-    const model = JSON.parse(localStorage.getItem('model') || '{}');
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    const dateFormat = model?.header?.AccountingDate.split('/') || '';
     if (model?.header) {
       this.form.patchValue({
         origen: model?.header?.SourceName,
         period: model?.header?.Period,
         number: model?.header?.TrxNumber,
         description: model?.header?.Description,
+        accountingDate: new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`),
       });
       this.selectOrigen = model?.header?.SourceName;
       this.selectPeriod = model?.header?.Period;
@@ -140,5 +145,10 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
 
   validate(): ValidationErrors {  
     return { required: true };
+  }
+
+  onSelectedCalendar(): void {
+    this.processValidate.emit(this.form.valid);
+    this.dataValidate.emit(this.form.value);
   }
 }

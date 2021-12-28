@@ -14,6 +14,10 @@
         <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
         <app-form-errors [control]="form.controls['description']"></app-form-errors>
       </div>
+      <div class="evol-form-section">
+        <app-calendar (changeCalendarOption)="onSelectedCalendar()" [disabled]="disabledForm" [label]="'Fecha Contable'" formControlName="accountingDate" [error]="showErrors('accountingDate')"></app-calendar>
+        <app-form-errors [control]="form.controls['accountingDate']"></app-form-errors>
+      </div>
     </mat-card-content>
   </mat-card>
 </form>

@@ -11,5 +11,5 @@ export interface HeadboardSeat {
   period: string;
   number: string;
   description: string;
-  date: Date;
+  accountingDate: string;
 }

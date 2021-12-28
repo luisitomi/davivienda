@@ -10,6 +10,7 @@ import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
 import { MatCardModule } from '@angular/material/card';
+import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
     FormErrorsModule,
     SelectModule,
     MatCardModule,
+    CalendarModule,
   ],
   exports: [FormularioCabeceraComponent],
 })

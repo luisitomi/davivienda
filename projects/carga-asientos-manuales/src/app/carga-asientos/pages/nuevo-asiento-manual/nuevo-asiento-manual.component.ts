@@ -1,5 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { HeadboardSeat } from '../../../shared';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
@@ -7,7 +9,8 @@ import { ManualLading } from '../../../shared/models/manualLoading.model';
 @Component({
   selector: 'app-nuevo-asiento-manual',
   templateUrl: './nuevo-asiento-manual.component.html',
-  styleUrls: ['./nuevo-asiento-manual.component.scss']
+  styleUrls: ['./nuevo-asiento-manual.component.scss'],
+  providers: [DatePipe],
 })
 export class NuevoAsientoManualComponent implements AfterViewChecked {
   disabledForm = false;
@@ -20,6 +23,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
 
   constructor(
     private cdRef:ChangeDetectorRef,
+    private datePipe: DatePipe,
   ) {
   }
 
@@ -49,7 +53,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
 
   saveHeadboard(): void {
     if (this.validateForm) {
-      const model = JSON.parse(localStorage.getItem('model') || '{}');
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       if (model?.line) {
         this.lineList = model?.line;
       }
@@ -58,7 +62,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
         LegderName: '',
         SourceName: this.dataHeader?.origen,
         TrxNumber: this.dataHeader?.number,
-        AccountingDate: '12/12/2021',
+        AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',
         Description: this.dataHeader?.description,
         Company: '',
         Usuario: '',
@@ -68,8 +72,8 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
         header: header,
         line: this.lineList,
       }
-      localStorage.removeItem('model');
-      localStorage.setItem('model',JSON.stringify(request));
+      localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+      localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
       this.visibleForm = false;
       this.visibleTable = true;
       this.validateForm = false;

@@ -10,5 +10,11 @@ export const appConstants = {
         SAVE: 0,
         EDIT: 1,
         DELETE: 2,
-    }
+    },
+    modelSave: {
+        NEWSEAT: 'NEWSEAT',
+    },
+    eventDate: {
+        format: 'dd/MM/yyyy',
+    },
 }
