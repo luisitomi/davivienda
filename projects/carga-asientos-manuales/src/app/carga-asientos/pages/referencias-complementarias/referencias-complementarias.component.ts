@@ -19,6 +19,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
   lineList: Array<LineaAsientoInsert> = [];
   displayedColumns: string[] = ['index', 'nombre', 'valor', 'acciones'];
   references: MatTableDataSource<ReferenciaComplementaria> = new MatTableDataSource();
+  queryParams: any;
 
   constructor(
     private dialog: MatDialog,
@@ -27,6 +28,9 @@ export class ReferenciasComplementariasComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.index = +params['linea'];
+    });
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.queryParams = params;
     });
   }
 
@@ -123,6 +127,12 @@ export class ReferenciasComplementariasComponent implements OnInit {
   }
 
   goToBack(): void {
-    this.router.navigate(['carga-asientos/nuevo-asiento-manual?token=prueb']);
+    this.router.navigate(['carga-asientos/nuevo-asiento-manual'],
+      {
+        queryParams: this.queryParams,
+        skipLocationChange: false,
+        queryParamsHandling: 'merge',
+      }
+    );
   }
 }

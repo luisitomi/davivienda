@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeadboardSeat } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
@@ -21,12 +21,17 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
   visibleTable = false;
   dataHeader: HeadboardSeat;
   lineList: Array<LineaAsientoInsert>;
+  queryParams: any;
 
   constructor(
     private cdRef:ChangeDetectorRef,
     private datePipe: DatePipe,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.queryParams = params;
+    });
   }
 
   ngAfterViewChecked(){
@@ -85,6 +90,12 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
 
   send(): void {
     localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-    this.router.navigate(['carga-asientos/nuevo-asiento-manual?token=prueb']);
+    this.router.navigate(['carga-asientos/nuevo-asiento-manual'] ,
+      {
+        queryParams: this.queryParams,
+        skipLocationChange: false,
+        queryParamsHandling: 'merge',
+      }
+    );
   }
 }

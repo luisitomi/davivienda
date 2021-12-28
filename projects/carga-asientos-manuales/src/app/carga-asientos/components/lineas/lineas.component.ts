@@ -1,7 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
@@ -19,12 +19,18 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   lineList: Array<LineaAsientoInsert> = [];
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
   displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
+  queryParams: any;
 
   constructor(
     private dialog: MatDialog,
     private cdRef:ChangeDetectorRef,
     private router: Router,
-  ) { }
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.queryParams = params;
+    });
+  }
 
   ngAfterViewChecked(){
     this.cdRef.detectChanges();
@@ -48,7 +54,13 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   addReference(index: number): void {
-    this.router.navigate(['carga-asientos/referencias-complementarias', index]);
+    this.router.navigate(['carga-asientos/referencias-complementarias', index],
+      {
+        queryParams: this.queryParams,
+        skipLocationChange: false,
+        queryParamsHandling: 'merge',
+      }
+    );
   }
 
   editLine(data: LineaAsientoInsert, index: number): void {
