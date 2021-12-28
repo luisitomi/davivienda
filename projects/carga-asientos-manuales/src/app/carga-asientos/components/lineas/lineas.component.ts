@@ -105,7 +105,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   setDataLocal(request: ManualLading, lits: Array<LineaAsientoInsert>): void {
     localStorage.removeItem(appConstants.modelSave.NEWSEAT);
     localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
-    this.proceesLine.emit(!!this.lines.data.length);
+    this.proceesLine.emit(this.lines.data.length ? true : false);
     this.lines.data = lits;
   }
 }
