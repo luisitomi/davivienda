@@ -62,6 +62,8 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     dialogRef.afterClosed().subscribe(result => {
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       this.lineList = model?.line || [];
+      const references = this.lineList[index]?.columnasReferenciales;
+      result.columnasReferenciales = references || [];
       this.lineList.splice(index, 1);
       if (result?.SegCurrency) {
         this.lineList.splice(index, 0, result);
