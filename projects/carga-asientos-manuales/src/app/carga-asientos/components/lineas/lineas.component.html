@@ -3,6 +3,10 @@
   <mat-card-content class="evol-card-content">
     <div class="evol-tabla-container">
       <table mat-table [dataSource]="lines">
+        <ng-container matColumnDef="index" sticky>
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{ element.index }}</td>
+        </ng-container>
         <ng-container matColumnDef="combinacion">
           <th mat-header-cell *matHeaderCellDef>Combinación Contable</th>
           <td mat-cell *matCellDef="let element">

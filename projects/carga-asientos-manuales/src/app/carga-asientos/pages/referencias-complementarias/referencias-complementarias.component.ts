@@ -16,7 +16,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
   title = "Referencias Complementarias";
   index: number;
   lineList: Array<LineaAsientoInsert> = [];
-  displayedColumns: string[] = ['nombre', 'valor', 'acciones'];
+  displayedColumns: string[] = ['index', 'nombre', 'valor', 'acciones'];
   references: MatTableDataSource<ReferenciaComplementaria> = new MatTableDataSource();
 
   constructor(
@@ -39,6 +39,11 @@ export class ReferenciasComplementariasComponent implements OnInit {
       this.lineList = model?.line;
       const indexList = this.lineList[this.index].columnasReferenciales || [];
       this.references.data = indexList;
+      let number = 1;
+      this.references.data.forEach((element: any) => {
+        element.index = number;
+        number++;
+      });
     }
   }
 

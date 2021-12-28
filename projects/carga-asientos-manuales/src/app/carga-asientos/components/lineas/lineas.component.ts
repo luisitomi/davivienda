@@ -17,7 +17,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   title = "Líneas";
   lineList: Array<LineaAsientoInsert> = [];
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
-  displayedColumns: string[] = ['combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
+  displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -33,7 +33,11 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     const model = JSON.parse(localStorage.getItem('model') || '{}');
     if (model?.line) {
       this.lines.data = model?.line || [];
-      console.log(this.lines.data );
+      let number = 1;
+      this.lines.data.forEach((element: any) => {
+        element.index = number;
+        number++;
+      });
       this.proceesLine.emit(!!this.lines.data.length);
     }
   }
