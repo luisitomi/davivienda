@@ -31,6 +31,10 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.getLine();
+  }
+
+  getLine(): void {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     if (model?.line) {
       this.lines.data = model?.line || [];
@@ -107,5 +111,11 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
     this.proceesLine.emit(this.lines.data.length ? true : false);
     this.lines.data = lits;
+    let number = 1;
+      this.lines.data.forEach((element: any) => {
+        element.index = number;
+        number++;
+      });
+      this.proceesLine.emit(!!this.lines.data.length);
   }
 }
