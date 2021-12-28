@@ -82,7 +82,7 @@ export class AsientoManualService {
     lineaAsiento.Id = this.getIdCabecera();
     lineaAsiento.nroLinea= linea.index;
 
-  lineaAsiento.SegGlAccount= linea.cuentaContable;
+  lineaAsiento.SegGlAccount= undefined;
   lineaAsiento.SegOficina= linea.oficina;
   lineaAsiento.SegSucursal= linea.proyecto;
   lineaAsiento.SegProyecto= linea.proyecto;

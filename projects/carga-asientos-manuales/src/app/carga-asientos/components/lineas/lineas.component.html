@@ -9,9 +9,8 @@
         </ng-container>
         <ng-container matColumnDef="combinacion">
           <th mat-header-cell *matHeaderCellDef>Combinación Contable</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.SegGlAccount }}
-            <app-actions [icon]="'more_horiz'" [class]="'icon'"></app-actions>
+          <td mat-cell *matCellDef="let element; let i = index;">
+            <app-actions (click)="newComplementary(i)" [icon]="'more_horiz'" [class]="'icon'"></app-actions>
           </td>
         </ng-container>
         <ng-container matColumnDef="moneda">

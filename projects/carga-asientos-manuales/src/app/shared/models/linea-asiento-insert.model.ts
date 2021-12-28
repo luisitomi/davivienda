@@ -1,9 +1,10 @@
+import { CombinacionContable } from "../../carga-asientos/models/combinacion-contable.model";
 import { ReferenciaComplementaria } from "../../carga-asientos/models/referencia-complementaria.model";
 
 export class LineaAsientoInsert {
 	Id:number;
 	nroLinea:number;
-	SegGlAccount:string;
+	SegGlAccount?: CombinacionContable;
 	SegOficina:string;
 	SegSucursal:string;
 	SegProyecto:string;

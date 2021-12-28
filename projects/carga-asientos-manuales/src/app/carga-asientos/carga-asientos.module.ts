@@ -16,7 +16,6 @@ import { ReferenciasComplementariasModule } from './pages/referencias-complement
 @NgModule({
   declarations: [
     CargaAsientosManualComponent,
-    CombinacionContableComponent,
   ],
   imports: [
     CommonModule,

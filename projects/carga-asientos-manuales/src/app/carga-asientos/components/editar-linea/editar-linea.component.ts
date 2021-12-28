@@ -117,7 +117,7 @@ export class EditarLineaComponent implements OnInit, AfterViewChecked{
       const request: LineaAsientoInsert = {
         Id: 0,
         nroLinea: 0,
-        SegGlAccount: '',
+        SegGlAccount: undefined,
         SegOficina: '',
         SegSucursal: '',
         SegProyecto: '',

@@ -10,6 +10,7 @@ import { EditarLineaModule } from '../editar-linea/editar-linea.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
+import { CmbinacionContableModule } from '../combinacion-contable/combinacion-contable.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ActionsModule } from '../../../shared/component/ui/actions/actions.modu
     EditarLineaModule,
     MatTableModule,
     ActionsModule,
+    CmbinacionContableModule,
   ],
   exports: [LineasComponent],
 })
