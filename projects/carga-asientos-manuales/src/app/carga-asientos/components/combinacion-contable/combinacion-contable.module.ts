@@ -8,6 +8,7 @@ import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormErrorsModule,
     ActionsModule,
     MatDialogModule,
+    LoaderModule,
   ],
   entryComponents: [CombinacionContableComponent],
 })

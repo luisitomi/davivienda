@@ -22,6 +22,7 @@ export class EditarLineaComponent implements OnInit, AfterViewChecked{
   focusoutType: boolean;
   loading = false;
   selectType: string;
+  spinner: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<EditarLineaComponent>,
@@ -93,18 +94,22 @@ export class EditarLineaComponent implements OnInit, AfterViewChecked{
   }
 
   getCurrencys(): void {
+    this.spinner = true;
     this.currencys = (DATA_CURRENCY || []).map((data) => ({
       label: data,
       value: data,
     }));
+    this.spinner = false;
   }
 
   getTypes(): void {
+    this.spinner = true;
     this.types = (DATA_TYPE || []).map((data) => ({
       label: data,
       value: data,
     }));
     this.inputName = this.types[0].value || '';
+    this.spinner = false;
   }
 
   changeSelection(event: any): void {

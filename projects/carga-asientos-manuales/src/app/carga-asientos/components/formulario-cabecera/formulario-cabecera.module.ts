@@ -11,6 +11,7 @@ import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
 import { MatCardModule } from '@angular/material/card';
 import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
+import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.m
     SelectModule,
     MatCardModule,
     CalendarModule,
+    LoaderModule,
   ],
   exports: [FormularioCabeceraComponent],
 })

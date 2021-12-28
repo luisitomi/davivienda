@@ -9,6 +9,7 @@ import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ActionsModule,
     CloseModule,
     MatDialogModule,
+    LoaderModule,
   ],
   entryComponents: [EditarLineaComponent],
 })

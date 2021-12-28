@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 import { OrigenService } from '../../../core/services/origen.service';
 import { HeadboardSeat, Origen } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
@@ -31,6 +32,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   showTable = false;
   selectOrigen = "";
   selectPeriod = "";
+  spinner: boolean;
 
   constructor(
     private origenService: OrigenService,
@@ -43,7 +45,6 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   ngOnInit(): void {
     this.createForm();
     this.getOrigen();
-    this.getPeriod();
     this.updateForm();
   }
 
@@ -87,26 +88,33 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   getOrigen(): void {
-    const $origen = this.origenService.getOrigenes().subscribe(
-      (response: Origen[]) => {
-        this.origens = (response || []).map((data) => ({
-          label: data?.ORIGEN,
-          value: data?.ORIGEN,
-        }),
-      )}
-    );
+    this.spinner = true;
+    const $origen = this.origenService
+      .getOrigenes()
+      .pipe(finalize(() => this.getPeriod()))
+      .subscribe(
+        (response: Origen[]) => {
+          this.origens = (response || []).map((data) => ({
+            label: data?.ORIGEN,
+            value: data?.ORIGEN,
+          }),
+        )}
+      );
     this.arrayToDestroy.push($origen);
   }
 
   getPeriod(): void {
-    const $period = this.periodoContableService.getPeriodos().subscribe(
-      (response: string[]) => {
-        this.periods = (response || []).map((data) => ({
-          label: data,
-          value: data,
-        }),
-      )}
-    );
+    const $period = this.periodoContableService
+      .getPeriodos()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: string[]) => {
+          this.periods = (response || []).map((data) => ({
+            label: data,
+            value: data,
+          }),
+        )}
+      );
     this.arrayToDestroy.push($period);
   }
 

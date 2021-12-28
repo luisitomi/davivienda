@@ -40,6 +40,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   comp9Select: string;
   comp10Select: string;
   comp11Select: string;
+  spinner: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<CombinacionContableComponent>,
@@ -116,6 +117,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions2(): void {
+    this.spinner = true;
     const $option2 = this.combinacionContableService
       .getParte2()
       .pipe(finalize(() => this.getOptions3()))
@@ -264,6 +266,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             label: data?.valor,
             value: data?.codigo,
           }))
+          this.spinner = false;
         }
       );
     this.arrayToDestroy.push($option11);
