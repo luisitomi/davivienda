@@ -5,6 +5,6 @@
   </mat-card-actions>
   <app-lineas (proceesLine)="proceesLine($event)" [visibleTable]="visibleTable" class="evol-asiento-lineas"></app-lineas>
   <mat-card-actions *ngIf="visibleTable" class="evol-footer-actions">
-    <app-actions [color]="'accent'" [class]="'flat'" [disabled]="!validateTable" [label]="'Guardar Cabecera'"></app-actions>
+    <app-actions [color]="'accent'" [class]="'flat'" [disabled]="!validateTable" [label]="'Guardar Asiento'"></app-actions>
   </mat-card-actions>
 </div>
