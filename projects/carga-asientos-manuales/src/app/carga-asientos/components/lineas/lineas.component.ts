@@ -68,7 +68,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     const dialogRef = this.dialog.open(EditarLineaComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: data, type: 1 },
+      data: { data: data, type: appConstants.typeEvent.EDIT },
       panelClass: 'my-dialog',
     });
 
@@ -105,7 +105,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     const dialogRef = this.dialog.open(EditarLineaComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: null, type: 0 },
+      data: { data: null, type: appConstants.typeEvent.SAVE },
       panelClass: 'my-dialog',
     });
 
@@ -127,7 +127,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     const dialogRef = this.dialog.open(CombinacionContableComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: null, type: 0 },
+      data: { data: null, type: appConstants.typeEvent.SAVE },
       panelClass: 'my-dialog',
       maxHeight: '600px',
     });
