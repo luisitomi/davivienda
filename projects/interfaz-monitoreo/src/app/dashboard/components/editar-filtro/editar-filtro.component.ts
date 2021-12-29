@@ -187,7 +187,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
     const objeto = {
       Columna:filtro.columna,
       Criterio:filtro.criterio,
-      Valor:filtro.valor,
+      Valor:this.isDate ? this.datePipe.transform(filtro.valor, appConstants.eventDate.format) : filtro.valor,
       IdArchivoZip:this.correccionFiltrosService.getIdCarga(),
       TipoArchivo: this.correccionFiltrosService.getTipoArchivo(),
       TipoFiltro: "FILTRO",
