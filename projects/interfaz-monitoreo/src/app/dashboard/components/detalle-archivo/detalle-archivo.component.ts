@@ -52,48 +52,58 @@ export class DetalleArchivoComponent implements OnDestroy {
       data: "¿Esta seguro que quiere reversar el proceso?",
     });
     dialogRef.afterClosed().subscribe( res => {
-      console.log('res' +res) 
-      this.loadingCargas = true;
-      let fechaContable= "";
-      if (res != null) {
-        let day = res.getDate();
-        let month = res.getMonth() + 1;
-        let year = res.getFullYear();
-  
-        if (month < 10) {
-          fechaContable =  `${year}-${month}-${day}`;
-        } else {
-          fechaContable = `${year}-${month}-${day}`;
-        }
-      } else {
-       // fechaContable = "01/01/2050";
-      }
-      console.log('fechaContable'+fechaContable)
 
-    //let fechaContable = "";
-    let id = this.carga.id;
-    let origen = this.carga.origen;
-    let usuario = "prueba";
-    this.reversarSub = this.cargasService.reversarProceso(fechaContable,  id, origen, usuario).subscribe(
-      res => {
-      
-        debugger
-        this.snackBar.open('Registro reversado satisfactoriamente') 
-        console.log(res)
-    
-    },
-    error => { 
-      console.log('error 2:')
-      console.log(error)
-      this.loadingCargas = false 
-    },
-      () => {
-        this.loadingCargas = false 
-        this.obtenerCarga()
-          },
-    
-    );
-     
+        //---------------- INICIO VALIDACION ----------------//
+       if (res!= null) {
+            console.log('res' +res.fecha) 
+            this.loadingCargas = true;
+            let fechaContable= "";
+            if (res.fecha != null) {
+              let day = res.fecha.getDate();
+              let month = res.fecha.getMonth() + 1;
+              let year = res.fecha.getFullYear();
+        
+              if (month < 10) {
+                fechaContable =  `${year}-${month}-${day}`;
+              } else {
+                fechaContable = `${year}-${month}-${day}`;
+              }
+            } else {
+            // fechaContable = "01/01/2050";
+            }
+            console.log('fechaContable'+fechaContable)
+
+          //let fechaContable = "";
+          let id = this.carga.id;
+          let origen = this.carga.origen;
+          let usuario = "prueba";
+          this.reversarSub = this.cargasService.reversarProceso(fechaContable,  id, origen, usuario).subscribe(
+            res => {
+
+              if (res!= null && res.Estado == 'OK') {
+                this.snackBar.open(res.Mensaje) 
+                this.carga.reversado = 'Y'
+              } else {
+                this.snackBar.open(res.Mensaje) 
+              }
+            
+            // this.snackBar.open('Registro reversado satisfactoriamente') 
+            // console.log(res)
+          
+            },
+            error => { 
+            console.log('error 2:')
+            console.log(error)
+            console.log(error.error.Mensaje)
+            this.snackBar.open(error.error.Mensaje) 
+            this.loadingCargas = false 
+            },
+            () => {
+              this.loadingCargas = false 
+              this.obtenerCarga()
+                },
+          );
+       }
     });
 
   }
@@ -120,35 +130,41 @@ export class DetalleArchivoComponent implements OnDestroy {
       data: "¿Esta seguro que quiere reprocesar el proceso?",
     });
     dialogRef.afterClosed().subscribe( res => {
-      this.loadingCargas = true;
-      console.log('res' +res) 
-      let fechaContable= "";
-      if (res != null) {
-        let day = res.getDate();
-        let month = res.getMonth() + 1;
-        let year = res.getFullYear();
-  
-        if (month < 10) {
-          fechaContable =  `${year}-${month}-${day}`;
-        } else {
-          fechaContable = `${year}-${month}-${day}`;
-        }
-      } else {
-       // fechaContable = "01/01/2050";
-      }
-      console.log('fechaContable'+fechaContable)
-      this.reprocesarSub = this.cargasService.reprocesarV2(this.carga,fechaContable).subscribe(
-        ok => {
-         this.obtenerCarga();
-          this.snackBar.open('Registro reprocesado satisfactoriamente')
-         
-        } ,
-        () => {
-            this.loadingCargas = false
+      //---------------- INICIO VALIDACION ----------------//
+        if (res!= null) {
+
+          this.loadingCargas = true;
+          console.log('res' +res.fecha) 
+          let fechaContable= "";
+          if (res.fecha != null) {
+            let day = res.fecha.getDate();
+            let month = res.fecha.getMonth() + 1;
+            let year = res.fecha.getFullYear();
+      
+            if (month < 10) {
+              fechaContable =  `${year}-${month}-${day}`;
+            } else {
+              fechaContable = `${year}-${month}-${day}`;
+            }
+          } else {
+          // fechaContable = "01/01/2050";
+          }
+          console.log('fechaContable'+fechaContable)
+          this.reprocesarSub = this.cargasService.reprocesarV2(this.carga,fechaContable).subscribe(
+            ok => {
             this.obtenerCarga();
-        }
-      );
-        
+              this.snackBar.open('Registro reprocesado satisfactoriamente')
+            
+            } ,
+            () => {
+                this.loadingCargas = false
+                this.obtenerCarga();
+            }
+          );
+
+      }
+      //---------------- FIN VALIDACION ----------------//
+
 
     }
       

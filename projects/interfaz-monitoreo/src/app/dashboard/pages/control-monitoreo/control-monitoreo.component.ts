@@ -54,7 +54,8 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
     this.dialog.closeAll();
   }
   filtrarCargas(filtros: Filtros): void {
-  
+  console.log('filtro')
+  console.log(filtros)
     let fechaInicio = "";
     let fechaFin ="";
     if (filtros.despuesDe != null) {
@@ -87,7 +88,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
 
     const prmBean = {
       
-      Origen:(filtros.interfazSalida == undefined  ? '' : filtros.interfazSalida  ),
+      Origen:(filtros.origen == undefined  ? '' : filtros.origen  ),
       FechaCargaInicio:fechaInicio,
       FechaCargaFin:fechaFin,
       Estado:filtros.estado,

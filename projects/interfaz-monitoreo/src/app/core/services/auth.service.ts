@@ -1,15 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { FeaturePermission, Usuario } from 'src/app/shared';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  TsAnnouncementsTokenWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/1c3b52c80fd34e1e9e76856bb870fe98/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7_IHw03w7-TauzrmMv-b_bxhjHvfSHqC1hWRPORbwWw";
   url: string = 'http://rutadelservicio.com/api/v1.0/usuario';
 
   private usuario: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
@@ -17,6 +19,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private configService: ConfigService,
   ) { }
 
   isLoggedIn(): Observable<boolean> {
@@ -45,6 +48,24 @@ export class AuthService {
 
   getToken(): Observable<string> {
     return this.token.asObservable().pipe(filter(t => t !==''), first());
+  }
+
+  getTokenERP(token: string): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin':'***',
+        Authorization: 'Bearer '+token
+      })
+    };
+
+    const prmBean = {
+      jwt:token
+    };
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(this.TsAnnouncementsTokenWS,prmBean)),
+    );
   }
 
   setToken(token: string | undefined): void {

@@ -23,7 +23,7 @@ const routes: Routes = [
    // canActivate: [ FeatureGuard ],
   },
   {
-    path: 'reproceso/:id/:elemento',
+    path: 'reproceso/:id/:elemento/:origen',
     component: ReprocesoComponent,
    // data: { feature: Features.Reprocesar, permission: Permissions.Admin },
    // canActivate: [ FeatureGuard ],

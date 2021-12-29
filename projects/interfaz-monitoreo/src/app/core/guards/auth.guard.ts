@@ -23,6 +23,14 @@ export class AuthGuard implements CanActivate {
     this.navigationService.setPrevUrl(state.url);
     return this.authService.isLoggedIn().pipe(
       map(logged => {
+        console.log(route.queryParams.token)
+
+        this.authService.getTokenERP(route.queryParams.token).subscribe( res => {
+          console.log('consultando token')
+          console.log(res)
+
+        });
+
         return true;
         if (logged) {
           return true;

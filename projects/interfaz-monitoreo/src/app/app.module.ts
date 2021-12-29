@@ -28,8 +28,8 @@ import { tokenInterceptorProvider } from './core/interceptors/token.interceptor'
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' } },
-    //tokenInterceptorProvider,
-    INTERCEPTORS,
+  //  tokenInterceptorProvider,
+ //   INTERCEPTORS,
   ],
   bootstrap: [AppComponent]
 })

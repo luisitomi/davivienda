@@ -21,6 +21,7 @@ export class FeatureGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.authService.getFeaturePermission().pipe(
       map(fps => {
+        console.log(fps)
         if (fps) {
           return this.permissionService.validarPermiso(fps, route.data.feature, route.data.permission);
         } else {

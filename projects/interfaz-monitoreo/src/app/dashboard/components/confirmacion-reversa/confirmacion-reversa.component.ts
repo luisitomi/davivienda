@@ -26,14 +26,16 @@ export class ConfirmacionReversaComponent implements OnInit {
   }
 
   onAceptar(): void {
-    let date = null;
+    let prmBean = {
+      fecha: null
+    };
     if (this.filterForm.controls['fechaContable'].value == undefined || this.filterForm.controls['fechaContable'].value == null) {
-      date = null;
+      prmBean.fecha = null;
     } else {
-      date = this.filterForm.controls['fechaContable'].value;
+      prmBean.fecha = this.filterForm.controls['fechaContable'].value;
     }
     console.log('fechaContable: ' +this.filterForm.controls['fechaContable'].value)
-    this.dialogRef.close(date);
+    this.dialogRef.close(prmBean);
   }
 
 }

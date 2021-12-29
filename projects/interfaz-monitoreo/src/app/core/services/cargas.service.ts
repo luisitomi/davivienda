@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, first } from 'rxjs/operators';
 import { Carga } from '../../shared';
+import { ResponseGeneric } from '../../shared/models/response-generic.mode';
 
 import { ConfigService } from './config.service';
 
@@ -68,7 +69,7 @@ export class CargasService {
     );
   }
 
-  reversarProceso(fechaContable: string,  id: number, origen: any, usuario: string): Observable<boolean> {
+  reversarProceso(fechaContable: string,  id: number, origen: any, usuario: string): Observable<ResponseGeneric> {
     const prmBean = {
       FechaContable:fechaContable,
       Id: id,
@@ -79,7 +80,7 @@ export class CargasService {
     console.log(prmBean);
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.post<any>(this.urlTsFAHReversaCargaGobIntContableWS,prmBean)),
+      switchMap(url => this.http.post<ResponseGeneric>(this.urlTsFAHReversaCargaGobIntContableWS,prmBean)),
     );
   }
   reprocesar(carga: Carga): Observable<boolean> {

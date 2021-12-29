@@ -17,6 +17,7 @@ export class CorreccionColumnasService {
   columnasSubject: Subject<CorreccionColumna[]> = new Subject();
   tipoArchivo: string = "";
   idCarga: number  = 0;
+  origen: string = "";
   constructor(private http: HttpClient,
     private configService: ConfigService,) { }
   getTipoArchivo(){
@@ -28,19 +29,24 @@ export class CorreccionColumnasService {
   getIdCarga() {
     return this.idCarga;
   }
-  addValoresCorreccion(nom : any, id: any) {
+  getOrigen(){
+    return this.origen;
+  }
+  addValoresCorreccion(nom : any, id: any,origen: any) {
     this.tipoArchivo =nom;
     this.idCarga = id;
+    this.origen = origen;
   }
 
   getColumnas(): Observable<CorreccionColumna[]> {
     return this.columnasSubject.asObservable();
   }
-  getFiltrosTsListarColumnasCorreccionXProcesoWS (id:any, tipo: string, tipoColumna: any): Observable<CorreccionColumna[]> {
+  getFiltrosTsListarColumnasCorreccionXProcesoWS (id:any, tipo: string, tipoColumna: any, origen: any): Observable<CorreccionColumna[]> {
     const obj ={ 
       Id:id,
       TipoFiltro:tipo,
-      TipoColumna:tipoColumna
+      TipoColumna:tipoColumna,
+      Origen: origen
     }
     return this.configService.getApiUrl().pipe(
       first(),

@@ -36,7 +36,7 @@ export class EditarFiltroComponent {
   ngOnInit(): void {
     
 
-    let origen = "COBIS";
+    let origen = this.correccionFiltrosService.getOrigen();
     let tipoArchivo1 = this.correccionFiltrosService.getTipoArchivo();
     console.log(tipoArchivo1);
     if (tipoArchivo1 == 'HEADER') {
@@ -96,7 +96,10 @@ export class EditarFiltroComponent {
     this.reprocesoService.postTsFahColumnaProcesoAHCWS(
       origen,tipoColumna
     ).subscribe(
-      data => this.columnaOptions = data/*console.log('data: '+data)*/,
+      data => {
+        console.log(data);
+        this.columnaOptions = data
+      }/*console.log('data: '+data)*/,
       error => console.log(error),
       () => this.loadingCargas = false,
     );

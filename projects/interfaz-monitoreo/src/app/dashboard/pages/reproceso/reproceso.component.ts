@@ -18,6 +18,7 @@ export class ReprocesoComponent implements OnInit, OnDestroy {
 
   elemento: string | undefined;
   carga: Carga | undefined;
+  origen: string | undefined;
   tipoArchivo: string | undefined;
 
   getCargaByIdSub?: Subscription;
@@ -35,6 +36,8 @@ export class ReprocesoComponent implements OnInit, OnDestroy {
   
     this.elemento = routeParams.get('elemento') || undefined;
 
+    this.origen = routeParams.get('origen') || undefined;
+
     if (this.elemento == 'cabeceras') {
       this.tipoArchivo = 'HEADER'
     } else if (this.elemento == 'lineas') {
@@ -43,6 +46,7 @@ export class ReprocesoComponent implements OnInit, OnDestroy {
     this.getCargaByIdSub = this.cargasService.getCargaById(this.cargaId).subscribe(
       carga => {
         this.carga = carga;
+        
         if (this.carga?.reversado !== Reversado.Si) {
           this.snackBar.open('Archivo original no ha sido reversado', 'Aceptar', {
             duration: -1,

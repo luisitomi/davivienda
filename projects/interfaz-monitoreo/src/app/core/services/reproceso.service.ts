@@ -73,7 +73,7 @@ actualizarEndpoint: string = 'https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastu
     
     return this.configService.getApiUrl().pipe(
       switchMap(url => this.http.post<any>(/*url +*/ this.actualizarEndpoint, prmBean)),
-      map(res => res),
+      map(res => res.message),
     );
   }
   postTsFahColumnaProcesoAHCWS(origen: string, tipoColumna: number): Observable<Maestra[]> {

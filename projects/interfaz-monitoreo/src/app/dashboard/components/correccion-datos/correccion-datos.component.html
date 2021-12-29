@@ -109,7 +109,7 @@
       </table>
 
       <mat-action-row class="evol-correccion-footer">
-        <button mat-flat-button color="primary" [disabled]="(columnas.data.length === 0 || filtros.data.length === 0) || loadingCargas"
+        <button mat-flat-button color="primary" [disabled]="((columnas.data.length === 0 || filtros.data.length === 0) || loadingCargas) || cantidadRegistros == 0"
         (click)="actualizar()">Actualizar {{ cantidadRegistros | i18nPlural:registroMapping }}</button>
       </mat-action-row>
 

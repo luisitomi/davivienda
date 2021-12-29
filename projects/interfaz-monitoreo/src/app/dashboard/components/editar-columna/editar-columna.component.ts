@@ -47,7 +47,7 @@ export class EditarColumnaComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('DATA::::' +this.correccionColumnasService.getTipoArchivo())
-    let origen = "COBIS";
+    let origen = this.correccionColumnasService.getOrigen();
     let tipoArchivo1 = this.correccionColumnasService.getTipoArchivo();
     console.log(tipoArchivo1);
     if (tipoArchivo1 == 'HEADER') {
@@ -116,7 +116,10 @@ export class EditarColumnaComponent implements OnInit {
     this.reprocesoService.postTsFahColumnaProcesoAHCWS(
       origen,tipoColumna
     ).subscribe(
-      data => this.columnas = data/*console.log('data: '+data)*/,
+      data =>{
+        console.log('data:')
+        console.log(data);
+        this.columnas = data}/*console.log('data: '+data)*/,
       error => console.log(error),
       () => this.loadingCargas = false,
     );

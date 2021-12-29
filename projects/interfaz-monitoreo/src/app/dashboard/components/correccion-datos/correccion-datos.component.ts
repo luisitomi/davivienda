@@ -27,6 +27,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
 
   @Input() cargaId?: number = 0;
   @Input() tipoArchivo?: string = "";
+  @Input() origen?: string;
   filtrosDisplayedColumns: string[] = ['numeracion', 'columna', 'criterio', 'valor', 'acciones'];
   columnasDisplayedColumns: string [] = ['numeracion', 'columna', 'tipo', 'valor', 'acciones'];
 
@@ -68,7 +69,8 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
   
     console.log(this.tipoArchivo)
     console.log(this.cargaId)
-    const origen = "COBIS";
+    console.log('saddasasdsdasd')
+  //  const origen = "COBIS";
    /* if (this.tipoArchivo == 'HEADER'){
       this.GetColumnas(origen,1);
     } else if (this.tipoArchivo == 'LINE') {
@@ -89,6 +91,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     ); */
   }
   obtenerFiltros(){
+
     this.loadingCargas = true;
   let tipoColumna = 0;
     if (this.tipoArchivo == 'HEADER'){
@@ -97,7 +100,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       tipoColumna = 2;
     }
 
-    this.getFiltrosSub = this.correccionFiltrosService.getFiltrosTsListarColumnasCorreccionXProcesoWS(this.cargaId,'FILTRO',tipoColumna).subscribe(
+    this.getFiltrosSub = this.correccionFiltrosService.getFiltrosTsListarColumnasCorreccionXProcesoWS(this.cargaId,'FILTRO',tipoColumna,this.origen).subscribe(
      // filtros => this.filtros.data = filtros,
      filtros => { 
        if (filtros == undefined || filtros == null) {
@@ -123,7 +126,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
         tipoColumna = 2;
       }
   
-      this.getFiltrosSub = this.correccionColumnasService.getFiltrosTsListarColumnasCorreccionXProcesoWS(this.cargaId,'COLUMNA',tipoColumna).subscribe(
+      this.getFiltrosSub = this.correccionColumnasService.getFiltrosTsListarColumnasCorreccionXProcesoWS(this.cargaId,'COLUMNA',tipoColumna,this.origen).subscribe(
         columnas => {
           if (columnas == undefined || columnas == null) {
         
@@ -152,7 +155,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
   }
 
   crearFiltro(): void {
-    this.correccionFiltrosService.addValoresCorreccion(this.tipoArchivo,this.cargaId) ;
+    this.correccionFiltrosService.addValoresCorreccion(this.tipoArchivo,this.cargaId,this.origen) ;
     const dialogRef = this.dialog.open(EditarFiltroComponent, {
       width: '300px',
     }).afterClosed().subscribe(result => {
@@ -164,7 +167,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
   }
 
   editarFiltro(filtro: CorreccionFiltro): void {
-    this.correccionFiltrosService.addValoresCorreccion(this.tipoArchivo,this.cargaId) ;
+    this.correccionFiltrosService.addValoresCorreccion(this.tipoArchivo,this.cargaId,this.origen) ;
     const dialogRef = this.dialog.open(EditarFiltroComponent, {
       width: '300px',
       data: filtro,
@@ -174,6 +177,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
   }
 
   eliminarFiltro(filtro: CorreccionFiltro) {
+    this.loadingCargas = true;
     const prmBean = {
       IdArchivoZip: this.cargaId,
       TipoArchivo: this.tipoArchivo,
@@ -183,7 +187,13 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     }
     this.correccionFiltrosService.postTsEliminarCorreccionAHCWS(prmBean).subscribe(
       res => {
+        console.log(res)
         
+        this.snackBar.open('Se eliminó correctamente')
+        this.obtenerColumnas();
+      },
+      () => {
+        this.loadingCargas = false;
       }
     );
   //  this.correccionFiltrosService.removeFiltro(filtro);
@@ -191,7 +201,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
 
   crearColumna(): void {
 
-    this.correccionColumnasService.addValoresCorreccion(this.tipoArchivo,this.cargaId) ;
+    this.correccionColumnasService.addValoresCorreccion(this.tipoArchivo,this.cargaId,this.origen) ;
     const dialogRef = this.dialog.open(EditarColumnaComponent, {
       width: '300px',
     }).afterClosed().subscribe(result => {
@@ -200,7 +210,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
   }
 
   editarColumna(columna: CorreccionColumna): void {
-    this.correccionColumnasService.addValoresCorreccion(this.tipoArchivo,this.cargaId) ;
+    this.correccionColumnasService.addValoresCorreccion(this.tipoArchivo,this.cargaId,this.origen) ;
     const dialogRef = this.dialog.open(EditarColumnaComponent, {
       width: '300px',
       data: columna,
@@ -210,17 +220,21 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
   }
 
   eliminarColumna(columna: CorreccionColumna): void {
-    
+    this.loadingCargas = true;
     const prmBean = {
       IdArchivoZip: this.cargaId,
       TipoArchivo: this.tipoArchivo,
-      TipoFiltro: 'FILTRO',
+      TipoFiltro: 'COLUMNA',
       Columna: columna.columna,
       Usuario: ""
     }
     this.correccionFiltrosService.postTsEliminarCorreccionAHCWS(prmBean).subscribe(
       res => {
-        
+        console.log(res)
+        this.obtenerColumnas();
+      },
+      () => {
+        this.loadingCargas = false;
       }
     );
    // this.correccionColumnasService.removeColumna(columna);
@@ -275,14 +289,14 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CorregirConfirmacionComponent);
     dialogRef.afterClosed().subscribe(
       res => {
-        this.loadingCargas = false;
+      
         if (res === 'ok') {
           this.actualizarSub = this.reprocesoService.actualizarRegistrosV2(obj).pipe(
             tap(ok => this.snackBar.open(ok)),
             switchMap(ok => this.navigationService.getPreviousUrl())
           ).subscribe(
             url => {
-              debugger;
+              this.loadingCargas = false;
               if (url) {
                 const carga = `${url.includes('?') ? '&' : '?'}carga=${this.cargaId}`;
                 console.log('url + carga:' +url + carga)
@@ -291,6 +305,8 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
               }
             }
           );
+        } else {
+          this.loadingCargas = false;
         }
       }
     );

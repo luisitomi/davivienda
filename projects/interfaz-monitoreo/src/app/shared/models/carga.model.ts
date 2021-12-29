@@ -3,10 +3,10 @@ export interface Carga {
   fechaCarga: Date;
   fechaCargaStr: string;
   origenId: number;
-  origen: String;
-  nombreArchivo: String;
-  estado: String;
-  reversado: String;
+  origen: string;
+  nombreArchivo: string;
+  estado: string;
+  reversado: string;
   jobImportAccounting: number;
   jobCreateAccounting: number;
   cantidadH: number;
