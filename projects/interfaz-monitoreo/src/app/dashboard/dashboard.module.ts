@@ -12,7 +12,6 @@ import { TablaControlComponent } from './components/tabla-control/tabla-control.
 import { DetalleArchivoComponent } from './components/detalle-archivo/detalle-archivo.component';
 import { ReprocesoComponent } from './pages/reproceso/reproceso.component';
 import { CorreccionDatosComponent } from './components/correccion-datos/correccion-datos.component';
-import { EditarFiltroComponent } from './components/editar-filtro/editar-filtro.component';
 import { EditarColumnaComponent } from './components/editar-columna/editar-columna.component';
 import { CierreDiarioComponent } from './pages/cierre-diario/cierre-diario.component';
 import { ControlSalidaComponent } from './pages/control-salida/control-salida.component';
@@ -24,6 +23,7 @@ import { TablaSincronizacionesComponent } from './components/tabla-sincronizacio
 import { SharedModule } from '../shared';
 import { CorregirConfirmacionComponent } from './components/corregir-confirmacion/corregir-confirmacion.component';
 import { ConfirmacionReversaComponent } from './components/confirmacion-reversa/confirmacion-reversa.component';
+import { EditarFiltroModule } from './components/editar-filtro/editar-filtro.module';
 
 
 @NgModule({
@@ -36,7 +36,6 @@ import { ConfirmacionReversaComponent } from './components/confirmacion-reversa/
     DetalleArchivoComponent,
     ReprocesoComponent,
     CorreccionDatosComponent,
-    EditarFiltroComponent,
     EditarColumnaComponent,
     CierreDiarioComponent,
     ControlSalidaComponent,
@@ -55,6 +54,7 @@ import { ConfirmacionReversaComponent } from './components/confirmacion-reversa/
     DashboardRoutingModule,
     MaterialModule,
     SharedModule,
+    EditarFiltroModule,
   ]
 })
 export class DashboardModule { }
