@@ -1,13 +1,13 @@
 export interface CombinacionContable {
-    comp1: string;
-    comp2: string;
-    comp3: string;
-    comp4: string;
-    comp5: string;
-    comp6: string;
-    comp7: string;
-    comp8: string;
-    comp9: string;
-    comp10: string;
-    comp11: string;
+    Company: string;
+	SegGlAccount: string;
+	SegOficina:string;
+	SegSucursal:string;
+	SegProyecto:string;
+	SegSubProyecto:string;
+	SegTipoComprobante:string;
+	SegIntecompany:string;
+	SegVinculado:string;
+	SegF1:string;
+	SegF2:string;
 }

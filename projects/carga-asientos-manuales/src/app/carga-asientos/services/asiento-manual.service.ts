@@ -82,16 +82,7 @@ export class AsientoManualService {
     lineaAsiento.Id = this.getIdCabecera();
     lineaAsiento.nroLinea= linea.index;
 
-  lineaAsiento.SegGlAccount= undefined;
-  lineaAsiento.SegOficina= linea.oficina;
-  lineaAsiento.SegSucursal= linea.proyecto;
-  lineaAsiento.SegProyecto= linea.proyecto;
-  lineaAsiento.SegSubProyecto= linea.subproyecto;
-  lineaAsiento.SegTipoComprobante= linea.tipoComprobante;
-  lineaAsiento.SegIntecompany= linea.intecompania;
-  lineaAsiento.SegVinculado= linea.vinculado;
-  lineaAsiento.SegF1= linea.futuro1;
-  lineaAsiento.SegF2= linea.futuro2;
+  lineaAsiento.combinationAccount= undefined;
   lineaAsiento.SegCurrency= linea.moneda;
   lineaAsiento.EnteredDebit= (linea.debito == null ? "" : linea.debito.toString() );
   lineaAsiento.EnteredCredit= (linea.credito == null ? "" : linea.credito.toString() );

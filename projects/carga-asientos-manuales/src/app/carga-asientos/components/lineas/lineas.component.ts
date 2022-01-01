@@ -11,7 +11,7 @@ import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
 @Component({
   selector: 'app-lineas',
   templateUrl: './lineas.component.html',
-  styleUrls: ['./lineas.component.scss']
+  styleUrls: ['./lineas.component.scss'],
 })
 export class LineasComponent implements OnInit, AfterViewChecked {
   @Input() visibleTable: boolean;
@@ -47,7 +47,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       this.lines.data = model?.line || [];
       let number = 1;
       this.lines.data.forEach((element: any) => {
-        element.index = number;
+        element.nroLinea = number;
         number++;
       });
       this.proceesLine.emit(this.lines.data.length ? true : false);
@@ -76,24 +76,29 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       this.lineList = model?.line || [];
       const references = this.lineList[index]?.columnasReferenciales;
-      result.columnasReferenciales = references || [];
-      const complementary = this.lineList[index]?.SegGlAccount;
-      result.SegGlAccount = complementary || undefined;
+      const complementary = this.lineList[index]?.combinationAccount;
       this.lineList.splice(index, 1);
       if (result?.SegCurrency) {
+        result.columnasReferenciales = references || [];
+        result.combinationAccount = complementary || undefined;
         this.lineList.splice(index, 0, result);
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList,
+        }
+        this.setDataLocal(request, this.lineList);
       }
-      const request: ManualLading = {
-        header: model?.header,
-        line: this.lineList,
-      }
-      this.setDataLocal(request, this.lineList);
     });
   }
 
   deleteLine(index: number): void {
     this.lines.data.splice(index, 1);
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    this.lines.data?.forEach((element: any,indexItem: any) => {
+      if(indexItem > index) {
+        element.nroLinea -=  1;
+      }
+    });
     const request: ManualLading = {
       header: model?.header,
       line: this.lines.data,
@@ -113,20 +118,21 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       this.lineList = model?.line || [];
       if (result?.SegCurrency) {
+        result.nroLinea = this.lineList.length + 1;
         this.lineList.push(result);
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList,
+        }
+        this.setDataLocal(request, this.lineList);
       }
-      const request: ManualLading = {
-        header: model?.header,
-        line: this.lineList,
-      }
-      this.setDataLocal(request, this.lineList);
     });
   }
 
   complementary(index: number): void {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     this.lineList = model?.line || [];
-    const complem = this.lineList[index]?.SegGlAccount || undefined;
+    const complem = this.lineList[index]?.combinationAccount || undefined;
     
     const dialogRef = this.dialog.open(CombinacionContableComponent, {
       width: '80%',
@@ -137,15 +143,16 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.lineList[index].SegGlAccount = this.lineList[index].SegGlAccount ||  undefined;
-      if (result?.comp2) {
-        this.lineList[index].SegGlAccount = result;
+      this.lineList[index].combinationAccount = this.lineList[index].combinationAccount ||  undefined;
+      if (result?.SegGlAccount) {
+        result.nroLinea = index + 1;
+        this.lineList[index].combinationAccount = result;
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList,
+        }
+        this.setDataLocal(request, this.lineList);
       }
-      const request: ManualLading = {
-        header: model?.header,
-        line: this.lineList,
-      }
-      this.setDataLocal(request, this.lineList);
     });
   }
 
@@ -156,7 +163,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     this.lines.data = lits;
     let number = 1;
     this.lines.data.forEach((element: any) => {
-      element.index = number;
+      element.nroLinea = number;
       number++;
     });
   }

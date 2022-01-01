@@ -4,16 +4,7 @@ import { ReferenciaComplementaria } from "../../carga-asientos/models/referencia
 export class LineaAsientoInsert {
 	Id:number;
 	nroLinea:number;
-	SegGlAccount?: CombinacionContable;
-	SegOficina:string;
-	SegSucursal:string;
-	SegProyecto:string;
-	SegSubProyecto:string;
-	SegTipoComprobante:string;
-	SegIntecompany:string;
-	SegVinculado:string;
-	SegF1:string;
-	SegF2:string;
+	combinationAccount?: CombinacionContable;
 	SegCurrency:string;
 	EnteredDebit:string;
 	EnteredCredit:string;

@@ -82,27 +82,27 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   updateForm(): void {
     this.form.patchValue({
-      comp2: this.data?.data?.comp2,
-      comp3: this.data?.data?.comp3,
-      comp4: this.data?.data?.comp4,
-      comp5: this.data?.data?.comp5,
-      comp6: this.data?.data?.comp6,
-      comp7: this.data?.data?.comp7,
-      comp8: this.data?.data?.comp8,
-      comp9: this.data?.data?.comp9,
-      comp10: this.data?.data?.comp10,
-      comp11: this.data?.data?.comp11,
+      comp2: this.data?.data?.SegGlAccount,
+      comp3: this.data?.data?.SegOficina,
+      comp4: this.data?.data?.SegSucursal,
+      comp5: this.data?.data?.SegProyecto,
+      comp6: this.data?.data?.SegSubProyecto,
+      comp7: this.data?.data?.SegTipoComprobante,
+      comp8: this.data?.data?.SegIntecompany,
+      comp9: this.data?.data?.SegVinculado,
+      comp10: this.data?.data?.SegF1,
+      comp11: this.data?.data?.SegF2,
     });
-    this.comp2Select = this.data?.data?.comp2;
-    this.comp3Select = this.data?.data?.comp3;
-    this.comp4Select = this.data?.data?.comp4;
-    this.comp5Select = this.data?.data?.comp5;
-    this.comp6Select = this.data?.data?.comp6;
-    this.comp7Select = this.data?.data?.comp7;
-    this.comp8Select = this.data?.data?.comp8;
-    this.comp9Select = this.data?.data?.comp9;
-    this.comp10Select = this.data?.data?.comp10;
-    this.comp11Select = this.data?.data?.comp11;
+    this.comp2Select = this.data?.data?.SegGlAccount;
+    this.comp3Select = this.data?.data?.SegOficina;
+    this.comp4Select = this.data?.data?.SegSucursal;
+    this.comp5Select = this.data?.data?.SegProyecto;
+    this.comp6Select = this.data?.data?.SegSubProyecto;
+    this.comp7Select = this.data?.data?.SegTipoComprobante;
+    this.comp8Select = this.data?.data?.SegIntecompany;
+    this.comp9Select = this.data?.data?.SegVinculado;
+    this.comp10Select = this.data?.data?.SegF1;
+    this.comp11Select = this.data?.data?.SegF2;
   }
 
   showErrors(control: string): boolean {
@@ -290,17 +290,17 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     if (this.form.valid) {
       const valueForm = this.form.value;
       const request: CombinacionContable = {
-        comp1: valueForm.comp1,
-        comp2: valueForm.comp2,
-        comp3: valueForm.comp3,
-        comp4: valueForm.comp4,
-        comp5: valueForm.comp5,
-        comp6: valueForm.comp6,
-        comp7: valueForm.comp7,
-        comp8: valueForm.comp8,
-        comp9: valueForm.comp9,
-        comp10: valueForm.comp10,
-        comp11: valueForm.comp11,
+        Company: valueForm.comp1,
+        SegGlAccount: valueForm.comp2,
+        SegOficina: valueForm.comp3,
+        SegSucursal: valueForm.comp4,
+        SegProyecto: valueForm.comp5,
+        SegSubProyecto: valueForm.comp6,
+        SegTipoComprobante: valueForm.comp7,
+        SegIntecompany: valueForm.comp8,
+        SegVinculado: valueForm.comp9,
+        SegF1: valueForm.comp10,
+        SegF2: valueForm.comp11,
       }
       this.dialogRef.close(request);
     }
