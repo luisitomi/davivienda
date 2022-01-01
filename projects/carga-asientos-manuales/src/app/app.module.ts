@@ -15,6 +15,8 @@ import { FiltrosOdiModule } from './filtros-odi/filtros-odi.module';
 import { CuadreCajaModule } from './cuadre-caja/cuadre-caja.module';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { tokenInterceptorProvider } from './core/interceptors/token.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MessageErrorInterceptor } from './shared/interceptor/message-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,11 @@ import { tokenInterceptorProvider } from './core/interceptors/token.interceptor'
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' } },
     tokenInterceptorProvider,
     INTERCEPTORS,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MessageErrorInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -140,8 +140,6 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
             queryParamsHandling: 'merge',
           }
         );
-      }, (error: any) => {
-        console.log(error);
       }
     )
   }
