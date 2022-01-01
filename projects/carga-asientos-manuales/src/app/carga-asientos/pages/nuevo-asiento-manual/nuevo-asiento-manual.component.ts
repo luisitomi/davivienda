@@ -6,6 +6,9 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
+import { InserHeaderLine, LineSave } from '../../models/insert-header-line';
+import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
+import { HeaderLineService } from '../../services/header-line.service';
 
 @Component({
   selector: 'app-nuevo-asiento-manual',
@@ -28,6 +31,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
     private datePipe: DatePipe,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private headerLineService: HeaderLineService,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
@@ -89,13 +93,56 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
   }
 
   send(): void {
-    localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-    this.router.navigate(['carga-asientos/nuevo-asiento-manual'] ,
-      {
-        queryParams: this.queryParams,
-        skipLocationChange: false,
-        queryParamsHandling: 'merge',
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    const line: Array<LineaAsientoInsert> = model?.line || [];
+    const lineSave: LineSave[] = (line || []).map((data) => ({
+      id: 0,
+      nroLinea: data?.nroLinea,
+      company: data?.combinationAccount?.Company,
+      segGlAccount: data?.combinationAccount?.SegGlAccount,
+      segOficina: data?.combinationAccount?.SegOficina,
+      segSucursal: data?.combinationAccount?.SegSucursal,
+      segProyecto: data?.combinationAccount?.SegProyecto,
+      segSubProyecto: data?.combinationAccount?.SegSubProyecto,
+      segTipoComprobante: data?.combinationAccount?.SegTipoComprobante,
+      segIntecompany: data?.combinationAccount?.SegIntecompany,
+      segVinculado: data?.combinationAccount?.SegVinculado,
+      segF1: data?.combinationAccount?.SegF1,
+      segF2: data?.combinationAccount?.SegF2,
+      segCurrency: data?.SegCurrency,
+      enteredDebit: data?.EnteredDebit,
+      enteredCredit: data?.EnteredCredit,
+      description: '',
+      usuario: '',
+      informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
+        nroRefCom: refere?.index,
+        referenciaComprobante: refere?.nombre,
+        valor: refere?.valor,
+      }))
+    }));
+    const request: InserHeaderLine = {
+      id: 0,
+      legderName: model?.header?.LegderName,
+      sourceName: model?.header?.SourceName,
+      trxNumber: model?.header?.TrxNumber,
+      accountingDate: model?.header?.AccountingDate,
+      description: model?.header?.Description,
+      usuario: '',
+      linea: lineSave || undefined,
+    }
+    this.headerLineService.saveHeaderLine(request).subscribe(
+      (response: any) => {
+        localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+        this.router.navigate(['carga-asientos/nuevo-asiento-manual'] ,
+          {
+            queryParams: this.queryParams,
+            skipLocationChange: false,
+            queryParamsHandling: 'merge',
+          }
+        );
+      }, (error: any) => {
+        console.log(error);
       }
-    );
+    )
   }
 }

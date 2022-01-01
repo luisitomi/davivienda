@@ -67,14 +67,15 @@ export class ReferenciasComplementariasComponent implements OnInit {
       }
       this.references.data.splice(index, 1);
       if (result?.nombre) {
+        result.index = index + 1;
         this.references.data.splice(index, 0, result);
+        this.lineList[this.index].columnasReferenciales = this.references.data || [];
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList,
+        }
+        this.setDataLocal(request);
       }
-      this.lineList[this.index].columnasReferenciales = this.references.data || [];
-      const request: ManualLading = {
-        header: model?.header,
-        line: this.lineList,
-      }
-      this.setDataLocal(request);
     });
   }
 
@@ -82,6 +83,11 @@ export class ReferenciasComplementariasComponent implements OnInit {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     if (model?.line) {
       this.lineList = model?.line;
+      this.lineList[this.index].columnasReferenciales?.forEach((element: any,indexItem: any) => {
+        if(indexItem > index) {
+          element.index -=  1;
+        }
+      });
       const indexList = this.lineList[this.index].columnasReferenciales || [];
       indexList.splice(index, 1);
       this.lineList[this.index].columnasReferenciales = indexList;
@@ -108,15 +114,16 @@ export class ReferenciasComplementariasComponent implements OnInit {
       }
       let indexList: Array<ReferenciaComplementaria> = this.lineList[this.index].columnasReferenciales || [];
       if (result?.nombre) {
+        result.index = this.lineList[this.index]?.columnasReferenciales?.length || 0 + 1;
         indexList = this.lineList[this.index].columnasReferenciales || [];
         indexList.push(result);
+        this.lineList[this.index].columnasReferenciales = indexList;
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList
+        }
+        this.setDataLocal(request);
       }
-      this.lineList[this.index].columnasReferenciales = indexList;
-      const request: ManualLading = {
-        header: model?.header,
-        line: this.lineList
-      }
-      this.setDataLocal(request);
     });
   }
 

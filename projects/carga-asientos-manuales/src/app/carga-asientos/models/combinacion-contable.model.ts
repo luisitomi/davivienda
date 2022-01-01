@@ -1,4 +1,4 @@
-export interface CombinacionContable {
+export class CombinacionContable {
     Company: string;
 	SegGlAccount: string;
 	SegOficina:string;
