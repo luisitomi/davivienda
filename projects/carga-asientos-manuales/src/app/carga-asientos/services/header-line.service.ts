@@ -5,6 +5,7 @@ import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 import { StrinUtil } from '../../shared/component/helpers/string.util';
 import { InserHeaderLine } from '../models/insert-header-line';
+import { ReferenceComplementaryRequest } from '../models/referencia-complementaria.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +26,19 @@ export class HeaderLineService {
           this.endpoint,
           `8a9447c21fa343e1a27b33302e3b9091`,
           `SvIyCN85XU-f_dOEr5IhOxR6RmFdN4IWCCyb7QePn7I`,
+        )
+      ,{ body: request })),
+    );
+  }
+
+  getListReference(request: ReferenceComplementaryRequest): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<InserHeaderLine>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `2f826c7fbf05487bb4dcdb5bb0e98f49`,
+          `TocuQBqvaWM8itS5gTpenZUEcITw6BkWUG6hK-aaSsw`,
         )
       ,{ body: request })),
     );

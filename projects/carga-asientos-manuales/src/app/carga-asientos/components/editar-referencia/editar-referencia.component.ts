@@ -1,31 +1,38 @@
 import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { finalize } from 'rxjs/operators';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
-import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
+import { ReferenceComplementaryRequest, ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
+import { HeaderLineService } from '../../services/header-line.service';
 
 @Component({
   selector: 'app-editar-referencia',
   templateUrl: './editar-referencia.component.html',
   styleUrls: ['./editar-referencia.component.scss']
 })
-export class EditarReferenciaComponent implements OnInit {
+export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements OnInit {
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
   focusoutName: boolean;
   focusoutValue: boolean;
   loading: boolean;
+  spinner: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<EditarReferenciaComponent>,
     private formBuilder: FormBuilder,
     private cdRef:ChangeDetectorRef,
+    private headerLineService: HeaderLineService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    super();
   }
   
   ngOnInit(): void {
+    this.getListReference();
     this.createForm();
     if (this.data?.type === appConstants.typeEvent.EDIT) {
       this.updateForm();
@@ -34,6 +41,23 @@ export class EditarReferenciaComponent implements OnInit {
 
   ngAfterViewChecked(){
     this.cdRef.detectChanges();
+  }
+
+  getListReference(): void {
+    this.spinner = true;
+    const request: ReferenceComplementaryRequest = {
+      origen: 'Line',
+      tipoColumna: '2',
+    }
+    const $line = this.headerLineService
+      .getListReference(request)
+      .pipe(finalize(() => this.spinner= false))
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+        }
+      );
+    this.arrayToDestroy.push($line);
   }
 
   createForm(): void {

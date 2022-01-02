@@ -3,3 +3,8 @@ export interface ReferenciaComplementaria {
   nombre: string;
   valor: string;
 }
+
+export class ReferenceComplementaryRequest {
+  origen: string;
+  tipoColumna: string;
+}
