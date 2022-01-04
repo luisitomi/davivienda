@@ -51,7 +51,19 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         element.nroLinea = number;
         number++;
       });
-      this.proceesLine.emit(this.lines.data.length ? true : false);
+      let validateConta: number = 0;
+      let validateRefe: number = 0;
+      model?.line.forEach((element: any) => {
+        if (!element?.columnasReferenciales) {
+          validateConta += 1;
+        }
+      });
+      model?.line.forEach((element: any) => {
+        if (!element?.columnasReferenciales) {
+          validateRefe += 1;
+        }
+      });
+      this.proceesLine.emit(this.lines.data.length && validateConta && validateRefe ? true : false);
     }
   }
 
@@ -162,7 +174,20 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   setDataLocal(request: ManualLading, lits: Array<LineaAsientoInsert>): void {
     localStorage.removeItem(appConstants.modelSave.NEWSEAT);
     localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
-    this.proceesLine.emit(this.lines.data.length ? true : false);
+    let validateConta: number = 0;
+    let validateRefe: number = 0;
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    model?.line.forEach((element: any) => {
+      if (!element?.columnasReferenciales) {
+        validateConta += 1;
+      }
+    });
+    model?.line.forEach((element: any) => {
+      if (!element?.columnasReferenciales) {
+        validateRefe += 1;
+      }
+    });
+    this.proceesLine.emit(this.lines.data.length && validateConta && validateRefe ? true : false);
     this.lines.data = lits;
     let number = 1;
     this.lines.data.forEach((element: any) => {

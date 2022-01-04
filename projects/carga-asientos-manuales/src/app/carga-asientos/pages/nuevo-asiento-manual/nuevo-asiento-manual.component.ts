@@ -93,54 +93,56 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
   }
 
   send(): void {
-    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    const line: Array<LineaAsientoInsert> = model?.line || [];
-    const lineSave: LineSave[] = (line || []).map((data) => ({
-      id: 0,
-      nroLinea: data?.nroLinea,
-      company: data?.combinationAccount?.Company,
-      segGlAccount: data?.combinationAccount?.SegGlAccount,
-      segOficina: data?.combinationAccount?.SegOficina,
-      segSucursal: data?.combinationAccount?.SegSucursal,
-      segProyecto: data?.combinationAccount?.SegProyecto,
-      segSubProyecto: data?.combinationAccount?.SegSubProyecto,
-      segTipoComprobante: data?.combinationAccount?.SegTipoComprobante,
-      segIntecompany: data?.combinationAccount?.SegIntecompany,
-      segVinculado: data?.combinationAccount?.SegVinculado,
-      segF1: data?.combinationAccount?.SegF1,
-      segF2: data?.combinationAccount?.SegF2,
-      segCurrency: data?.SegCurrency,
-      enteredDebit: data?.EnteredDebit,
-      enteredCredit: data?.EnteredCredit,
-      description: '',
-      usuario: '',
-      informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
-        nroRefCom: refere?.index,
-        referenciaComprobante: refere?.nombreValue,
-        valor: refere?.valor,
-      }))
-    }));
-    const request: InserHeaderLine = {
-      id: 0,
-      legderName: model?.header?.LegderName,
-      sourceName: model?.header?.SourceName,
-      trxNumber: model?.header?.TrxNumber,
-      accountingDate: model?.header?.AccountingDate,
-      description: model?.header?.Description,
-      usuario: '',
-      linea: lineSave || undefined,
-    }
-    this.headerLineService.saveHeaderLine(request).subscribe(
-      (response: any) => {
-        localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-        this.router.navigate([''] ,
-          {
-            queryParams: this.queryParams,
-            skipLocationChange: false,
-            queryParamsHandling: 'merge',
-          }
-        );
+    if (this.validateTable) {
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+      const line: Array<LineaAsientoInsert> = model?.line || [];
+      const lineSave: LineSave[] = (line || []).map((data) => ({
+        id: 0,
+        nroLinea: data?.nroLinea,
+        company: data?.combinationAccount?.Company,
+        segGlAccount: data?.combinationAccount?.SegGlAccount,
+        segOficina: data?.combinationAccount?.SegOficina,
+        segSucursal: data?.combinationAccount?.SegSucursal,
+        segProyecto: data?.combinationAccount?.SegProyecto,
+        segSubProyecto: data?.combinationAccount?.SegSubProyecto,
+        segTipoComprobante: data?.combinationAccount?.SegTipoComprobante,
+        segIntecompany: data?.combinationAccount?.SegIntecompany,
+        segVinculado: data?.combinationAccount?.SegVinculado,
+        segF1: data?.combinationAccount?.SegF1,
+        segF2: data?.combinationAccount?.SegF2,
+        segCurrency: data?.SegCurrency,
+        enteredDebit: data?.EnteredDebit,
+        enteredCredit: data?.EnteredCredit,
+        description: '',
+        usuario: '',
+        informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
+          nroRefCom: refere?.index,
+          referenciaComprobante: refere?.nombre,
+          valor: refere?.valor,
+        }))
+      }));
+      const request: InserHeaderLine = {
+        id: 0,
+        legderName: model?.header?.LegderName,
+        sourceName: model?.header?.SourceName,
+        trxNumber: model?.header?.TrxNumber,
+        accountingDate: model?.header?.AccountingDate,
+        description: model?.header?.Description,
+        usuario: '',
+        linea: lineSave || undefined,
       }
-    )
+      this.headerLineService.saveHeaderLine(request).subscribe(
+        (response: any) => {
+          localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+          this.router.navigate([''] ,
+            {
+              queryParams: this.queryParams,
+              skipLocationChange: false,
+              queryParamsHandling: 'merge',
+            }
+          );
+        }
+      )
+    }
   }
 }
