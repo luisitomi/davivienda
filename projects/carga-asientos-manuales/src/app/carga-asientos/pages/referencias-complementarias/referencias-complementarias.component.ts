@@ -16,6 +16,7 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 export class ReferenciasComplementariasComponent implements OnInit {
   title = "Referencias Complementarias";
   index: number;
+  line: string;
   lineList: Array<LineaAsientoInsert> = [];
   displayedColumns: string[] = ['index', 'nombre', 'valor', 'acciones'];
   references: MatTableDataSource<ReferenciaComplementaria> = new MatTableDataSource();
@@ -27,7 +28,8 @@ export class ReferenciasComplementariasComponent implements OnInit {
     private router: Router,
   ) {
     this.activatedRoute.params.subscribe(params => {
-      this.index = +params['linea'];
+      this.index = +params['index'];
+      this.line = params['linea'];
     });
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
@@ -56,7 +58,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
     const dialogRef = this.dialog.open(EditarReferenciaComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: data, type: appConstants.typeEvent.EDIT },
+      data: { data: data, type: appConstants.typeEvent.EDIT, name: this.line },
       panelClass: 'my-dialog',
     });
 
@@ -103,7 +105,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
     const dialogRef = this.dialog.open(EditarReferenciaComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: null, type: appConstants.typeEvent.SAVE },
+      data: { data: null, type: appConstants.typeEvent.SAVE, name: this.line },
       panelClass: 'my-dialog',
     });
 

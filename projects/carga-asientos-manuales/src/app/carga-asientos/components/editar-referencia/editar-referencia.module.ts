@@ -8,6 +8,8 @@ import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditarReferenciaComponent } from './editar-referencia.component';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { SelectModule } from '../../../shared/component/ui/select/select.module';
+import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     CloseModule,
     MatDialogModule,
     LoaderModule,
+    SelectModule,
+    CalendarModule,
   ],
   entryComponents: [EditarReferenciaComponent],
 })

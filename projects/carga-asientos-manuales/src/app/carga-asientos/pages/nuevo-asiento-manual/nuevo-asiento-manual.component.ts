@@ -116,7 +116,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
       usuario: '',
       informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
         nroRefCom: refere?.index,
-        referenciaComprobante: refere?.nombre,
+        referenciaComprobante: refere?.nombreValue,
         valor: refere?.valor,
       }))
     }));
@@ -133,7 +133,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
     this.headerLineService.saveHeaderLine(request).subscribe(
       (response: any) => {
         localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-        this.router.navigate(['carga-asientos/nuevo-asiento-manual'] ,
+        this.router.navigate([''] ,
           {
             queryParams: this.queryParams,
             skipLocationChange: false,

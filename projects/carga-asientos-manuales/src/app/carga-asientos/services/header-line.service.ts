@@ -27,7 +27,7 @@ export class HeaderLineService {
           `8a9447c21fa343e1a27b33302e3b9091`,
           `SvIyCN85XU-f_dOEr5IhOxR6RmFdN4IWCCyb7QePn7I`,
         )
-      ,{ body: request })),
+      ,request )),
     );
   }
 
@@ -40,7 +40,7 @@ export class HeaderLineService {
           `2f826c7fbf05487bb4dcdb5bb0e98f49`,
           `TocuQBqvaWM8itS5gTpenZUEcITw6BkWUG6hK-aaSsw`,
         )
-      ,{ body: request })),
+      ,request )),
     );
   }
 }

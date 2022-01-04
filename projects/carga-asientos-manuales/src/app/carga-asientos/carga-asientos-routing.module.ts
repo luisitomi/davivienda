@@ -12,7 +12,7 @@ const routes: Routes = [
     data: { feature: Features.NuevoAsientoManual, permission: Permissions.Admin },
   },
   {
-    path: 'referencias-complementarias/:linea',
+    path: 'referencias-complementarias/:index/:linea',
     component: ReferenciasComplementariasComponent,
     data: { feature: Features.NuevoAsientoManual, permission: Permissions.Admin },
   },

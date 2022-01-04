@@ -1,6 +1,7 @@
 export class DropdownItem {
   label?: string;
   value?: string;
+  type?: string;
   selected? = false;
 
   constructor(item?: any) {
@@ -13,6 +14,9 @@ export class DropdownItem {
     if (item.selected) {
       this.selected = item.selected;
     }
+    if (item.selected) {
+      this.selected = item.selected;
+    }
   }
 }
 
@@ -20,6 +24,7 @@ export type EventDropdown = {
   originalEvent: Event;
   dropdownItem: DropdownItem;
   value: string;
+  type: string;
 };
 
 export type DropdownItemAarray = Array<DropdownItem>;

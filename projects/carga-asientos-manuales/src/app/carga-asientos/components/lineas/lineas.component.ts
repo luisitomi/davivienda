@@ -21,6 +21,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
   displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
   queryParams: any;
+  lineName: string;
 
   constructor(
     private dialog: MatDialog,
@@ -55,7 +56,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   addReference(index: number): void {
-    this.router.navigate(['carga-asientos/referencias-complementarias', index],
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    this.lineName = model?.header?.SourceName;
+    this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName],
       {
         queryParams: this.queryParams,
         skipLocationChange: false,

@@ -87,6 +87,7 @@ export class SelectComponent {
       originalEvent: event?.originalEvent,
       dropdownItem: event?.value,
       value: event?.value,
+      type: this.options.find((o) => o.value === event?.value)?.type || '',
     });
   }
 
