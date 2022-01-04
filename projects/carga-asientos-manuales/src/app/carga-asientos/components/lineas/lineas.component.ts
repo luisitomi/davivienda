@@ -54,16 +54,16 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       let validateConta: number = 0;
       let validateRefe: number = 0;
       model?.line.forEach((element: any) => {
-        if (!element?.columnasReferenciales) {
+        if (element?.combinationAccount) {
           validateConta += 1;
         }
       });
       model?.line.forEach((element: any) => {
-        if (!element?.columnasReferenciales) {
+        if (element?.columnasReferenciales.length) {
           validateRefe += 1;
         }
       });
-      this.proceesLine.emit(this.lines.data.length && validateConta && validateRefe ? true : false);
+      this.proceesLine.emit(Boolean(this.lines.data.length && validateConta && validateRefe));
     }
   }
 
@@ -178,16 +178,16 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     let validateRefe: number = 0;
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     model?.line.forEach((element: any) => {
-      if (!element?.columnasReferenciales) {
+      if (element?.combinationAccount) {
         validateConta += 1;
       }
     });
     model?.line.forEach((element: any) => {
-      if (!element?.columnasReferenciales) {
+      if (element?.columnasReferenciales.length) {
         validateRefe += 1;
       }
     });
-    this.proceesLine.emit(this.lines.data.length && validateConta && validateRefe ? true : false);
+    this.proceesLine.emit(Boolean(this.lines.data.length && validateConta && validateRefe));
     this.lines.data = lits;
     let number = 1;
     this.lines.data.forEach((element: any) => {

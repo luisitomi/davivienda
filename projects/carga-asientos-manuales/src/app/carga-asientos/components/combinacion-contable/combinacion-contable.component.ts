@@ -1,7 +1,8 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize, map, startWith } from 'rxjs/operators';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
@@ -18,6 +19,7 @@ import { CombinacionContableService } from '../../services/combinacion-contable.
 export class CombinacionContableComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked {
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
+  filteredParte1Options: Observable<DropdownItem[]>;
   parte1Options: Array<DropdownItem> = [];
   parte2Options: Array<DropdownItem> = [];
   parte3Options: Array<DropdownItem> = [];
@@ -30,6 +32,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   parte10Options: Array<DropdownItem> = [];
   parte11Options: Array<DropdownItem> = [];
   loading = false;
+  comp1Select: string;
   comp2Select: string;
   comp3Select: string;
   comp4Select: string;
@@ -54,7 +57,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   createForm(): void {
     this.form = this.formBuilder.group({
-      comp1: [1, [Validators.required]],
+      comp1: [null, [Validators.required]],
       comp2: [null, [Validators.required]],
       comp3: [null, [Validators.required]],
       comp4: [null, [Validators.required]],
@@ -76,12 +79,13 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
   
   ngOnInit(): void {
-    this.getOptions2();
+    this.getOptions1();
     this.createForm();
   }
 
   updateForm(): void {
     this.form.patchValue({
+      comp1: this.data?.data?.Company,
       comp2: this.data?.data?.SegGlAccount,
       comp3: this.data?.data?.SegOficina,
       comp4: this.data?.data?.SegSucursal,
@@ -93,6 +97,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       comp10: this.data?.data?.SegF1,
       comp11: this.data?.data?.SegF2,
     });
+    this.comp1Select = this.data?.data?.Company;
     this.comp2Select = this.data?.data?.SegGlAccount;
     this.comp3Select = this.data?.data?.SegOficina;
     this.comp4Select = this.data?.data?.SegSucursal;
@@ -116,8 +121,36 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     return { required: true };
   }
 
-  getOptions2(): void {
+  private _filterParte1(name: string): DropdownItem[] {
+    const filterValue = name.toLowerCase();
+
+    return this.parte1Options.filter(option => option.value?.toLowerCase().includes(filterValue));
+  }
+
+  getOptions1(): void {
     this.spinner = true;
+    const $option1 = this.combinacionContableService
+      .getParte1()
+      .pipe(finalize(() => this.getOptions2()))
+      .subscribe(
+        (parte1: Maestra[]) => { 
+          this.parte1Options = (parte1 || []).map((data) => ({
+            label: data?.valor,
+            value: data?.valor,
+          }))
+          this.filteredParte1Options = this.form.controls['comp1'].valueChanges.pipe(
+            startWith(''),
+            map(value => (typeof value === 'string' ? value : value.name)),
+            map(name => (name ? this._filterParte1(name) : this.parte1Options.slice())),
+          );
+      
+        
+        }
+      );
+    this.arrayToDestroy.push($option1);
+  }
+
+  getOptions2(): void {
     const $option2 = this.combinacionContableService
       .getParte2()
       .pipe(finalize(() => this.getOptions3()))

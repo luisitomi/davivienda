@@ -133,14 +133,17 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
       }
       this.headerLineService.saveHeaderLine(request).subscribe(
         (response: any) => {
-          localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-          this.router.navigate([''] ,
-            {
-              queryParams: this.queryParams,
-              skipLocationChange: false,
-              queryParamsHandling: 'merge',
-            }
-          );
+          if(response?.code === appConstants.responseStatus.OK) {
+            localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+            this.router.navigate(['carga-asientos-manual/carga-asientos-manual'] ,
+              {
+                queryParams: this.queryParams,
+                skipLocationChange: false,
+                queryParamsHandling: 'merge',
+              }
+            );
+            alert(response?.message);
+          }          
         }
       )
     }

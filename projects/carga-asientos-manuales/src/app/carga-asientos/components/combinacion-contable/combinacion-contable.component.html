@@ -3,6 +3,15 @@
 <h2 mat-dialog-title>Combinación Contable</h2>
 <form [formGroup]="form" autocomplete="off">
     <div mat-dialog-content class="evol-editar-linea-container">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Assignee</mat-label>
+        <input type="text" matInput formControlName="comp1" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" >
+          <mat-option *ngFor="let option of filteredParte1Options | async" [value]="option.label">
+            {{option.label}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
       <app-select [selected]="comp2Select" (changeOption)="onFocusOutEvent('comp2')" [label]="'GL CUENTA'" formControlName="comp2" [options]="parte2Options" [error]="showErrors('comp2')"></app-select>
       <app-form-errors [control]="form.controls['comp2']"></app-form-errors>
       <app-select [selected]="comp3Select" (changeOption)="onFocusOutEvent('comp3')" [label]="'Oficina'" formControlName="comp3" [options]="parte3Options" [error]="showErrors('comp3')"></app-select>

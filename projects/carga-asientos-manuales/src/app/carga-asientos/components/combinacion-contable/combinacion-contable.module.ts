@@ -9,6 +9,9 @@ import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     ActionsModule,
     MatDialogModule,
     LoaderModule,
+    NgxMatFileInputModule,
+    MatAutocompleteModule,
+    MatInputModule,
   ],
   entryComponents: [CombinacionContableComponent],
 })
