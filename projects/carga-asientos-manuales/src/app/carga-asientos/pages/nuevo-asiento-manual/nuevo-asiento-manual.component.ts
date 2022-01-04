@@ -133,7 +133,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
       }
       this.headerLineService.saveHeaderLine(request).subscribe(
         (response: any) => {
-          if(response?.code === appConstants.responseStatus.OK) {
+          if(response?.status === appConstants.responseStatus.OK) {
             localStorage.removeItem(appConstants.modelSave.NEWSEAT);
             this.router.navigate(['carga-asientos-manual/carga-asientos-manual'] ,
               {
