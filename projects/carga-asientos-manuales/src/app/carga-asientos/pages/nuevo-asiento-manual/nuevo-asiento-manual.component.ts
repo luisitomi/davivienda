@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { HeadboardSeat } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
@@ -32,6 +33,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private headerLineService: HeaderLineService,
+    private toastr: ToastrService,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
@@ -142,7 +144,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
                 queryParamsHandling: 'merge',
               }
             );
-            alert(response?.message);
+            this.toastr.success('Registro', response?.message);
           }          
         }
       )

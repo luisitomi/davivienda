@@ -17,6 +17,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { tokenInterceptorProvider } from './core/interceptors/token.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageErrorInterceptor } from './shared/interceptor/message-error.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,11 @@ import { MessageErrorInterceptor } from './shared/interceptor/message-error.inte
     InterfacesFahModule,
     FiltrosOdiModule,
     CuadreCajaModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
