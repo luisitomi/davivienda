@@ -2,8 +2,10 @@ import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs/operators';
 import { HeadboardSeat } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
@@ -17,7 +19,7 @@ import { HeaderLineService } from '../../services/header-line.service';
   styleUrls: ['./nuevo-asiento-manual.component.scss'],
   providers: [DatePipe],
 })
-export class NuevoAsientoManualComponent implements AfterViewChecked {
+export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements AfterViewChecked {
   disabledForm = false;
   validateForm = false;
   visibleForm = true;
@@ -26,6 +28,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
   dataHeader: HeadboardSeat;
   lineList: Array<LineaAsientoInsert>;
   queryParams: any;
+  spinner = false;
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -35,6 +38,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
     private headerLineService: HeaderLineService,
     private toastr: ToastrService,
   ) {
+    super();
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
     });
@@ -96,6 +100,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
 
   send(): void {
     if (this.validateTable) {
+      this.spinner = true;
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       const line: Array<LineaAsientoInsert> = model?.line || [];
       const lineSave: LineSave[] = (line || []).map((data) => ({
@@ -119,7 +124,7 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
         usuario: '',
         informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
           nroRefCom: refere?.index,
-          referenciaComprobante: refere?.nombre,
+          referenciaComprobante: refere?.nombreValue,
           valor: refere?.valor,
         }))
       }));
@@ -133,21 +138,25 @@ export class NuevoAsientoManualComponent implements AfterViewChecked {
         usuario: '',
         linea: lineSave || undefined,
       }
-      this.headerLineService.saveHeaderLine(request).subscribe(
-        (response: any) => {
-          if(response?.status === appConstants.responseStatus.OK) {
-            localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-            this.router.navigate(['carga-asientos-manual/carga-asientos-manual'] ,
-              {
-                queryParams: this.queryParams,
-                skipLocationChange: false,
-                queryParamsHandling: 'merge',
-              }
-            );
-            this.toastr.success('Registro', response?.message);
-          }          
-        }
-      )
+      const $save = this.headerLineService
+        .saveHeaderLine(request)
+        .pipe(finalize(() => this.spinner = false))
+        .subscribe(
+          (response: any) => {
+            if(response?.status === appConstants.responseStatus.OK) {
+              localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+              this.router.navigate(['aprobacion'] ,
+                {
+                  queryParams: this.queryParams,
+                  skipLocationChange: false,
+                  queryParamsHandling: 'merge',
+                }
+              );
+              this.toastr.success('Registro', response?.message);
+            }          
+          }
+        )
+      this.arrayToDestroy.push($save);
     }
   }
 }

@@ -6,6 +6,7 @@ import { FormularioCabeceraModule } from '../../components/formulario-cabecera/f
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { LineasModule } from '../../components/lineas/lineas.module';
 import { MatCardModule } from '@angular/material/card';
+import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
     ActionsModule,
     LineasModule,
     MatCardModule,
+    LoaderModule,
   ],
   exports: [NuevoAsientoManualComponent],
 })

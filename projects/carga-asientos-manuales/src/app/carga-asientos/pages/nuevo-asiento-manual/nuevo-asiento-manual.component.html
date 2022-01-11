@@ -1,3 +1,4 @@
+<app-loader *ngIf="spinner"></app-loader>
 <div class="evol-nuevo-asiento">
   <app-formulario-cabecera [disabledForm]="disabledForm" (proceesAutomaty)="proceesAutomaty($event)" (dataValidate)="dataValidate($event)" (processValidate)="processValidate($event)" class="evol-asiento-cabecera"></app-formulario-cabecera>
   <mat-card-actions *ngIf="visibleForm" class="evol-footer-actions">
