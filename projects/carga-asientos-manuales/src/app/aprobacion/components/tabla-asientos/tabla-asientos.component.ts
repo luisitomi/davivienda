@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Asiento } from 'src/app/shared';
 
 @Component({
@@ -11,7 +12,7 @@ export class TablaAsientosComponent implements OnInit, OnChanges {
 
   @Input() asientos: Asiento[] = [];
   @Input() loading: boolean = false;
-
+  queryParams: any;
   @Output() aprobar = new EventEmitter<Asiento[]>();
   @Output() rechazar = new EventEmitter<Asiento[]>();
 
@@ -19,7 +20,10 @@ export class TablaAsientosComponent implements OnInit, OnChanges {
 
   selection = new SelectionModel<Asiento>(true, []);
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -59,6 +63,15 @@ export class TablaAsientosComponent implements OnInit, OnChanges {
   onRechazar(): void {
     this.rechazar.emit(this.selection.selected);
 
+  }
+
+  ver(id: number): void {
+    this.router.navigate(['/aprobacion/resumen-asiento', id],
+    {
+      queryParams: this.queryParams,
+      skipLocationChange: false,
+      queryParamsHandling: 'merge',
+    })
   }
 
 }

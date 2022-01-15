@@ -7,13 +7,9 @@ import { Cuenta } from 'src/app/shared';
   styleUrls: ['./tabla-resumen-asiento.component.scss']
 })
 export class TablaResumenAsientoComponent implements OnInit {
-
   @Input() cuentas: Cuenta[] = [];
-
   displayedColumns: string[] = ['numeracion', 'primerDigito', 'cuenta', 'nombre', 'moneda', 'debito', 'credito', 'neto'];
-
   constructor() { }
-
   ngOnInit(): void {
   }
 

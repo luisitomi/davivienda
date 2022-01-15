@@ -13,6 +13,7 @@ import { TablaResumenAsientoComponent } from './components/tabla-resumen-asiento
 import { ConfiguracionLimitesComponent } from './pages/configuracion-limites/configuracion-limites.component';
 import { TablaLimitesComponent } from './components/tabla-limites/tabla-limites.component';
 import { SharedModule } from '../shared';
+import { ResumenAsientoModule } from './pages/resumen-asiento/resumen-asiento.module';
 
 
 @NgModule({
@@ -20,8 +21,6 @@ import { SharedModule } from '../shared';
     AsientosPendientesComponent,
     FiltrosPendientesComponent,
     TablaAsientosComponent,
-    ResumenAsientoComponent,
-    TablaResumenAsientoComponent,
     ConfiguracionLimitesComponent,
     TablaLimitesComponent,
   ],
@@ -33,6 +32,7 @@ import { SharedModule } from '../shared';
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,
+    ResumenAsientoModule,
   ]
 })
 export class AprobacionModule { }
