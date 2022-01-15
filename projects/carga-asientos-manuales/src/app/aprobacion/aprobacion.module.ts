@@ -7,20 +7,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
 import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
 import { FiltrosPendientesComponent } from './components/filtros-pendientes/filtros-pendientes.component';
-import { TablaAsientosComponent } from './components/tabla-asientos/tabla-asientos.component';
-import { ResumenAsientoComponent } from './pages/resumen-asiento/resumen-asiento.component';
-import { TablaResumenAsientoComponent } from './components/tabla-resumen-asiento/tabla-resumen-asiento.component';
 import { ConfiguracionLimitesComponent } from './pages/configuracion-limites/configuracion-limites.component';
 import { TablaLimitesComponent } from './components/tabla-limites/tabla-limites.component';
 import { SharedModule } from '../shared';
 import { ResumenAsientoModule } from './pages/resumen-asiento/resumen-asiento.module';
+import { TablaAsientoModule } from './components/tabla-asientos/tabla-asientosmodule';
 
 
 @NgModule({
   declarations: [
     AsientosPendientesComponent,
     FiltrosPendientesComponent,
-    TablaAsientosComponent,
     ConfiguracionLimitesComponent,
     TablaLimitesComponent,
   ],
@@ -33,6 +30,7 @@ import { ResumenAsientoModule } from './pages/resumen-asiento/resumen-asiento.mo
     MaterialModule,
     SharedModule,
     ResumenAsientoModule,
+    TablaAsientoModule,
   ]
 })
 export class AprobacionModule { }
