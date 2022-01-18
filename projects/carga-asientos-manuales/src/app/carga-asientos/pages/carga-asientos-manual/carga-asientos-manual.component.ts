@@ -18,6 +18,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
   accept: string = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
   resultado?: any;
   message: string;
+  urlBlob: string;
 
   constructor(
     private asientoManualService: HeaderLineService,
@@ -34,6 +35,15 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
         res => {
           this.resultado = res?.data;
           this.message = res?.estado;
+        },
+        (error: any) => {
+          this.message = error?.error?.estado;
+          const message = error?.error?.logError.map(function(elem: any){
+            return elem.mensaje;
+          }).join(",");
+          const archivo = new Blob([message], { type: 'text/plain' });
+          const url = URL.createObjectURL(archivo);
+          this.urlBlob = url;
         }
       )
     this.arrayToDestroy.push(postArchivoSub);

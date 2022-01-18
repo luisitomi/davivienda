@@ -1,6 +1,7 @@
 <mat-list-item>
     <h3>{{ title }}</h3>
     <h3>{{ subtitle || (isDate | date:'shortDate') }}</h3>
+    <a *ngIf="Link" (click)="transform(Link)"><h3>{{ subtitleLink }} </h3></a>
     <mat-slide-toggle *ngIf="toogle"></mat-slide-toggle>
     <mat-divider *ngIf="divider"></mat-divider>
 </mat-list-item>
