@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -8,7 +7,7 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
-import { PeriodoContableService } from '../../services/periodo-contable.service';
+import { HeaderLineService } from '../../services/header-line.service';
 
 @Component({
   selector: 'app-formulario-cabecera',
@@ -25,18 +24,21 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   form: FormGroup;
   origens: Array<DropdownItem>;
   periods: Array<DropdownItem>;
+  leaders: Array<DropdownItem>;
   focusoutOrigen = false;
+  focusoutLeader = false;
   focusoutPeriod = false;
   focusoutNumber = false;
   focusoutDescription = false;
   showTable = false;
   selectOrigen = "";
   selectPeriod = "";
+  selectLeaders = "";
   spinner: boolean;
 
   constructor(
     private origenService: OrigenService,
-    private periodoContableService: PeriodoContableService,
+    private periodoContableService: HeaderLineService,
     private formBuilder: FormBuilder,
   ) {
     super();
@@ -51,6 +53,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   createForm(): void {
     this.form = this.formBuilder.group({
       origen: [null, [Validators.required]],
+      leader: [null, [Validators.required]],
       period: [null, [Validators.required]],
       number: [null, [Validators.required]],
       description: [null, [Validators.required]],
@@ -67,13 +70,15 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     if (model?.header) {
       this.form.patchValue({
         origen: model?.header?.SourceName,
+        leader: model?.header?.LegderName,
         period: model?.header?.Period,
         number: model?.header?.TrxNumber,
         description: model?.header?.Description,
         accountingDate: new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`),
       });
       this.selectOrigen = model?.header?.SourceName;
-      this.selectPeriod = model?.header?.Period;
+      this.selectLeaders = model?.header?.LegderName;
+      this.getPeriod(Number(model?.header?.LegderName));
     }
     this.processValidate.emit(this.form.valid);
     this.dataValidate.emit(this.form.value);
@@ -91,7 +96,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.spinner = true;
     const $origen = this.origenService
       .getOrigenes()
-      .pipe(finalize(() => this.getPeriod()))
+      .pipe(finalize(() => this.getLeader()))
       .subscribe(
         (response: Origen[]) => {
           this.origens = (response || []).map((data) => ({
@@ -103,25 +108,52 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.arrayToDestroy.push($origen);
   }
 
-  getPeriod(): void {
+  getPeriod(id: number): void {
+    this.spinner = true;
     const $period = this.periodoContableService
-      .getPeriodos()
+      .getListPeriod(id)
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
-        (response: string[]) => {
+        (response: any[]) => {
           this.periods = (response || []).map((data) => ({
-            label: data,
-            value: data,
+            label: data?.period_name,
+            value: data?.period_name,
+          }),
+        );
+        const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+        if (model?.header) {
+          this.selectPeriod = model?.header?.Period;
+        }
+      });
+    this.arrayToDestroy.push($period);
+  }
+
+  getLeader(): void {
+    const $leader = this.periodoContableService
+      .getListLeader()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any[]) => {
+          this.leaders = (response || []).map((data) => ({
+            label: data?.BU_NAME,
+            value: data?.LEDGER_ID,
           }),
         )}
       );
-    this.arrayToDestroy.push($period);
+    this.arrayToDestroy.push($leader);
   }
 
   changeOption(event: any){
     this.form.patchValue({
       origen: event?.value,
     });
+  }
+
+  changeOptionL(event: any){
+    this.form.patchValue({
+      leader: event?.value,
+    });
+    this.getPeriod(event?.value);
   }
 
   changeOptionP(event: any){
@@ -132,6 +164,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
 
   onFocusOutEvent(control: string): void {
     this.focusoutOrigen = this.focusoutOrigen && !this.form.get(`${control}`)?.value ? true : control === 'origen' && !this.focusoutOrigen ? true : false;
+    this.focusoutLeader = this.focusoutLeader && !this.form.get(`${control}`)?.value ? true : control === 'leader' && !this.focusoutLeader ? true : false;
     this.focusoutPeriod = this.focusoutPeriod && !this.form.get(`${control}`)?.value ? true : control === 'period' && !this.focusoutPeriod ? true : false;
     this.focusoutNumber = this.focusoutNumber && !this.form.get(`${control}`)?.value ? true : control === 'number' && !this.focusoutNumber ? true : false;
     this.focusoutDescription = this.focusoutDescription && !this.form.get(`${control}`)?.value ? true : control === 'description' && !this.focusoutDescription ? true : false;

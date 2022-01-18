@@ -6,6 +6,7 @@ import { ConfigService } from '../../core/services/config.service';
 import { StrinUtil } from '../../shared/component/helpers/string.util';
 import { InserHeaderLine } from '../models/insert-header-line';
 import { ReferenceComplementaryRequest } from '../models/referencia-complementaria.model';
+import { TypeLengder } from '../models/TypeLengder';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +42,32 @@ export class HeaderLineService {
           `NJ3REyWp4rtSu4-TorYCHddHZOeKPIHNi5iNBm9tzos`,
         )
       ,request )),
+    );
+  }
+
+  getListPeriod(id: number): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `fe7761e03e51485ab36115a735e7cdf9`,
+          `vt-d0cd5N3R3na3YfPU99if_68pkPbAsnu8ZbrNZtwE`,
+        )
+      ,{LegderId: id} )),
+    );
+  }
+
+  getListLeader(): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `971afe20b95f4b339b4450dfde1beeda`,
+          `yjjdhxmN0zA4BRUNyQOQ8F0XeLA0GURnyUKllpY7w1k`,
+        )
+      ,)),
     );
   }
 }

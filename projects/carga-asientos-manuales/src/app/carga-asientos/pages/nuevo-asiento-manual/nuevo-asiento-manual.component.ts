@@ -76,7 +76,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       }
       const header: CabeceraAsientoInsert = {
         Id: 0,
-        LegderName: '',
+        LegderName: this.dataHeader?.leader,
         SourceName: this.dataHeader?.origen,
         TrxNumber: this.dataHeader?.number,
         AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',

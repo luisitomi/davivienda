@@ -8,6 +8,7 @@ export interface CabeceraAsiento {
 
 export interface HeadboardSeat {
   origen: string;
+  leader: string;
   period: string;
   number: string;
   description: string;
