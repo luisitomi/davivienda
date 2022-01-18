@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
+import { ResultadoCarga } from '../../shared';
 import { StrinUtil } from '../../shared/component/helpers/string.util';
 import { InserHeaderLine } from '../models/insert-header-line';
 import { ReferenceComplementaryRequest } from '../models/referencia-complementaria.model';
-import { TypeLengder } from '../models/TypeLengder';
 @Injectable({
   providedIn: 'root'
 })
@@ -68,6 +68,21 @@ export class HeaderLineService {
           `yjjdhxmN0zA4BRUNyQOQ8F0XeLA0GURnyUKllpY7w1k`,
         )
       ,)),
+    );
+  }
+
+  cargarAsientos(file: any): Observable<any> {
+    let formData = new FormData();
+    formData.append('archivo', file);
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `3b2447e6b95b4fbbaa8161bcfef975a2`,
+          `vccWf-JC_STsIU9SRp8z03pxcJULvHv9zrbATtYZEDk`,
+        )
+      ,formData )),
     );
   }
 }

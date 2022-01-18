@@ -1,82 +1,32 @@
+<app-loader *ngIf="spinner"></app-loader>
 <div class="evol-page evol-page-content">
-
   <div class="evol-carga-asientos">
-
     <mat-card class="evol-carga-asientos-section">
       <form [formGroup]="cargaForm">
-        <mat-card-header>
-          <mat-card-title>Carga de Asientos Manual</mat-card-title>
-        </mat-card-header>
-
+        <app-title-header [Title]="'Carga de Asientos Manual'"></app-title-header>
         <mat-card-content>
-
           <mat-form-field appearance="fill">
             <mat-label for="archivo">Adjuntar</mat-label>
-            <ngx-mat-file-input formControlName="archivo" [accept]="accept">
-
-            </ngx-mat-file-input>
+            <ngx-mat-file-input formControlName="archivo" [accept]="accept"></ngx-mat-file-input>
           </mat-form-field>
-
         </mat-card-content>
-
         <mat-card-actions class="evol-footer-actions">
-          <button mat-flat-button color="accent" (click)="cargar()">Cargar asientos</button>
+          <app-actions [class]="'flat'" [disabled]="!cargaForm.valid" [color]="'accent'" (click)="cargar()" [label]="'Cargar asientos'"></app-actions>
         </mat-card-actions>
       </form>
     </mat-card>
-
     <mat-card class="evol-carga-asientos-section">
-      <mat-card-header>
-        <mat-card-title>Resultado</mat-card-title>
-      </mat-card-header>
-
+      <app-title-header [Title]="'Resultado'"></app-title-header>
       <mat-card-content>
         <mat-list>
-
-          <mat-list-item>
-            <h3>Estado Archivo</h3>
-            <h3>{{ resultado?.estadoArchivo }}</h3>
-          </mat-list-item>
-
-          <mat-divider></mat-divider>
-
-          <mat-list-item>
-            <h3>Asientos Cargados</h3>
-            <h3>{{ resultado?.asientosCargados }}</h3>
-          </mat-list-item>
-
-          <mat-divider></mat-divider>
-
-          <mat-list-item>
-            <h3>Asientos Rechazados</h3>
-            <h3>{{ resultado?.asientosRechazados }}</h3>
-          </mat-list-item>
-
-          <mat-divider></mat-divider>
-
-          <mat-list-item>
-            <h3>Asientos Aprobados</h3>
-            <h3>{{ resultado?.asientosAprobados }}</h3>
-          </mat-list-item>
-
-          <mat-divider></mat-divider>
-
-          <mat-list-item>
-            <h3>Asientos Pendientes</h3>
-            <h3>{{ resultado?.asientosPendientes }}</h3>
-          </mat-list-item>
-
-          <mat-divider></mat-divider>
-
-          <mat-list-item>
-            <h3>Log</h3>
-            <h3>{{ resultado?.log }}</h3>
-          </mat-list-item>
-
+          <app-list-item [title]="'Estado Archivo'" [subtitle]="message || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Asientos Cargados'" [subtitle]="resultado?.asientosCargados?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Asientos Rechazados'" [subtitle]="resultado?.asientosRechazados?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Asientos Aprobados'" [subtitle]="resultado?.asientosAprobadosAutomaticamente?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Asientos Pendientes'" [subtitle]="resultado?.asientosPendientesAprobacion?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Log'" [subtitle]="resultado?.log || ''"></app-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>
-
   </div>
-
 </div>

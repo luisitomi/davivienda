@@ -10,4 +10,5 @@ export class ListItemComponent {
   @Input() subtitle: string | undefined;
   @Input() isDate: Date | undefined;
   @Input() toogle: boolean;
+  @Input() divider: boolean;
 }

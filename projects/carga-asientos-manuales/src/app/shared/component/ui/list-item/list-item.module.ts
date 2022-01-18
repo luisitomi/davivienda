@@ -4,6 +4,7 @@ import { ListItemComponent } from './list-item.component';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CommonModule,
     MatListModule,
     MatSlideToggleModule,
+    MatDividerModule,
   ],
   exports: [ListItemComponent],
 })
