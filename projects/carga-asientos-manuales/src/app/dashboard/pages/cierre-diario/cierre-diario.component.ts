@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { EstadosDiaService } from 'src/app/core/services/estados-dia.service';
 import { EstadoDia } from 'src/app/shared';
+import { UtilServices } from '../../../shared/component/general/util.sevice';
 
 @Component({
   selector: 'app-cierre-diario',
@@ -30,9 +31,11 @@ export class CierreDiarioComponent implements OnInit, OnDestroy {
   constructor(
     private estadosDiaService: EstadosDiaService,
     private snackBar: MatSnackBar,
+    private utilServices: UtilServices,
   ) { }
 
   ngOnInit(): void {
+    this.utilServices.setTextValue('Cierre Diario');
     this.filtrar();
   }
 

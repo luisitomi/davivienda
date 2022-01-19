@@ -22,7 +22,6 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: { title: 'Data Governance' },
       },
       {
         path: 'carga-asientos',

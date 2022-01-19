@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UtilServices } from '../../../shared/component/general/util.sevice';
 import { AuthService } from '../../services/auth.service';
 
 interface Menu {
@@ -41,14 +42,29 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
+    private utilServices: UtilServices,
+    private cdRef:ChangeDetectorRef,
   ) {
     this.authService.setToken(this.route.snapshot.queryParams.token);
   }
 
+  ngAfterViewChecked()
+  {
+    this.cdRef.detectChanges();
+  }
+
   ngOnInit(): void {
-    this.route.firstChild!!.data.subscribe(
-      data => this.title = data.title,
-    );
+    this.utilServices.getTextValue().subscribe(
+      (data: any) => {
+        if (data) {
+          this.title = data;
+        } else {
+          this.route.firstChild!!.data.subscribe(
+            data => this.title = data.title,
+          );
+        }
+      }
+    )
 
     this.getUsernameSub = this.authService.getUsername().subscribe(
       nombre => this.nombreUsuario = nombre,
