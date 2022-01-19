@@ -103,6 +103,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.spinner = true;
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       const line: Array<LineaAsientoInsert> = model?.line || [];
+      const lineSaveComprobante = line[0]?.combinationAccount?.SegTipoComprobante;;
       const lineSave: LineSave[] = (line || []).map((data) => ({
         id: 0,
         nroLinea: data?.nroLinea,
@@ -128,6 +129,29 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           valor: refere?.valor,
         }))
       }));
+      lineSave.forEach((element, index) => {
+        if (!element.informacionReferencial?.length) {
+          this.toastr.warning('Advertencia', "Falta agregar Información Referencial en el " + (index + 1 ) + " registro.");
+          this.spinner = false;
+          return;
+        }
+        if (element?.segTipoComprobante !== lineSaveComprobante) {
+          this.toastr.warning('Advertencia', "Los tipos de comprobante son diferentes");
+          this.spinner = false;
+          return;
+        }
+        let exist = 0;
+        element.informacionReferencial.forEach((subelement) => {
+          if (subelement?.referenciaComprobante === 'PLAZO_PERIODO') {
+            exist += 1;
+          }
+        });
+        if (!exist) {
+          this.toastr.warning('Advertencia', "Falta agregar la referencia de plazo periodo en el " + (index + 1 ) + " registro.");
+          this.spinner = false;
+          return;
+        }
+      });
       const request: InserHeaderLine = {
         id: 0,
         legderName: model?.header?.LegderName,
