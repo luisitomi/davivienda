@@ -71,6 +71,19 @@ export class HeaderLineService {
     );
   }
 
+  validateCliente360  (id: number): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `ea44a2ede74c4740adad74e3958a59b0`,
+          `DLJrjPd-wwPrRC6_gDkNtav5mDn72By4rzLOJMPuGBg`,
+        )
+      ,{ NroIdentificacion: id } )),
+    );
+  }
+
   cargarAsientos(file: any): Observable<any> {
     let formData = new FormData();
     formData.append('archivo', file);

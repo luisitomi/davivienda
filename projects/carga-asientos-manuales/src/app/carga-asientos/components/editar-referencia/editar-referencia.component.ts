@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
@@ -35,6 +36,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
     private headerLineService: HeaderLineService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private datePipe: DatePipe,
+    private toastr: ToastrService,
   ) {
     super();
   }
@@ -173,6 +175,17 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   save(): void {
     if (this.form.valid) {
       const valueForm = this.form.value;
+      if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'Número de Identificación') {
+        const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
+          (resposne: any) => {
+            if (!resposne?.codigo) {
+              this.toastr.warning('Advertencia', resposne?.mensaje);
+              return;
+            }
+          }
+        )
+        this.arrayToDestroy.push($validate360 );
+      }
       const request: ReferenciaComplementaria = {
         index: 0,
         nombre: this.typeReference.find((p: any) => p.value === valueForm.name)?.label || '',
