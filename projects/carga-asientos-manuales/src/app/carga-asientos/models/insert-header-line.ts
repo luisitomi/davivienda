@@ -14,6 +14,7 @@ export class LineSave {
 	nroLinea?: number;
 	company?: string;
 	segGlAccount?: string;
+	segGlAccountValue?: string;
 	segOficina?: string;
 	segSucursal?: string;
 	segProyecto?: string;
@@ -34,5 +35,6 @@ export class LineSave {
 export class ItemsLine {
     nroRefCom: number;
     referenciaComprobante: string;
+	referenciaComprobanteValue: string;
     valor: string;
 }

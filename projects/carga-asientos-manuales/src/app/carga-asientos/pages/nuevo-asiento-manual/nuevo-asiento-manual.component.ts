@@ -109,6 +109,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         nroLinea: data?.nroLinea,
         company: data?.combinationAccount?.Company,
         segGlAccount: data?.combinationAccount?.SegGlAccount,
+        segGlAccountValue: data?.combinationAccount?.SegGlAccountValue,
         segOficina: data?.combinationAccount?.SegOficina,
         segSucursal: data?.combinationAccount?.SegSucursal,
         segProyecto: data?.combinationAccount?.SegProyecto,
@@ -126,61 +127,80 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
           nroRefCom: refere?.index,
           referenciaComprobante: refere?.nombreValue,
+          referenciaComprobanteValue:  refere?.nombre,
           valor: refere?.valor,
         }))
       }));
+      let permission = true;
       lineSave.forEach((element, index) => {
         if (!element.informacionReferencial?.length) {
           this.toastr.warning('Advertencia', "Falta agregar Información Referencial en el " + (index + 1 ) + " registro.");
           this.spinner = false;
+          permission = false;
           return;
         }
         if (element?.segTipoComprobante !== lineSaveComprobante) {
           this.toastr.warning('Advertencia', "Los tipos de comprobante son diferentes");
           this.spinner = false;
+          permission = false;
           return;
         }
         let exist = 0;
-        element.informacionReferencial.forEach((subelement) => {
-          if (subelement?.referenciaComprobante === 'PLAZO_PERIODO') {
+        let message = "";
+
+        if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Plazo /Periodo') === -1) {
+          exist += 1;
+            message = "Plazo /Periodo";
+        }
+
+        if (element.segGlAccountValue === 'Y') {
+          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Número de Identificación') === -1) {
             exist += 1;
+              message = "Número de Identificación";
           }
-        });
-        if (!exist) {
-          this.toastr.warning('Advertencia', "Falta agregar la referencia de plazo periodo en el " + (index + 1 ) + " registro.");
-          this.spinner = false;
-          return;
+          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Auxiliar de Conciliación') === -1) {
+            exist += 1;
+              message = "Auxiliar de Conciliación";
+          }
+          if (!exist) {
+            this.toastr.warning('Advertencia', `Falta agregar la referencia de ${message} en el ${index + 1} registro.`);
+            this.spinner = false;
+            permission = false;
+            return;
+          }
         }
       });
-      const request: InserHeaderLine = {
-        id: 0,
-        legderName: model?.header?.LegderName,
-        sourceName: model?.header?.SourceName,
-        trxNumber: model?.header?.TrxNumber,
-        accountingDate: model?.header?.AccountingDate,
-        description: model?.header?.Description,
-        usuario: '',
-        linea: lineSave || undefined,
+      if (permission) {
+        const request: InserHeaderLine = {
+          id: 0,
+          legderName: model?.header?.LegderName,
+          sourceName: model?.header?.SourceName,
+          trxNumber: model?.header?.TrxNumber,
+          accountingDate: model?.header?.AccountingDate,
+          description: model?.header?.Description,
+          usuario: '',
+          linea: lineSave || undefined,
+        }
+        const $save = this.headerLineService
+          .saveHeaderLine(request)
+          .pipe(finalize(() => this.spinner = false))
+          .subscribe(
+            (response: any) => {
+              if(response?.status === appConstants.responseStatus.OK) {
+                localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+                this.router.navigate(['aprobacion'] ,
+                  {
+                    queryParams: this.queryParams,
+                    skipLocationChange: false,
+                    queryParamsHandling: 'merge',
+                  }
+                );
+                this.toastr.success('Registro', response?.message);
+              }          
+            }
+          )
+        this.arrayToDestroy.push($save);
       }
-      const $save = this.headerLineService
-        .saveHeaderLine(request)
-        .pipe(finalize(() => this.spinner = false))
-        .subscribe(
-          (response: any) => {
-            if(response?.status === appConstants.responseStatus.OK) {
-              localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-              this.router.navigate(['aprobacion'] ,
-                {
-                  queryParams: this.queryParams,
-                  skipLocationChange: false,
-                  queryParamsHandling: 'merge',
-                }
-              );
-              this.toastr.success('Registro', response?.message);
-            }          
-          }
-        )
-      this.arrayToDestroy.push($save);
     }
   }
 }

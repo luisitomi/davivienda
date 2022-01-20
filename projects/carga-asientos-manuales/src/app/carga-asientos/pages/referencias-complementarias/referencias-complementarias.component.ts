@@ -7,6 +7,7 @@ import { ReferenciaComplementaria } from '../../models/referencia-complementaria
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-referencias-complementarias',
@@ -21,15 +22,18 @@ export class ReferenciasComplementariasComponent implements OnInit {
   displayedColumns: string[] = ['index', 'nombre', 'valor', 'acciones'];
   references: MatTableDataSource<ReferenciaComplementaria> = new MatTableDataSource();
   queryParams: any;
+  isIdentity: string;
 
   constructor(
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.index = +params['index'];
       this.line = params['linea'];
+      this.isIdentity= params['status'];
     });
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
@@ -136,6 +140,26 @@ export class ReferenciasComplementariasComponent implements OnInit {
   }
 
   goToBack(): void {
+    let valueFormat = 4;
+    let message = '';
+    if (this.references.data.findIndex(p => p.nombre === 'Plazo /Periodo') === -1) {
+      valueFormat = 2;
+      message = 'Plazo /Periodo';
+    }
+    if (this.isIdentity === 'Y') {
+      if (this.references.data.findIndex(p => p.nombre === 'Auxiliar de Conciliación') === -1) {
+        valueFormat = 1;
+        message = 'Auxiliar de Conciliación';
+      }
+      if (this.references.data.findIndex(p => p.nombre === 'Número de Identificación') === -1) {
+        valueFormat = 3;
+        message = 'Número de Identificación';
+      }
+    }
+    if (valueFormat !== 4) {
+      this.toastr.warning('Advertencia', `Debe agregar información de ${message}'`);
+      return;
+    }
     this.router.navigate(['carga-asientos/nuevo-asiento-manual'],
       {
         queryParams: this.queryParams,

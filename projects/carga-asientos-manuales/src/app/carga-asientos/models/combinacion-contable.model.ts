@@ -6,6 +6,7 @@ export class CombinacionContable {
 	SegProyecto:string;
 	SegSubProyecto:string;
 	SegTipoComprobante:string;
+	SegGlAccountValue:string;
 	SegIntecompany:string;
 	SegVinculado:string;
 	SegF1:string;

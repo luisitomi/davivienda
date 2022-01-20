@@ -44,6 +44,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   comp10Select: string;
   comp11Select: string;
   spinner: boolean;
+  validateClient: string;
 
   constructor(
     public dialogRef: MatDialogRef<CombinacionContableComponent>,
@@ -108,6 +109,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.comp9Select = this.data?.data?.SegVinculado;
     this.comp10Select = this.data?.data?.SegF1;
     this.comp11Select = this.data?.data?.SegF2;
+    this.validateClient = this.data?.data?.SegGlAccountValue;
   }
 
   showErrors(control: string): boolean {
@@ -159,6 +161,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
           this.parte2Options = (parte2 || []).map((data) => ({
             label: data?.valor,
             value: data?.codigo,
+            type: data?.REQUIERE_IDENTIFICACION_CLI
           }))
         }
       );
@@ -316,6 +319,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         Validators.required,
       ]);
     }
+    if (control === 'comp2') {
+      this.validateClient = this.parte2Options.find(p => p.value === this.form.get(`${control}`)?.value)?.type || '';
+    }
     this.form.get(`${control}`)?.updateValueAndValidity();
   }
 
@@ -330,6 +336,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         SegProyecto: valueForm.comp5,
         SegSubProyecto: valueForm.comp6,
         SegTipoComprobante: valueForm.comp7,
+        SegGlAccountValue: this.validateClient || 'N',
         SegIntecompany: valueForm.comp8,
         SegVinculado: valueForm.comp9,
         SegF1: valueForm.comp10,

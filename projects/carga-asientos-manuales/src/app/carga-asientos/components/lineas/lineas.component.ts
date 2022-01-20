@@ -2,6 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, On
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
@@ -22,12 +23,14 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
   queryParams: any;
   lineName: string;
+  validateInfo: any;
 
   constructor(
     private dialog: MatDialog,
     private cdRef:ChangeDetectorRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
@@ -70,13 +73,19 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   addReference(index: number): void {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     this.lineName = model?.header?.SourceName;
-    this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName],
-      {
-        queryParams: this.queryParams,
-        skipLocationChange: false,
-        queryParamsHandling: 'merge',
-      }
-    );
+    this.validateInfo = model?.line[index]?.combinationAccount?.SegGlAccountValue || undefined;
+    if (this.validateInfo) {
+      this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName, this.validateInfo],
+        {
+          queryParams: this.queryParams,
+          skipLocationChange: false,
+          queryParamsHandling: 'merge',
+        }
+      );
+    }else{
+      this.toastr.warning('Advertencia', `Falta agregar Combinación Contable en el ${index + 1} registro.`);
+      return;
+    }   
   }
 
   editLine(data: LineaAsientoInsert, index: number): void {
@@ -122,33 +131,35 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   newLine(): void {
-    const dialogRef = this.dialog.open(EditarLineaComponent, {
-      width: '80%',
-      maxWidth: '400px',
-      data: { data: null, type: appConstants.typeEvent.SAVE },
-      panelClass: 'my-dialog',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-      this.lineList = model?.line || [];
-      if (result?.SegCurrency) {
-        result.nroLinea = this.lineList.length + 1;
-        this.lineList.push(result);
-        const request: ManualLading = {
-          header: model?.header,
-          line: this.lineList,
+    if (this.visibleTable) {
+      const dialogRef = this.dialog.open(EditarLineaComponent, {
+        width: '80%',
+        maxWidth: '400px',
+        data: { data: null, type: appConstants.typeEvent.SAVE },
+        panelClass: 'my-dialog',
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+        this.lineList = model?.line || [];
+        if (result?.SegCurrency) {
+          result.nroLinea = this.lineList.length + 1;
+          this.lineList.push(result);
+          const request: ManualLading = {
+            header: model?.header,
+            line: this.lineList,
+          }
+          this.setDataLocal(request, this.lineList);
         }
-        this.setDataLocal(request, this.lineList);
-      }
-    });
+      });
+    }
   }
 
   complementary(index: number): void {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     this.lineList = model?.line || [];
     const complem = this.lineList[index]?.combinationAccount || undefined;
-    
+   
     const dialogRef = this.dialog.open(CombinacionContableComponent, {
       width: '80%',
       maxWidth: '400px',
@@ -158,7 +169,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.lineList[index].combinationAccount = this.lineList[index].combinationAccount ||  undefined;
+      this.lineList[index].combinationAccount = this.lineList[index].combinationAccount || undefined;
       if (result?.SegGlAccount) {
         result.nroLinea = index + 1;
         this.lineList[index].combinationAccount = result;
@@ -169,6 +180,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         this.setDataLocal(request, this.lineList);
       }
     });
+
   }
 
   setDataLocal(request: ManualLading, lits: Array<LineaAsientoInsert>): void {
