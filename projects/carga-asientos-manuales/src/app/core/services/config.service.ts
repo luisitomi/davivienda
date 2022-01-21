@@ -2,17 +2,23 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
+  apiUrl = this.enviroment.apiUrl?.replace(
+    /\/$/,
+    ''
+  );
+  apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
 
-  apiUrl: BehaviorSubject<string> = new BehaviorSubject('https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443');
-
-  constructor() { }
+  constructor(
+    private enviroment: ApiService
+  ) { }
 
   getApiUrl(): Observable<string> {
-    return this.apiUrl.asObservable().pipe(first());
+    return this.apiUrlSubject.asObservable().pipe(first());
   }
 }

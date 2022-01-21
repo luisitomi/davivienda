@@ -239,7 +239,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/carga-asientos-manuales/src/favicon.ico",
-              "projects/carga-asientos-manuales/src/assets"
+              "projects/carga-asientos-manuales/src/assets",
+              "projects/carga-asientos-manuales/src/env.js"
             ],
             "styles": [
               "projects/carga-asientos-manuales/src/styles.scss"

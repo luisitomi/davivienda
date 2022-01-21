@@ -18,6 +18,7 @@ import { tokenInterceptorProvider } from './core/interceptors/token.interceptor'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageErrorInterceptor } from './shared/interceptor/message-error.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { EnvironmentServiceProvider } from './core/interceptors/dev-backend.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
       useClass: MessageErrorInterceptor,
       multi: true,
     },
+    EnvironmentServiceProvider,
   ],
   bootstrap: [AppComponent]
 })
