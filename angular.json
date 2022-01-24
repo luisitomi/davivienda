@@ -136,7 +136,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/interfaz-monitoreo/src/favicon.ico",
-              "projects/interfaz-monitoreo/src/assets"
+              "projects/interfaz-monitoreo/src/assets",
+              "projects/interfaz-monitoreo/src/env.js"
             ],
             "styles": [
               "projects/interfaz-monitoreo/src/styles.scss"
@@ -148,13 +149,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "3mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "100kb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -214,6 +215,7 @@
         }
       }
     },
+    
     "carga-asientos-manuales": {
       "projectType": "application",
       "schematics": {
