@@ -1,29 +1,16 @@
 <div class="evol-limites">
-  <form [formGroup]="nivelForm" (ngSubmit)="buscar">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Configuración de Límites</mat-card-title>
-      </mat-card-header>
+    <form [formGroup]="form" autocomplete="off">
+        <mat-card>
+            <app-title-header [Title]="'Configuración de Límites'"></app-title-header>
 
-      <mat-card-content>
+            <mat-card-content>
+                <app-select [label]="'Nivel'" formControlName="text" [options]="selectLimits"></app-select>
+            </mat-card-content>
 
-        <mat-form-field appearance="fill">
-          <mat-label for="nivel">Nivel</mat-label>
-          <mat-select id="nivel" formControlName="nivel">
-            <mat-option *ngFor="let nivel of nivelOptions" [value]="nivel">{{ nivel }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </mat-card-content>
-
-      <mat-action-row class="evol-footer-actions">
-        <button mat-flat-button color="accent" (click)="buscar()">Buscar</button>
-      </mat-action-row>
-
-    </mat-card>
-
-  </form>
-
-  <app-tabla-limites [limites]="limites" [loading] ="loadingLimites" (actualizar)="grabar($event)"></app-tabla-limites>
-
+            <mat-action-row class="evol-footer-actions">
+                <app-actions [class]="'flat'" [color]="'accent'" (click)="buscar()" [label]="'Buscar'"></app-actions>
+            </mat-action-row>
+        </mat-card>
+    </form>
+    <app-tabla-limites [loading]="spinner" [limites]="limitsCopy"></app-tabla-limites>
 </div>

@@ -1,51 +1,37 @@
 <mat-card>
   <mat-action-row class="evol-footer-actions">
-    <button mat-flat-button color="primary" (click)="grabar()" [disabled]="sinCambios">Grabar</button>
+    <app-actions [class]="'flat'" [color]="'primary'" (click)="grabar()" [label]="'Grabar'"></app-actions>
   </mat-action-row>
-
   <mat-card-content class="evol-tabla-limites-container">
-
     <div class="evol-tabla-wrapper">
-
       <table mat-table [dataSource]="limites">
-
-        <!-- Columna Empieza Con -->
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef>Nivel</th>
+          <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+        </ng-container>
         <ng-container matColumnDef="empiezaCon">
           <th mat-header-cell *matHeaderCellDef>Cuenta empieza por</th>
           <td mat-cell *matCellDef="let element">{{ element.empiezaCon }}</td>
         </ng-container>
-
-        <!-- Columna Importe Maximo -->
         <ng-container matColumnDef="importeMaximo">
           <th mat-header-cell *matHeaderCellDef>Importe Máximo</th>
-          <td mat-cell *matCellDef="let element">{{ element.importeMaximo | currency:element.codigo:'code' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.importeMaximo }}</td>
         </ng-container>
-
-        <!-- Columna Nuevo Valor -->
         <ng-container matColumnDef="nuevoValor">
           <th mat-header-cell *matHeaderCellDef>Nuevo Valor</th>
           <td mat-cell *matCellDef="let element">
-            <mat-form-field appearance="fill" class="evol-input-number">
-              <input type="number" min="0" matInput [(ngModel)]="element.nuevoValor" (ngModelChange)="onCambio()">
-            </mat-form-field>
+            <app-input min="0" [type]="'number'" (ngModelChange)="onCambio()" [onlyNumber]="true" [(ngModel)]="element.nuevoValor"></app-input>
           </td>
         </ng-container>
-
-        <!-- Columna unica Progress Bar -->
         <ng-container matColumnDef="progress">
           <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
-            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+            <app-progress [loading]="loading"></app-progress>
           </th>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
       </table>
-
     </div>
-
   </mat-card-content>
-
 </mat-card>

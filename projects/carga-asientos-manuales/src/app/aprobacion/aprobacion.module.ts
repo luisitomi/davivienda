@@ -7,19 +7,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
 import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
 import { FiltrosPendientesComponent } from './components/filtros-pendientes/filtros-pendientes.component';
-import { ConfiguracionLimitesComponent } from './pages/configuracion-limites/configuracion-limites.component';
-import { TablaLimitesComponent } from './components/tabla-limites/tabla-limites.component';
 import { SharedModule } from '../shared';
 import { ResumenAsientoModule } from './pages/resumen-asiento/resumen-asiento.module';
 import { TablaAsientoModule } from './components/tabla-asientos/tabla-asientosmodule';
+import { ConfiguracionLimitesModule } from './pages/configuracion-limites/configuracion-limites.module';
+import { EnvironmentServiceProvider } from '../core/interceptors/dev-backend.interceptor';
 
 
 @NgModule({
   declarations: [
     AsientosPendientesComponent,
     FiltrosPendientesComponent,
-    ConfiguracionLimitesComponent,
-    TablaLimitesComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +29,10 @@ import { TablaAsientoModule } from './components/tabla-asientos/tabla-asientosmo
     SharedModule,
     ResumenAsientoModule,
     TablaAsientoModule,
+    ConfiguracionLimitesModule,
+  ],
+  providers: [
+    EnvironmentServiceProvider,
   ]
 })
 export class AprobacionModule { }

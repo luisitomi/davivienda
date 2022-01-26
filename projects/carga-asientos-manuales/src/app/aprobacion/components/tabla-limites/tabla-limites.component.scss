@@ -21,22 +21,26 @@ table {
   padding: 1em;
 }
 
+.mat-column-descripcion {
+  @extend %column;
+  text-align: center;
+  width: 150px;
+}
+
 .mat-column-empiezaCon {
   @extend %column;
+  text-align: center;
+  width: 250px;
 }
 
 .mat-column-importeMaximo {
   @extend %column;
-  text-align: right;
+  text-align: center;
   width: 200px;
 }
 
 .mat-column-nuevoValor {
   @extend %column;
-  width: 200px;
-}
-
-
-.mat-input-element {
-  text-align: end;
+  text-align: center;
+  width: 150px;
 }

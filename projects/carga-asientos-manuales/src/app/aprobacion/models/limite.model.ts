@@ -4,3 +4,10 @@ export interface Limite {
   codigo: string;
   nuevoValor: number;
 }
+
+export interface Limit {
+  Description: string;
+  Value: number;
+  Rol: string;
+}
+

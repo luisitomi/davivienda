@@ -1,64 +1,67 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs';
-import { Limite } from '../../models/limite.model';
-import { LimitesService } from '../../services/limites.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { DropdownItem } from '../../../shared/component/ui/select/select.model';
+import { Limit, Limite } from '../../models/limite.model';
+import { LimitService } from '../../services/limit.service';
 
 @Component({
   selector: 'app-configuracion-limites',
   templateUrl: './configuracion-limites.component.html',
   styleUrls: ['./configuracion-limites.component.scss']
 })
-export class ConfiguracionLimitesComponent implements OnInit, OnDestroy {
-
-  nivelForm = new FormGroup({
-    nivel: new FormControl('Automático'),
-  });
-
-  nivelOptions: string[] = [];
-  getNivelesSub?: Subscription;
-
-  limites: Limite[] = [];
-  getLimitesSub?: Subscription;
-  cambiarLimitesSub?: Subscription;
-
-  loadingLimites: boolean = false;
-
+export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implements OnInit {
+  limits: Array<Limite> = [];
+  limitsCopy: Array<Limite> = [];
+  selectLimits: Array<DropdownItem> = [];
+  spinner = false;
+  form: FormGroup;
+  
   constructor(
-    private limitesService: LimitesService,
-    private snackBar: MatSnackBar,
-  ) { }
-
-  ngOnInit(): void {
-    this.getNivelesSub = this.limitesService.getNiveles().subscribe(
-      niveles => this.nivelOptions = niveles,
-    );
-
-    this.buscar();
+    private limitService: LimitService,
+    private formBuilder: FormBuilder,
+  ) {
+    super();
   }
 
-  ngOnDestroy(): void {
-    this.getNivelesSub?.unsubscribe();
-    this.getLimitesSub?.unsubscribe();
+  ngOnInit(): void {
+    this.createForm();
+    this.getListLimits();
+  }
+
+  createForm(): void {
+    this.form = this.formBuilder.group({
+      text: ['', []],
+    });
+  }
+
+  getListLimits(): void {
+    this.spinner = true;
+    const $limits = this.limitService
+      .getLimits()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: Limit[]) => {
+          this.limits = (response || []).map((data,index) => ({
+            nuevoValor: data?.Value,
+            codigo : `${data?.Description}`,
+            importeMaximo: response[index+1]?.Value,
+            empiezaCon: `COP ${data?.Value}`
+          }))
+          this.limitsCopy = this.limits;
+          this.selectLimits = (response || []).map((data) => ({
+            label: data?.Description,
+            value: data?.Description,
+          }))
+          this.selectLimits.unshift({label: 'Todos', value: ''})
+        }
+      );
+    this.arrayToDestroy.push($limits);
   }
 
   buscar(): void {
-    this.loadingLimites = true;
-    this.getLimitesSub = this.limitesService.getLimites(this.nivelForm.value).subscribe(
-      limites => this.limites = limites,
-      error => console.log(error),
-      () => this.loadingLimites = false,
-    );
+    const data = this.form.value;
+    this.limitsCopy = this.limits.filter(p => p.codigo === data?.text).length ? this.limits.filter(p => p.codigo === data?.text) : this.limits;
   }
-
-  grabar(limites: Limite[]): void {
-    this.cambiarLimitesSub = this.limitesService.cambiarLimites(limites).subscribe(
-      ok => {
-        this.snackBar.open('Límites cambiados');
-        this.buscar();
-      },
-    );
-  }
-
 }
