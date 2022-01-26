@@ -10,6 +10,8 @@ import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule } from '@angular/forms';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { TitleHeaderModule } from '../../../shared/component/ui/title-header/title-header.module';
+import { NewLimitModule } from '../new-limit/new-limit.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     MatExpansionModule,
     FormsModule,
     LoaderModule,
+    TitleHeaderModule,
+    NewLimitModule,
   ],
   exports: [TablaLimitesComponent],
 })

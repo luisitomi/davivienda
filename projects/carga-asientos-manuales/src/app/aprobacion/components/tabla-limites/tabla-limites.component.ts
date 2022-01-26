@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { Limite } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
+import { NewLimitComponent } from '../new-limit/new-limit.component';
 
 @Component({
   selector: 'app-tabla-limites',
@@ -19,6 +21,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   spinner  = false;
 
   constructor(
+    private dialog: MatDialog,
     private limitService: LimitService,
     private toastr: ToastrService,
   ) {
@@ -41,11 +44,26 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
       .subscribe(
         (response: any) => {
           if(response?.status === appConstants.responseStatus.OK) {
-            this.toastr.success('Actualizado', response?.message);
+            this.toastr.success(response?.mensaje,'Actualizado');
             this.updateLis.emit(true);
           }
         }
       )
     this.arrayToDestroy.push($status);
+  }
+  
+  addNewRegister(): void {
+    const dialogRef = this.dialog.open(NewLimitComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: null,
+      panelClass: 'my-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateLis.emit(true);
+      }
+    });
   }
 }

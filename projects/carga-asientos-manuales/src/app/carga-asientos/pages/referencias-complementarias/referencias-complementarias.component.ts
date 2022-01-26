@@ -157,7 +157,7 @@ export class ReferenciasComplementariasComponent implements OnInit {
       }
     }
     if (valueFormat !== 4) {
-      this.toastr.warning('Advertencia', `Debe agregar información de ${message}'`);
+      this.toastr.warning(`Debe agregar información de ${message}'`, 'Advertencia');
       return;
     }
     this.router.navigate(['carga-asientos/nuevo-asiento-manual'],

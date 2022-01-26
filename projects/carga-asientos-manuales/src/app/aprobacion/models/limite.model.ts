@@ -15,3 +15,8 @@ export interface Limit {
   Estado: number;
 }
 
+export interface LimitSave {
+  Descripcion: string;
+  Valor: number;
+  Usuario: string;
+}

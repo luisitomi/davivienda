@@ -179,7 +179,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
         const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
           (resposne: any) => {
             if (!resposne?.codigo) {
-              this.toastr.warning('Advertencia', resposne?.mensaje);
+              this.toastr.warning(resposne?.mensaje, 'Advertencia');
               return;
             }
           }

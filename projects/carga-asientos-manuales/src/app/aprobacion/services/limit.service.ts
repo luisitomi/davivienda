@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 import { StrinUtil } from '../../shared/component/helpers/string.util';
-import { Limit } from '../models/limite.model';
+import { Limit, LimitSave } from '../models/limite.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,19 @@ export class LimitService {
           `-fBkNsvqLjRVD-TXzBttvYrP-wFhOnneS9mN0EXqTO0`,
         )
       ,{ Id: id, Usuario: "" } )),
+    );
+  }
+
+  SaveLimit(data: LimitSave): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `6958c9f9fad040f1a5121a0904200dc6`,
+          `GWFzj1pyGjyB2Ag1vopyPew5tr2CSS_6kvHfWodJ2po`,
+        )
+      ,data )),
     );
   }
 

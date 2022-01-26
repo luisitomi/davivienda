@@ -134,13 +134,13 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       let permission = true;
       lineSave.forEach((element, index) => {
         if (!element.informacionReferencial?.length) {
-          this.toastr.warning('Advertencia', "Falta agregar Información Referencial en el " + (index + 1 ) + " registro.");
+          this.toastr.warning("Falta agregar Información Referencial en el " + (index + 1 ) + " registro.", 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
         }
         if (element?.segTipoComprobante !== lineSaveComprobante) {
-          this.toastr.warning('Advertencia', "Los tipos de comprobante son diferentes");
+          this.toastr.warning("Los tipos de comprobante son diferentes", 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
@@ -163,7 +163,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
               message = "Auxiliar de Conciliación";
           }
           if (!exist) {
-            this.toastr.warning('Advertencia', `Falta agregar la referencia de ${message} en el ${index + 1} registro.`);
+            this.toastr.warning(`Falta agregar la referencia de ${message} en el ${index + 1} registro.`, 'Advertencia');
             this.spinner = false;
             permission = false;
             return;
@@ -195,7 +195,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
                     queryParamsHandling: 'merge',
                   }
                 );
-                this.toastr.success('Registro', response?.message);
+                this.toastr.success(response?.message, 'Registro');
               }          
             }
           )
