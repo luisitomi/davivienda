@@ -29,4 +29,17 @@ export class LimitService {
     );
   }
 
+  ChangeStatus(id: number): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.put<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `c466773831084069a89c4d28934eb9d5`,
+          `-fBkNsvqLjRVD-TXzBttvYrP-wFhOnneS9mN0EXqTO0`,
+        )
+      ,{ Id: id, Usuario: "" } )),
+    );
+  }
+
 }

@@ -30,6 +30,10 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
     this.getListLimits();
   }
 
+  updateLis(value: boolean): void {
+    if (value) this.getListLimits();
+  }
+
   createForm(): void {
     this.form = this.formBuilder.group({
       text: ['', []],
@@ -47,7 +51,9 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             nuevoValor: data?.Value,
             codigo : `${data?.Description}`,
             importeMaximo: response[index+1]?.Value,
-            empiezaCon: `COP ${data?.Value}`
+            empiezaCon: `COP ${data?.Value}`,
+            estado: data?.Estado,
+            id: data?.Id,
           }))
           this.limitsCopy = this.limits;
           this.selectLimits = (response || []).map((data) => ({

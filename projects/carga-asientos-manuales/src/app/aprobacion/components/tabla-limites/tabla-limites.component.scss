@@ -6,11 +6,11 @@
 
 .evol-tabla-wrapper {
   overflow: auto;
-  width: 620px;
+  width: 100%;
 }
 
 table {
-  width: 620px;
+  width: 100%;
 }
 
 .mat-header-cell {
@@ -40,6 +40,12 @@ table {
 }
 
 .mat-column-nuevoValor {
+  @extend %column;
+  text-align: center;
+  width: 150px;
+}
+
+.mat-column-estado {
   @extend %column;
   text-align: center;
   width: 150px;

@@ -1,7 +1,5 @@
+<app-loader *ngIf="spinner"></app-loader>
 <mat-card>
-  <mat-action-row class="evol-footer-actions">
-    <app-actions [class]="'flat'" [color]="'primary'" (click)="grabar()" [label]="'Grabar'"></app-actions>
-  </mat-action-row>
   <mat-card-content class="evol-tabla-limites-container">
     <div class="evol-tabla-wrapper">
       <table mat-table [dataSource]="limites">
@@ -23,6 +21,17 @@
             <app-input min="0" [type]="'number'" (ngModelChange)="onCambio()" [onlyNumber]="true" [(ngModel)]="element.nuevoValor"></app-input>
           </td>
         </ng-container>
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <container-element *matCellDef="let element" [ngSwitch]="element.estado">
+            <td *ngSwitchCase="0">
+              <app-actions [class]="'flat'" [color]="'primary'" (click)="onChange(element.id)" [label]="'Activo'"></app-actions>
+            </td>
+            <td *ngSwitchCase="1">
+              <app-actions [class]="'flat'" [color]="'accent'" (click)="onChange(element.id)" [label]="'Desactivo'"></app-actions>
+            </td>
+          </container-element>
+        </ng-container>
         <ng-container matColumnDef="progress">
           <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
             <app-progress [loading]="loading"></app-progress>
@@ -34,4 +43,7 @@
       </table>
     </div>
   </mat-card-content>
+  <mat-action-row class="evol-footer-actions">
+    <app-actions [class]="'flat'" [color]="'warn'" (click)="grabar()" [label]="'Grabar'"></app-actions>
+  </mat-action-row>
 </mat-card>

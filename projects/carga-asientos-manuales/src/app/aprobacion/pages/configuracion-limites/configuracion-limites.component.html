@@ -1,3 +1,4 @@
+<app-loader *ngIf="spinner"></app-loader>
 <div class="evol-limites">
     <form [formGroup]="form" autocomplete="off">
         <mat-card>
@@ -8,9 +9,9 @@
             </mat-card-content>
 
             <mat-action-row class="evol-footer-actions">
-                <app-actions [class]="'flat'" [color]="'accent'" (click)="buscar()" [label]="'Buscar'"></app-actions>
+                <app-actions [class]="'flat'" [color]="'warn'" (click)="buscar()" [label]="'Buscar'"></app-actions>
             </mat-action-row>
         </mat-card>
     </form>
-    <app-tabla-limites [loading]="spinner" [limites]="limitsCopy"></app-tabla-limites>
+    <app-tabla-limites (updateLis)="updateLis($event)" [loading]="spinner" [limites]="limitsCopy"></app-tabla-limites>
 </div>

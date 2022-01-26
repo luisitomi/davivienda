@@ -9,6 +9,7 @@ import { ActionsModule } from '../../../shared/component/ui/actions/actions.modu
 import { InputModule } from '../../../shared/component/ui/input/input.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule } from '@angular/forms';
+import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     InputModule,
     MatExpansionModule,
     FormsModule,
+    LoaderModule,
   ],
   exports: [TablaLimitesComponent],
 })
