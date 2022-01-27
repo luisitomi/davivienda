@@ -21,6 +21,7 @@ export interface Limit {
 export interface LimitSave {
   Descripcion: string;
   Valor: number;
+  ValorFinal: number;
   Usuario: string;
 }
 
@@ -28,6 +29,7 @@ export interface LimitEdit {
   Id: number
   Descripcion: string;
   Valor: number;
+  ValorFinal: number;
   Usuario: string;
 }
 

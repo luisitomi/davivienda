@@ -5,8 +5,10 @@
     <div mat-dialog-content class="evol-editar-linea-container">
         <app-input (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
         <app-form-errors [control]="form.controls['description']"></app-form-errors>
-        <app-input [onlyNumber]="true"  (input)="onFocusOutEvent('value')" (focusout)="onFocusOutEvent('value')" [label]="'Valor'" formControlName="value" [error]="showErrors('value')"></app-input>
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('value')" (focusout)="onFocusOutEvent('value')" [label]="'Valor'" formControlName="value" [error]="showErrors('value')"></app-input>
         <app-form-errors [control]="form.controls['value']"></app-form-errors>
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('valueFinal')" (focusout)="onFocusOutEvent('valueFinal')" [label]="'Valor Máximo'" formControlName="valueFinal" [error]="showErrors('valueFinal')"></app-input>
+        <app-form-errors [control]="form.controls['valueFinal']"></app-form-errors>
     </div>
     <mat-dialog-actions class="evol-footer-actions">
         <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>

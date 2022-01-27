@@ -43,6 +43,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
     this.form = this.formBuilder.group({
       description: [null, [Validators.required]],
       value: [null, [Validators.required]],
+      valueFinal: [null, [Validators.required]],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
@@ -83,6 +84,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
         Descripcion: valueForm?.description,
         Usuario: '',
         Valor: valueForm?.value,
+        ValorFinal: valueForm?.valueFinal,
       }
       const $limitSave =this.limitService
         .SaveLimit(request)

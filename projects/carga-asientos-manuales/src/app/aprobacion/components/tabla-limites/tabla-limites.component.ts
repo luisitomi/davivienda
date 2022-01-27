@@ -37,6 +37,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
           Id: element?.id,
           Descripcion: element?.codigoNew,
           Valor: element?.nuevoValorNew,
+          ValorFinal: element?.importeMaximoNew,
           Usuario: '',
         }
         const $edit = this.limitService
