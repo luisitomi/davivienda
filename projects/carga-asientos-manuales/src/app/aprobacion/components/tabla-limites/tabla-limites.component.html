@@ -7,7 +7,7 @@
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef>Nivel</th>
           <td mat-cell *matCellDef="let element">
-            <app-input (ngModelChange)="onCambio()" [(ngModel)]="element.codigo"></app-input>
+            <app-input (input)="onCambio()" [(ngModel)]="element.codigoNew"></app-input>
           </td>
         </ng-container>
         <ng-container matColumnDef="empiezaCon">
@@ -21,7 +21,7 @@
         <ng-container matColumnDef="nuevoValor">
           <th mat-header-cell *matHeaderCellDef>Nuevo Valor</th>
           <td mat-cell *matCellDef="let element">
-            <app-input min="0" [type]="'number'" (ngModelChange)="onCambio()" [onlyNumber]="true" [(ngModel)]="element.nuevoValor"></app-input>
+            <app-input min="0" [type]="'number'" (input)="onCambio()" [onlyNumber]="true" [(ngModel)]="element.nuevoValorNew"></app-input>
           </td>
         </ng-container>
         <ng-container matColumnDef="estado">
@@ -47,6 +47,6 @@
     </div>
   </mat-card-content>
   <mat-action-row class="evol-footer-actions">
-    <app-actions [class]="'flat'" [color]="'warn'" (click)="grabar()" [label]="'Grabar'"></app-actions>
+    <app-actions [class]="'flat'" [color]="'warn'" (click)="grabar()" [label]="'Grabar'" [disabled]="sinCambios"></app-actions>
   </mat-action-row>
 </mat-card>

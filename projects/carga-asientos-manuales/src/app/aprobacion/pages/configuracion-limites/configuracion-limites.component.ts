@@ -49,7 +49,9 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
         (response: Limit[]) => {
           this.limits = (response || []).map((data,index) => ({
             nuevoValor: data?.Value,
-            codigo : `${data?.Description}`,
+            nuevoValorNew: data?.Value,
+            codigo: `${data?.Description}`,
+            codigoNew: `${data?.Description}`,
             importeMaximo: response[index+1]?.Value,
             empiezaCon: `COP ${data?.Value}`,
             estado: data?.Estado,

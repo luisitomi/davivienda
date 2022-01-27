@@ -19,6 +19,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   @Input() loading: boolean = false;
   displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValor', 'estado'];
   spinner  = false;
+  sinCambios: boolean = true;
 
   constructor(
     private dialog: MatDialog,
@@ -29,11 +30,34 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   }
 
   grabar(): void {
-
+    if (!this.sinCambios) {
+      this.spinner = true;
+      this.limites.forEach((element, index) => {
+        const request = {
+          Id: element?.id,
+          Descripcion: element?.codigoNew,
+          Valor: element?.nuevoValorNew,
+          Usuario: '',
+        }
+        const $edit = this.limitService
+          .EditLimit(request)
+          .pipe(finalize(() => this.spinner = false))
+          .subscribe(
+            (response) => {
+              if(response?.status === appConstants.responseStatus.OK && index + 1 === this.limites.length) {
+                this.toastr.success(response?.mensaje,'Actualizado');
+                this.updateLis.emit(true);
+                this.sinCambios = true;
+              }
+            }
+          )
+        this.arrayToDestroy.push($edit);
+      });
+    }    
   }
 
   onCambio(): void {
-    
+    this.sinCambios = this.limites.filter(l => l.codigo !== l.codigoNew || Number(l.nuevoValorNew) !== Number(l.nuevoValor)).length === 0;
   }
 
   onChange(id: number): void {

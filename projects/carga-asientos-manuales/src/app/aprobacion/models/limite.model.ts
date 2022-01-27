@@ -3,7 +3,9 @@ export interface Limite {
   empiezaCon: string;
   importeMaximo: number;
   codigo: string;
+  codigoNew: string;
   nuevoValor: number;
+  nuevoValorNew: number;
   estado: number;
 }
 
@@ -20,3 +22,11 @@ export interface LimitSave {
   Valor: number;
   Usuario: string;
 }
+
+export interface LimitEdit {
+  Id: number
+  Descripcion: string;
+  Valor: number;
+  Usuario: string;
+}
+

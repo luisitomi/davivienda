@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 import { StrinUtil } from '../../shared/component/helpers/string.util';
-import { Limit, LimitSave } from '../models/limite.model';
+import { Limit, LimitEdit, LimitSave } from '../models/limite.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,19 @@ export class LimitService {
           this.endpoint,
           `6958c9f9fad040f1a5121a0904200dc6`,
           `GWFzj1pyGjyB2Ag1vopyPew5tr2CSS_6kvHfWodJ2po`,
+        )
+      ,data )),
+    );
+  }
+
+  EditLimit(data: LimitEdit): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.put<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `b65a09b1abf54c409f74fdf5682a4c2a`,
+          `nfgcWCg7GuW__AmplpMgRt8qfziwqNJrdHihwmOxEAo`,
         )
       ,data )),
     );
