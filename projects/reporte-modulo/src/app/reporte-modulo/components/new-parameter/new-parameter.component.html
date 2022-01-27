@@ -5,7 +5,7 @@
     <div mat-dialog-content class="evol-editar-linea-container">
         <app-input [onlyNumber]="true"  (input)="onFocusOutEvent('lengerId')" (focusout)="onFocusOutEvent('lengerId')" [label]="'LengerId'" formControlName="lengerId" [error]="showErrors('lengerId')"></app-input>
         <app-form-errors [control]="form.controls['lengerId']"></app-form-errors>
-        <app-input (input)="onFocusOutEvent('dni')" (focusout)="onFocusOutEvent('dni')" [label]="'DNI'" formControlName="dni" [error]="showErrors('dni')"></app-input>
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('dni')" (focusout)="onFocusOutEvent('dni')" [label]="'DNI'" formControlName="dni" [error]="showErrors('dni')"></app-input>
         <app-form-errors [control]="form.controls['dni']"></app-form-errors>
         <app-input (input)="onFocusOutEvent('cc')" (focusout)="onFocusOutEvent('cc')" [label]="'CC'" formControlName="cc" [error]="showErrors('cc')"></app-input>
         <app-form-errors [control]="form.controls['cc']"></app-form-errors>
