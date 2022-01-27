@@ -33,12 +33,6 @@ table {
   width: 250px;
 }
 
-.mat-column-importeMaximo {
-  @extend %column;
-  text-align: center;
-  width: 200px;
-}
-
 .mat-column-nuevoValor {
   @extend %column;
   text-align: center;

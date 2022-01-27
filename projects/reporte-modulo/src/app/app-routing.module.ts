@@ -6,18 +6,17 @@ import { AuthGuard } from './core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'listado',
+    redirectTo: 'reporte-modulo',
     pathMatch: 'full',
   },
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [ AuthGuard ],
     children: [
       {
         path: 'reporte-modulo',
         loadChildren: () => import('./reporte-modulo/reporte-modulo.module').then(m => m.ReporteModuloModule),
-        data: { title: 'Carga Manual' },
+        data: { title: 'Reporte Modulo' },
       },
     ]
   },

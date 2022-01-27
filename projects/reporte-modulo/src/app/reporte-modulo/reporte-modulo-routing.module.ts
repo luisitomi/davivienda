@@ -5,7 +5,8 @@ import { TablaInformationComponent } from './pages/tabla-information/tabla-infor
 const routes: Routes = [
   {
     path: 'listado',
-    component: TablaInformationComponent
+    component: TablaInformationComponent,
+    data: {}
   },
   {
     path: '**',

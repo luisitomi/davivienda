@@ -12,7 +12,7 @@
         </ng-container>
         <ng-container matColumnDef="empiezaCon">
           <th mat-header-cell *matHeaderCellDef>Cuenta empieza por</th>
-          <td mat-cell *matCellDef="let element">{{ element.empiezaCon }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.nuevoValor }}</td>
         </ng-container>
         <ng-container matColumnDef="importeMaximo">
           <th mat-header-cell *matHeaderCellDef>Importe Máximo</th>
@@ -22,6 +22,12 @@
           <th mat-header-cell *matHeaderCellDef>Nuevo Valor</th>
           <td mat-cell *matCellDef="let element">
             <app-input min="0" [type]="'number'" (input)="onCambio()" [onlyNumber]="true" [(ngModel)]="element.nuevoValorNew"></app-input>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="nuevoValorFinish">
+          <th mat-header-cell *matHeaderCellDef>Nuevo Importe Máximo</th>
+          <td mat-cell *matCellDef="let element">
+            <app-input min="0" [type]="'number'" (input)="onCambio()" [onlyNumber]="true" [(ngModel)]="element.importeMaximoNew"></app-input>
           </td>
         </ng-container>
         <ng-container matColumnDef="estado">

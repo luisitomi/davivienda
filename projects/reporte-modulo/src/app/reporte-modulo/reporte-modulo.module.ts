@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { SharedModule } from '../shared';
 import { TablaInformationModule } from './pages/tabla-information/tabla-information.module';
+import { ReporteModuloRoutingModule } from './reporte-modulo-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TablaInformationModule } from './pages/tabla-information/tabla-informat
     NgxMatFileInputModule,
     SharedModule,
     TablaInformationModule,
+    ReporteModuloRoutingModule,
   ],
 })
 export class ReporteModuloModule { }

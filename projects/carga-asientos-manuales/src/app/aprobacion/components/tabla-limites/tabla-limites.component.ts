@@ -17,7 +17,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   @Output() updateLis = new EventEmitter<boolean>();
   @Input() limites: Limite[];
   @Input() loading: boolean = false;
-  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValor', 'estado'];
+  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValor', 'nuevoValorFinish', 'estado'];
   spinner  = false;
   sinCambios: boolean = true;
 
@@ -57,7 +57,10 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   }
 
   onCambio(): void {
-    this.sinCambios = this.limites.filter(l => l.codigo !== l.codigoNew || Number(l.nuevoValorNew) !== Number(l.nuevoValor)).length === 0;
+    this.sinCambios = this.limites.filter(l => 
+      l.codigo !== l.codigoNew || 
+      Number(l.nuevoValorNew) !== Number(l.nuevoValor) ||
+      Number(l.importeMaximo) !== Number(l.importeMaximoNew)).length === 0;
   }
 
   onChange(id: number): void {

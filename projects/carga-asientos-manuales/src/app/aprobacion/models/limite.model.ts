@@ -1,6 +1,6 @@
 export interface Limite {
   id: number;
-  empiezaCon: string;
+  importeMaximoNew: number;
   importeMaximo: number;
   codigo: string;
   codigoNew: string;
@@ -13,6 +13,7 @@ export interface Limit {
   Id: number,
   Description: string;
   Value: number;
+  ValueFinish: number;
   Rol: string;
   Estado: number;
 }
