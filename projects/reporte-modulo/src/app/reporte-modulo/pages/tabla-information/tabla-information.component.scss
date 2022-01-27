@@ -1,0 +1,22 @@
+.evol-tabla-limites-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+}
+
+%column {
+  padding: 1em;
+}

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TablaInformationComponent } from './pages/tabla-information/tabla-information.component';
 
 const routes: Routes = [
   {
     path: 'listado',
+    component: TablaInformationComponent
   },
   {
     path: '**',

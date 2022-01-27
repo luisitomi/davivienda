@@ -1,0 +1,16 @@
+<app-close></app-close>
+<app-loader *ngIf="spinner"></app-loader>
+<h1 mat-dialog-title>Nuevo límite</h1>
+<form [formGroup]="form" autocomplete="off">
+    <div mat-dialog-content class="evol-editar-linea-container">
+        <app-input [onlyNumber]="true"  (input)="onFocusOutEvent('lengerId')" (focusout)="onFocusOutEvent('lengerId')" [label]="'LengerId'" formControlName="lengerId" [error]="showErrors('lengerId')"></app-input>
+        <app-form-errors [control]="form.controls['value']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('dni')" (focusout)="onFocusOutEvent('dni')" [label]="'DNI'" formControlName="dni" [error]="showErrors('dni')"></app-input>
+        <app-form-errors [control]="form.controls['dni']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('cc')" (focusout)="onFocusOutEvent('cc')" [label]="'CC'" formControlName="cc" [error]="showErrors('cc')"></app-input>
+        <app-form-errors [control]="form.controls['cc']"></app-form-errors>
+    </div>
+    <mat-dialog-actions class="evol-footer-actions">
+        <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
+    </mat-dialog-actions>
+</form>
