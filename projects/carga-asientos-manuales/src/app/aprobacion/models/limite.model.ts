@@ -33,3 +33,17 @@ export interface LimitEdit {
   Usuario: string;
 }
 
+export interface LimitHeader
+{
+  Id: number;
+  Carga: Date;
+  Usuario: string;
+  Comprobante: string;
+  Contable: Date;
+  Descripcion: string;
+  Cargo: string;
+  Abono: string;
+  Origen: string;
+  Cuenta: string;
+}
+

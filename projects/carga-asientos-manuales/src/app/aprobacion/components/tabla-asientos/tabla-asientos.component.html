@@ -25,31 +25,31 @@
         </ng-container>
         <ng-container matColumnDef="fechaCarga">
           <th mat-header-cell *matHeaderCellDef>Fecha Carga</th>
-          <td mat-cell *matCellDef="let element">{{ element.fechaCarga | date:'shortDate' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.fechaCarga | date:'shortDate' }}</td>
         </ng-container>
         <ng-container matColumnDef="usuario">
           <th mat-header-cell *matHeaderCellDef>Usuario</th>
-          <td mat-cell *matCellDef="let element">{{ element.usuario }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.usuario }}</td>
         </ng-container>
         <ng-container matColumnDef="comprobante">
           <th mat-header-cell *matHeaderCellDef>Comprobante</th>
-          <td mat-cell *matCellDef="let element">{{ element.comprobante }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.comprobante }}</td>
         </ng-container>
         <ng-container matColumnDef="fechaContable">
           <th mat-header-cell *matHeaderCellDef>Fecha Contable</th>
-          <td mat-cell *matCellDef="let element">{{ element.fechaContable | date:'shortDate' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.fechaContable | date:'shortDate' }}</td>
         </ng-container>
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef>Descripción</th>
-          <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.descripcion }}</td>
         </ng-container>
         <ng-container matColumnDef="cargos">
           <th mat-header-cell *matHeaderCellDef>Cargos</th>
-          <td mat-cell *matCellDef="let element">{{ element.cargos }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.cargos }}</td>
         </ng-container>
         <ng-container matColumnDef="abonos">
           <th mat-header-cell *matHeaderCellDef>Abonos</th>
-          <td mat-cell *matCellDef="let element">{{ element.abonos }}</td>
+          <td mat-cell *matCellDef="let element">{{ element?.abonos }}</td>
         </ng-container>
         <ng-container matColumnDef="acciones" stickyEnd>
           <th mat-header-cell *matHeaderCellDef>Acciones</th>

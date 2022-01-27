@@ -12,12 +12,11 @@ import { ResumenAsientoModule } from './pages/resumen-asiento/resumen-asiento.mo
 import { TablaAsientoModule } from './components/tabla-asientos/tabla-asientosmodule';
 import { ConfiguracionLimitesModule } from './pages/configuracion-limites/configuracion-limites.module';
 import { EnvironmentServiceProvider } from '../core/interceptors/dev-backend.interceptor';
+import { AsientosPendientesModule } from './pages/asientos-pendientes/asientos-pendientes.module';
 
 
 @NgModule({
   declarations: [
-    AsientosPendientesComponent,
-    FiltrosPendientesComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +29,7 @@ import { EnvironmentServiceProvider } from '../core/interceptors/dev-backend.int
     ResumenAsientoModule,
     TablaAsientoModule,
     ConfiguracionLimitesModule,
+    AsientosPendientesModule,
   ],
   providers: [
     EnvironmentServiceProvider,

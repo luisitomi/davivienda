@@ -1,16 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { Asiento } from 'src/app/shared';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroAsiento } from '../../models/filtro-asiento.model';
+import { LimitHeader } from '../../models/limite.model';
 import { AsientosService } from '../../services/asientos.service';
+import { LimitHeaderService } from '../../services/limitHeader.service';
 
 @Component({
   selector: 'app-asientos-pendientes',
   templateUrl: './asientos-pendientes.component.html',
   styleUrls: ['./asientos-pendientes.component.scss']
 })
-export class AsientosPendientesComponent implements OnInit, OnDestroy {
+export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements OnInit, OnDestroy {
 
   asientos: Asiento[] = [];
 
@@ -32,43 +36,46 @@ export class AsientosPendientesComponent implements OnInit, OnDestroy {
   constructor(
     private asientosService: AsientosService,
     private snackBar: MatSnackBar,
-  ) { }
+    private lineHeaderService: LimitHeaderService,
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.filtrar(this.filtros);
   }
 
   ngOnDestroy(): void {
-    this.getAsientosSub?.unsubscribe();
-    this.aprobarSub?.unsubscribe();
-    this.rechazarSub?.unsubscribe();
   }
 
   filtrar(filtros: FiltroAsiento): void {
     this.loadingAsientos = true;
-    this.getAsientosSub = this.asientosService.getAsientos(filtros).subscribe(
-      asientos => this.asientos = asientos,
-      error => console.log(error),
-      () => this.loadingAsientos = false,
-    );
+    const $subas = this.lineHeaderService
+      .getLimitsHeader(filtros)
+      .pipe(finalize(() => this.loadingAsientos = false))
+      .subscribe(
+        (asiento: LimitHeader[]) => {
+          this.asientos = (asiento || []).map((item) => ({
+            id: item?.Id,
+            origen: item?.Origen,
+            fechaCarga: item?.Carga,
+            usuario: item?.Usuario,
+            comprobante: item?.Comprobante,
+            fechaContable: item?.Contable,
+            descripcion: item?.Descripcion,
+            cargos: Number(item?.Cargo),
+            abonos: Number(item?.Abono),
+            cuentas: undefined,
+          }))
+        }
+      );
+    this.arrayToDestroy.push($subas);
   }
 
   aprobar(asientos: Asiento[]): void {
-    this.aprobarSub = this.asientosService.aprobar(asientos.map(a => a.id)).subscribe(
-      ok => {
-        this.openSnackBar('Asientos aprobados');
-        this.filtrar(this.filtros);
-      },
-    );
   }
 
   rechazar(asientos: Asiento[]): void {
-    this.rechazarSub = this.asientosService.rechazar(asientos.map(a => a.id)).subscribe(
-      ok => {
-        this.openSnackBar('Asientos rechazados');
-        this.filtrar(this.filtros);
-      },
-    );
   }
 
   openSnackBar(mensaje: string): void {
