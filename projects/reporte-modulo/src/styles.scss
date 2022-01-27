@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~ngx-toastr/toastr';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.evol-header-space-between {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.evol-footer-actions {
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 1em;
+}
+
+.evol-tabla-progress {
+  height: auto !important;
+
+  .mat-header-cell {
+    padding: 0 !important;
+  }
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.evol-input-number {
+  /* Ocultar arrows para input tipo number en chrome, etc*/
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Ocultar arrows para input tipo number en firefox*/
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .mat-input-element {
+    text-align: right;
+  }
+}
+
+.evol-tabla-row:not(.evol-tabla-row-selected):hover {
+  background-color: whitesmoke;
+}
+
+.evol-tabla-row-selected {
+  background-color: gainsboro;
+}
