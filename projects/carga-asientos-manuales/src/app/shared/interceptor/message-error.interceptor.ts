@@ -16,7 +16,7 @@ export class MessageErrorInterceptor implements HttpInterceptor {
       tap(
         (event) => {
           if (event instanceof HttpResponse && event.ok) {
-            if (event.body.message !== 'OK') {
+            if (event?.body?.message !== 'OK') {
             }
           }
         },

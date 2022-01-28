@@ -1,74 +1,60 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { Subscription } from 'rxjs';
-import { OrigenService } from 'src/app/core/services/origen.service';
-import { UsuarioService } from 'src/app/core/services/usuario.service';
-import { Origen } from 'src/app/shared';
+import { finalize } from 'rxjs/operators';
+import { Asiento } from '../../../shared';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { isEmpty } from '../../../shared/component/helpers/general.helper';
+import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { FiltroAsiento } from '../../models/filtro-asiento.model';
-import { CuentasService } from '../../services/cuentas.service';
-import { EstadoAsientoService } from '../../services/estado-asiento.service';
+import { LimitHeader } from '../../models/limite.model';
+import { LimitHeaderService } from '../../services/limitHeader.service';
 
 @Component({
   selector: 'app-filtros-pendientes',
   templateUrl: './filtros-pendientes.component.html',
-  styleUrls: ['./filtros-pendientes.component.scss']
+  styleUrls: ['./filtros-pendientes.component.scss'],
 })
-export class FiltrosPendientesComponent implements OnInit, OnDestroy {
-
+export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements OnInit {
+  @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
-
+  listFilter: Asiento[];
   @Output() filtros = new EventEmitter<FiltroAsiento>();
-
-  filtrosForm = new FormGroup({
-    inicio: new FormControl(),
-    fin: new FormControl(),
-    origen: new FormControl(0),
-    usuario: new FormControl(''),
-    estado: new FormControl(''),
-    cuenta: new FormControl(''),
-  });
-
-  origenOptions: Origen[] = [];
-  usuarioOptions: string[] = [];
-  estadoOptions: string[] = [];
-  cuentaOptions: string[] = [];
-
-  getOrigenesSub?: Subscription;
-  getUsuariosSub?: Subscription;
-  getCuentasSub?: Subscription;
-  getEstadosSub?: Subscription;
+  filtrosForm: FormGroup;
+  origenOptions: Array<DropdownItem>;
+  usuarioOptions: Array<DropdownItem>;
+  spinner: boolean;
+  filtrosData: FiltroAsiento = {
+    inicio: '',
+    fin: '',
+    origen: '',
+    usuario: '',
+    estado: '',
+  };
 
   constructor(
-    private origenService: OrigenService,
-    private usuarioService: UsuarioService,
-    private cuentasService: CuentasService,
-    private estadoAsientoService: EstadoAsientoService,
-  ) { }
-
-  ngOnInit(): void {
-    this.getOrigenesSub = this.origenService.getOrigenes().subscribe(
-      origenes => this.origenOptions = origenes,
-    );
-
-    this.getUsuariosSub = this.usuarioService.getUsuarios().subscribe(
-      usuarios => this.usuarioOptions = usuarios,
-    );
-
-    this.getCuentasSub = this.cuentasService.getCuentas().subscribe(
-      cuentas => this.cuentaOptions = cuentas,
-    );
-
-    this.getEstadosSub = this.estadoAsientoService.getEstados().subscribe(
-      estados => this.estadoOptions = estados,
-    );
+    private formBuilder: FormBuilder,
+    private lineHeaderService: LimitHeaderService,
+  ) {
+    super();
   }
 
-  ngOnDestroy(): void {
-    this.getOrigenesSub?.unsubscribe();
-    this.getUsuariosSub?.unsubscribe();
-    this.getCuentasSub?.unsubscribe();
-    this.getEstadosSub?.unsubscribe();
+  ngOnInit(): void {
+    this.createForm();
+    this.getListData(this.filtrosData);
+  }
+
+  createForm(): void {
+    this.filtrosForm = this.formBuilder.group({
+      inicio: [null, []],
+      fin: [null, []],
+      usuario: [null, []],
+      origen: [null, []],
+    });
+    this.filtrosForm.valueChanges.subscribe(() => {
+      this.formInvalid.emit(this.filtrosForm.invalid);
+    });
   }
 
   filtrar(): void {
@@ -76,4 +62,77 @@ export class FiltrosPendientesComponent implements OnInit, OnDestroy {
     this.panel?.close();
   }
 
+  onFocusOutEvent(control: string) {
+    this.filtrosForm.get(`${control}`)?.clearValidators();
+    if (!this.filtrosForm.get(`${control}`)?.value) {
+      this.filtrosForm.get(`${control}`)?.setValidators([
+      ]);
+    } else {
+      this.filtrosForm.get(`${control}`)?.setValidators([
+      ]);
+    }
+    this.filtrosForm.get(`${control}`)?.updateValueAndValidity();
+  }
+
+  showErrors(control: string): boolean {
+    return (
+      (this.filtrosForm.controls[control].dirty || this.filtrosForm.controls[control].touched) &&
+      !isEmpty(this.filtrosForm.controls[control].errors)
+    );
+  }
+
+  setData(): void {
+    this.origenOptions = (this.listFilter || []).map((item) => ({
+      label: item?.origen,
+      value: item?.origen,
+    }))
+    this.origenOptions.unshift({label: 'Todos', value: ''});
+    this.origenOptions = this.eliminarObjetosDuplicados(this.origenOptions, 'label');
+    this.usuarioOptions = (this.listFilter || []).map((item) => ({
+      label: item?.usuario,
+      value: item?.usuario,
+    }))
+    this.usuarioOptions.unshift({label: 'Todos', value: ''});
+    this.usuarioOptions = this.eliminarObjetosDuplicados(this.usuarioOptions, 'label');
+    this.spinner = false;
+  }
+
+  eliminarObjetosDuplicados(arr: any, prop: any): any {
+    var nuevoArray: any = [];
+    var lookup:any = {};
+
+    for (var i in arr) {
+        lookup[arr[i][prop]] = arr[i];
+    }
+
+    for (i in lookup) {
+        nuevoArray.push(lookup[i]);
+    }
+
+    return nuevoArray;
+}
+
+  getListData(filtros: FiltroAsiento): void {
+    this.spinner = true;
+    const $subas = this.lineHeaderService
+      .getLimitsHeader(filtros)
+      .pipe(finalize(() => this.setData()))
+      .subscribe(
+        (asiento: LimitHeader[]) => {
+          this.listFilter = (asiento || []).map((item) => ({
+            id: item?.Id,
+            origen: item?.Origen,
+            fechaCarga: item?.Carga,
+            usuario: item?.Usuario,
+            comprobante: item?.Comprobante,
+            fechaContable: item?.Contable,
+            descripcion: item?.Descripcion,
+            cargos: Number(item?.Cargo),
+            abonos: Number(item?.Abono),
+            cuentas: undefined,
+          }))
+        }
+      );
+    this.arrayToDestroy.push($subas);
+  }
 }

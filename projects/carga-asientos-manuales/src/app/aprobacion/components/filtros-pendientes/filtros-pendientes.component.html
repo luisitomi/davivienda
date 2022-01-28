@@ -1,64 +1,31 @@
+<app-loader *ngIf="spinner"></app-loader>
 <form [formGroup]="filtrosForm">
-
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>Filtros</mat-panel-title>
-
       <mat-panel-description>
         <span></span>
         <mat-icon>filter_list</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-
     <div class="evol-filtro-container">
-
       <div class="evol-filtro-section">
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha</mat-label>
-          <mat-date-range-input [rangePicker]="picker" disabled>
-            <input matStartDate formControlName="inicio" placeholder="Desde" autocomplete="off">
-            <input matEndDate formControlName="fin" placeholder="Hasta" autocomplete="off">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label for="origen">Origen</mat-label>
-          <mat-select id="origen" formControlName="origen">
-            <mat-option [value]="0">Todos</mat-option>
-            <mat-option *ngFor="let origen of origenOptions" [value]="origen.APPLICATION_SHORT_NAME">{{ origen.APPLICATION_NAME }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <app-calendar [label]="'Fecha Carga'" formControlName="inicio" [error]="showErrors('inicio')"></app-calendar>
+        <app-form-errors [control]="filtrosForm.controls['inicio']"></app-form-errors>
+        <app-calendar [label]="'Fecha Contable'" formControlName="fin" [error]="showErrors('fin')"></app-calendar>
+        <app-form-errors [control]="filtrosForm.controls['fin']"></app-form-errors>
       </div>
-
       <div class="evol-filtro-section">
-        <mat-form-field appearance="fill">
-          <mat-label for="usuario">Usuario</mat-label>
-          <mat-select id="usuario" formControlName="usuario">
-            <mat-option *ngFor="let usuario of usuarioOptions" [value]="usuario">{{ usuario }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label for="estado">Estado</mat-label>
-          <mat-select id="estado" formControlName="estado">
-            <mat-option *ngFor="let estado of estadoOptions" [value]="estado">{{ estado }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="evol-filtro-section">
-        <mat-form-field appearance="fill">
-          <mat-label for="cuenta">Cuenta</mat-label>
-          <mat-select id="cuenta" formControlName="cuenta">
-            <mat-option *ngFor="let cuenta of cuentaOptions" [value]="cuenta">{{ cuenta }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <app-select (changeOption)="onFocusOutEvent('origen');" [label]="'Origen'" formControlName="origen"
+          [options]="origenOptions" [error]="showErrors('origen')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['origen']"></app-form-errors>
+        <app-select (changeOption)="onFocusOutEvent('usuario');" [label]="'Usuario'" formControlName="usuario"
+          [options]="usuarioOptions" [error]="showErrors('usuario')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['usuario']"></app-form-errors>
       </div>
     </div>
-
     <mat-action-row>
-      <button mat-flat-button color="accent" (click)="filtrar()">Filtrar</button>
+      <app-actions [color]="'accent'" [class]="'flat'" (click)="filtrar()" [label]="'Filtrar'"></app-actions>
     </mat-action-row>
   </mat-expansion-panel>
+</form>

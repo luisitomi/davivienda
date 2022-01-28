@@ -21,12 +21,14 @@ export class LimitHeaderService {
   getLimitsHeader(filters: FiltroAsiento): Observable<LimitHeader[]> {
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.get<LimitHeader[]>(url +
+      switchMap(url => this.http.post<LimitHeader[]>(url +
         StrinUtil.replace(
           this.endpoint,
           `0bb3e546346f4cc0a9fed34da4d1c4af`,
           `X48M8n-jnIlASimpXOci2aQRXfY-o3kZPPXdk2Qfr6s`,
-        ))),
+        ),
+        filters
+      )),
     );
   }
 

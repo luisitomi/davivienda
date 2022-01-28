@@ -27,7 +27,6 @@ export class AsientosService {
       .set('origen', filtros.origen)
       .set('usuario', filtros.usuario)
       .set('estado', filtros.estado)
-      .set('cuenta', filtros.cuenta);
 
     return this.configService.getApiUrl().pipe(
       first(),

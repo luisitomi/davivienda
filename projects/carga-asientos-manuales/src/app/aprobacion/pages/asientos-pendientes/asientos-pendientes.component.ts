@@ -1,42 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Asiento } from 'src/app/shared';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
-import { FiltroAsiento } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
-import { AsientosService } from '../../services/asientos.service';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 
 @Component({
   selector: 'app-asientos-pendientes',
   templateUrl: './asientos-pendientes.component.html',
-  styleUrls: ['./asientos-pendientes.component.scss']
+  styleUrls: ['./asientos-pendientes.component.scss'],
+  providers: [DatePipe],
 })
-export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements OnInit, OnDestroy {
-
+export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements OnInit {
   asientos: Asiento[] = [];
-
-  getAsientosSub?: Subscription;
-  aprobarSub?: Subscription;
-  rechazarSub?: Subscription;
-
   loadingAsientos: boolean = false;
+  spinner = false;
 
-  filtros: FiltroAsiento = {
-    inicio: undefined,
-    fin: undefined,
-    origen: 0,
-    usuario: '',
-    estado: '',
-    cuenta: '',
-  };
+  filtros = null;
 
   constructor(
-    private asientosService: AsientosService,
     private snackBar: MatSnackBar,
     private lineHeaderService: LimitHeaderService,
+    private datePipe: DatePipe,
   ) {
     super();
   }
@@ -45,14 +33,27 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.filtrar(this.filtros);
   }
 
-  ngOnDestroy(): void {
+  method () : void {
+    this.loadingAsientos = false
+    this.spinner = false
   }
 
-  filtrar(filtros: FiltroAsiento): void {
+  filtrar(filtros: any): void {
+    let request = {};
     this.loadingAsientos = true;
+    if (filtros) {
+      request = {
+        estado: '',
+        origen: filtros?.origen || '',
+        usuario: filtros?.usuario || '',
+        fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format2) || '',
+        inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format2) || ''
+      }
+    }
+    this.spinner = true;
     const $subas = this.lineHeaderService
-      .getLimitsHeader(filtros)
-      .pipe(finalize(() => this.loadingAsientos = false))
+      .getLimitsHeader(request || filtros)
+      .pipe(finalize(() => this.method()))
       .subscribe(
         (asiento: LimitHeader[]) => {
           this.asientos = (asiento || []).map((item) => ({
