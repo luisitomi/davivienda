@@ -1,22 +1,22 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiltrosComponent } from './filtros.component';
+import { RegistroReporteComponent } from './registro-reporte.component';
 
-describe('FiltrosComponent', () => {
-  let component: FiltrosComponent;
-  let fixture: ComponentFixture<FiltrosComponent>;
+describe('RegistroReporteComponent', () => {
+  let component: RegistroReporteComponent;
+  let fixture: ComponentFixture<RegistroReporteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FiltrosComponent ],
+      declarations: [ RegistroReporteComponent ],
       imports: [ HttpClientModule ],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiltrosComponent);
+    fixture = TestBed.createComponent(RegistroReporteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
