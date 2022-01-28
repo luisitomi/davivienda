@@ -21,6 +21,17 @@ const routes: Routes = [
     ]
   },
   {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'reporte-information',
+        loadChildren: () => import('./reporte-information/reporte-information.module').then(m => m.ReporteInformationModule),
+        data: { title: 'Reporte Information' },
+      },
+    ]
+  },
+  {
     path: '**',
     redirectTo: '/reporte-modulo'
   }

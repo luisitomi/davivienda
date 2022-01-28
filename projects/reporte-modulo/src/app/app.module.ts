@@ -14,6 +14,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageErrorInterceptor } from './shared/interceptor/message-error.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { EnvironmentServiceProvider } from './core/interceptors/dev-backend.interceptor';
+import { ReporteInformationModule } from './reporte-information/reporte-information.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { EnvironmentServiceProvider } from './core/interceptors/dev-backend.inte
     CoreModule,
     BrowserAnimationsModule,
     ReporteModuloModule,
+    ReporteInformationModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-top-right',
