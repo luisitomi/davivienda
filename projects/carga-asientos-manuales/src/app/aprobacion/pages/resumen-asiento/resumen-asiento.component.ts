@@ -4,9 +4,9 @@ import { finalize } from 'rxjs/operators';
 import { Asiento } from 'src/app/shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroAsiento } from '../../models/filtro-asiento.model';
-import { LimitHeader } from '../../models/limite.model';
-import { AsientosService } from '../../services/asientos.service';
+import { AccountLine, LimitHeader } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
+import { LimitService } from '../../services/limit.service';
 
 @Component({
   selector: 'app-resumen-asiento',
@@ -20,6 +20,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   queryParams: any;
   idNumber = 0;
   listFilter: Asiento[];
+  accountInfo: AccountLine[] = [];
   filtrosData: FiltroAsiento = {
     inicio: '',
     fin: '',
@@ -29,10 +30,10 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   };
 
   constructor(
-    private asientosService: AsientosService,
     private route: ActivatedRoute,
     private router: Router,
     private lineHeaderService: LimitHeaderService,
+    private limitService: LimitService,
   ) {
     super();
     this.route.queryParams.subscribe(params => {
@@ -49,7 +50,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.spinner = true;
     const $subas = this.lineHeaderService
       .getLimitsHeader(filtros)
-      .pipe(finalize(() => this.setData()))
+      .pipe(finalize(() => this.getListAaccount()))
       .subscribe(
         (asiento: LimitHeader[]) => {
           this.listFilter = (asiento || []).map((item) => ({
@@ -64,6 +65,19 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             abonos: Number(item?.Abono),
             cuentas: undefined,
           }))
+        }
+      );
+    this.arrayToDestroy.push($subas);
+  }
+
+  getListAaccount(): void {
+    this.spinner = true;
+    const $subas = this.limitService
+      .getAccountLine(this.id)
+      .pipe(finalize(() => this.setData()))
+      .subscribe(
+        (asiento: AccountLine[]) => {
+          this.accountInfo = asiento;
         }
       );
     this.arrayToDestroy.push($subas);

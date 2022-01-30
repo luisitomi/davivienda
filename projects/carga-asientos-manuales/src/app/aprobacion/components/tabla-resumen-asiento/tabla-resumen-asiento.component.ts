@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Cuenta } from 'src/app/shared';
+import { AccountLine } from '../../models/limite.model';
 
 @Component({
   selector: 'app-tabla-resumen-asiento',
@@ -7,6 +7,6 @@ import { Cuenta } from 'src/app/shared';
   styleUrls: ['./tabla-resumen-asiento.component.scss']
 })
 export class TablaResumenAsientoComponent {
-  @Input() cuentas: Cuenta[] = [];
+  @Input() cuentas: AccountLine[] = [];
   displayedColumns: string[] = ['numeracion', 'primerDigito', 'cuenta', 'nombre', 'moneda', 'debito', 'credito', 'neto'];
 }
