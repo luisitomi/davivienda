@@ -26,12 +26,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
 
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({
-      nameReport: [null, [Validators.required]],
-      codeReport: [null, [Validators.required]],
-      routeReport: [null, [Validators.required]],
-      routeFtpReport: [null, [Validators.required]],
-      fileName: [null, [Validators.required]],
-      countPage: [null, [Validators.required]],
+      type: [null, [Validators.required]],
       items: this.formBuilder.array([this.formBuilder.group({
         name: [null, [Validators.required]],
         value: [null, [Validators.required]],

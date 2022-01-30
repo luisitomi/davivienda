@@ -31,6 +31,6 @@ import { SelectModule } from '../../../shared/component/ui/select/select.module'
     MatCardModule,
     SelectModule,
   ],
-  exports: [RegistroReporteComponent],
+  entryComponents: [RegistroReporteComponent],
 })
 export class RegistroReporteModule { }

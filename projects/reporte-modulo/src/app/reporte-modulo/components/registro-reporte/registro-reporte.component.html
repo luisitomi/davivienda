@@ -1,0 +1,23 @@
+<app-loader *ngIf="spinner"></app-loader>
+<form [formGroup]="filtrosForm" novalidate>
+  <mat-card>
+    <app-title-header [Title]="'Registro Reporte'"></app-title-header>
+    <mat-card-content class="evol-form-container">
+      <div class="evol-form-section">
+        <app-select [label]="'Tipo'" formControlName="type" [options]="listType"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['type']"></app-form-errors>
+      </div>
+    </mat-card-content>
+    <app-title-header [Title]="'Parámetros'" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
+    <mat-card-content class="evol-form-container">
+      <div formArrayName="items">
+        <div *ngFor="let item of items.controls; let index=index; let last=last;" [formGroupName]="index">
+          <h4>Parámetro N° {{index+1}} <mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></h4>
+          <app-input [label]="'Nombre'" formControlName="name" ></app-input>
+          <app-input [label]="'Valor'" formControlName="value" ></app-input>
+          <app-select [label]="'Tipo'" formControlName="type" [options]="listType"></app-select>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>

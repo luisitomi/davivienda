@@ -1,22 +1,7 @@
 <app-loader *ngIf="spinner"></app-loader>
-<div class="evol-asientos-pendientes">
-<app-registro-reporte></app-registro-reporte>
-
-
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>
-          Registro Reporte
-        </mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content>
-
-        
-
-      </mat-card-content>
+<div class="evol-nuevo-asiento">
+  <app-registro-reporte class="evol-asiento-cabecera"></app-registro-reporte>
   <mat-card-actions class="evol-footer-actions">
-    <button mat-flat-button color="primary">Guardar</button>
+    <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'"></app-actions>
   </mat-card-actions>
-</mat-card>
 </div>
