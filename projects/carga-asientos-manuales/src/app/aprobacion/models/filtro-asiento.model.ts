@@ -4,4 +4,5 @@ export interface FiltroAsiento {
   origen: string;
   usuario: string;
   estado: string;
+  cuenta: string;
 }

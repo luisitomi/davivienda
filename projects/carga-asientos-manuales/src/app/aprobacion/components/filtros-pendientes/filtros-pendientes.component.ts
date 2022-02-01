@@ -24,6 +24,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
   filtrosForm: FormGroup;
   origenOptions: Array<DropdownItem>;
   usuarioOptions: Array<DropdownItem>;
+  cuentaOptions: Array<DropdownItem>;
   spinner: boolean;
   filtrosData: FiltroAsiento = {
     inicio: '',
@@ -31,6 +32,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     origen: '',
     usuario: '',
     estado: '',
+    cuenta: '',
   };
 
   constructor(
@@ -51,6 +53,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
       fin: [null, []],
       usuario: [null, []],
       origen: [null, []],
+      cuenta: [null, []],
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);
@@ -86,14 +89,20 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
       label: item?.origen,
       value: item?.origen,
     }))
-    this.origenOptions.unshift({label: 'Todos', value: ''});
     this.origenOptions = this.eliminarObjetosDuplicados(this.origenOptions, 'label');
+    this.origenOptions.unshift({label: 'Todos', value: ''});
     this.usuarioOptions = (this.listFilter || []).map((item) => ({
       label: item?.usuario,
       value: item?.usuario,
     }))
-    this.usuarioOptions.unshift({label: 'Todos', value: ''});
     this.usuarioOptions = this.eliminarObjetosDuplicados(this.usuarioOptions, 'label');
+    this.usuarioOptions.unshift({label: 'Todos', value: ''});
+    this.cuentaOptions = (this.listFilter || []).map((item) => ({
+      label: item?.cuentas,
+      value: item?.cuentas,
+    }))
+    this.cuentaOptions = this.eliminarObjetosDuplicados(this.cuentaOptions, 'label');
+    this.cuentaOptions.unshift({label: 'Todos', value: ''});
     this.spinner = false;
   }
 
@@ -129,7 +138,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: undefined,
+            cuentas: item.Cuenta,
           }))
         }
       );

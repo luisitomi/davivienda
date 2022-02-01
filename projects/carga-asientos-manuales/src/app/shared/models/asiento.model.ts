@@ -10,5 +10,5 @@ export interface Asiento {
   descripcion: string;
   cargos: number;
   abonos: number;
-  cuentas?: Cuenta[];
+  cuentas?: string;
 }

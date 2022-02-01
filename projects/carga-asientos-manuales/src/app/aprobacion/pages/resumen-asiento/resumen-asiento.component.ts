@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { Asiento } from 'src/app/shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroAsiento } from '../../models/filtro-asiento.model';
 import { AccountLine, LimitHeader } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 import { LimitService } from '../../services/limit.service';
+import { Asiento } from '../../../shared';
 
 @Component({
   selector: 'app-resumen-asiento',
@@ -19,6 +19,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   spinner: boolean;
   queryParams: any;
   idNumber = 0;
+  cuenta: string;
   listFilter: Asiento[];
   accountInfo: AccountLine[] = [];
   filtrosData: FiltroAsiento = {
@@ -27,6 +28,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     origen: '',
     usuario: '',
     estado: '',
+    cuenta: '',
   };
 
   constructor(
@@ -63,8 +65,10 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: undefined,
+            cuentas: item.Cuenta,
           }))
+          const subSelect = this.listFilter.find(p => p.id === this.id);
+          this.cuenta = subSelect?.cuentas || '';
         }
       );
     this.arrayToDestroy.push($subas);
@@ -73,7 +77,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   getListAaccount(): void {
     this.spinner = true;
     const $subas = this.limitService
-      .getAccountLine(this.id)
+      .getAccountLine(this.id, this.cuenta)
       .pipe(finalize(() => this.setData()))
       .subscribe(
         (asiento: AccountLine[]) => {
