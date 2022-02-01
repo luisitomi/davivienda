@@ -1,7 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Asiento } from 'src/app/shared';
+import { Asiento } from '../../../shared';
 
 @Component({
   selector: 'app-tabla-asientos',

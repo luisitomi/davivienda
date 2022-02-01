@@ -6,3 +6,11 @@ export interface FiltroAsiento {
   estado: string;
   cuenta: string;
 }
+
+export interface FiltroAsientoLimit {
+  Id: number;
+  Cuenta: string;
+  Usuario: string;
+  Status: number;
+}
+

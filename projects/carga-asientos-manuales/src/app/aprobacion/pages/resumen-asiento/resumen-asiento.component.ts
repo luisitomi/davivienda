@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
-import { FiltroAsiento } from '../../models/filtro-asiento.model';
+import { FiltroAsiento, FiltroAsientoLimit } from '../../models/filtro-asiento.model';
 import { AccountLine, LimitHeader } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 import { LimitService } from '../../services/limit.service';
 import { Asiento } from '../../../shared';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-resumen-asiento',
@@ -30,17 +33,24 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     estado: '',
     cuenta: '',
   };
+  nombreUsuario: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private lineHeaderService: LimitHeaderService,
     private limitService: LimitService,
+    private authService: AuthService,
+    private toastr: ToastrService,
   ) {
     super();
     this.route.queryParams.subscribe(params => {
       this.queryParams = params;
     });
+    const getUsernameSub = this.authService.getUsername().subscribe(
+      nombre => this.nombreUsuario = nombre || '',
+    );
+    this.arrayToDestroy.push(getUsernameSub);
   }
 
   ngOnInit(): void {
@@ -93,9 +103,47 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   }
 
   aprobar(): void {
+    const request: FiltroAsientoLimit = {
+      Usuario: this.nombreUsuario,
+      Status: 1,
+      Cuenta: this.asiento?.cuentas || '',
+      Id: this.asiento?.id || 0,
+    }
+    this.spinner = true;
+    const $subas = this.lineHeaderService
+      .saveStatusAsient(request)
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any) => {
+          if (response?.status === appConstants.responseStatus.OK) {
+            this.toastr.success(response?.message, 'Aprobado');
+            this.getListData(this.filtrosData);
+          }
+        }
+      );
+    this.arrayToDestroy.push($subas);
   }
 
   rechazar(): void {
+    const request: FiltroAsientoLimit = {
+      Usuario: this.nombreUsuario,
+      Status: 2,
+      Cuenta: this.asiento?.cuentas || '',
+      Id: this.asiento?.id || 0,
+    }
+    this.spinner = true;
+    const $subas = this.lineHeaderService
+      .saveStatusAsient(request)
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any) => {
+          if (response?.status === appConstants.responseStatus.OK) {
+            this.toastr.success(response?.message, 'Rechazado');
+            this.getListData(this.filtrosData);
+          }
+        }
+      );
+    this.arrayToDestroy.push($subas);
   }
 
   volver(): void {

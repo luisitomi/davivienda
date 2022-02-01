@@ -1,10 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
-import { Asiento } from 'src/app/shared';
+import { AuthService } from '../../../core/services/auth.service';
+import { Asiento } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { FiltroAsientoLimit } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 
@@ -18,15 +21,21 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   asientos: Asiento[] = [];
   loadingAsientos: boolean = false;
   spinner = false;
-
+  nombreUsuario: string;
   filtros = null;
 
   constructor(
     private snackBar: MatSnackBar,
     private lineHeaderService: LimitHeaderService,
     private datePipe: DatePipe,
+    private authService: AuthService,
+    private toastr: ToastrService,
   ) {
     super();
+    const getUsernameSub = this.authService.getUsername().subscribe(
+      nombre => this.nombreUsuario = nombre || '',
+    );
+    this.arrayToDestroy.push(getUsernameSub);
   }
 
   ngOnInit(): void {
@@ -66,7 +75,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: undefined,
+            cuentas: '',
           }))
         }
       );
@@ -74,9 +83,55 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   }
 
   aprobar(asientos: Asiento[]): void {
+    asientos.forEach(element => {
+      if (element ){
+        const request: FiltroAsientoLimit = {
+          Usuario: this.nombreUsuario,
+          Status: 1,
+          Cuenta: element?.cuentas,
+          Id: element?.id,
+        }
+        this.spinner = true;
+        const $subas = this.lineHeaderService
+          .saveStatusAsient(request)
+          .pipe(finalize(() => this.spinner = false))
+          .subscribe(
+            (response: any) => {
+              if(response?.status === appConstants.responseStatus.OK) {
+                this.toastr.success(response?.message, 'Aprobado');
+                this.filtrar(this.filtros);
+              }          
+            }
+          );
+        this.arrayToDestroy.push($subas);
+      }
+    });
   }
 
   rechazar(asientos: Asiento[]): void {
+    asientos.forEach(element => {
+      if (element ){
+        const request: FiltroAsientoLimit = {
+          Usuario: this.nombreUsuario,
+          Status: 2,
+          Cuenta: element?.cuentas,
+          Id: element?.id,
+        }
+        this.spinner = true;
+        const $subas = this.lineHeaderService
+          .saveStatusAsient(request)
+          .pipe(finalize(() => this.spinner = false))
+          .subscribe(
+            (response: any) => {
+              if(response?.status === appConstants.responseStatus.OK) {
+                this.toastr.success(response?.message, 'Rechazado');
+                this.filtrar(this.filtros);
+              }          
+            }
+          );
+        this.arrayToDestroy.push($subas);
+      }
+    });
   }
 
   openSnackBar(mensaje: string): void {

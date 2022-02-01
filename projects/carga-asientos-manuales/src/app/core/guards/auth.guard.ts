@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
     this.navigationService.setPrevUrl(state.url);
     return this.authService.isLoggedIn().pipe(
       map(logged => {
-        return true;
         if (logged) {
           return true;
         } else {

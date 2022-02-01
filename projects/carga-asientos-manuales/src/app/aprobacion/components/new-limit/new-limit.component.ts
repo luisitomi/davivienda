@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
@@ -19,6 +20,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
   form: FormGroup;
   spinner: boolean;
   loading: boolean;
+  nombreUsuario: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -27,8 +29,13 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
     private cdRef:ChangeDetectorRef,
     private toastr: ToastrService,
     private limitService: LimitService,
+    private authService: AuthService,
   ) {
     super();
+    const getUsernameSub = this.authService.getUsername().subscribe(
+      nombre => this.nombreUsuario = nombre || '',
+    );
+    this.arrayToDestroy.push(getUsernameSub);
   }
   
   ngOnInit(): void {
@@ -82,7 +89,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
       const valueForm = this.form.value;
       const request: LimitSave = {
         Descripcion: valueForm?.description,
-        Usuario: '',
+        Usuario:  this.nombreUsuario,
         Valor: valueForm?.value,
         ValorFinal: valueForm?.valueFinal,
       }

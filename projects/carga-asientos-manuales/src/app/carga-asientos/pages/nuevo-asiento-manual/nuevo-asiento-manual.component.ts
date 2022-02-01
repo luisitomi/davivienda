@@ -3,6 +3,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { HeadboardSeat } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
@@ -29,6 +30,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   lineList: Array<LineaAsientoInsert>;
   queryParams: any;
   spinner = false;
+  nombreUsuario: string;
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -37,11 +39,16 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     private activatedRoute: ActivatedRoute,
     private headerLineService: HeaderLineService,
     private toastr: ToastrService,
+    private authService: AuthService,
   ) {
     super();
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
     });
+    const getUsernameSub = this.authService.getUsername().subscribe(
+      nombre => this.nombreUsuario = nombre || '',
+    );
+    this.arrayToDestroy.push(getUsernameSub);
   }
 
   ngAfterViewChecked(){
@@ -82,7 +89,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',
         Description: this.dataHeader?.description,
         Company: '',
-        Usuario: '',
+        Usuario: this.nombreUsuario,
         Period: this.dataHeader?.period,
       }
       const request: ManualLading = {
@@ -123,7 +130,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         enteredDebit: data?.EnteredDebit,
         enteredCredit: data?.EnteredCredit,
         description: '',
-        usuario: '',
+        usuario: this.nombreUsuario,
         informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
           nroRefCom: refere?.index,
           referenciaComprobante: refere?.nombreValue,
@@ -178,7 +185,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           trxNumber: model?.header?.TrxNumber,
           accountingDate: model?.header?.AccountingDate,
           description: model?.header?.Description,
-          usuario: '',
+          usuario: this.nombreUsuario,
           linea: lineSave || undefined,
         }
         const $save = this.headerLineService

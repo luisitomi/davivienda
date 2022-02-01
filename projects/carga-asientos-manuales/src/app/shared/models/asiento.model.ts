@@ -1,5 +1,3 @@
-import { Cuenta } from "./cuenta.model";
-
 export interface Asiento {
   id: number;
   origen: string;
@@ -10,5 +8,5 @@ export interface Asiento {
   descripcion: string;
   cargos: number;
   abonos: number;
-  cuentas?: string;
+  cuentas: string;
 }
