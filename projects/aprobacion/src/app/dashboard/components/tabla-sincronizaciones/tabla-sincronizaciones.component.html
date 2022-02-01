@@ -1,0 +1,43 @@
+<mat-card>
+  <mat-card-content class="evol-tabla-container">
+    <div class="evol-tabla-wrapper">
+      <table mat-table [dataSource]="sincronizaciones">
+
+        <!-- Columna Numeracion -->
+        <ng-container matColumnDef="numeracion" sticky>
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element; index as i;">{{ i + 1 }}</td>
+        </ng-container>
+
+        <!-- Columna Fecha -->
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let element">{{ element.fecha | date:'medium' }}</td>
+        </ng-container>
+
+        <!-- Columna Proceso -->
+        <ng-container matColumnDef="proceso">
+          <th mat-header-cell *matHeaderCellDef>Proceso de Sincronización</th>
+          <td mat-cell *matCellDef="let element">{{ element.proceso }}</td>
+        </ng-container>
+
+        <!-- Columna Estado -->
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let element">{{ element.estado }}</td>
+        </ng-container>
+
+        <!-- Columna unica para Progress Bar -->
+        <ng-container matColumnDef="progress">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+          </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

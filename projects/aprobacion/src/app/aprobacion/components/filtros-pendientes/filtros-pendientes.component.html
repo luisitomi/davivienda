@@ -1,0 +1,36 @@
+<app-loader *ngIf="spinner"></app-loader>
+<form [formGroup]="filtrosForm">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Filtros</mat-panel-title>
+      <mat-panel-description>
+        <span></span>
+        <mat-icon>filter_list</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="evol-filtro-container">
+      <div class="evol-filtro-section">
+        <app-calendar [label]="'Fecha Carga'" formControlName="inicio" [error]="showErrors('inicio')"></app-calendar>
+        <app-form-errors [control]="filtrosForm.controls['inicio']"></app-form-errors>
+        <app-calendar [label]="'Fecha Contable'" formControlName="fin" [error]="showErrors('fin')"></app-calendar>
+        <app-form-errors [control]="filtrosForm.controls['fin']"></app-form-errors>
+      </div>
+      <div class="evol-filtro-section">
+        <app-select (changeOption)="onFocusOutEvent('origen');" [label]="'Origen'" formControlName="origen"
+          [options]="origenOptions" [error]="showErrors('origen')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['origen']"></app-form-errors>
+        <app-select (changeOption)="onFocusOutEvent('usuario');" [label]="'Usuario'" formControlName="usuario"
+          [options]="usuarioOptions" [error]="showErrors('usuario')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['usuario']"></app-form-errors>
+      </div>
+      <div class="evol-filtro-section">
+        <app-select (changeOption)="onFocusOutEvent('cuenta');" [label]="'Cuenta'" formControlName="cuenta"
+          [options]="cuentaOptions" [error]="showErrors('cuenta')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['cuenta']"></app-form-errors>
+      </div>
+    </div>
+    <mat-action-row>
+      <app-actions [color]="'warn'" [class]="'flat'" (click)="filtrar()" [label]="'Filtrar'"></app-actions>
+    </mat-action-row>
+  </mat-expansion-panel>
+</form>

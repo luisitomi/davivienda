@@ -1,0 +1,36 @@
+.evol-filtro-card {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.evol-filtro-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.evol-filtro-desc {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2em;
+}
+
+.evol-filtro-section {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.evol-filtro-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: .5em;
+}
+
+.mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 0;
+}

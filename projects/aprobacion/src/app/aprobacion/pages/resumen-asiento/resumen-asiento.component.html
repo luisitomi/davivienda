@@ -1,0 +1,22 @@
+<app-loader *ngIf="spinner"></app-loader>
+<div class="evol-resumen-asiento">
+  <mat-card class="evol-resumen-section">
+    <mat-card-content>
+      <mat-list class="evol-resumen-asiento-list">
+        <app-list-item [title]="'Origen'" [subtitle]="asiento?.origen || ''"></app-list-item>
+        <app-list-item [title]="'Comprobante'" [subtitle]="asiento?.comprobante || ''"></app-list-item>
+        <app-list-item [title]="'Fecha Contable'" [isDate]="asiento?.fechaContable"></app-list-item>
+        <app-list-item [title]="'Descripción'" [subtitle]="asiento?.descripcion || ''"></app-list-item>
+        <app-list-item [title]="'Usuario'" [subtitle]="asiento?.usuario || ''"></app-list-item>
+        <app-list-item [title]="'Agrupar cuenta a 6 dígitos'" [toogle]="true"></app-list-item>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions class="evol-footer-actions">
+      <app-actions [color]="'primary'" (click)="volver()" [label]="'Volver'"></app-actions>
+      <app-actions [color]="'primary'" [class]="'flat'" (click)="aprobar()"  [label]="'Aprobar'"></app-actions>
+      <app-actions [color]="'warn'" [class]="'flat'" (click)="rechazar()" [label]="'Rechazar'"></app-actions>
+      <app-actions [class]="'flat'" [label]="'Descargar'"></app-actions>
+    </mat-card-actions>
+  </mat-card>
+  <app-tabla-resumen-asiento [cuentas]="accountInfo" class="evol-tabla-control evol-resumen-section"></app-tabla-resumen-asiento>
+</div>

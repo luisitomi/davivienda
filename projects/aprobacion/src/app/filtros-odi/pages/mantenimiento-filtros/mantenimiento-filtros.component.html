@@ -1,0 +1,18 @@
+<div class="evol-filtros-odi">
+
+  <ng-template appHasPermission [feature]="mantenimientoFeat" [permission]="adminPermission">
+    <app-buscar-filtros (buscar)="buscar($event)"></app-buscar-filtros>
+
+    <app-tabla-filtros [filtros]="filtros"
+    [loading]="loadingFiltros"
+    (nuevo)="nuevoFiltro()"
+    (guardar)="guardar($event)"
+    (eliminar)="eliminar($event)"></app-tabla-filtros>
+  </ng-template>
+
+  <ng-template appHasPermission [feature]="mantenimientoMasivoFeat" [permission]="adminPermission">
+    <app-carga-filtros></app-carga-filtros>
+  </ng-template>
+
+</div>
+

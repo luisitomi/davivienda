@@ -215,7 +215,110 @@
         }
       }
     },
-    
+    "aprobacion": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/aprobacion",
+      "sourceRoot": "projects/aprobacion/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/aprobacion",
+            "index": "projects/aprobacion/src/index.html",
+            "main": "projects/aprobacion/src/main.ts",
+            "polyfills": "projects/aprobacion/src/polyfills.ts",
+            "tsConfig": "projects/aprobacion/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/aprobacion/src/favicon.ico",
+              "projects/aprobacion/src/assets",
+              "projects/aprobacion/src/env.js"
+            ],
+            "styles": [
+              "projects/aprobacion/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/aprobacion/src/environments/environment.ts",
+                  "with": "projects/aprobacion/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "aprobacion:build:production"
+            },
+            "development": {
+              "browserTarget": "aprobacion:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "aprobacion:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aprobacion/src/test.ts",
+            "polyfills": "projects/aprobacion/src/polyfills.ts",
+            "tsConfig": "projects/aprobacion/tsconfig.spec.json",
+            "karmaConfig": "projects/aprobacion/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/aprobacion/src/favicon.ico",
+              "projects/aprobacion/src/assets"
+            ],
+            "styles": [
+              "projects/aprobacion/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
     "carga-asientos-manuales": {
       "projectType": "application",
       "schematics": {

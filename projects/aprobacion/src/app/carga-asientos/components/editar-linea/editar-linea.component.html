@@ -1,0 +1,16 @@
+<app-loader *ngIf="spinner"></app-loader>
+<app-close></app-close>
+<h1 mat-dialog-title>Nueva Línea</h1>
+<form [formGroup]="form" autocomplete="off">
+  <div mat-dialog-content class="evol-editar-linea-container">
+    <app-select (changeOption)="onFocusOutEvent('currency')" [label]="'Moneda'" formControlName="currency" [options]="currencys" [error]="showErrors('currency')"></app-select>
+    <app-form-errors [control]="form.controls['currency']"></app-form-errors>
+    <app-select [selected]="selectType" (changeOption)="onFocusOutEvent('type');changeSelection($event)" [label]="'Tipo'" formControlName="type" [options]="types" [error]="showErrors('type')"></app-select>
+    <app-form-errors [control]="form.controls['type']"></app-form-errors>
+    <app-input (input)="onFocusOutEvent('amount')" (focusout)="onFocusOutEvent('amount')" [label]="inputName" formControlName="amount" [error]="showErrors('amount')" [onlyNumber]="true"></app-input>
+    <app-form-errors [control]="form.controls['amount']"></app-form-errors>
+  </div>
+  <mat-dialog-actions class="evol-footer-actions">
+    <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
+  </mat-dialog-actions>
+</form>

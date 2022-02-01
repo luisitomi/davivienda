@@ -1,0 +1,17 @@
+<mat-form-field appearance="fill">
+    <mat-label [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
+        <ng-content select="[header]"></ng-content>
+    </mat-label>
+    <input
+        matInput
+        [attr.type]="type"
+        [(ngModel)]="value"
+        [disabled]="disabled"
+        [attr.placeholder]="placeholder"
+        [onlyNumber]="onlyNumber"
+        [maxlength]="maxlength"
+        [decimal]="decimal"
+        [ngClass]="{ 'is-invalid-input u-mb0': error }"
+    />
+    <ng-content></ng-content>
+</mat-form-field>

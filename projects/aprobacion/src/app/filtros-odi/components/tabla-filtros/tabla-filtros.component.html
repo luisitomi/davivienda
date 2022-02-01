@@ -1,0 +1,88 @@
+<mat-card>
+
+  <mat-card-header>
+    <mat-card-title>Filtros</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-actions class="evol-footer-actions">
+    <button mat-flat-button color="primary" (click)="onGuardar()" [disabled]="noHayCambios">Guardar</button>
+    <button mat-flat-button color="accent" (click)="nuevoFiltro()">Nuevo</button>
+    <button mat-flat-button color="warn" (click)="onEliminar()" [disabled]="!selected">Eliminar</button>
+  </mat-card-actions>
+
+  <mat-card-content class="evol-tabla-container">
+
+    <div class="evol-tabla-wrapper">
+
+      <table mat-table [dataSource]="filtros">
+
+        <!-- Columna numeracion -->
+        <ng-container matColumnDef="numeracion" sticky>
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element; index as i;">{{ i + 1 }}</td>
+        </ng-container>
+
+        <!-- Columna Fuente -->
+        <ng-container matColumnDef="fuente">
+          <th mat-header-cell *matHeaderCellDef>Fuente</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="fill">
+              <mat-select [(ngModel)]="element.fuente" (ngModelChange)="onChange()">
+                <mat-option *ngFor="let fuente of fuenteOptions" [value]="fuente">{{ fuente }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Columna Valores -->
+        <ng-container matColumnDef="valores">
+          <th mat-header-cell *matHeaderCellDef>Valores de Filtro</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="element.valores" (ngModelChange)="onChange()">
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Columna Tipo -->
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef>Tipo de Filtro</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="fill">
+              <mat-select [(ngModel)]="element.tipo" (ngModelChange)="onChange()">
+                <mat-option *ngFor="let tipo of tipoOptions" [value]="tipo">{{ tipo }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Columna Campo -->
+        <ng-container matColumnDef="campo">
+          <th mat-header-cell *matHeaderCellDef>Campo de Filtro</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="fill">
+              <mat-select [(ngModel)]="element.campo" (ngModelChange)="onChange()">
+                <mat-option *ngFor="let campo of campoOptions" [value]="campo">{{ campo }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Columna unica Progress Bar -->
+        <ng-container matColumnDef="progress">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+          </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selected = selected ===  row ? null : row"
+        class="evol-tabla-row"
+        [class.evol-tabla-row-selected]="selected === row"></tr>
+
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

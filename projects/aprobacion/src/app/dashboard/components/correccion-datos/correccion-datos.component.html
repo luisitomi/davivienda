@@ -1,0 +1,118 @@
+<mat-card>
+
+  <mat-card-content class="evol-actualizar-datos-container">
+
+    <div>
+      <div class="evol-correccion-seccion-header">
+        <h3>Filtros Seleccionados</h3>
+        <button mat-icon-button (click)="crearFiltro()" *ngIf="filtros.data.length > 0"><mat-icon>add</mat-icon></button>
+      </div>
+
+      <p class="evol-correccion-empty-help" *ngIf="filtros.data.length === 0">No tiene filtros agregados, <a (click)="crearFiltro()" mat-button>haga click para agregar uno</a></p>
+
+      <table mat-table [dataSource]="filtros" *ngIf="filtros.data.length > 0">
+
+        <!-- Columna Numeracion -->
+        <ng-container matColumnDef="numeracion">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let filtro; index as i">{{ i + 1 }}</td>
+        </ng-container>
+
+        <!-- Columna Columna -->
+        <ng-container matColumnDef="columna">
+          <th mat-header-cell *matHeaderCellDef>Columna</th>
+          <td mat-cell *matCellDef="let filtro">{{ filtro.columna }}</td>
+        </ng-container>
+
+        <!-- Columna Criterio -->
+        <ng-container matColumnDef="criterio">
+          <th mat-header-cell *matHeaderCellDef>Criterio</th>
+          <td mat-cell *matCellDef="let filtro">{{ filtro.criterio }}</td>
+        </ng-container>
+
+        <!-- Columna Valor -->
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let filtro">{{ filtro.valor }}</td>
+        </ng-container>
+
+        <!-- Columna Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let filtro">
+            <button mat-icon-button (click)="editarFiltro(filtro)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="eliminarFiltro(filtro)"><mat-icon>clear</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="filtrosDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: filtrosDisplayedColumns;"></tr>
+
+      </table>
+
+      <mat-action-row class="evol-correccion-footer">
+        <button mat-flat-button color="accent" [disabled]="filtros.data.length === 0" (click)="calcularCantidadRegistros()">Aplicar criterios</button>
+      </mat-action-row>
+
+      <p>Se aplicarán cambios en {{ cantidadRegistros | i18nPlural: registroMapping }}</p>
+
+    </div>
+
+    <div>
+
+      <div class="evol-correccion-seccion-header">
+        <h3>Columnas a actualizar</h3>
+        <button mat-icon-button (click)="crearColumna()" *ngIf="columnas.data.length > 0"><mat-icon>add</mat-icon></button>
+      </div>
+
+      <p class="evol-correccion-empty-help" *ngIf="columnas.data.length === 0">No tiene columnas agregadas, <a (click)="crearColumna()" mat-button>haga click para agregar una</a></p>
+
+      <table mat-table [dataSource]="columnas" *ngIf="columnas.data.length > 0">
+
+        <!-- Columna Numeracion -->
+        <ng-container matColumnDef="numeracion">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let columna; index as i">{{ i + 1 }}</td>
+        </ng-container>
+
+        <!-- Columna Columna -->
+        <ng-container matColumnDef="columna">
+          <th mat-header-cell *matHeaderCellDef>Columna</th>
+          <td mat-cell *matCellDef="let columna">{{ columna.columna }}</td>
+        </ng-container>
+
+        <!-- Columna Tipo -->
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let columna">{{ columna.tipo }}</td>
+        </ng-container>
+
+        <!-- Columna Valor -->
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let columna">{{ columna.valor }}</td>
+        </ng-container>
+
+        <!-- Columna Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let columna">
+            <button mat-icon-button (click)="editarColumna(columna)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="eliminarColumna(columna)"><mat-icon>clear</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnasDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasDisplayedColumns;"></tr>
+
+      </table>
+
+      <mat-action-row class="evol-correccion-footer">
+        <button mat-flat-button color="primary" [disabled]="columnas.data.length === 0 || filtros.data.length === 0"
+        (click)="actualizar()">Actualizar {{ cantidadRegistros | i18nPlural:registroMapping }}</button>
+      </mat-action-row>
+
+    </div>
+
+  </mat-card-content>
+</mat-card>

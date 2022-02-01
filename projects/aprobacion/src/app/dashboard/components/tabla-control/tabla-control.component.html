@@ -1,0 +1,129 @@
+<mat-card>
+  <mat-card-content class="evol-tabla-container">
+    <table mat-table [dataSource]="cargas">
+
+      <!-- Columna Numeracion -->
+      <ng-container matColumnDef="numeracion" sticky>
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+      </ng-container>
+
+      <!-- Columna Fecha -->
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let element"> {{ element.fechaCarga | date:'shortDate' }} </td>
+      </ng-container>
+
+      <!-- Columna Origen -->
+      <ng-container matColumnDef="origen">
+        <th mat-header-cell *matHeaderCellDef>Origen</th>
+        <td mat-cell *matCellDef="let element"> {{ element.origen }} </td>
+      </ng-container>
+
+      <!-- Columna Nombre Archivo -->
+      <ng-container matColumnDef="nombreArchivo" sticky>
+        <th mat-header-cell *matHeaderCellDef>Nombre Archivo</th>
+        <td mat-cell *matCellDef="let element"> {{ element.nombreArchivo }} </td>
+      </ng-container>
+
+      <!-- Columna Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let element"> {{ element.estado }} </td>
+      </ng-container>
+
+      <!-- Columna Reversado -->
+      <ng-container matColumnDef="reversado">
+        <th mat-header-cell *matHeaderCellDef>Reversado</th>
+        <td mat-cell *matCellDef="let element"> {{ element.reversado }} </td>
+      </ng-container>
+
+      <!-- Columna Job Import Accounting  -->
+      <ng-container matColumnDef="jobImportAccounting">
+        <th mat-header-cell *matHeaderCellDef>Job Import Accounting</th>
+        <td mat-cell *matCellDef="let element"> {{ element.jobImportAccounting }} </td>
+      </ng-container>
+
+      <!-- Columna Job Create Accounting -->
+      <ng-container matColumnDef="jobCreateAccounting">
+        <th mat-header-cell *matHeaderCellDef>Job Create Accounting</th>
+        <td mat-cell *matCellDef="let element"> {{ element.jobCreateAccounting }} </td>
+      </ng-container>
+
+      <!-- Columna Cantidad H -->
+      <ng-container matColumnDef="cantidadH">
+        <th mat-header-cell *matHeaderCellDef>Cantidad H.</th>
+        <td mat-cell *matCellDef="let element"> {{ element.cantidadH }} </td>
+      </ng-container>
+
+      <!-- Columna Cantidad L -->
+      <ng-container matColumnDef="cantidadL">
+        <th mat-header-cell *matHeaderCellDef>Cantidad L.</th>
+        <td mat-cell *matCellDef="let element"> {{ element.cantidadL }} </td>
+      </ng-container>
+
+      <!-- Columna Ultimo Proceso -->
+      <ng-container matColumnDef="ultimoProceso">
+        <th mat-header-cell *matHeaderCellDef>Último Proceso</th>
+        <td mat-cell *matCellDef="let element"> {{ element.ultimoProceso }} </td>
+      </ng-container>
+
+      <!-- Columna Debito - Stage -->
+      <ng-container matColumnDef="debitoStage">
+        <th mat-header-cell *matHeaderCellDef>Debito - Stage</th>
+        <td mat-cell *matCellDef="let element"> {{ element.debitoStage }} </td>
+      </ng-container>
+
+      <!-- Columna Credito - Stage -->
+      <ng-container matColumnDef="creditoStage">
+        <th mat-header-cell *matHeaderCellDef>Credito - Stage</th>
+        <td mat-cell *matCellDef="let element"> {{ element.creditoStage }} </td>
+      </ng-container>
+
+      <!-- Columna Debito XLA -->
+      <ng-container matColumnDef="debitoXLA">
+        <th mat-header-cell *matHeaderCellDef>Debito XLA</th>
+        <td mat-cell *matCellDef="let element"> {{ element.debitoXLA }} </td>
+      </ng-container>
+
+      <!-- Columna Credito XLA -->
+      <ng-container matColumnDef="creditoXLA">
+        <th mat-header-cell *matHeaderCellDef>Credito XLA</th>
+        <td mat-cell *matCellDef="let element"> {{ element.creditoXLA }} </td>
+      </ng-container>
+
+      <!-- Columna Debito GL -->
+      <ng-container matColumnDef="debitoGL">
+        <th mat-header-cell *matHeaderCellDef>Debito GL</th>
+        <td mat-cell *matCellDef="let element"> {{ element.debitoGL }} </td>
+      </ng-container>
+
+      <!-- Columna Credito GL -->
+      <ng-container matColumnDef="creditoGL">
+        <th mat-header-cell *matHeaderCellDef>Credito GL</th>
+        <td mat-cell *matCellDef="let element"> {{ element.creditoGL }} </td>
+      </ng-container>
+
+      <!-- Columna Acciones -->
+      <ng-container matColumnDef="acciones" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element"><button mat-flat-button color="accent" (click)="clickVer(element.id)">Ver</button></td>
+      </ng-container>
+
+      <!-- Columna unica para el progress bar -->
+      <ng-container matColumnDef="progress">
+        <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length" *ngIf="!loading">No hay registros que cumplan los filtros establecidos</td>
+      </tr>
+
+    </table>
+  </mat-card-content>
+</mat-card>

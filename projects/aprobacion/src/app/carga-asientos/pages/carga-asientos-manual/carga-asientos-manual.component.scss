@@ -1,0 +1,25 @@
+::ng-deep {
+  .mat-list-item-content {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.evol-page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.evol-carga-asientos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2em;
+  width: 100%;
+}
+
+.evol-carga-asientos-section {
+  flex: 1 1 auto;
+  min-width: 390px;
+}

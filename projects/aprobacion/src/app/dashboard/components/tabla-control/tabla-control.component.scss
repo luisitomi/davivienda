@@ -1,0 +1,96 @@
+.evol-tabla-container {
+  width: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 8em*18;
+}
+
+%column {
+  background-color: rgba($color: #ffffff, $alpha: 1.0);
+  min-width: 8em;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align: center;
+}
+
+.mat-column-numeracion {
+  text-align: center;
+  width: 2em;
+}
+
+.mat-column-fecha {
+  @extend %column;
+}
+
+.mat-column-origen {
+  @extend %column;
+}
+
+.mat-column-nombreArchivo {
+  @extend %column;
+}
+
+.mat-column-estado {
+  @extend %column;
+}
+
+.mat-column-reversado {
+  @extend %column;
+}
+
+.mat-column-jobImportAccounting {
+  @extend %column;
+}
+
+.mat-column-jobCreateAccounting {
+  @extend %column;
+}
+
+.mat-column-cantidadH {
+  @extend %column;
+}
+
+.mat-column-cantidadL {
+  @extend %column;
+}
+
+.mat-column-ultimoProceso {
+  @extend %column;
+}
+
+.mat-column-debitoStage {
+  @extend %column;
+}
+
+.mat-column-creditoStage {
+  @extend %column;
+}
+
+.mat-column-debitoXLA {
+  @extend %column;
+}
+
+.mat-column-creditoXLA {
+  @extend %column;
+}
+
+.mat-column-debitoGL {
+  @extend %column;
+}
+
+.mat-column-creditoGL {
+  @extend %column;
+}
+
+.mat-column-debitoStage {
+  @extend %column;
+}
+
+.mat-column-acciones {
+  padding-left: 1em;
+  text-align: center;
+  width: 5em;
+}
+

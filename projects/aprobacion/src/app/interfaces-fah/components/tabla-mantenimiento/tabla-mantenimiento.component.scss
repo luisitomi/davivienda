@@ -1,0 +1,23 @@
+.evol-tabla-container {
+  display: flex;
+  justify-content: center;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 400px;
+}
+
+table {
+  width: 400px;
+}
+
+.mat-column-nombre {
+  padding: 0 1em;
+  width: 150px;
+}
+
+.mat-column-nuevoNombre {
+  padding: 0 1em;
+  width: 150px;
+}

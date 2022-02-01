@@ -1,0 +1,55 @@
+.evol-tabla-container {
+  display: flex;
+  justify-content: center;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 800px;
+}
+
+table {
+  width: 800px;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+}
+
+%column {
+  padding: 0 1em;
+  text-align: center;
+}
+
+.mat-column-fecha {
+  @extend %column;
+}
+
+.mat-column-sucursal {
+  @extend %column;
+}
+
+.mat-column-oficina {
+  @extend %column;
+}
+
+.mat-column-saldoIDONormal {
+  @extend %column;
+  text-align: right;
+}
+
+.mat-column-saldoIDOAdicional {
+  @extend %column;
+  text-align: right;
+}
+
+.mat-column-saldoFAH {
+  @extend %column;
+  text-align: right;
+}
+
+.mat-column-diferencia {
+  @extend %column;
+  text-align: right;
+}
+
