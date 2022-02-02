@@ -23,8 +23,6 @@ import { InputModule } from 'projects/carga-asientos-manuales/src/app/shared/com
     TablaInformationModule,
     ReporteInformationRoutingModule,
     RegistroModuloReporteModule,
-
-
   ],
 })
 export class ReporteInformationModule { }

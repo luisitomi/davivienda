@@ -36,8 +36,8 @@ import { ReporteInformationModule } from './reporte-information/reporte-informat
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' } },
-    tokenInterceptorProvider,
-    INTERCEPTORS,
+  //  tokenInterceptorProvider,
+ //   INTERCEPTORS,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MessageErrorInterceptor,

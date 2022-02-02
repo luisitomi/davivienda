@@ -1,43 +1,49 @@
 <app-loader *ngIf="spinner"></app-loader>
-<form [formGroup]="filtrosForm" novalidate>
+<form [formGroup]="filtrosForm">
   <mat-card>
     <app-title-header [Title]="'Registro Reporte'"></app-title-header>
     <mat-card-content class="evol-form-container">
       <div class="evol-form-section">
-        <app-input (input)="onFocusOutEvent('nameReport')" (focusout)="onFocusOutEvent('nameReport')" [label]="'Nombre'"
-          formControlName="nameReport" [error]="showErrors('nameReport')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['nameReport']"></app-form-errors>
-        <app-input (input)="onFocusOutEvent('codeReport')" (focusout)="onFocusOutEvent('codeReport')" [label]="'Código'"
-          formControlName="codeReport" [error]="showErrors('codeReport')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['codeReport']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('NombreReporte')" [disabled]="reporte.Id != 0" (focusout)="onFocusOutEvent('NombreReporte')" [label]="'Nombre'"
+          formControlName="NombreReporte" [error]="showErrors('NombreReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['NombreReporte']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('CodigoReporte')" [disabled]="reporte.Id != 0"  (focusout)="onFocusOutEvent('CodigoReporte')" [label]="'Código'"
+          formControlName="CodigoReporte" [error]="showErrors('CodigoReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CodigoReporte']"></app-form-errors>
       </div>
       <div class="evol-form-section">
-        <app-input (input)="onFocusOutEvent('routeReport')" (focusout)="onFocusOutEvent('routeReport')" [label]="'Ruta'"
-          formControlName="routeReport" [error]="showErrors('routeReport')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['routeReport']"></app-form-errors>
-        <app-input (input)="onFocusOutEvent('routeFtpReport')" (focusout)="onFocusOutEvent('routeFtpReport')"
-          [label]="'Ruta Ftp'" formControlName="routeFtpReport" [error]="showErrors('routeFtpReport')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['routeFtpReport']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('RutaReporte')" (focusout)="onFocusOutEvent('RutaReporte')" [label]="'Ruta'"
+          formControlName="RutaReporte" [error]="showErrors('RutaReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['RutaReporte']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('RutaSalidaFTPS')" (focusout)="onFocusOutEvent('RutaSalidaFTPS')"
+          [label]="'Ruta Ftp'" formControlName="RutaSalidaFTPS" [error]="showErrors('RutaSalidaFTPS')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['RutaSalidaFTPS']"></app-form-errors>
       </div>
       <div class="evol-form-section">
-        <app-input (input)="onFocusOutEvent('fileName')" (focusout)="onFocusOutEvent('fileName')" [label]="'Nombre Archivo'"
-          formControlName="fileName" [error]="showErrors('fileName')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['fileName']"></app-form-errors>
-        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('countPage')" (focusout)="onFocusOutEvent('countPage')"
-          [label]="'Cantidad'" formControlName="countPage" [error]="showErrors('countPage')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['countPage']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('NombreArchivo')" (focusout)="onFocusOutEvent('NombreArchivo')" [label]="'Nombre Archivo'"
+          formControlName="NombreArchivo" [error]="showErrors('NombreArchivo')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['NombreArchivo']"></app-form-errors>
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('CantidadLinea')" (focusout)="onFocusOutEvent('CantidadLinea')"
+          [label]="'Cantidad'" formControlName="CantidadLinea" [error]="showErrors('CantidadLinea')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CantidadLinea']"></app-form-errors>
       </div>
     </mat-card-content>
     <app-title-header [Title]="'Parámetros'" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
     <mat-card-content class="evol-form-container">
-      <div formArrayName="items">
+      <div formArrayName="parametros">
         <div *ngFor="let item of items.controls; let index=index; let last=last;" [formGroupName]="index">
           <h4>Parámetro N° {{index+1}} <mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></h4>
-          <app-input [label]="'Nombre'" formControlName="name" ></app-input>
-          <app-input [label]="'Valor'" formControlName="value" ></app-input>
-          <app-select [label]="'Tipo'" formControlName="type" [options]="listType"></app-select>
+          <app-input [label]="'Nombre'" formControlName="NombreParametro" ></app-input>
+          <app-input [label]="'Valor'" formControlName="ValorParametro" ></app-input>
+          <app-select [label]="'Tipo'" formControlName="TipoParametro" [options]="listType"></app-select>
+          <app-select [label]="'Obligatorio'" formControlName="Obligatorio" [options]="listObligatorio"></app-select>
         </div>
       </div>
+
+      
     </mat-card-content>
+    <mat-card-actions class="evol-footer-actions">
+      <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'" (click)="guardar()"></app-actions>
+    </mat-card-actions>
   </mat-card>
 </form>

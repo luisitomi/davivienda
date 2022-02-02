@@ -1,8 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
+import { ReporteService } from '../../../core/services/reporte.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { FiltroReporte } from '../../../shared/models/filtro-reporte.model';
+import { Reporte } from '../../../shared/models/reporte.model';
 import { NewParameterComponent } from '../../components/new-parameter/new-parameter.component';
 
 @Component({
@@ -11,16 +15,35 @@ import { NewParameterComponent } from '../../components/new-parameter/new-parame
   styleUrls: ['./tabla-information.component.scss']
 })
 export class TablaInformationComponent extends UnsubcribeOnDestroy {
-  displayedColumns: string[] = ['nombre', 'fechaIni', 'fechaFin', 'estado', 'ruta', 'log'];
+  displayedColumns: string[] = ['Id', 'Nombre Reporte', 'Codigo Reporte', 'Ruta Reporte', 'Nombre Archivo'];
   spinner  = false;
   loading = false;
-  informationsList = [];
+  informationsList: Reporte[];
 
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService,
+    private reporteService: ReporteService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     super();
+  }
+  ngOnInit(): void {
+    const routeParams = this.route.snapshot.paramMap;
+    const id = Number(routeParams.get('id'));
+    console.log('id:'+id)
+  }
+  editar(reporte: Reporte) {
+     console.log(reporte)
+     this.router.navigate(['/reporte-information/registro',reporte.Id]);
+  }
+  filtrar(filtroReporte: FiltroReporte) {
+    console.log(filtroReporte)
+    this.reporteService.postTsFAHListadoModuloReporteWS(filtroReporte).subscribe(res => {
+      this.informationsList = res;
+      console.log(this.informationsList);
+    });
   }
 
   addNewInformation(): void {

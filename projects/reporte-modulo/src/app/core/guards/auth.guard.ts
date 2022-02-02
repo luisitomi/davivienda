@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import jwtDecode from 'jwt-decode';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -14,7 +15,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private navigationService: NavigationService,
+    private navigationService: NavigationService, 
+    
   ) { }
 
   canActivate(
@@ -23,6 +25,9 @@ export class AuthGuard implements CanActivate {
     this.navigationService.setPrevUrl(state.url);
     return this.authService.isLoggedIn().pipe(
       map(logged => {
+        console.log('dsaads')
+        var decoded = jwtDecode(route.queryParams.token); 
+        console.log('decoded' +decoded)
         return true;
         if (logged) {
           return true;

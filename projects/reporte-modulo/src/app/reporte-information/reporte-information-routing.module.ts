@@ -10,7 +10,7 @@ const routes: Routes = [
     data: {}
   },
   {
-    path: 'registro',
+    path: 'registro/:id',
     component: RegistroModuloReporteComponent,
     data: {}
   },

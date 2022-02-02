@@ -10,8 +10,12 @@
     </mat-expansion-panel-header>
     <div class="evol-filtro-container">
       <div class="evol-filtro-section">
-        <app-input (input)="onFocusOutEvent('text')" (focusout)="onFocusOutEvent('text')" [label]="'Búsqueda'" formControlName="text" [error]="showErrors('text')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['text']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('NombreReporte')" (focusout)="onFocusOutEvent('NombreReporte')" [label]="'Nombre Reporte'" formControlName="NombreReporte" [error]="showErrors('NombreReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['NombreReporte']"></app-form-errors>
+      </div>
+      <div class="evol-filtro-section">
+        <app-input (input)="onFocusOutEvent('CodigoReporte')" (focusout)="onFocusOutEvent('CodigoReporte')" [label]="'Código Reporte'" formControlName="CodigoReporte" [error]="showErrors('CodigoReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CodigoReporte']"></app-form-errors>
       </div>
     </div>
     <mat-action-row>

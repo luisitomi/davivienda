@@ -8,6 +8,10 @@ import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewParameterComponent } from './new-parameter.component';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { MatTableModule } from '@angular/material/table';
+import { SelectModule } from '../../../shared/component/ui/select/select.module';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,10 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     CloseModule,
     MatDialogModule,
     LoaderModule,
+    MatTableModule,
+    SelectModule, 
+    MatInputModule,
+    MatButtonModule
   ],
   entryComponents: [NewParameterComponent],
 })

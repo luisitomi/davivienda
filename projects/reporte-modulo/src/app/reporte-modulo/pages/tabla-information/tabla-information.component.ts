@@ -26,7 +26,7 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
   addNewInformation(): void {
     const dialogRef = this.dialog.open(NewParameterComponent, {
       width: '80%',
-      maxWidth: '400px',
+      maxWidth: '1000px',
       data: null,
       panelClass: 'my-dialog',
     });

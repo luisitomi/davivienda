@@ -1,7 +1,5 @@
 <app-loader *ngIf="spinner"></app-loader>
 <div class="evol-nuevo-asiento">
-  <app-registro-reporte class="evol-asiento-cabecera"></app-registro-reporte>
-  <mat-card-actions class="evol-footer-actions">
-    <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'"></app-actions>
-  </mat-card-actions>
+  <app-registro-reporte (reporteRegistrado)="reporte" class="evol-asiento-cabecera"></app-registro-reporte>
+ 
 </div>

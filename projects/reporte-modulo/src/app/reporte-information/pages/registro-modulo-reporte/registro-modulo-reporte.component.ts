@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { Reporte } from '../../../shared/models/reporte.model';
 import { NewParameterComponent } from '../../components/new-parameter/new-parameter.component';
 
 @Component({
@@ -15,14 +17,20 @@ export class RegistroModuloReporteComponent extends UnsubcribeOnDestroy {
   spinner  = false;
   loading = false;
   informationsList = [];
+  reporte: Reporte
 
   constructor(
     private dialog: MatDialog,
     private toastr: ToastrService,
+    private route: ActivatedRoute,
   ) {
     super();
   }
-
+  ngOnInit(): void {
+    const routeParams = this.route.snapshot.paramMap;
+    const id = Number(routeParams.get('id'));
+    console.log('id:'+id)
+  }
   addNewInformation(): void {
     const dialogRef = this.dialog.open(NewParameterComponent, {
       width: '80%',
