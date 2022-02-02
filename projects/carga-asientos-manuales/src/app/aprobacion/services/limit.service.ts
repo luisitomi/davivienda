@@ -68,7 +68,7 @@ export class LimitService {
     );
   }
 
-  getAccountLine(id: number, cuenta: string): Observable<any> {
+  getAccountLine(id: number, cuenta: string, count: number): Observable<any> {
     return this.configService.getApiUrl().pipe(
       first(),
       switchMap(url => this.http.post<any>(url +
@@ -77,7 +77,7 @@ export class LimitService {
           `30c4fcb9d2e64fc78f1eaa54bbf23f8c`,
           `-yhj7pSEVz9ll2S8dsI4_VqFzeaH8yj0D7Vz97GfqXM`,
         )
-      ,{Id: id, Cuenta: cuenta} )),
+      ,{Id: id, Cuenta: cuenta, Count: count} )),
     );
   }
 

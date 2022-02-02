@@ -34,6 +34,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     cuenta: '',
   };
   nombreUsuario: string;
+  eventSuccess = false;
+  eventNumber = 11;
 
   constructor(
     private route: ActivatedRoute,
@@ -87,7 +89,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   getListAaccount(): void {
     this.spinner = true;
     const $subas = this.limitService
-      .getAccountLine(this.id, this.cuenta)
+      .getAccountLine(this.id, this.cuenta, this.eventNumber)
       .pipe(finalize(() => this.setData()))
       .subscribe(
         (asiento: AccountLine[]) => {
@@ -153,5 +155,11 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       skipLocationChange: false,
       queryParamsHandling: 'merge',
     })
+  }
+
+  event(): void {
+    this.eventSuccess = !this.eventSuccess;
+    this.eventNumber = this.eventSuccess  ? 7 : 11;
+    this.getListAaccount();
   }
 }
