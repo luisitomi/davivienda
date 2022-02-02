@@ -1,0 +1,16 @@
+@import '../../../../styles.scss';
+
+.evol-dashboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
+  width: 100%;
+}
+
+.evol-infolet {
+  box-sizing: border-box;
+  flex: 1 0 50%;
+  max-width: 450px;
+}

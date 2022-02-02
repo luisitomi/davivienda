@@ -1,0 +1,64 @@
+.evol-infolet-card{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 425px;
+}
+
+.evol-infolet-content {
+  flex: 1 0 auto;
+}
+
+.evol-infolet-list {
+
+  ::ng-deep {
+    .mat-list-item-content {
+      align-items: center;
+      justify-content: space-between;
+
+      h2 {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.evol-infolet-rate-indicator {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  .evol-rate-arrow-up {
+    color: rgba($color: #00ff00, $alpha: 1.0);
+  }
+
+  .evol-rate-arrow-down {
+    color: rgba($color: #ff0000, $alpha: 1.0);
+  }
+
+  h2 {
+    font-size: 1.1em;
+    margin-bottom: 0;
+  }
+}
+
+.evol-infolet-item-desc {
+  color: #666;
+  font-size: 1em;
+}
+
+.evol-infolet-content {
+  flex-grow: 1;
+}
+
+.evol-infolet-footer {
+  display: flex;
+  justify-content: center;
+  padding: .5em;
+}
+
+.evol-infolet-button {
+  max-width: 15em;
+  width: 100%;
+}

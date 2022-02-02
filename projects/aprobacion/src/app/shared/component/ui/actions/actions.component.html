@@ -1,0 +1,10 @@
+<button
+    mat-button
+    [ngClass]="class === 'flat' ? 'mat-flat-button' : 'mat-icon-button'"
+    [color]="color"
+    [class.spinner]="loading"
+    [type]="type"
+    style="margin-top: 20px;"
+    [disabled]="disabled">
+        {{ label }}<mat-icon>{{ icon }}</mat-icon>
+</button>

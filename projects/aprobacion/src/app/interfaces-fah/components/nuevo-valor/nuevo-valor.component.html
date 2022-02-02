@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Nuevo Valor</h2>
+<form [formGroup]="nuevoForm" (ngSubmit)="guardar()">
+
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label for="nombre">Elemento</mat-label>
+      <input matInput id="nombre" formControlName="nombre" autocomplete="off">
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="evol-footer-actions">
+    <button mat-flat-button color="accent" type="submit">Guardar</button>
+  </mat-dialog-actions>
+
+</form>

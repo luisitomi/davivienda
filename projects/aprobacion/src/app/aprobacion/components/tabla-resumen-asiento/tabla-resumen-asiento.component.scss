@@ -1,0 +1,53 @@
+.evol-tabla-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 900px;
+}
+
+table {
+  width: 900px;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+%column {
+  padding: 0 1em;
+  text-align: center;
+}
+
+.mat-column-primerDigito {
+  @extend %column;
+}
+
+.mat-column-cuenta {
+  @extend %column;
+  text-align: left;
+}
+
+.mat-column-nombre {
+  @extend %column;
+  text-align: left;
+}
+
+.mat-column-moneda {
+  @extend %column;
+}
+
+.mat-column-debito {
+  @extend %column;
+}
+
+.mat-column-credito {
+  @extend %column;
+}
+
+.mat-column-neto {
+  @extend %column;
+}

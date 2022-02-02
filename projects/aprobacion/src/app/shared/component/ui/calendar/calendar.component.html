@@ -1,0 +1,18 @@
+<mat-form-field appearance="fill">
+    <mat-label [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
+        <ng-content select="[header]"></ng-content>
+    </mat-label>
+    <input
+        matInput
+        [matDatepicker]="pickerDate"
+        [(ngModel)]="value"
+        [disabled]="disabled"
+        [min]="minDate"
+        [max]="maxDate"
+        (dateChange)="onDateChange($event)"
+        [ngClass]="{ 'is-invalid-input u-mb0': error }"
+    />
+    <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle>
+    <mat-datepicker #pickerDate></mat-datepicker>
+    <ng-content></ng-content>
+</mat-form-field>

@@ -1,0 +1,33 @@
+<form [formGroup]="cargaForm" (ngSubmit)="cargar()">
+
+  <mat-card>
+
+    <mat-card-title>
+      <mat-card-title>Carga</mat-card-title>
+    </mat-card-title>
+
+    <mat-card-content>
+
+      <mat-form-field appearance="fill">
+        <mat-label for="archivo">Seleccionar</mat-label>
+        <ngx-mat-file-input formControlName="archivo" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        </ngx-mat-file-input>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions class="evol-footer-actions">
+      <button mat-flat-button color="accent" type="submit" [disabled]="cargaForm.invalid">Cargar</button>
+    </mat-card-actions>
+
+    <mat-card-content *ngIf="resultado" class="evol-resultado-carga-filtros">
+      <mat-list>
+        <mat-list-item>
+          <h2>Resultado</h2>
+          <h2>{{ resultado }}</h2>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+
+  </mat-card>
+
+</form>

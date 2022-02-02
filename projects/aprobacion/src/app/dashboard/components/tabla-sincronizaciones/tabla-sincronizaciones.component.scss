@@ -1,0 +1,45 @@
+.evol-tabla-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 600px;
+}
+
+table {
+  width: 600px;
+}
+
+%column {
+  padding: 1em;
+  text-align: center;
+}
+
+%column-left {
+  text-align: left;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+.mat-column-fecha {
+  @extend %column;
+  width: 200px;
+}
+
+.mat-column-proceso {
+  @extend %column;
+  @extend %column-left;
+  width: 200px;
+}
+
+.mat-column-estado {
+  @extend %column;
+  width: 150px;
+}
+
+

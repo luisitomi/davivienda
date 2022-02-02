@@ -1,0 +1,15 @@
+<div class="evol-authenticate-page">
+  <mat-spinner *ngIf="loadingUserData"></mat-spinner>
+
+  <mat-card *ngIf="usuario">
+    <mat-card-content>
+      <h2>Bienvenido {{ usuario.nombre }}</h2>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="error">
+    <mat-card-content>
+      <h2>{{ error }}</h2>
+    </mat-card-content>
+  </mat-card>
+</div>

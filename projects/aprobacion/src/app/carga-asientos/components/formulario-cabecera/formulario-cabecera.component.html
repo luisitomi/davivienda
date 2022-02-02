@@ -1,0 +1,26 @@
+<app-loader *ngIf="spinner"></app-loader>
+<form [formGroup]="form" autocomplete="off">
+  <mat-card>
+    <app-title-header [Title]="title"></app-title-header>
+    <mat-card-content class="evol-form-container">
+      <div class="evol-form-section">
+        <app-select [selected]="selectOrigen" [disabled]="disabledForm" (changeOption)="changeOption($event)" [label]="'Origen'" formControlName="origen" [options]="origens" [error]="showErrors('origen')"></app-select>
+        <app-form-errors [control]="form.controls['origen']"></app-form-errors>
+        <app-select [selected]="selectLeaders" [disabled]="disabledForm" (changeOption)="changeOptionL($event)" (selectionChange)="onFocusOutEvent('leader')" [label]="'Libro'" formControlName="leader" [options]="leaders" [error]="showErrors('leader')"></app-select>
+        <app-form-errors [control]="form.controls['leader']"></app-form-errors>
+      </div>
+      <div class="evol-form-section">
+        <app-select [selected]="selectPeriod" [disabled]="disabledForm" (changeOption)="changeOptionP($event)" (selectionChange)="onFocusOutEvent('period')" [label]="'Periodo Contable'" formControlName="period" [options]="periods" [error]="showErrors('period')"></app-select>
+        <app-form-errors [control]="form.controls['period']"></app-form-errors>
+        <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('number')" (focusout)="onFocusOutEvent('number')" [label]="'Número'" formControlName="number" [error]="showErrors('number')"></app-input>
+        <app-form-errors [control]="form.controls['number']"></app-form-errors>
+      </div>
+      <div class="evol-form-section">
+        <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
+        <app-form-errors [control]="form.controls['description']"></app-form-errors>
+        <app-calendar (changeCalendarOption)="onSelectedCalendar()" [disabled]="disabledForm" [label]="'Fecha Contable'" formControlName="accountingDate" [error]="showErrors('accountingDate')"></app-calendar>
+        <app-form-errors [control]="form.controls['accountingDate']"></app-form-errors>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>
