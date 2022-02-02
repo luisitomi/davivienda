@@ -8,7 +8,7 @@
         <app-list-item [title]="'Fecha Contable'" [isDate]="asiento?.fechaContable"></app-list-item>
         <app-list-item [title]="'Descripción'" [subtitle]="asiento?.descripcion || ''"></app-list-item>
         <app-list-item [title]="'Usuario'" [subtitle]="asiento?.usuario || ''"></app-list-item>
-        <app-list-item [title]="'Agrupar cuenta a 6 dígitos'" [toogle]="true"></app-list-item>
+        <app-list-item [title]="'Agrupar cuenta a 6 dígitos'" [toogle]="true" (click)="event()"></app-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions class="evol-footer-actions">
