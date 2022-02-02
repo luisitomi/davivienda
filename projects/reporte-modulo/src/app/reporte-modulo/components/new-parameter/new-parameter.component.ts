@@ -48,15 +48,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     this.form = this.formBuilder.group({
       Id:[0,[Validators.required]],
       Usuario: [null],
-
-      parametros: this.formBuilder.array([this.formBuilder.group({
-  
-        NumeroParametro: [1, [Validators.required]],
-        NombreParametro: [null, [Validators.required]],
-        ValorParametro: [null, [Validators.required]],
-        TipoParametro : [null, [Validators.required]],
-        Obligatorio : [null, [Validators.required]],
-      })])
+      parametros: this.formBuilder.array([])
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
@@ -66,7 +58,6 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     this.form.patchValue({
       Id: event?.value,
     });
-    console.log('event?.Id'+event?.value)
     this.postTsFAHBuscarParametrosModuloReportePorIdWS(event?.value);
   }
   delInput(id: number): void {
@@ -78,27 +69,22 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   }
   
   updateItem() {   
-    this.delInput(0);
-    console.log('this.informationsParam:' +this.informationsParam)
-    this.informationsParam?.forEach((currentValue, index) => {
-
+    this.informationsParam.splice(0, 0)
+    this.informationsParam?.forEach((currentValue) => {
       this.items.push(this.formBuilder.group({
-        NumeroParametro: [currentValue.NumeroParametro, [Validators.required]],
-        NombreParametro: [currentValue.NombreParametro, [Validators.required]],
-        ValorParametro: [currentValue.ValorParametro, [Validators.required]],
-        TipoParametro: [currentValue.TipoParametro, [Validators.required]],
-        Obligatorio : [currentValue.Obligatorio, [Validators.required]],
+        NombreParametro: currentValue?.NombreParametro,
+        ValorParametro: currentValue?.ValorParametro,
+        TipoParametro: currentValue?.TipoParametro,
+        Obligatorio : currentValue?.Obligatorio,
+        NumeroParametro: currentValue?.NumeroParametro,
       }));
     });
-    console.log(this.form.value);
   }
 
   postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
     this.reporteEjecucion.postTsFAHParametrosEjecucionModuloReporteWS({Id:IdReporte}).subscribe(rest =>{
-     this.informationsParam = rest;
-     console.log('postTsFAHBuscarParametrosModuloReportePorIdWS'+ rest)
-     console.log(rest)
-   // this.updateItem();
+    this.informationsParam = rest;
+    this.updateItem();
     });
   }
   getListReportes(): void {
@@ -154,8 +140,8 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   save(): void {
-
-    console.log(this.informationsParam)
+    //aca tendras las modificaciones de los inputs
+    console.log(this.items.value)
     if (this.form.valid) {
       this.spinner = true;
       const valueForm = this.form.value;
