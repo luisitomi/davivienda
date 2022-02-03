@@ -49,10 +49,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.route.queryParams.subscribe(params => {
       this.queryParams = params;
     });
-    const getUsernameSub = this.authService.getUsername().subscribe(
-      nombre => this.nombreUsuario = nombre || '',
-    );
-    this.arrayToDestroy.push(getUsernameSub);
+    this.nombreUsuario = this.authService.getUsuarioV2() || '';
   }
 
   ngOnInit(): void {
