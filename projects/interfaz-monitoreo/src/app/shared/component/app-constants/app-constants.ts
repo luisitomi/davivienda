@@ -15,7 +15,8 @@ export const appConstants = {
         NEWSEAT: 'NEWSEAT',
     },
     eventDate: {
-        format: 'dd/MM/yyyy',
+        //format: 'dd/MM/yyyy',
+       format: 'yyyy-MM-dd',
     },
     typeArchivo: {
         HEADER: 'HEADER',

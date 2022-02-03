@@ -10,6 +10,7 @@ export interface Reporte {
     CantidadLinea: number;
     Pagina: number;
     CreadoPor: string;
+    Extension: string;
     parametros?: Array<ReporteParam>;
   }
   

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FiltroSalida } from 'src/app/shared';
 import { SalidasService } from '../../../core/services/salidas.service';
 import { Maestra } from '../../../shared/models/maestra.model';
+import { UtilServices } from '../general/util.service';
 
 @Component({
   selector: 'app-filtros-salida',
@@ -36,9 +37,11 @@ export class FiltrosSalidaComponent implements OnInit, OnDestroy {
 
   constructor(
     private salidasService: SalidasService,
+    private utilServices: UtilServices,
   ) { }
 
   ngOnInit(): void {
+    this.utilServices.setTextValue('Interfaz de Salida');
     this.getInterfacesSub = this.salidasService.getInterfaces().subscribe(
       interfaces => this.interfazOptions = interfaces,
     );

@@ -10,9 +10,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConfirmacionReversaComponent implements OnInit {
 
   filterForm = new FormGroup({
-    fechaContable: new FormControl(new Date('12/12/2017')),
+    fechaContable: new FormControl(new Date()),
   });
-
+  minDate = new Date();
   constructor(
     private dialogRef: MatDialogRef<ConfirmacionReversaComponent>,
     @Inject(MAT_DIALOG_DATA) public texto: string,

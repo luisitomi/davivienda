@@ -22,13 +22,13 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: { title: 'Data Governance' },
+      //    data: { title: 'dsfsfds' },
       },
-      {
+      /*{
         path: 'cuadre-caja',
         loadChildren: () => import('./cuadre-caja/cuadre-caja.module').then(m => m.CuadreCajaModule),
         data: { title: 'Cuadre Caja' },
-      },
+      }, */
     ]
   },
   {

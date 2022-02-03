@@ -81,7 +81,6 @@ export class CorreccionFiltrosService {
   }
 
   editFiltro(filtro: CorreccionFiltro): void {
-    debugger;
     this.filtros = this.filtros.map(f => f.columna === filtro.columna ? filtro : f);
     this.filtrosSubject.next(this.filtros);
   }

@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CargasService } from '../../../core/services/cargas.service';
+import { ConfigService } from '../../../core/services/config.service';
 import { Carga, Filtros } from '../../../shared';
 import { DetalleArchivoComponent } from '../../components/detalle-archivo/detalle-archivo.component';
+import { UtilServices } from '../../components/general/util.service';
 
 
 @Component({
@@ -29,11 +31,18 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
     private cargasService: CargasService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private utilServices: UtilServices,
+    private configService: ConfigService
   ) { }
 
   ngOnInit(): void {
-    this.loadingCargas = true;
-
+    this.utilServices.setTextValue('Monitoreo de Cargas');
+    //this.loadingCargas = true;
+    console.log('Peeee  ')
+console.log('Peeee  '+this.configService.getApiUrl().subscribe(url =>  {
+  console.log(url)
+}
+  )  )
     this.origen = this.route.snapshot.queryParams.origen ;
     this.carga = Number(this.route.snapshot.queryParams.carga);
     /*

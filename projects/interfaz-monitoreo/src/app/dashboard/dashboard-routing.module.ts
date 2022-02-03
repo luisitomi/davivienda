@@ -1,5 +1,6 @@
+
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, Router, RouterModule, Routes } from '@angular/router';
 import { FeatureGuard } from '../core/guards/feature.guard';
 import { Features, Permissions } from '../shared';
 import { CierreDiarioComponent } from './pages/cierre-diario/cierre-diario.component';
@@ -9,7 +10,7 @@ import { ControlSincronizacionesComponent } from './pages/control-sincronizacion
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ReprocesoComponent } from './pages/reproceso/reproceso.component';
 
-const routes: Routes = [
+const routes: Route[] = [
   {
     path: 'infolet',
     component: DashboardComponent,
@@ -35,6 +36,7 @@ const routes: Routes = [
   {
     path: 'control-salidas',
     component: ControlSalidaComponent,
+    data: { title: 'Data Governancesss' },
   },
   {
     path: 'control-sincronizaciones',

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApiService {
-  apiUrls: string = '';
+  apiUrl: string = '';
 
   constructor() { }
 }

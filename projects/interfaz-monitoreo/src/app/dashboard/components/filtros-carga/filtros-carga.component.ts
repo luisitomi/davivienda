@@ -61,6 +61,7 @@ export class FiltrosCargaComponent implements OnInit, OnDestroy {
 
 
     this.filterForm.patchValue({ origen: this.origen || 0 });
+    this.filter();
   }
 
   ngOnDestroy(): void {

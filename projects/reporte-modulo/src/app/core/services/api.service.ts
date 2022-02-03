@@ -5,6 +5,17 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
   apiUrl: string = '';
+  TsFahModuloReporteEjecutarWS: string = '';
+  TsFahModuloReporteRegistrarWS: string = '';
+  TsFAHModuloReporteTipoParametrosWS: string = '';
+  TsFAHBuscarModuloReportePorIdWS: string = '';
+  TsFAHBuscarParametrosModuloReportePorIdWS: string = '';
+  TsFAHListarReportesParaEjecucionWS: string = '';
+  TsFAHParametrosEjecucionModuloReporteWS: string = '';
+  TsFAHListarEjecucionReporteWS: string = '';
+  TsFahTxtTraceModuloReporteWS: string = '';
+  TsFAHListadoModuloReporteWS: string = '';
+  TsFahObtenerUsuarioWS: string = '';
 
   constructor() { }
 }

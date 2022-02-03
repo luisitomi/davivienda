@@ -10,6 +10,12 @@
         <app-input (input)="onFocusOutEvent('CodigoReporte')" [disabled]="reporte.Id != 0"  (focusout)="onFocusOutEvent('CodigoReporte')" [label]="'Código'"
           formControlName="CodigoReporte" [error]="showErrors('CodigoReporte')"></app-input>
         <app-form-errors [control]="filtrosForm.controls['CodigoReporte']"></app-form-errors>
+
+        <app-select [label]="'Extension'" (input)="onFocusOutEvent('Extension')" 
+        (focusout)="onFocusOutEvent('Extension')"  formControlName="Extension" [options]="listExtension" [error]="showErrors('Extension')">
+        <app-form-errors [control]="filtrosForm.controls['Extension']"></app-form-errors>
+        </app-select>
+    
       </div>
       <div class="evol-form-section">
         <app-input (input)="onFocusOutEvent('RutaReporte')" (focusout)="onFocusOutEvent('RutaReporte')" [label]="'Ruta'"
@@ -26,7 +32,12 @@
         <app-input [onlyNumber]="true" (input)="onFocusOutEvent('CantidadLinea')" (focusout)="onFocusOutEvent('CantidadLinea')"
           [label]="'Cantidad'" formControlName="CantidadLinea" [error]="showErrors('CantidadLinea')"></app-input>
         <app-form-errors [control]="filtrosForm.controls['CantidadLinea']"></app-form-errors>
+
+     
+
       </div>
+
+    
     </mat-card-content>
     <app-title-header [Title]="'Parámetros'" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
     <mat-card-content class="evol-form-container">
@@ -43,7 +54,8 @@
       
     </mat-card-content>
     <mat-card-actions class="evol-footer-actions">
-      <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'" (click)="guardar()"></app-actions>
+      <app-actions [color]="'accent'" [class]="'flat'" [label]="'Volver'"  (click)="cancelar()"></app-actions>
+      <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'"   (click)="guardar()"></app-actions>
     </mat-card-actions>
   </mat-card>
 </form>

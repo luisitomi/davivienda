@@ -31,7 +31,7 @@
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Generación</mat-label>
-          <mat-date-range-input [rangePicker]="genPicker" disabled>
+          <mat-date-range-input [rangePicker]="genPicker" >
             <input matStartDate formControlName="genInicio" placeholder="Fecha inicio">
             <input matEndDate formControlName="genFin" placeholder="Fecha fin">
           </mat-date-range-input>
@@ -39,7 +39,7 @@
           <mat-date-range-picker #genPicker disabled="false"></mat-date-range-picker>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+      <!--  <mat-form-field appearance="fill">
           <mat-label>Fecha de Lectura</mat-label>
           <mat-date-range-input [rangePicker]="readPicker" disabled>
             <input matStartDate formControlName="readInicio" placeholder="Fecha inicio">
@@ -47,7 +47,7 @@
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="readPicker"></mat-datepicker-toggle>
           <mat-date-range-picker #readPicker disabled="false"></mat-date-range-picker>
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
 
       <div class="evol-filtro-section">
@@ -59,7 +59,7 @@
     </div>
 
     <mat-action-row>
-      <button type="submit" mat-flat-button color="accent">Filtrar</button>
+      <button type="submit" mat-flat-button>Filtrar</button>
     </mat-action-row>
 
   </mat-expansion-panel>

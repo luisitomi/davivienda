@@ -32,17 +32,20 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const id = Number(routeParams.get('id'));
-    console.log('id:'+id)
+   
   }
   editar(reporte: Reporte) {
-     console.log(reporte)
+    
      this.router.navigate(['/reporte-information/registro',reporte.Id]);
   }
   filtrar(filtroReporte: FiltroReporte) {
-    console.log(filtroReporte)
+    this.spinner = true;
     this.reporteService.postTsFAHListadoModuloReporteWS(filtroReporte).subscribe(res => {
       this.informationsList = res;
-      console.log(this.informationsList);
+      this.spinner = false;
+    },
+    ()=> {
+      this.spinner = false;
     });
   }
 

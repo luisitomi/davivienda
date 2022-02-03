@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { Router } from '@angular/router';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
@@ -24,6 +25,7 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
   ) {
     super();
   }
@@ -81,7 +83,9 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
     }
     this.filtrosForm.get(`${control}`)?.updateValueAndValidity();
   }
-
+  nuevo(){
+    this.router.navigate(['/reporte-information/registro']);
+  }
   showErrors(control: string): boolean {
     return (
       (this.filtrosForm.controls[control].dirty || this.filtrosForm.controls[control].touched) &&

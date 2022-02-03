@@ -12,6 +12,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [ AuthGuard ],
     children: [
       {
         path: 'reporte-modulo',
@@ -23,6 +24,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [ AuthGuard ],
     children: [
       {
         path: 'reporte-information',

@@ -9,6 +9,7 @@ import { InfoletService } from '../../../core/services/infolet.service';
 
 import { OrigenService } from '../../../core/services/origen.service';
 import { Infolet, Origen } from '../../../shared';
+import { UtilServices } from '../general/util.service';
 
 @Component({
   selector: 'app-infolet-origen',
@@ -31,10 +32,12 @@ export class InfoletOrigenComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private origenService: OrigenService,
     private infoletService: InfoletService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private utilServices: UtilServices,
   ) { }
 
   ngOnInit(): void {
+    this.utilServices.setTextValue('Infolet');
     if (this.infolet?.origen !== null ) {
       this.filterForm.controls['origen'].setValue(this.infolet?.origen);
     }
@@ -66,7 +69,6 @@ export class InfoletOrigenComponent implements OnInit, OnDestroy {
   }
 
   goDetalle(): void {
-
     this.getTokenSub = this.authService.getToken().subscribe(token => {
    /*
       const url: string = this.router.serializeUrl(this.router.createUrlTree(['/dashboard/controlymonitoreo'], {

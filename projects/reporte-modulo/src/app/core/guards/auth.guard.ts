@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AuthGenerico } from '../../shared/models/auth.model';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
@@ -11,7 +12,8 @@ import { NavigationService } from '../services/navigation.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
+  spinner:boolean;
+  auth: AuthGenerico;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -25,9 +27,18 @@ export class AuthGuard implements CanActivate {
     this.navigationService.setPrevUrl(state.url);
     return this.authService.isLoggedIn().pipe(
       map(logged => {
-        console.log('dsaads')
-        var decoded = jwtDecode(route.queryParams.token); 
-        console.log('decoded' +decoded)
+      
+     //console.log(route.queryParams.token)
+     if (route.queryParams.token != undefined && route.queryParams.token != null) {
+      const decoded =  jwtDecode(route.queryParams.token); 
+     // this.authService.setTokenJson(decoded);
+      this.authService.postTsFahObtenerUsuarioWS(decoded).subscribe(rest => {
+      //    console.log('getUsuarioV2' +this.authService.getUsuarioV2())
+      });
+        
+     }
+           
+  
         return true;
         if (logged) {
           return true;

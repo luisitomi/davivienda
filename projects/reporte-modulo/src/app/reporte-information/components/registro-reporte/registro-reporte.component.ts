@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { ReporteService } from '../../../core/services/reporte.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
+import { ReporteParam } from '../../../shared/models/reporte-param.model';
 import { Reporte } from '../../../shared/models/reporte.model';
 
 @Component({
@@ -23,27 +26,45 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   //listType = [];
   listType: Array<DropdownItem>;
   listObligatorio: Array<DropdownItem>;
+  listExtension: Array<DropdownItem>;
   reporte:Reporte;
   constructor(
     private formBuilder: FormBuilder,
     private reporteService: ReporteService,
     private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private router: Router,
+    private authService: AuthService,
   ) {
     super();
   }
 
   ngOnInit(): void {
+    
     const routeParams = this.route.snapshot.paramMap;
     const id = Number(routeParams.get('id'));
-    console.log('idss:'+id);
+    this.createForm();
     this.getTypeParam();
     this.getObligatorio();
-    this.createForm();
-    this.postTsFAHBuscarModuloReportePorIdWS(id);
-    if (id == undefined || id == null || id == 0) {
+    this.getExtension();
+
    
+    if (id == undefined || id == null || id == 0) {
+      this.reporte = {
+          Id:0,
+          NombreReporte:'',
+          CodigoReporte:'',
+          RutaReporte:'',
+          RutaSalidaFTPS:'',
+          NombreArchivo:'',
+          CantidadLinea:0,
+          Pagina:0,
+          CreadoPor:'',
+          Extension:'',
+        
+         };
     } else {
-    
+      this.postTsFAHBuscarModuloReportePorIdWS(id);
     }
   }
   updateForm(): void {
@@ -57,6 +78,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
       NombreArchivo:this.reporte.NombreArchivo,
       CantidadLinea:this.reporte.CantidadLinea,
       CreadoPor:this.reporte.CreadoPor,
+      Extension:this.reporte.Extension
     }) 
 
   }
@@ -89,6 +111,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
       NombreArchivo: [null, [Validators.required]],
       CantidadLinea: [null, [Validators.required]],
       CreadoPor: [null],
+      Extension:[null, [Validators.required]],
       parametros: this.formBuilder.array([this.formBuilder.group({
         IdParam: [0],
         NumeroParametro: [1, [Validators.required]],
@@ -149,6 +172,12 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     this.arrayToDestroy.push($listType);
   }
 
+  getExtension(): void{
+    this.listExtension = new Array<DropdownItem>();
+      this.listExtension.push({label:"CSV",value:"csv"})
+      this.listExtension.push({label:"TXT",value:"txt"})
+    
+  }
   getObligatorio(): void {
    /* const $listObligatorio = this.reporteService
       .getTsFAHModuloReporteTipoParametrosWS()
@@ -167,42 +196,61 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   //  this.arrayToDestroy.push($listObligatorio);
   }
   postTsFAHBuscarModuloReportePorIdWS(IdReporte: number) {
+    this.spinner= true;
     this.reporteService.postTsFAHBuscarModuloReportePorIdWS({Id:IdReporte}).subscribe(rest =>{
       this.reporte = rest;
-      console.log('rest id')
-      console.log(this.reporte)
+      this.spinner= false;
       this.updateForm();
       this.postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte);
+    },
+    ()=> {
+      this.spinner= false;
     });
   }
+  cancelar(){
+    this.router.navigate(['/reporte-information/listado']);
+  }
   postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
-
+    this.spinner= true;
     this.reporteService.postTsFAHBuscarParametrosModuloReportePorIdWS({Id:IdReporte}).subscribe(rest =>{
       this.reporte.parametros = rest;
+      this.spinner= false;
       this.updateItem();
+    },
+    ()=> {
+      this.spinner= false;
     });
   }
   guardar() {
    const dataform =  this.filtrosForm.value;
    this.reporte = dataform;
-   debugger;
+ 
     if (this.filtrosForm.valid) {
+      this.spinner= true;
 
       if (this.reporte.Id ==   0 ) {
-            console.log(JSON.stringify(this.filtrosForm.getRawValue()))
-            console.log(this.filtrosForm.getRawValue())
-            this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),'Prueba').subscribe(rest => {
-              console.log('rst')
-              console.log(JSON.stringify(rest))
+ 
+            this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),this.authService.getUsuarioV2()).subscribe(rest => {
+            //  console.log('rst')
+            //  console.log(JSON.stringify(rest))
               this.filtrosForm.controls['Id'].setValue(rest.data.Id) ;
+              this.toastr.success(rest?.message, 'Registro');
+              this.spinner= false;
+            },
+            ()=> {
+              this.spinner= false;
             });
       } else {
-            console.log(JSON.stringify(this.filtrosForm.getRawValue()))
-            console.log(this.filtrosForm.getRawValue())
-            this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),'Prueba').subscribe(rest => {
-              console.log('rst')
-              console.log(JSON.stringify(rest))
+         
+            this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),this.authService.getUsuarioV2()).subscribe(rest => {
+             // console.log('rst')
+             // console.log(JSON.stringify(rest))
+              this.toastr.success(rest?.message, 'Registro');
+              this.spinner= false;
              // this.filtrosForm.controls['Id'].setValue(rest.data.Id) ;
+            },
+            ()=> {
+              this.spinner= false;
             });
       }
       

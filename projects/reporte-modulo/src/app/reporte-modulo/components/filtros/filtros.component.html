@@ -9,10 +9,43 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="evol-filtro-container">
+  <!--    <div class="evol-filtro-section">
+        <app-input (input)="onFocusOutEvent('NombreReporte')" (focusout)="onFocusOutEvent('NombreReporte')" [label]="'Búsqueda'" formControlName="NombreReporte" [error]="showErrors('NombreReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['NombreReporte']"></app-form-errors>
+
+        <app-input (input)="onFocusOutEvent('CodigoReporte')" (focusout)="onFocusOutEvent('CodigoReporte')" [label]="'Búsqueda'" formControlName="NombreReporte" [error]="showErrors('CodigoReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CodigoReporte']"></app-form-errors>
+
+      </div> -->
+
       <div class="evol-filtro-section">
-        <app-input (input)="onFocusOutEvent('text')" (focusout)="onFocusOutEvent('text')" [label]="'Búsqueda'" formControlName="text" [error]="showErrors('text')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['text']"></app-form-errors>
+        <mat-form-field appearance="fill">
+          <mat-label for="NombreReporte">Nombre Reporte</mat-label>
+          <input matInput formControlName="NombreReporte" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="CodigoReporte">Codigo Reporte</mat-label>
+          <input matInput formControlName="CodigoReporte" autocomplete="off">
+        </mat-form-field>
       </div>
+
+
+      <div class="evol-filtro-section">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Generación</mat-label>
+          <mat-date-range-input [rangePicker]="genPicker" disabled>
+            <input matStartDate formControlName="FechaInicio" placeholder="Fecha inicio">
+            <input matEndDate formControlName="FechaFin" placeholder="Fecha fin">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="genPicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #genPicker disabled="false"></mat-date-range-picker>
+        </mat-form-field>
+
+     
+      </div>
+
+
     </div>
     <mat-action-row>
       <app-actions [color]="'warn'" [class]="'flat'" (click)="filtrar()" [label]="'Filtrar'"></app-actions>

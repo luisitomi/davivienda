@@ -11,6 +11,9 @@ import { Reporte } from '../../../shared/models/reporte.model';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { ReporteService } from '../../../core/services/reporte.service';
 import { ParametrosReporteEjecucionParam } from '../../../shared/models/parametros-reporte-ejecucion.model';
+import { ReporteEjecucionParam } from '../../../shared/models/reporte-ejecucion.model';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-new-parameter',
@@ -28,13 +31,16 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   listReportestype : Array<DropdownItem>;
   //listObligatorio: Array<DropdownItem>;
   informationsParam: ParametrosReporteEjecucionParam[];
+  ejecucionReporte:ReporteEjecucionParam;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NewParameterComponent>,
     private formBuilder: FormBuilder,
     private cdRef:ChangeDetectorRef,
     private reporteEjecucion: ReporteEjecucionService,
-    private reporteService: ReporteService
+    private reporteService: ReporteService,
+    private toastr: ToastrService,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -88,6 +94,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     });
   }
   getListReportes(): void {
+    this.spinner = true;
     const $listReportestype = this.reporteEjecucion
       .getTsFAHListarReportesParaEjecucionWS()
       .pipe(finalize(() => this.spinner = false))
@@ -97,7 +104,9 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
             label: data?.NombreReporte,
             value: data?.Id,
           }),
-        )}
+        )
+        this.spinner = false;
+      }
       );
     this.arrayToDestroy.push($listReportestype);
   }
@@ -107,8 +116,13 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   getTsFAHListarReportesParaEjecucionWS() {
+    this.spinner = true;
     this.reporteEjecucion.getTsFAHListarReportesParaEjecucionWS().subscribe(res => {
       this.lstReporte = res;
+      this.spinner = false;
+    },
+    ()=>{
+      this.spinner = false;
     });
   }
 
@@ -141,15 +155,50 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
 
   save(): void {
     //aca tendras las modificaciones de los inputs
-    console.log(this.items.value)
+
     if (this.form.valid) {
       this.spinner = true;
       const valueForm = this.form.value;
+      /*
       const request = {
         LengderId: valueForm?.lengerId,
         CC: valueForm?.cc,
         Dni: valueForm?.dni,
+      } */
+     /* const header: CabeceraAsientoInsert = {
+        Id: 0,
+        LegderName: this.dataHeader?.leader,
+        SourceName: this.dataHeader?.origen,
+        TrxNumber: this.dataHeader?.number,
+        AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',
+        Description: this.dataHeader?.description,
+        Company: '',
+        Usuario: this.nombreUsuario,
+        Period: this.dataHeader?.period,
+      }*/
+     
+      const request = {
+        Id: valueForm.Id,
+        Usuario:this.authService.getUsuarioV2(),
+        parametros:this.items.value
       }
+      /*this.ejecucionReporte = new ReporteEjecucionParam();
+      this.ejecucionReporte.Id = 0;
+      this.ejecucionReporte.Usuario = "Usuario";
+      this.ejecucionReporte.parametros = this.items.value;*/    
+      
+      this.reporteEjecucion.postTsFahModuloReporteEjecutarWS(request).subscribe(
+        res => {
+          this.spinner = false;
+          this.toastr.success(res?.Mensaje, 'Registro');
+          this.dialogRef.close();
+        },()  =>{
+          this.spinner = false;
+          this.toastr.warning("Ocurrio un error inesperado", 'Advertencia');
+        }
+      );
+
+
       /*const $limitSave = this.limitService
         .SaveLimit(request)
         .pipe(finalize(() => this.spinner = false))

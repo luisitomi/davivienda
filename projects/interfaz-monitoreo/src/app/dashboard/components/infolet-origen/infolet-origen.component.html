@@ -8,13 +8,7 @@
       <mat-list-item *ngIf="infolet?.origen !== null">
         <h2 class="evol-infolet-item-desc">Origen</h2>
       
-          <mat-form-field appearance="fill" >
-            <mat-label>Select an option</mat-label>
-            <mat-select formControlName="origen" (selectionChange)="seleccionarOrigen()">
-              <mat-option *ngFor="let origen of origenOptions" [value]="origen.ORIGEN">{{ origen.ORIGEN }}</mat-option>
-
-            </mat-select>
-          </mat-form-field>
+        <h2>{{ infolet?.origen }}</h2>
           
 
       </mat-list-item>

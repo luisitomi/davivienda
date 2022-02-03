@@ -155,11 +155,11 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
         (data: Maestra[]) => {
           this.columnaOptions = (data || []).map((respone) => ({
             label: respone?.valor,
-            value: respone?.codigo,
+            value: respone?.valor,
             type: respone?.tipo,
           }));
           const value = data.find((p: Maestra) => p.valor === this.filtro?.columna);
-          this.selectColumn = value?.codigo || '';
+          this.selectColumn = value?.valor || '';
         }
       );
     this.arrayToDestroy.push($columna);
@@ -184,6 +184,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   guardar(filtro: CorreccionFiltro) {
+    debugger;
     const objeto = {
       Columna:filtro.columna,
       Criterio:filtro.criterio,

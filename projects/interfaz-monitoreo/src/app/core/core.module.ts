@@ -22,8 +22,6 @@ import { EnvironmentServiceProvider } from './interceptors/dev-backend.intercept
   exports: [
     LayoutComponent
   ],
-  providers: [
-    EnvironmentServiceProvider,
-  ]
+  providers: [EnvironmentServiceProvider]
 })
 export class CoreModule { }

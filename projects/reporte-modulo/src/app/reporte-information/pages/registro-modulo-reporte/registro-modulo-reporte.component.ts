@@ -29,7 +29,7 @@ export class RegistroModuloReporteComponent extends UnsubcribeOnDestroy {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const id = Number(routeParams.get('id'));
-    console.log('id:'+id)
+  
   }
   addNewInformation(): void {
     const dialogRef = this.dialog.open(NewParameterComponent, {
