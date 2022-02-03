@@ -21,6 +21,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
   spinner: boolean;
   loading: boolean;
   nombreUsuario: string;
+  selectTypeUser = DATA_TYPE;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,6 +49,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
       description: [null, [Validators.required]],
       value: [null, [Validators.required]],
       valueFinal: [null, [Validators.required]],
+      typeUser: [null, [Validators.required]],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
@@ -89,6 +91,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
         Usuario:  this.nombreUsuario,
         Valor: valueForm?.value,
         ValorFinal: valueForm?.valueFinal,
+        Type: valueForm?.typeUser,
       }
       const $limitSave =this.limitService
         .SaveLimit(request)
@@ -105,3 +108,18 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
     }
   }
 }
+
+const DATA_TYPE = [
+  {
+    label:'Automático',
+    value:'-',
+  },
+  {
+    label:'Aprobador',
+    value:'DAV_FAH_ROL_DE_APROBADOR',
+  },
+  {
+    label:'Preparador',
+    value:'DAV_FAH_ROL_DE_PREPARADOR',
+  },
+];

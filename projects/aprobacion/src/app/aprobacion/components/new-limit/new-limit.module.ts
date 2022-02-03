@@ -8,6 +8,7 @@ import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewLimitComponent } from './new-limit.component';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { SelectModule } from '../../../shared/component/ui/select/select.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     CloseModule,
     MatDialogModule,
     LoaderModule,
+    SelectModule,
   ],
   entryComponents: [NewLimitComponent],
 })

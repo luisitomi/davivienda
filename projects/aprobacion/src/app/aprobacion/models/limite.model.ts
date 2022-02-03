@@ -23,6 +23,7 @@ export interface LimitSave {
   Valor: number;
   ValorFinal: number;
   Usuario: string;
+  Type: string;
 }
 
 export interface LimitEdit {
