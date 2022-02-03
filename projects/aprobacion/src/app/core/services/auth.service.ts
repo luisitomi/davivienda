@@ -43,6 +43,10 @@ export class AuthService {
     );
   }
 
+  getUsuarioV2() {
+    return this.usuario.value?.email;
+  }
+
   getToken(): Observable<string> {
     return this.token.asObservable().pipe(filter(t => t !==''), first());
   }

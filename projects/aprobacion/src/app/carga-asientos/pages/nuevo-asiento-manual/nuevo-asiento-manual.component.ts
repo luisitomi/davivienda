@@ -45,10 +45,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
     });
-    const getUsernameSub = this.authService.getUsername().subscribe(
-      nombre => this.nombreUsuario = nombre || '',
-    );
-    this.arrayToDestroy.push(getUsernameSub);
+    this.nombreUsuario = this.authService.getUsuarioV2() || '';
   }
 
   ngAfterViewChecked(){
