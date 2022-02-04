@@ -152,11 +152,6 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         let exist = 0;
         let message = "";
 
-        if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Plazo /Periodo') === -1) {
-          exist += 1;
-            message = "Plazo /Periodo";
-        }
-
         if (element.segGlAccountValue === 'Y') {
           if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Número de Identificación') === -1) {
             exist += 1;

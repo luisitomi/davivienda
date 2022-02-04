@@ -142,10 +142,6 @@ export class ReferenciasComplementariasComponent implements OnInit {
   goToBack(): void {
     let valueFormat = 4;
     let message = '';
-    if (this.references.data.findIndex(p => p.nombre === 'Plazo /Periodo') === -1) {
-      valueFormat = 2;
-      message = 'Plazo /Periodo';
-    }
     if (this.isIdentity === 'Y') {
       if (this.references.data.findIndex(p => p.nombre === 'Auxiliar de Conciliación') === -1) {
         valueFormat = 1;
