@@ -65,7 +65,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
         }
       }
     )
-
     this.getUsernameSub = this.authService.getUsername().subscribe(
       nombre => this.nombreUsuario = nombre,
     );

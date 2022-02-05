@@ -12,6 +12,10 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  TsFahObtenerUsuarioWS = this.enviroment.TsFahObtenerUsuarioWS?.replace(
+    /\/$/,
+    ''
+  );
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
 
   constructor(

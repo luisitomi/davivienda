@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { FeaturePermission, Usuario } from 'src/app/shared';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private configService: ConfigService,
   ) { }
 
   isLoggedIn(): Observable<boolean> {
@@ -60,6 +62,16 @@ export class AuthService {
   getFeaturePermission(): Observable<FeaturePermission[] | undefined> {
     return this.usuario.asObservable().pipe(
       map(u => u?.permisosACaracteristicas),
+    );
+  }
+
+  postTsFahObtenerUsuarioWS (tokenJson: any) : Observable<Usuario> {
+    const data = {usuario: tokenJson.prn};
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<Usuario>(this.configService.TsFahObtenerUsuarioWS,data).pipe(
+        tap(res => this.usuario.next(res)),
+      )),
     );
   }
 }

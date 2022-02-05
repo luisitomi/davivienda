@@ -204,8 +204,8 @@ export class DevBackendInterceptor implements HttpInterceptor {
     function getUsuario() {
       let usuario: Usuario = {
         id: 416,
-        nombre: 'Angel Neyra',
-        email: 'angel.neyra@davivienda.co',
+        nombre: '',
+        email: '',
         permisosACaracteristicas: [
           { feature: Features.ConsultarInfolet, permission: Permissions.View },
           { feature: Features.ConsultarEstadoCargas, permission: Permissions.View },

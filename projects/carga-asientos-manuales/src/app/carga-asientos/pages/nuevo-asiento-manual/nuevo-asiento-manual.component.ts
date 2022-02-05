@@ -7,11 +7,13 @@ import { AuthService } from '../../../core/services/auth.service';
 import { HeadboardSeat } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
 import { InserHeaderLine, LineSave } from '../../models/insert-header-line';
-import { ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
+import { ReferenceComplementaryRequest, ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
+import { TypeReference } from '../../models/type-reference.model';
 import { HeaderLineService } from '../../services/header-line.service';
 
 @Component({
@@ -31,6 +33,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   queryParams: any;
   spinner = false;
   nombreUsuario: string;
+  typeReference: Array<DropdownItem> = [];
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -99,7 +102,30 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.visibleTable = true;
       this.validateForm = false;
       this.disabledForm = true;
+      this.getListReference(this.dataHeader?.origen);
     }
+  }
+
+  getListReference(valueOrigen: string): void {
+    this.spinner = true;
+    const request: ReferenceComplementaryRequest = {
+      origen: valueOrigen,
+      tipoColumna: '2',
+    }
+    const $line = this.headerLineService
+      .getListReference(request)
+      .pipe(finalize(() => this.spinner= false))
+      .subscribe(
+        (response: Array<TypeReference>) => {
+          const $typeReference = this.typeReference = (response || []).map((data) => ({
+            label: data?.valor,
+            value: data?.codigo,
+            type: data?.tipo,
+          }));
+          this.arrayToDestroy.push($typeReference);
+        }
+      );
+    this.arrayToDestroy.push($line);
   }
 
   send(): void {
@@ -153,11 +179,13 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         let message = "";
 
         if (element.segGlAccountValue === 'Y') {
-          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Número de Identificación') === -1) {
+          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Número de Identificación') === -1 &&
+            this.typeReference.find(p => p.value === 'Número de Identificación') === -1) {
             exist += 1;
               message = "Número de Identificación";
           }
-          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Auxiliar de Conciliación') === -1) {
+          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Auxiliar de Conciliación') === -1 &&
+            this.typeReference.find(p => p.value === 'Auxiliar de Conciliación') === -1) {
             exist += 1;
               message = "Auxiliar de Conciliación";
           }

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { OrigenService } from '../../../core/services/origen.service';
 import { HeadboardSeat, Origen } from '../../../shared';
@@ -35,11 +36,16 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   selectPeriod = "";
   selectLeaders = "";
   spinner: boolean;
+  disabledFecha = true;
+  periodData: any[];
+  fechaIsValid: boolean;
+  disbaledPeriod = true;
 
   constructor(
     private origenService: OrigenService,
     private periodoContableService: HeaderLineService,
     private formBuilder: FormBuilder,
+    private toastr: ToastrService,
   ) {
     super();
   }
@@ -54,8 +60,8 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.form = this.formBuilder.group({
       origen: [null, [Validators.required]],
       leader: [null, [Validators.required]],
-      period: [null, [Validators.required]],
-      number: [null, [Validators.required]],
+      period: [null],
+      number: [''],
       description: [null, [Validators.required]],
       accountingDate: [null, [Validators.required]],
     });
@@ -110,19 +116,24 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
 
   getPeriod(id: number): void {
     this.spinner = true;
+    this.disabledFecha = true;
+    this.periods = [];
     const $period = this.periodoContableService
       .getListPeriod(id)
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (response: any[]) => {
+          this.periodData = response;
           this.periods = (response || []).map((data) => ({
             label: data?.period_name,
             value: data?.period_name,
           }),
         );
+        if (this.periods?.length) this.disabledFecha = false;
         const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
         if (model?.header) {
           this.selectPeriod = model?.header?.Period;
+          this.disabledFecha = true;
         }
       });
     this.arrayToDestroy.push($period);
@@ -150,6 +161,9 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   changeOptionL(event: any){
+    this.form.patchValue({
+      accountingDate: null,
+    });
     this.form.patchValue({
       leader: event?.value,
     });
@@ -189,7 +203,34 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   onSelectedCalendar(): void {
-    this.processValidate.emit(this.form.valid);
+    this.processValidate.emit(this.form.valid && this.fechaIsValid);
     this.dataValidate.emit(this.form.value);
+  }
+
+  onSelectCalendarMont(event: any): void {
+    const valueFecha = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
+    event?.value?.getMonth()+1 < 10 ? 
+      event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
+      event?.value?.getFullYear()+event?.value?.getMonth()+1 
+    : 1))?.closing_status === 'O';
+    if (!valueFecha) {
+      this.toastr.warning('Periodo no esta activo', 'Advertencia');
+      this.fechaIsValid = false;
+      return;
+    } else {
+      this.fechaIsValid = true;
+      this.form.patchValue({
+        period: this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
+        event?.value?.getMonth()+1 < 10 ? 
+          event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
+          event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
+        : 1))?.period_name,
+      });
+      this.selectPeriod = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
+      event?.value?.getMonth()+1 < 10 ? 
+        event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
+        event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
+      : 1))?.period_name;
+    }
   }
 }
