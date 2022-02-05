@@ -233,4 +233,21 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       : 1))?.period_name;
     }
   }
+
+  removeChanges(): void {
+    localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+    this.form.patchValue({
+      period: null,
+      number: null,
+      description: null,
+      accountingDate: null,
+    });
+    this.selectPeriod = '';
+    const value = this.form.value;
+    this.getPeriod(value?.leader);
+    this.disabledForm = false;
+    this.processValidate.emit(this.form.valid);
+    this.dataValidate.emit(this.form.value);
+    this.proceesAutomaty.emit(this.form.valid);
+  }
 }

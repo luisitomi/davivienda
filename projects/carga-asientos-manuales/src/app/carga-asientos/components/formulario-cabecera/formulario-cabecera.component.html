@@ -1,7 +1,7 @@
 <app-loader *ngIf="spinner"></app-loader>
 <form [formGroup]="form" autocomplete="off">
   <mat-card>
-    <app-title-header [Title]="title"></app-title-header>
+    <app-title-header [Title]="title" [ViewIcon]="disabledForm" [IconType]="'refresh'" (click)="removeChanges()"></app-title-header>
     <mat-card-content class="evol-form-container">
       <div class="evol-form-section">
         <app-select [selected]="selectOrigen" [disabled]="disabledForm" (changeOption)="changeOption($event);onSelectedCalendar()" [label]="'Origen'" formControlName="origen" [options]="origens" [error]="showErrors('origen')"></app-select>
