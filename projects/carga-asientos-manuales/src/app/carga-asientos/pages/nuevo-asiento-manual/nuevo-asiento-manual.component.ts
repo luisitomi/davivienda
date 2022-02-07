@@ -215,13 +215,13 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
             (response: any) => {
               if(response?.status === appConstants.responseStatus.OK) {
                 localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-                this.router.navigate(['aprobacion'] ,
+                /*this.router.navigate(['aprobacion'] ,
                   {
                     queryParams: this.queryParams,
                     skipLocationChange: false,
                     queryParamsHandling: 'merge',
                   }
-                );
+                );*/
                 this.toastr.success(response?.message, 'Registro');
               }          
             }
