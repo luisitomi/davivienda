@@ -56,7 +56,8 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
         origen: filtros?.origen || '',
         usuario: filtros?.usuario || '',
         fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format2) || '',
-        inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format2) || ''
+        inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format2) || '',
+        cuenta: filtros?.cuenta || '',
       }
     }
     this.spinner = true;
