@@ -119,7 +119,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     }
 
     return nuevoArray;
-}
+  }
 
   getListData(filtros: FiltroAsiento): void {
     this.spinner = true;

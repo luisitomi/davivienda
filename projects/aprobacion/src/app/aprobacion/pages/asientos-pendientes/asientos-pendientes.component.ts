@@ -77,11 +77,27 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
             cuentas: '',
-          }))
+          }));
+          this.asientos = this.eliminarObjetosDuplicados(this.asientos, 'id');
         }
       );
     this.arrayToDestroy.push($subas);
   }
+
+  eliminarObjetosDuplicados(arr: any, prop: any) {
+    var nuevoArray = [];
+    var lookup: any  = {};
+
+    for (var i in arr) {
+        lookup[arr[i][prop]] = arr[i];
+    }
+
+    for (i in lookup) {
+        nuevoArray.push(lookup[i]);
+    }
+
+    return nuevoArray;
+}
 
   aprobar(asientos: Asiento[]): void {
     asientos.forEach(element => {
@@ -89,7 +105,6 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
         const request: FiltroAsientoLimit = {
           Usuario: this.nombreUsuario,
           Status: 1,
-          Cuenta: element?.cuentas,
           Id: element?.id,
         }
         this.spinner = true;
@@ -115,7 +130,6 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
         const request: FiltroAsientoLimit = {
           Usuario: this.nombreUsuario,
           Status: 2,
-          Cuenta: element?.cuentas,
           Id: element?.id,
         }
         this.spinner = true;

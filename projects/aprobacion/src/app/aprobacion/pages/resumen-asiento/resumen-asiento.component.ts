@@ -105,7 +105,6 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     const request: FiltroAsientoLimit = {
       Usuario: this.nombreUsuario,
       Status: 1,
-      Cuenta: this.asiento?.cuentas || '',
       Id: this.asiento?.id || 0,
     }
     this.spinner = true;
@@ -127,7 +126,6 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     const request: FiltroAsientoLimit = {
       Usuario: this.nombreUsuario,
       Status: 2,
-      Cuenta: this.asiento?.cuentas || '',
       Id: this.asiento?.id || 0,
     }
     this.spinner = true;

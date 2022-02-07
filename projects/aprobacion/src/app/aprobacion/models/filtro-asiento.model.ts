@@ -9,7 +9,6 @@ export interface FiltroAsiento {
 
 export interface FiltroAsientoLimit {
   Id: number;
-  Cuenta: string;
   Usuario: string;
   Status: number;
 }
