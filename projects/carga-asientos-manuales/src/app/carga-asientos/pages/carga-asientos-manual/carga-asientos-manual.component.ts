@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { ResultadoCarga } from 'src/app/shared';
+import { AuthService } from '../../../core/services/auth.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { HeaderLineService } from '../../services/header-line.service';
 
@@ -19,17 +20,21 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
   resultado?: any;
   message: string;
   urlBlob: string;
+  nombreUsuario: string;
 
   constructor(
     private asientoManualService: HeaderLineService,
+    private authService: AuthService,
   ) {
     super();
+    console.log(this.authService.getUsuarioV2())
+    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
   }
 
   cargar(): void {
     this.spinner = true;
     const postArchivoSub = this.asientoManualService
-      .cargarAsientos(this.cargaForm.value.archivo)
+      .cargarAsientos(this.cargaForm.value.archivo, this.nombreUsuario)
       .pipe(finalize(() => this.spinner= false))
       .subscribe(
         res => {
