@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { Asiento } from '../../../shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
@@ -34,12 +35,18 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     estado: '',
     cuenta: '',
   };
+  nombreUsuario: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private lineHeaderService: LimitHeaderService,
+    private authService: AuthService,
   ) {
     super();
+    const getUsernameSub = this.authService.getUsuarioV2().subscribe(
+      nombre => this.nombreUsuario = nombre || '',
+    );
+    this.arrayToDestroy.push(getUsernameSub);
   }
 
   ngOnInit(): void {
@@ -139,6 +146,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
             cuentas: item.Cuenta,
+            nivel: item.NivelLimit,
           }))
         }
       );

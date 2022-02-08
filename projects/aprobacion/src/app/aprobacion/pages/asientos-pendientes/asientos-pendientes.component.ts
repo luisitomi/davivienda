@@ -32,7 +32,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     private toastr: ToastrService,
   ) {
     super();
-    const getUsernameSub = this.authService.getUsername().subscribe(
+    const getUsernameSub = this.authService.getUsuarioV2().subscribe(
       nombre => this.nombreUsuario = nombre || '',
     );
     this.arrayToDestroy.push(getUsernameSub);
@@ -76,7 +76,8 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: '',
+            cuentas: item.Cuenta,
+            nivel: item.NivelLimit,
           }));
           this.asientos = this.eliminarObjetosDuplicados(this.asientos, 'id');
         }

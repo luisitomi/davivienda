@@ -46,4 +46,18 @@ export class LimitHeaderService {
     );
   }
 
+  statusLineMethod(nivel: number, usuario: string): Observable<any[]> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<LimitHeader[]>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `678877db794047e4951deb34680603f2`,
+          `5YRByhJjiiP3ShVdgHjR7fcNkXxAMFd_iXKwFJOJLPo`,
+        ),
+        {Usuario: usuario, Nivel: nivel}
+      )),
+    );
+  }
+
 }

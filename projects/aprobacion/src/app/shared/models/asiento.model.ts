@@ -9,4 +9,5 @@ export interface Asiento {
   cargos: number;
   abonos: number;
   cuentas: string;
+  nivel: number;
 }

@@ -75,6 +75,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
             cuentas: item.Cuenta,
+            nivel: item.NivelLimit,
           }))
           const subSelect = this.listFilter.find(p => p.id === this.id);
           this.cuenta = subSelect?.cuentas || '';
