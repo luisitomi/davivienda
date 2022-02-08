@@ -86,11 +86,6 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
     if (this.form.valid) {
       this.spinner = true;
       const valueForm = this.form.value;
-
-      if (Number(valueForm?.value) >= Number(valueForm?.valueFinal)) {
-        this.toastr.warning('Monto Final debe ser mayor que el inicial','Aadevertencia');
-        return;
-      }
       const request: LimitSave = {
         Descripcion: valueForm?.description,
         Usuario:  this.nombreUsuario,
