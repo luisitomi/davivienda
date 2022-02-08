@@ -88,7 +88,6 @@ export class HeaderLineService {
     let formData = new FormData();
     formData.append('archivo', file);
     formData.append('usuario', usuario);
-    console.log(formData)
     return this.configService.getApiUrl().pipe(
       first(),
       switchMap(url => this.http.post<any>(url +

@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
+import { StrinUtil } from '../../shared/component/helpers/string.util';
 import { Maestra } from '../models/maestra.model';
 
 
@@ -23,7 +24,8 @@ export class CombinacionContableService {
   parte9Endpoint: string = '/workflows/bf51c278474243b1a362c8d715127919/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LtbvR4V-KPe-y88OO13rrmUiAPaxsNolZ2AD25GeE-U';
   parte10Endpoint: string = '/workflows/85863ff6d6ab4d36af7d73547df8e6da/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0RaS3QXlXWi-ydDSDXstxjmNNlf7XGQhwZwjYVClyiU';
   parte11Endpoint: string = '/workflows/d105c2a17c334f62ab5480e6e463d68b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kHiEzpIJFYLkXzcpIMbw_jo1Bo6hpP59NBll1QAwtyI';
-
+  endpoint = `/workflows/{$0}/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig={$1}`;
+  
   constructor(
     private configService: ConfigService,
     private http: HttpClient,
@@ -92,6 +94,19 @@ export class CombinacionContableService {
   getParte11(): Observable<Maestra[]> {
     return this.configService.getApiUrl().pipe(
       switchMap(url => this.http.get<Maestra[]>(url + this.parte11Endpoint)),
+    );
+  }
+
+  getListCurrency(): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `0038c0d8881d4c3ebc6e9a895aebf44d`,
+          `51ypI4F93RNxlM4kFBTWDH6HvxMgoZYcyDBNYkHmdKc`,
+        )
+      ,)),
     );
   }
 

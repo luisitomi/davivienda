@@ -2,17 +2,20 @@ import { OnInit, EventEmitter, Output, AfterViewChecked, ChangeDetectorRef } fro
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { finalize } from 'rxjs/operators';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
+import { CombinacionContableService } from '../../services/combinacion-contable.service';
 
 @Component({
   selector: 'app-editar-linea',
   templateUrl: './editar-linea.component.html',
   styleUrls: ['./editar-linea.component.scss'],
 })
-export class EditarLineaComponent implements OnInit, AfterViewChecked{
+export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked{
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
   currencys: Array<DropdownItem>;
@@ -29,7 +32,9 @@ export class EditarLineaComponent implements OnInit, AfterViewChecked{
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private cdRef:ChangeDetectorRef,
+    private combinacionContableService: CombinacionContableService,
   ) {
+    super();
   }
 
   ngOnInit(){
@@ -95,11 +100,18 @@ export class EditarLineaComponent implements OnInit, AfterViewChecked{
 
   getCurrencys(): void {
     this.spinner = true;
-    this.currencys = (DATA_CURRENCY || []).map((data) => ({
-      label: data,
-      value: data,
-    }));
-    this.spinner = false;
+    const $currency = this.combinacionContableService
+      .getListCurrency()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (respon: any) => {
+          this.currencys = (respon || []).map((item: any) => ({
+            label: item?.label,
+            value: item?.value,
+          }))
+        }
+      );
+    this.arrayToDestroy.push($currency);
   }
 
   getTypes(): void {
