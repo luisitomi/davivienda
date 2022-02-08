@@ -36,6 +36,9 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   nombreUsuario: string;
   eventSuccess = false;
   eventNumber = 11;
+  aprobador = false;
+  preparador = false;
+  trabajo = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +58,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.getListData(this.filtrosData);
+    this.getByRolUser();
   }
 
   getListData(filtros: FiltroAsiento): void {
@@ -100,6 +104,21 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   setData(): void {
     this.asiento = this.listFilter.find(p => p.id === this.id);
     this.spinner = false;
+  }
+
+  getByRolUser(): void {
+    this.spinner = true;
+    const $rol = this.limitService
+                  .getByIdRol(this.nombreUsuario)
+                  .pipe(finalize(() => this.spinner = false))
+                  .subscribe(
+                    (response: any) => {
+                      this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
+                      this.preparador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR');
+                      this.trabajo = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO');
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
   }
 
   aprobar(): void {

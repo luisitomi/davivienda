@@ -1,7 +1,7 @@
 <mat-card>
   <app-title-header [Title]="'Asientos'"></app-title-header>
 
-  <mat-action-row *ngIf="aprobador || preparador">
+  <mat-action-row *ngIf="aprobador">
     <app-actions [class]="'flat'" [color]="'primary'" (click)="onAprobar()" [disabled]="selection.isEmpty()" [label]="'Aprobar'"></app-actions>
     <app-actions [class]="'flat'" [color]="'warn'" (click)="onRechazar()" [disabled]="selection.isEmpty()" [label]="'Rechazar'"></app-actions>
   </mat-action-row>
