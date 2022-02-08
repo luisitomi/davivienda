@@ -13,8 +13,8 @@
     </mat-card-content>
     <mat-card-actions class="evol-footer-actions">
       <app-actions [color]="'primary'" (click)="volver()" [label]="'Volver'"></app-actions>
-      <app-actions [color]="'primary'" [class]="'flat'" (click)="aprobar()"  [label]="'Aprobar'"></app-actions>
-      <app-actions [color]="'warn'" [class]="'flat'" (click)="rechazar()" [label]="'Rechazar'"></app-actions>
+      <app-actions [color]="'primary'"*ngIf="aprobador"  [class]="'flat'" (click)="aprobar()"  [label]="'Aprobar'"></app-actions>
+      <app-actions [color]="'warn'" *ngIf="aprobador" [class]="'flat'" (click)="rechazar()" [label]="'Rechazar'"></app-actions>
       <app-actions [class]="'flat'" [label]="'Descargar'"></app-actions>
     </mat-card-actions>
   </mat-card>
