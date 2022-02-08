@@ -27,7 +27,6 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
     private authService: AuthService,
   ) {
     super();
-    console.log(this.authService.getUsuarioV2())
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
   }
 

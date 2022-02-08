@@ -33,7 +33,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
     private authService: AuthService,
   ) {
     super();
-    this.nombreUsuario = this.authService.getUsuarioV2() || '';
+    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
   }
   
   ngOnInit(): void {

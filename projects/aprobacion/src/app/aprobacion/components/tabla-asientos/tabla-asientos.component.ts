@@ -1,35 +1,62 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { Asiento } from '../../../shared';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { LimitService } from '../../services/limit.service';
 
 @Component({
   selector: 'app-tabla-asientos',
   templateUrl: './tabla-asientos.component.html',
   styleUrls: ['./tabla-asientos.component.scss']
 })
-export class TablaAsientosComponent implements OnInit, OnChanges {
+export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnInit, OnChanges {
 
   @Input() asientos: Asiento[] = [];
   @Input() loading: boolean = false;
   queryParams: any;
   @Output() aprobar = new EventEmitter<Asiento[]>();
   @Output() rechazar = new EventEmitter<Asiento[]>();
-
+  spinner = false;
   displayedColumns: string[] = ['seleccion', 'fechaCarga', 'usuario', 'comprobante', 'fechaContable', 'descripcion', 'cargos', 'abonos', 'acciones'];
-
+  nombreUsuario: string;
   selection = new SelectionModel<Asiento>(true, []);
+  aprobador = false;
+  preparador = false;
+  trabajo = false;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-  ) { }
+    private limitService: LimitService,
+    private authService: AuthService,
+  ) {
+    super();
+    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
+  }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(): void {
     this.selection.clear();
+    this.getByRolUser();
+  }
+
+  getByRolUser(): void {
+    this.spinner = true;
+    const $rol = this.limitService
+                  .getByIdRol(this.nombreUsuario)
+                  .pipe(finalize(() => this.spinner = false))
+                  .subscribe(
+                    (response: any) => {
+                      this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
+                      this.preparador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR');
+                      this.trabajo = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO');
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
   }
 
   isAllSelected() {

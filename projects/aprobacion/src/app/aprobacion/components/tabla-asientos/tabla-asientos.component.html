@@ -1,7 +1,7 @@
 <mat-card>
   <app-title-header [Title]="'Asientos'"></app-title-header>
 
-  <mat-action-row>
+  <mat-action-row *ngIf="aprobador || preparador">
     <app-actions [class]="'flat'" [color]="'primary'" (click)="onAprobar()" [disabled]="selection.isEmpty()" [label]="'Aprobar'"></app-actions>
     <app-actions [class]="'flat'" [color]="'warn'" (click)="onRechazar()" [disabled]="selection.isEmpty()" [label]="'Rechazar'"></app-actions>
   </mat-action-row>
@@ -51,10 +51,10 @@
           <th mat-header-cell *matHeaderCellDef>Abonos</th>
           <td mat-cell *matCellDef="let element">{{ element?.abonos }}</td>
         </ng-container>
-        <ng-container matColumnDef="acciones" stickyEnd>
+        <ng-container matColumnDef="acciones" stickyEnd >
           <th mat-header-cell *matHeaderCellDef>Acciones</th>
           <td mat-cell *matCellDef="let element">
-            <app-actions [class]="'flat'" [color]="'accent'" (click)="ver(element.id)" [label]="'Ver'"></app-actions>
+            <app-actions [class]="'flat'" *ngIf="aprobador || preparador" [color]="'accent'" (click)="ver(element.id)" [label]="'Ver'"></app-actions>
           </td>
         </ng-container>
         <ng-container matColumnDef="progress">

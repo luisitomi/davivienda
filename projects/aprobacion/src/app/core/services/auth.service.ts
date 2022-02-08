@@ -46,7 +46,9 @@ export class AuthService {
   }
 
   getUsuarioV2() {
-    return this.usuario.value?.email;
+    return this.usuario.asObservable().pipe(
+      map(u => u?.email),
+    );
   }
 
   getToken(): Observable<string> {

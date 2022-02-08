@@ -81,4 +81,17 @@ export class LimitService {
     );
   }
 
+  getByIdRol(usuario: string): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url +
+        StrinUtil.replace(
+          this.endpoint,
+          `f8dfa763fb064c14ab07c015da23df77`,
+          `vy-z4erZRb8Oz-G2c6Y3tx6ZDmIkl1jRRx3opXZa9js`,
+        )
+      ,{usuario: usuario})),
+    );
+  }
+
 }
