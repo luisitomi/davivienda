@@ -39,7 +39,6 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
 
   ngOnInit(){
     this.getCurrencys();
-    this.getTypes();
     this.createForm();
     if (this.data?.type === appConstants.typeEvent.EDIT) {
       this.updateForm();
@@ -102,7 +101,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
     this.spinner = true;
     const $currency = this.combinacionContableService
       .getListCurrency()
-      .pipe(finalize(() => this.spinner = false))
+      .pipe(finalize(() => this.getTypes()))
       .subscribe(
         (respon: any) => {
           this.currencys = (respon || []).map((item: any) => ({

@@ -34,6 +34,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   spinner = false;
   nombreUsuario: string;
   typeReference: Array<DropdownItem> = [];
+  updateLine = false;
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -49,7 +50,6 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.queryParams = params;
     });
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
-    console.log(this.nombreUsuario)
   }
 
   ngAfterViewChecked(){
@@ -68,6 +68,10 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     }
   }
 
+  proceesAutomatyResh(validate: boolean): void {
+    this.updateLine = validate;
+  }
+
   processValidate(validate: boolean): void {
     this.validateForm = validate;
   }
@@ -76,8 +80,18 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     this.validateTable = validate;
   }
 
+  proceesLineRefresh(validate: boolean): void {
+    if ( validate ){
+      this.validateTable = false;
+      this.visibleForm = true;
+      this.visibleTable = false;
+      this.disabledForm = false;
+    }
+  }
+
   saveHeadboard(): void {
     if (this.validateForm) {
+      this.disabledForm = true;
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       if (model?.line) {
         this.lineList = model?.line;
@@ -102,13 +116,15 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.visibleForm = false;
       this.visibleTable = true;
       this.validateForm = false;
-      this.disabledForm = true;
+      this.updateLine = false;
+      this.validateTable = false;
       this.getListReference(this.dataHeader?.origen);
     }
   }
 
   getListReference(valueOrigen: string): void {
     this.spinner = true;
+    this.disabledForm = true;
     const request: ReferenceComplementaryRequest = {
       origen: valueOrigen,
       tipoColumna: '2',

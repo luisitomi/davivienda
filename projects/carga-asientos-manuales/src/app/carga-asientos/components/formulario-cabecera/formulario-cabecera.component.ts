@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
@@ -15,12 +15,13 @@ import { HeaderLineService } from '../../services/header-line.service';
   templateUrl: './formulario-cabecera.component.html',
   styleUrls: ['./formulario-cabecera.component.scss'],
 })
-export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements OnInit, OnDestroy {
+export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked {
   @Input() disabledForm: boolean;
   @Output() processValidate = new EventEmitter<boolean>();
   @Output() dataValidate = new EventEmitter<HeadboardSeat>();
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() proceesAutomaty = new EventEmitter<boolean>();
+  @Output() proceesAutomatyResh = new EventEmitter<boolean>();
   title = "Cabecera";
   form: FormGroup;
   origens: Array<DropdownItem>;
@@ -46,8 +47,13 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     private periodoContableService: HeaderLineService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private cdRef:ChangeDetectorRef,
   ) {
     super();
+  }
+
+  ngAfterViewChecked(){
+    this.cdRef.detectChanges();
   }
 
   ngOnInit(): void {
@@ -231,6 +237,8 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
         event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
         event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
       : 1))?.period_name;
+      this.processValidate.emit(this.form.valid);
+      this.dataValidate.emit(this.form.value);
     }
   }
 
@@ -245,9 +253,9 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.selectPeriod = '';
     const value = this.form.value;
     this.getPeriod(value?.leader);
-    this.disabledForm = false;
     this.processValidate.emit(this.form.valid);
     this.dataValidate.emit(this.form.value);
     this.proceesAutomaty.emit(this.form.valid);
+    this.proceesAutomatyResh.emit(true);
   }
 }

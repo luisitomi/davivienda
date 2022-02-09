@@ -16,7 +16,9 @@ import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
 })
 export class LineasComponent implements OnInit, AfterViewChecked {
   @Input() visibleTable: boolean;
+  @Input() refreshLine: boolean;
   @Output() proceesLine = new EventEmitter<boolean>();
+  @Output() proceesLineRefresh = new EventEmitter<boolean>();
   title = "Líneas";
   lineList: Array<LineaAsientoInsert> = [];
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
@@ -38,6 +40,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(){
+    if (this.refreshLine) {
+      this.getLine();
+    }
     this.cdRef.detectChanges();
   }
 
@@ -56,17 +61,19 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       });
       let validateConta: number = 0;
       let validateRefe: number = 0;
-      model?.line.forEach((element: any) => {
-        if (element?.combinationAccount) {
+      model?.line?.forEach((element: any) => {
+        if (!element?.combinationAccount) {
           validateConta += 1;
         }
-      });
-      model?.line.forEach((element: any) => {
-        if (element?.columnasReferenciales.length) {
+        if (!element?.columnasReferenciales.length) {
           validateRefe += 1;
         }
       });
-      this.proceesLine.emit(Boolean(this.lines.data.length && validateConta && validateRefe));
+      this.proceesLine.emit(Boolean(this.lines.data.length && !validateConta && !validateRefe));
+    } else {
+      this.lines.data = [];
+      this.proceesLineRefresh.emit(this.refreshLine);
+      this.proceesLine.emit(Boolean(this.lines.data.length));
     }
   }
 
@@ -83,7 +90,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         }
       );
     }else{
-      this.toastr.warning('Advertencia', `Falta agregar Combinación Contable en el ${index + 1} registro.`);
+      this.toastr.warning(`Falta agregar Combinación Contable en el ${index + 1} registro.`, 'Advertencia');
       return;
     }   
   }
@@ -131,7 +138,18 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   newLine(): void {
-    if (this.visibleTable) {
+    let validateConta: number = 0;
+    let validateRefe: number = 0;
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    model?.line?.forEach((element: any) => {
+      if (!element?.combinationAccount) {
+        validateConta += 1;
+      }
+      if (!element?.columnasReferenciales.length) {
+        validateRefe += 1;
+      }
+    });
+    if (this.visibleTable && Boolean(this.lines.data.length && !validateConta && !validateRefe)) {
       const dialogRef = this.dialog.open(EditarLineaComponent, {
         width: '80%',
         maxWidth: '400px',
@@ -152,6 +170,31 @@ export class LineasComponent implements OnInit, AfterViewChecked {
           this.setDataLocal(request, this.lineList);
         }
       });
+    } else {
+      if (this.lines.data.length === 0 && this.visibleTable) {
+        const dialogRef = this.dialog.open(EditarLineaComponent, {
+          width: '80%',
+          maxWidth: '400px',
+          data: { data: null, type: appConstants.typeEvent.SAVE },
+          panelClass: 'my-dialog',
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+          this.lineList = model?.line || [];
+          if (result?.SegCurrency) {
+            result.nroLinea = this.lineList.length + 1;
+            this.lineList.push(result);
+            const request: ManualLading = {
+              header: model?.header,
+              line: this.lineList,
+            }
+            this.setDataLocal(request, this.lineList);
+          }
+        });
+      } else {
+        this.toastr.warning(`Faltan completar datos`, 'Advertencia');
+      }
     }
   }
 
@@ -189,12 +232,10 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     let validateConta: number = 0;
     let validateRefe: number = 0;
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    model?.line.forEach((element: any) => {
+    model?.line?.forEach((element: any) => {
       if (element?.combinationAccount) {
         validateConta += 1;
       }
-    });
-    model?.line.forEach((element: any) => {
       if (element?.columnasReferenciales.length) {
         validateRefe += 1;
       }
