@@ -7,6 +7,8 @@ import { ActionsModule } from '../../../shared/component/ui/actions/actions.modu
 import { LineasModule } from '../../components/lineas/lineas.module';
 import { MatCardModule } from '@angular/material/card';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { ConfirmationModule } from '../../components/confirmation/confirmation.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     LineasModule,
     MatCardModule,
     LoaderModule,
+    ConfirmationModule,
+    MatDialogModule,
   ],
   exports: [NuevoAsientoManualComponent],
 })

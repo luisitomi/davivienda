@@ -11,4 +11,5 @@ export class CombinacionContable {
 	SegVinculado:string;
 	SegF1:string;
 	SegF2:string;
+	ValueInformation: string;
 }

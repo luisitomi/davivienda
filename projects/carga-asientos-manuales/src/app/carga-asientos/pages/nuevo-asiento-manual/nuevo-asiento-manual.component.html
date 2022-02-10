@@ -1,6 +1,6 @@
 <app-loader *ngIf="spinner"></app-loader>
 <div class="evol-nuevo-asiento">
-  <app-formulario-cabecera [disabledForm]="disabledForm" (proceesAutomatyResh)="proceesAutomatyResh($event)" (proceesAutomaty)="proceesAutomaty($event)" (dataValidate)="dataValidate($event)" (processValidate)="processValidate($event)" class="evol-asiento-cabecera"></app-formulario-cabecera>
+  <app-formulario-cabecera [valorupdateForm]="valorupdateForm" [restForm]="restForm" [disabledForm]="disabledForm" (proceesAutomatyResh)="proceesAutomatyResh($event)" (proceesAutomaty)="proceesAutomaty($event)" (dataValidate)="dataValidate($event)" (processValidate)="processValidate($event)" class="evol-asiento-cabecera"></app-formulario-cabecera>
   <mat-card-actions *ngIf="visibleForm" class="evol-footer-actions">
     <app-actions [color]="'accent'" [class]="'flat'" (click)="saveHeadboard()" [disabled]="!validateForm" [label]="'Guardar Cabecera'"></app-actions>
   </mat-card-actions>

@@ -17,6 +17,8 @@ import { HeaderLineService } from '../../services/header-line.service';
 })
 export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked {
   @Input() disabledForm: boolean;
+  @Input() restForm: boolean;
+  @Input() valorupdateForm: string;
   @Output() processValidate = new EventEmitter<boolean>();
   @Output() dataValidate = new EventEmitter<HeadboardSeat>();
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -53,6 +55,12 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   ngAfterViewChecked(){
+    if (this.restForm) {
+      this.proceesAutomaty.emit(true);
+      this.form.patchValue({
+        number: this.valorupdateForm,
+      });
+    }
     this.cdRef.detectChanges();
   }
 

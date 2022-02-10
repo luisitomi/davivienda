@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
@@ -11,6 +12,7 @@ import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
+import { ConfirmationComponent } from '../../components/confirmation/confirmation.component';
 import { InserHeaderLine, LineSave } from '../../models/insert-header-line';
 import { ReferenceComplementaryRequest, ReferenciaComplementaria } from '../../models/referencia-complementaria.model';
 import { TypeReference } from '../../models/type-reference.model';
@@ -35,6 +37,8 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   nombreUsuario: string;
   typeReference: Array<DropdownItem> = [];
   updateLine = false;
+  restForm = false;
+  valorupdateForm: string;
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -44,6 +48,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     private headerLineService: HeaderLineService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     super();
     this.activatedRoute.queryParams.subscribe(params => {
@@ -89,6 +94,16 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     }
   }
 
+  proceesLineRefreshInitial(validate: boolean): void {
+    if ( validate ){
+      this.validateTable = false;
+      this.visibleForm = true;
+      this.visibleTable = false;
+      this.disabledForm = false;
+      this.restForm = true;
+    }
+  }
+
   saveHeadboard(): void {
     if (this.validateForm) {
       this.disabledForm = true;
@@ -118,6 +133,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.validateForm = false;
       this.updateLine = false;
       this.validateTable = false;
+      this.restForm = false;
       this.getListReference(this.dataHeader?.origen);
     }
   }
@@ -194,7 +210,6 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         }
         let exist = 0;
         let message = "";
-
         if (element.segGlAccountValue === 'Y') {
           if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Número de Identificación') === -1 &&
             this.typeReference.find(p => p.value === 'Número de Identificación') === -1) {
@@ -206,7 +221,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
             exist += 1;
               message = "Auxiliar de Conciliación";
           }
-          if (!exist) {
+          if (exist) {
             this.toastr.warning(`Falta agregar la referencia de ${message} en el ${index + 1} registro.`, 'Advertencia');
             this.spinner = false;
             permission = false;
@@ -232,13 +247,14 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
             (response: any) => {
               if(response?.status === appConstants.responseStatus.OK) {
                 localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-                /*this.router.navigate(['aprobacion'] ,
-                  {
-                    queryParams: this.queryParams,
-                    skipLocationChange: false,
-                    queryParamsHandling: 'merge',
-                  }
-                );*/
+                this.dialog.open(ConfirmationComponent, {
+                  width: '80%',
+                  maxWidth: '400px',
+                  data: { name: 'Se regitró correctamente con el número de resultado '+ response?.trxNumber},
+                  panelClass: 'my-dialog',
+                });
+                this.valorupdateForm = response?.trxNumber;
+                this.proceesLineRefreshInitial(true);
                 this.toastr.success(response?.message, 'Registro');
               }          
             }

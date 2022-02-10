@@ -139,6 +139,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
           this.parte1Options = (parte1 || []).map((data) => ({
             label: data?.valor,
             value: data?.valor,
+            type: data?.codigo
           }))
           this.filteredParte1Options = this.form.controls['comp1'].valueChanges.pipe(
             startWith(''),
@@ -341,6 +342,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         SegVinculado: valueForm.comp9,
         SegF1: valueForm.comp10,
         SegF2: valueForm.comp11,
+        ValueInformation: `${valueForm.comp1}-${valueForm.comp2}-${valueForm.comp3}-${valueForm.comp4}-${valueForm.comp5}-${valueForm.comp6}-${valueForm.comp7}-${valueForm.comp8}-${valueForm.comp9}-${valueForm.comp10}-${valueForm.comp11}`
       }
       this.dialogRef.close(request);
     }
