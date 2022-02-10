@@ -9,8 +9,6 @@
         <app-form-errors [control]="form.controls['value']"></app-form-errors>
         <app-input [onlyNumber]="true" (input)="onFocusOutEvent('valueFinal')" (focusout)="onFocusOutEvent('valueFinal')" [label]="'Valor Máximo'" formControlName="valueFinal" [error]="showErrors('valueFinal')"></app-input>
         <app-form-errors [control]="form.controls['valueFinal']"></app-form-errors>
-        <app-select (changeOption)="onFocusOutEvent('typeUser');" [label]="'Tipo'" formControlName="typeUser" [options]="selectTypeUser" [error]="showErrors('typeUser')"></app-select>
-        <app-form-errors [control]="form.controls['typeUser']"></app-form-errors>
     </div>
     <mat-dialog-actions class="evol-footer-actions">
         <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>

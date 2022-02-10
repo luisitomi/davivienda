@@ -9,6 +9,7 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroAsientoLimit } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
+import { LimitService } from '../../services/limit.service';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   spinner = false;
   nombreUsuario: string;
   filtros = null;
+  aprobador: boolean;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -30,6 +32,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     private datePipe: DatePipe,
     private authService: AuthService,
     private toastr: ToastrService,
+    private limitService: LimitService,
   ) {
     super();
     const getUsernameSub = this.authService.getUsuarioV2().subscribe(
@@ -39,10 +42,24 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   }
 
   ngOnInit(): void {
-    this.filtrar(this.filtros);
+    this.getByRolUser();
+  }
+
+  getByRolUser(): void {
+    this.spinner = true;
+    const $rol = this.limitService
+                  .getByIdRol(this.nombreUsuario)
+                  .pipe(finalize(() => this.filtrar(this.filtros)))
+                  .subscribe(
+                    (response: any) => {
+                      this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
   }
 
   method () : void {
+    this.asientos = this.aprobador ? this.asientos : this.asientos.filter(o => o.usuario === this.nombreUsuario);
     this.loadingAsientos = false
     this.spinner = false
   }
@@ -52,7 +69,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.loadingAsientos = true;
     if (filtros) {
       request = {
-        estado: '',
+        estado: filtros?.estado || '',
         origen: filtros?.origen || '',
         usuario: filtros?.usuario || '',
         fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format2) || '',
@@ -78,6 +95,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             abonos: Number(item?.Abono),
             cuentas: item.Cuenta,
             nivel: item.NivelLimit,
+            estado: item?.Estado,
           }));
           this.asientos = this.eliminarObjetosDuplicados(this.asientos, 'id');
         }

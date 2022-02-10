@@ -47,6 +47,7 @@ export interface LimitHeader
   Origen: string;
   Cuenta: string;
   NivelLimit: number;
+  Estado: string;
 }
 
 export interface AccountLine {

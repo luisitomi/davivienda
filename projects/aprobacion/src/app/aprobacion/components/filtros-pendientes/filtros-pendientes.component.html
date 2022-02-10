@@ -27,6 +27,9 @@
         <app-select (changeOption)="onFocusOutEvent('cuenta');" [label]="'Cuenta'" formControlName="cuenta"
           [options]="cuentaOptions" [error]="showErrors('cuenta')"></app-select>
         <app-form-errors [control]="filtrosForm.controls['cuenta']"></app-form-errors>
+        <app-select (changeOption)="onFocusOutEvent('estado');" [label]="'Estado'" formControlName="estado"
+          [options]="estadoOptions" [error]="showErrors('estado')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['estado']"></app-form-errors>
       </div>
     </div>
     <mat-action-row>

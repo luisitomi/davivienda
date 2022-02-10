@@ -10,6 +10,7 @@ import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { FiltroAsiento } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
+import { LimitService } from '../../services/limit.service';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
   origenOptions: Array<DropdownItem>;
   usuarioOptions: Array<DropdownItem>;
   cuentaOptions: Array<DropdownItem>;
+  estadoOptions: Array<DropdownItem>;
   spinner: boolean;
   filtrosData: FiltroAsiento = {
     inicio: '',
@@ -36,11 +38,13 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     cuenta: '',
   };
   nombreUsuario: string;
+  isAprobad: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private lineHeaderService: LimitHeaderService,
     private authService: AuthService,
+    private limitService: LimitService,
   ) {
     super();
     const getUsernameSub = this.authService.getUsuarioV2().subscribe(
@@ -51,7 +55,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
 
   ngOnInit(): void {
     this.createForm();
-    this.getListData(this.filtrosData);
+    this.getByRolUser();
   }
 
   createForm(): void {
@@ -61,6 +65,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
       usuario: [null, []],
       origen: [null, []],
       cuenta: [null, []],
+      estado: [null, []],
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);
@@ -91,7 +96,21 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     );
   }
 
+  getByRolUser(): void {
+    this.spinner = true;
+    const $rol = this.limitService
+                  .getByIdRol(this.nombreUsuario)
+                  .pipe(finalize(() => this.getListData(this.filtrosData)))
+                  .subscribe(
+                    (response: any) => {
+                      this.isAprobad = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
+  }
+
   setData(): void {
+    this.listFilter = this.isAprobad ? this.listFilter : this.listFilter.filter(o => o.usuario === this.nombreUsuario);
     this.origenOptions = (this.listFilter || []).map((item) => ({
       label: item?.origen,
       value: item?.origen,
@@ -110,6 +129,12 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     }))
     this.cuentaOptions = this.eliminarObjetosDuplicados(this.cuentaOptions, 'label');
     this.cuentaOptions.unshift({label: 'Todos', value: ''});
+    this.estadoOptions = (this.listFilter || []).map((item) => ({
+      label: item?.estado,
+      value: item?.estado?.substr(0,1),
+    }))
+    this.estadoOptions = this.eliminarObjetosDuplicados(this.estadoOptions, 'label');
+    this.estadoOptions.unshift({label: 'Todos', value: ''});
     this.spinner = false;
   }
 
@@ -147,6 +172,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             abonos: Number(item?.Abono),
             cuentas: item.Cuenta,
             nivel: item.NivelLimit,
+            estado: item?.Estado,
           }))
         }
       );

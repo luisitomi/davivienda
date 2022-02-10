@@ -49,7 +49,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
       description: [null, [Validators.required]],
       value: [null, [Validators.required]],
       valueFinal: [null, [Validators.required]],
-      typeUser: [null, [Validators.required]],
+      typeUser: [null],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);

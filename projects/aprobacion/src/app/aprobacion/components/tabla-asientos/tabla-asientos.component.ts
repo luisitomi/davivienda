@@ -20,7 +20,7 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnIni
   @Output() aprobar = new EventEmitter<Asiento[]>();
   @Output() rechazar = new EventEmitter<Asiento[]>();
   spinner = false;
-  displayedColumns: string[] = ['seleccion', 'fechaCarga', 'usuario', 'comprobante', 'fechaContable', 'descripcion', 'cargos', 'abonos', 'acciones'];
+  displayedColumns: string[] = ['seleccion', 'fechaCarga', 'usuario', 'comprobante', 'fechaContable', 'descripcion', 'cargos', 'abonos', 'estado', 'acciones'];
   nombreUsuario: string;
   selection = new SelectionModel<Asiento>(true, []);
   aprobador = false;

@@ -51,6 +51,10 @@
           <th mat-header-cell *matHeaderCellDef>Abonos</th>
           <td mat-cell *matCellDef="let element">{{ element?.abonos }}</td>
         </ng-container>
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let element">{{ element?.estado }}</td>
+        </ng-container>
         <ng-container matColumnDef="acciones" stickyEnd >
           <th mat-header-cell *matHeaderCellDef>Acciones</th>
           <td mat-cell *matCellDef="let element">
