@@ -180,7 +180,6 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
           (resposne: any) => {
             if (!resposne?.codigo) {
               this.toastr.warning(resposne?.mensaje, 'Advertencia');
-              return;
             }
           }
         )

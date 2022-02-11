@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
-import { ResultadoCarga } from '../../shared';
-import { StrinUtil } from '../../shared/component/helpers/string.util';
 import { InserHeaderLine } from '../models/insert-header-line';
 import { ReferenceComplementaryRequest } from '../models/referencia-complementaria.model';
 @Injectable({
@@ -20,67 +18,37 @@ export class HeaderLineService {
   ) { }
 
   saveHeaderLine(request: InserHeaderLine): Observable<any> {
-    return this.configService.getApiUrl().pipe(
+    return this.configService.getApiUrlsaveHeaderLine().pipe(
       first(),
-      switchMap(url => this.http.post<InserHeaderLine>(url +
-        StrinUtil.replace(
-          this.endpoint,
-          `8a9447c21fa343e1a27b33302e3b9091`,
-          `SvIyCN85XU-f_dOEr5IhOxR6RmFdN4IWCCyb7QePn7I`,
-        )
-      ,request )),
+      switchMap(url => this.http.post<InserHeaderLine>(url,request )),
     );
   }
 
   getListReference(request: ReferenceComplementaryRequest): Observable<any> {
-    return this.configService.getApiUrl().pipe(
+    return this.configService.getApiUrlListReference().pipe(
       first(),
-      switchMap(url => this.http.post<InserHeaderLine>(url +
-        StrinUtil.replace(
-          this.endpoint,
-          `5dc404d088224351bae8a9c1de15aa8e`,
-          `NJ3REyWp4rtSu4-TorYCHddHZOeKPIHNi5iNBm9tzos`,
-        )
-      ,request )),
+      switchMap(url => this.http.post<InserHeaderLine>(url ,request )),
     );
   }
 
   getListPeriod(id: number): Observable<any> {
-    return this.configService.getApiUrl().pipe(
+    return this.configService.getApiUrlListPeriod().pipe(
       first(),
-      switchMap(url => this.http.post<any>(url +
-        StrinUtil.replace(
-          this.endpoint,
-          `fe7761e03e51485ab36115a735e7cdf9`,
-          `vt-d0cd5N3R3na3YfPU99if_68pkPbAsnu8ZbrNZtwE`,
-        )
-      ,{LegderId: id} )),
+      switchMap(url => this.http.post<any>(url,{LegderId: id} )),
     );
   }
 
   getListLeader(): Observable<any> {
-    return this.configService.getApiUrl().pipe(
+    return this.configService.getApiUrlgetLeader().pipe(
       first(),
-      switchMap(url => this.http.get<any>(url +
-        StrinUtil.replace(
-          this.endpoint,
-          `971afe20b95f4b339b4450dfde1beeda`,
-          `yjjdhxmN0zA4BRUNyQOQ8F0XeLA0GURnyUKllpY7w1k`,
-        )
-      ,)),
+      switchMap(url => this.http.get<any>(url)),
     );
   }
 
   validateCliente360  (id: number): Observable<any> {
-    return this.configService.getApiUrl().pipe(
+    return this.configService.getApiUrlvalidateCliente360().pipe(
       first(),
-      switchMap(url => this.http.post<any>(url +
-        StrinUtil.replace(
-          this.endpoint,
-          `ea44a2ede74c4740adad74e3958a59b0`,
-          `DLJrjPd-wwPrRC6_gDkNtav5mDn72By4rzLOJMPuGBg`,
-        )
-      ,{ NroIdentificacion: id } )),
+      switchMap(url => this.http.post<any>(url,{ NroIdentificacion: id } )),
     );
   }
 
@@ -88,15 +56,9 @@ export class HeaderLineService {
     let formData = new FormData();
     formData.append('archivo', file);
     formData.append('usuario', usuario);
-    return this.configService.getApiUrl().pipe(
+    return this.configService.getApiUrlcargarAsientos().pipe(
       first(),
-      switchMap(url => this.http.post<any>(url +
-        StrinUtil.replace(
-          this.endpoint,
-          `3b2447e6b95b4fbbaa8161bcfef975a2`,
-          `vccWf-JC_STsIU9SRp8z03pxcJULvHv9zrbATtYZEDk`,
-        )
-      ,formData )),
+      switchMap(url => this.http.post<any>(url,formData )),
     );
   }
 }
