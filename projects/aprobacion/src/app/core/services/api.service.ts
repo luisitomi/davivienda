@@ -6,6 +6,14 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   apiUrl: string = '';
   TsFahObtenerUsuarioWS: string = '';
+  TsConfigutLimitAsientSave: string = '';
+  TSFAHConfigLimitDesAct: string = '';
+  TsFAHConfiguracionLimiteHeader: string = '';
+  TsFAHConfiguracionLimite: string = '';
+  TSFAHConfigLimitSave: string = '';
+  TSFAHConfigLimitEdit: string = '';
+  TsFAHConfiguracionLimiteAccount: string = '';
+  Rol: string = '';
 
   constructor() { }
 }

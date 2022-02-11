@@ -16,7 +16,47 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  TsConfigutLimitAsientSave = this.enviroment.TsConfigutLimitAsientSave?.replace(
+    /\/$/,
+    ''
+  );
+  TSFAHConfigLimitDesAct = this.enviroment.TSFAHConfigLimitDesAct?.replace(
+    /\/$/,
+    ''
+  );
+  TsFAHConfiguracionLimiteHeader = this.enviroment.TsFAHConfiguracionLimiteHeader?.replace(
+    /\/$/,
+    ''
+  );
+  TsFAHConfiguracionLimite = this.enviroment.TsFAHConfiguracionLimite?.replace(
+    /\/$/,
+    ''
+  );
+  TSFAHConfigLimitSave = this.enviroment.TSFAHConfigLimitSave?.replace(
+    /\/$/,
+    ''
+  );
+  TSFAHConfigLimitEdit = this.enviroment.TSFAHConfigLimitEdit?.replace(
+    /\/$/,
+    ''
+  );
+  TsFAHConfiguracionLimiteAccount = this.enviroment.TsFAHConfiguracionLimiteAccount?.replace(
+    /\/$/,
+    ''
+  );
+  Rol = this.enviroment.Rol?.replace(
+    /\/$/,
+    ''
+  );
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
+  apiUrlSubjectTsConfigutLimitAsientSave: BehaviorSubject<string> = new BehaviorSubject(this.TsConfigutLimitAsientSave);
+  apiUrlSubjectTSFAHConfigLimitDesAct: BehaviorSubject<string> = new BehaviorSubject(this.TSFAHConfigLimitDesAct);
+  apiUrlSubjectTsFAHConfiguracionLimiteHeader: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimiteHeader);
+  apiUrlSubjectTsFAHConfiguracionLimite: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimite);
+  apiUrlSubjectTSFAHConfigLimitSave: BehaviorSubject<string> = new BehaviorSubject(this.TSFAHConfigLimitSave);
+  apiUrlSubjectTSFAHConfigLimitEdit: BehaviorSubject<string> = new BehaviorSubject(this.TSFAHConfigLimitEdit);
+  apiUrlSubjectTsFAHConfiguracionLimiteAccount: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimiteAccount);
+  apiUrlSubjectRol: BehaviorSubject<string> = new BehaviorSubject(this.Rol);
 
   constructor(
     private enviroment: ApiService
@@ -24,6 +64,38 @@ export class ConfigService {
 
   getApiUrl(): Observable<string> {
     return this.apiUrlSubject.asObservable().pipe(first());
+  }
+
+  getApiUrlTsConfigutLimitAsientSave(): Observable<string> {
+    return this.apiUrlSubjectTsConfigutLimitAsientSave.asObservable().pipe(first());
+  }
+
+  getApiUrlTSFAHConfigLimitDesAct(): Observable<string> {
+    return this.apiUrlSubjectTSFAHConfigLimitDesAct.asObservable().pipe(first());
+  }
+
+  getApiUrlTsFAHConfiguracionLimiteHeader(): Observable<string> {
+    return this.apiUrlSubjectTsFAHConfiguracionLimiteHeader.asObservable().pipe(first());
+  }
+
+  getApiUrlTsFAHConfiguracionLimite(): Observable<string> {
+    return this.apiUrlSubjectTsFAHConfiguracionLimite.asObservable().pipe(first());
+  }
+
+  getApiUrlTSFAHConfigLimitSave(): Observable<string> {
+    return this.apiUrlSubjectTSFAHConfigLimitSave.asObservable().pipe(first());
+  }
+
+  getApiUrlTSFAHConfigLimitEdit(): Observable<string> {
+    return this.apiUrlSubjectTSFAHConfigLimitEdit.asObservable().pipe(first());
+  }
+
+  getApiUrlTsFAHConfiguracionLimiteAccount(): Observable<string> {
+    return this.apiUrlSubjectTsFAHConfiguracionLimiteAccount.asObservable().pipe(first());
+  }
+
+  getApiUrlRol(): Observable<string> {
+    return this.apiUrlSubjectRol.asObservable().pipe(first());
   }
 }
 
