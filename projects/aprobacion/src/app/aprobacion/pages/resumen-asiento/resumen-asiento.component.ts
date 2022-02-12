@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroAsiento, FiltroAsientoLimit } from '../../models/filtro-asiento.model';
-import { AccountLine, LimitHeader } from '../../models/limite.model';
+import { AccountLine, AccountLineDownload, AccountLineDownloadProcess, LimitHeader } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 import { LimitService } from '../../services/limit.service';
 import { Asiento } from '../../../shared';
@@ -39,6 +39,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   aprobador = false;
   preparador = false;
   trabajo = false;
+  dataProceesCsv: Array<AccountLineDownloadProcess> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -53,6 +54,10 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       this.queryParams = params;
     });
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
+    const btn: any = document.getElementById('export');
+    btn?.addEventListener('click', () => {
+      this.download();
+    });
   }
 
   ngOnInit(): void {
@@ -177,5 +182,80 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.eventSuccess = !this.eventSuccess;
     this.eventNumber = this.eventSuccess  ? 7 : 11;
     this.getListAaccount();
+  }
+
+  proccess(): void {
+    LimitHeaderService.exportToCsv('test.csv', this.dataProceesCsv);
+    this.spinner = false
+  }
+
+  download(): void {
+    this.spinner = true;
+    const $download = this.lineHeaderService
+      .download(this.asiento?.id || 0)
+      .pipe(finalize(() => this.proccess()))
+      .subscribe(
+        (response: AccountLineDownload[]) => {
+          const dataprocess = (response || []).map((item) => ({
+            JH_LEDGER_NAME: item?.JH_LEDGER_NAME,
+            JH_JE_SOURCE_NAME: item?.JH_JE_SOURCE_NAME,
+            JH_ACCOUNTING_DATE: item?.JH_ACCOUNTING_DATE,
+            JH_DESCRIPTION: item?.JH_DESCRIPTION,
+            JL_SEG_COMPANY: item?.JL_SEG_COMPANY,
+            JL_SEG_GL_ACCOUNT: item?.JL_SEG_GL_ACCOUNT,
+            JL_SEG_OFICINA: item?.JL_SEG_OFICINA,
+            JL_SEG_SUCURSAL: item?.JL_SEG_SUCURSAL,
+            JL_SEG_PROYECTO: item?.JL_SEG_PROYECTO,
+            JL_SEG_SUBPROYECTO: item?.JL_SEG_SUBPROYECTO,
+            JL_SEG_TIPO_COMPROBANTE: item?.JL_SEG_TIPO_COMPROBANTE,
+            JL_SEG_INTERCOMPANY: item?.JL_SEG_INTERCOMPANY,
+            JL_SEG_VINCULADO: item?.JL_SEG_VINCULADO,
+            JL_SEG_F1: item?.JL_SEG_F1,
+            JL_SEG_F2: item?.JL_SEG_F2,
+            JL_CURRENCY: item?.JL_CURRENCY,
+            JL_ENTERED_DEBIT: item?.JL_ENTERED_DEBIT,
+            JL_ENTERED_CREDIT: item?.JL_ENTERED_CREDIT,
+            JL_DESCRIPTION: item?.JL_ENTERED_CREDIT,
+            JL_REF1: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[0]?.JL_REFERENCIA_COM || '',
+            JL_REF1_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[0]?.VALOR || '',
+            JL_REF2: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[1]?.JL_REFERENCIA_COM || '',
+            JL_REF2_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[1]?.VALOR || '',
+            JL_REF3: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[2]?.JL_REFERENCIA_COM || '',
+            JL_REF3_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[2]?.VALOR || '',
+            JL_REF4: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[3]?.JL_REFERENCIA_COM || '',
+            JL_REF4_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[3]?.VALOR || '',
+            JL_REF5: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[4]?.JL_REFERENCIA_COM || '',
+            JL_REF5_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[4]?.VALOR || '',
+            JL_REF6: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[5]?.JL_REFERENCIA_COM || '',
+            JL_REF6_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[5]?.VALOR || '',
+            JL_REF7: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[6]?.JL_REFERENCIA_COM || '',
+            JL_REF7_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[6]?.VALOR || '',
+            JL_REF8: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[7]?.JL_REFERENCIA_COM || '',
+            JL_REF8_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[7]?.VALOR || '',
+            JL_REF9: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[8]?.JL_REFERENCIA_COM || '',
+            JL_REF9_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[8]?.VALOR || '',
+            JL_REF10: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[9]?.JL_REFERENCIA_COM || '',
+            JL_REF10_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[9]?.VALOR || '',
+            JL_REF11: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[10]?.JL_REFERENCIA_COM || '',
+            JL_REF11_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[10]?.VALOR || '',
+            JL_REF12: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[11]?.JL_REFERENCIA_COM || '',
+            JL_REF12_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[11]?.VALOR || '',
+            JL_REF13: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[12]?.JL_REFERENCIA_COM || '',
+            JL_REF13_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[12]?.VALOR || '',
+            JL_REF14: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[13]?.JL_REFERENCIA_COM || '',
+            JL_REF14_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[13]?.VALOR || '',
+            JL_REF15: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[14]?.JL_REFERENCIA_COM || '',
+            JL_REF15_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[14]?.VALOR || '',
+            JL_REF16: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[15]?.JL_REFERENCIA_COM || '',
+            JL_REF16_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[15]?.VALOR || '',
+            JL_REF17: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[16]?.JL_REFERENCIA_COM || '',
+            JL_REF17_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[16]?.VALOR || '',
+            JL_REF18: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[17]?.JL_REFERENCIA_COM || '',
+            JL_REF18_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[17]?.VALOR || '',
+          }))
+          this.dataProceesCsv = this.dataProceesCsv.concat(dataprocess)
+        }
+      );
+    this.arrayToDestroy.push($download);
   }
 }
