@@ -423,6 +423,110 @@
         }
       }
     },
+    "flujo-extra": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/flujo-extra",
+      "sourceRoot": "projects/flujo-extra/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/flujo-extra",
+            "index": "projects/flujo-extra/src/index.html",
+            "main": "projects/flujo-extra/src/main.ts",
+            "polyfills": "projects/flujo-extra/src/polyfills.ts",
+            "tsConfig": "projects/flujo-extra/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/flujo-extra/src/favicon.ico",
+              "projects/flujo-extra/src/assets",
+              "projects/flujo-extra/src/env.js"
+            ],
+            "styles": [
+              "projects/flujo-extra/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/flujo-extra/src/environments/environment.ts",
+                  "with": "projects/flujo-extra/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "flujo-extra:build:production"
+            },
+            "development": {
+              "browserTarget": "flujo-extra:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "flujo-extra:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/flujo-extra/src/test.ts",
+            "polyfills": "projects/flujo-extra/src/polyfills.ts",
+            "tsConfig": "projects/flujo-extra/tsconfig.spec.json",
+            "karmaConfig": "projects/flujo-extra/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/flujo-extra/src/favicon.ico",
+              "projects/flujo-extra/src/assets"
+            ],
+            "styles": [
+              "projects/flujo-extra/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
     "reporte-modulo": {
       "projectType": "application",
       "schematics": {

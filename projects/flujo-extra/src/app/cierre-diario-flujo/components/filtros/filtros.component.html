@@ -1,0 +1,21 @@
+<app-loader *ngIf="spinner"></app-loader>
+<form [formGroup]="filtrosForm">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Filtros</mat-panel-title>
+      <mat-panel-description>
+        <span></span>
+        <mat-icon>filter_list</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="evol-filtro-container">
+      <div class="evol-filtro-section">
+        <app-input (input)="onFocusOutEvent('fecha')" (focusout)="onFocusOutEvent('fecha')" [label]="'Fecha'" formControlName="fecha" [error]="showErrors('fecha')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['fecha']"></app-form-errors>
+      </div>
+    </div>
+    <mat-action-row>
+      <app-actions [color]="'warn'" [class]="'flat'" (click)="filtrar()" [label]="'Filtrar'"></app-actions>
+    </mat-action-row>
+  </mat-expansion-panel>
+</form>
