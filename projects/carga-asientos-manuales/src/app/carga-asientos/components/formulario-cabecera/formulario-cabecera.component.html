@@ -12,7 +12,7 @@
       <div class="evol-form-section">
         <app-select [selected]="selectPeriod" [disabled]="disabledForm || disbaledPeriod"  (changeOption)="changeOptionP($event);onSelectedCalendar()" (selectionChange)="onFocusOutEvent('period')" [label]="'Periodo Contable'" formControlName="period" [options]="periods" [error]="showErrors('period')"></app-select>
         <app-form-errors [control]="form.controls['period']"></app-form-errors>
-        <app-input [disabled]="true" (input)="onFocusOutEvent('number')" (focusout)="onFocusOutEvent('number')" [label]="'Número'" formControlName="number" [error]="showErrors('number')"></app-input>
+        <app-input [disabled]="true" (input)="onFocusOutEvent('number')" (focusout)="onFocusOutEvent('number')" [label]="'Número de Transacción'" formControlName="number" [error]="showErrors('number')"></app-input>
         <app-form-errors [control]="form.controls['number']"></app-form-errors>
       </div>
       <div class="evol-form-section">
