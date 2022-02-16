@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { SharedModule } from '../shared';
 import { CierreDiarioModule } from './pages/cierre-diario/cierre-diario.module';
+import { CierreDiarioFlujoRoutingModule } from './cierre-diario-flujo-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CierreDiarioModule } from './pages/cierre-diario/cierre-diario.module';
     NgxMatFileInputModule,
     SharedModule,
     CierreDiarioModule,
+    CierreDiarioFlujoRoutingModule,
   ],
 })
 export class CierrediarioflujonModule { }

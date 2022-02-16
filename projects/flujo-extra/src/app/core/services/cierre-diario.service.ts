@@ -22,6 +22,13 @@ export class CierreDiarioService {
     );
   }
 
+  getListPre(): Observable<any> {
+    return this.configService.getApiUrlListadoPre().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+
   cierreDia(id: number, user: string): Observable<any> {
     return this.configService.getApiUrlCierre().pipe(
       first(),

@@ -12,11 +12,11 @@
           <ng-container matColumnDef="dia">
             <th mat-header-cell *matHeaderCellDef>Día</th>
             <td mat-cell *matCellDef="let element">{{ element?.Dia }}</td>
-          </ng-container>>
+          </ng-container>
           <ng-container matColumnDef="accion">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let element">
-              <app-actions (click)="cierre(element?.id)" [label]="'Filtrar'"></app-actions>
+              <app-actions *ngIf="element?.Dia === 'Abierto'" (click)="cierre(element?.id)" [label]="'Filtrar'"></app-actions>
             </td>
           </ng-container>
           <ng-container matColumnDef="fechaClose">

@@ -1,6 +1,8 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { CierreDiarioService } from '../../../core/services/cierre-diario.service';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroReporte } from '../../../shared/models/filtro-reporte.model';
 import { Reporte } from '../../../shared/models/reporte.model';
@@ -8,7 +10,9 @@ import { Reporte } from '../../../shared/models/reporte.model';
 @Component({
   selector: 'app-cierre-diario',
   templateUrl: './cierre-diario.component.html',
-  styleUrls: ['./cierre-diario.component.scss']
+  styleUrls: ['./cierre-diario.component.scss'],
+  providers: [DatePipe],
+
 })
 export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   displayedColumns: string[] = ['fecha', 'dia', 'accion', 'fechaClose', 'user'];
@@ -23,6 +27,7 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   constructor(
     private cierreDiarioService: CierreDiarioService,
     private authService: AuthService,
+    private datePipe: DatePipe,
   ) {
     super();
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
@@ -33,10 +38,16 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   }
 
   filtrar(filtroReporte: FiltroReporte) {
+    filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format) || '',
     this.spinner = true;
-    this.cierreDiarioService.getList(filtroReporte).subscribe(res => {
-      this.informationsList = res;
-      this.spinner = false;
+    this.cierreDiarioService.getListPre().subscribe(res => {
+      this.cierreDiarioService.getList(filtroReporte).subscribe(res => {
+        this.informationsList = res;
+        this.spinner = false;
+      },
+      ()=> {
+        this.spinner = false;
+      });
     },
     ()=> {
       this.spinner = false;

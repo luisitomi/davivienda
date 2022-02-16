@@ -12,6 +12,10 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  listadoPre = this.enviroment.listadoPre?.replace(
+    /\/$/,
+    ''
+  );
   cierre = this.enviroment.cierre?.replace(
     /\/$/,
     ''
@@ -23,6 +27,7 @@ export class ConfigService {
   listadoUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.listado);
   cierreUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.cierre);
   TsFahObtenerUsuarioWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahObtenerUsuarioWS);
+  listadoPreUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.listadoPre);
 
   constructor(
     private enviroment: ApiService
@@ -30,6 +35,10 @@ export class ConfigService {
 
   getApiUrlListado(): Observable<string> {
     return this.listadoUrlSubject.asObservable().pipe(first());
+  }
+
+  getApiUrlListadoPre(): Observable<string> {
+    return this.listadoPreUrlSubject.asObservable().pipe(first());
   }
 
   getApiUrlCierre(): Observable<string> {

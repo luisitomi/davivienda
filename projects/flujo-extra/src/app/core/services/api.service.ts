@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   apiUrl: string = '';
   listado: string = '';
+  listadoPre: string = '';
   cierre: string = '';
   TsFahObtenerUsuarioWS: string = '';
 
