@@ -40,7 +40,7 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   filtrar(filtroReporte: FiltroReporte) {
     filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format) || '',
     this.spinner = true;
-    this.cierreDiarioService.getListPre().subscribe(res => {
+    this.cierreDiarioService.getListPre().subscribe(res1 => {
       this.cierreDiarioService.getList(filtroReporte).subscribe(res => {
         this.informationsList = res;
         this.spinner = false;
