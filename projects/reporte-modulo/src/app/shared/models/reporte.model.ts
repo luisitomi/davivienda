@@ -11,6 +11,7 @@ export interface Reporte {
     Pagina: number;
     CreadoPor: string;
     Extension: string;
+    Descripcion: string;
     parametros?: Array<ReporteParam>;
   }
   

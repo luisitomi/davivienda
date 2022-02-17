@@ -61,11 +61,20 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
           Pagina:0,
           CreadoPor:'',
           Extension:'',
-        
+          Descripcion:'',
          };
+         this.obtenerRutaFTP();
+         this.obtenerCantidadRegistros();
     } else {
       this.postTsFAHBuscarModuloReportePorIdWS(id);
     }
+  }
+  asignarCodigoReporte() {
+    const dataform =  this.filtrosForm.value;
+    this.reporte = dataform;
+    this.filtrosForm.controls['CodigoReporte'].setValue(this.reporte.NombreReporte?.replace(" ","_").toUpperCase()) 
+
+
   }
   updateForm(): void {
  
@@ -86,7 +95,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   updateItem() {   
     this.delInput(0);
     this.reporte.parametros?.forEach((currentValue, index) => {
-      
+      console.log('currentValue',currentValue);
       this.items.push(this.formBuilder.group({
         IdParam:[currentValue.IdParam],
         NumeroParametro: [currentValue.NumeroParametro, [Validators.required]],
@@ -94,6 +103,10 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         ValorParametro: [currentValue.ValorParametro, [Validators.required]],
         TipoParametro: [currentValue.TipoParametro, [Validators.required]],
         Obligatorio : [currentValue.Obligatorio, [Validators.required]],
+        Descripcion : [currentValue.Descripcion, [Validators.required]],
+        Estado : [currentValue.Estado, [Validators.required]],
+    
+        
       }));
     });
    
@@ -119,27 +132,78 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         ValorParametro: [null, [Validators.required]],
         TipoParametro : [null, [Validators.required]],
         Obligatorio : [null, [Validators.required]],
+        Descripcion : [null, [Validators.required]],
+        Estado : [0, [Validators.required]],
       })])
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);
     });
   }
-
+  obtenerRutaFTP() {
+    let request = {
+      profile:"TS_RUTA_SFTP_MODULO_REPORTE"
+    }
+    this.reporteService.postTsObtenerPerfilWS(request).subscribe(
+      res =>      this.filtrosForm.controls['RutaSalidaFTPS'].setValue(res.valor) 
+    );
+  }
+  obtenerCantidadRegistros() {
+    let request = {
+      profile:"TS_CANTIDAD_MODULO_REPORTE"
+    }
+    this.reporteService.postTsObtenerPerfilWS(request).subscribe(
+      res =>      this.filtrosForm.controls['CantidadLinea'].setValue(res.valor) 
+    );
+  }
   createItem() {
     
     this.items.push(this.formBuilder.group({
-      IdParam:[0],
+      IdParam:[this.ItemsTotal +1],
       NumeroParametro: [this.items.length+1, [Validators.required]],
       NombreParametro: [null, [Validators.required]],
       ValorParametro: [null, [Validators.required]],
       TipoParametro: [null, [Validators.required]],
       Obligatorio : [null, [Validators.required]],
+      Descripcion : [null, [Validators.required]],
+      Estado : [0, [Validators.required]],
+      
     }));
   }
 
+  get ItemsTotal() {
+    let number = 1;
+    this.items.value.forEach((element: any) => {
+      if (element.Estado != 2) {
+        element.NumeroParametro = number;
+        number++;
+      }
+    
+    });
+     return number as number;
+  }
+
+
   delInput(id: number): void {
-    this.items.removeAt(id);
+
+    
+
+    if (this.reporte.Id != 0 && this.items.value[id].Estado !=0) {
+      this.items.value[id].Estado = 2
+
+      let number = 1;
+      this.items.value.forEach((element: any) => {
+        if (element.Estado != 2) {
+          element.NumeroParametro = number;
+          number++;
+        }
+      
+      });
+
+    } else {
+      this.items.removeAt(id);
+    }
+  
   }
 
   get items() {
@@ -200,6 +264,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     this.reporteService.postTsFAHBuscarModuloReportePorIdWS({Id:IdReporte}).subscribe(rest =>{
       this.reporte = rest;
       this.spinner= false;
+      console.log('postTsFAHBuscarModuloReportePorIdWS',rest)
       this.updateForm();
       this.postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte);
     },
@@ -211,10 +276,13 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     this.router.navigate(['/reporte-information/listado']);
   }
   postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
+    console.log('inicio postTsFAHBuscarParametrosModuloReportePorIdWS')
     this.spinner= true;
     this.reporteService.postTsFAHBuscarParametrosModuloReportePorIdWS({Id:IdReporte}).subscribe(rest =>{
       this.reporte.parametros = rest;
+      console.log('parametros',this.reporte.parametros)
       this.spinner= false;
+
       this.updateItem();
     },
     ()=> {
@@ -224,12 +292,12 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   guardar() {
    const dataform =  this.filtrosForm.value;
    this.reporte = dataform;
- 
+
     if (this.filtrosForm.valid) {
       this.spinner= true;
 
       if (this.reporte.Id ==   0 ) {
- 
+        
             this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),this.authService.getUsuarioV2()).subscribe(rest => {
             //  console.log('rst')
             //  console.log(JSON.stringify(rest))

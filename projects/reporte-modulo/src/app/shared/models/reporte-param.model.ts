@@ -5,5 +5,7 @@ export interface ReporteParam {
     ValorParametro: string;
     TipoParametro: string;
     Obligatorio: string;
+    Descripcion : string,
+    Estado:number
   }
   
