@@ -14,7 +14,8 @@ type DropdownItemType = string | number | DropdownItem | any;
 })
 export class SelectComponent {
   @Input() label: string;
-  @Input() placeholder: string;
+  @Input() placeholder: string;  
+  @Input() filter = false;
   @Output() changeOption: EventEmitter<EventDropdown> = new EventEmitter<EventDropdown>();
   @ViewChild(MatSelect, { static: true }) dropdown: MatSelect;
 
@@ -89,6 +90,10 @@ export class SelectComponent {
       value: event?.value,
       type: this.options.find((o) => o.value === event?.value)?.type || '',
     });
+  }
+
+  onKey(event: any): void {
+    console.log(event)
   }
 
   writeValue(value: any): void {

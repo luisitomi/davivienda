@@ -9,6 +9,7 @@
     [ngModel]="selected?.value || selected"
     (selectionChange)="changeDropdown($event)"
     [ngClass]="{ 'is-invalid-input u-mb0': error }">
+    <mat-select-filter [placeholder]="'Buscar...'" *ngIf="filter" [array]="options" [displayMember]="'label'" (filteredReturn)="options = $event"></mat-select-filter>
     <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
   </mat-select>
   <ng-content></ng-content>

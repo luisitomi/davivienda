@@ -12,25 +12,25 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <app-select [selected]="comp2Select" (changeOption)="onFocusOutEvent('comp2')" [label]="'Cuenta'" formControlName="comp2" [options]="parte2Options" [error]="showErrors('comp2')"></app-select>
+      <app-select [selected]="comp2Select" [filter]="true" (changeOption)="onFocusOutEvent('comp2')" [label]="'Cuenta'" formControlName="comp2" [options]="parte2Options" [error]="showErrors('comp2')"></app-select>
       <app-form-errors [control]="form.controls['comp2']"></app-form-errors>
-      <app-select [selected]="comp3Select" (changeOption)="onFocusOutEvent('comp3')" [label]="'Oficina'" formControlName="comp3" [options]="parte3Options" [error]="showErrors('comp3')"></app-select>
+      <app-select [selected]="comp3Select"[filter]="true" (changeOption)="onFocusOutEvent('comp3')" [label]="'Oficina'" formControlName="comp3" [options]="parte3Options" [error]="showErrors('comp3')"></app-select>
       <app-form-errors [control]="form.controls['comp3']"></app-form-errors>
-      <app-select [selected]="comp4Select" (changeOption)="onFocusOutEvent('comp4')" [label]="'Sucursal'" formControlName="comp4" [options]="parte4Options" [error]="showErrors('comp4')"></app-select>
+      <app-select [selected]="comp4Select" [filter]="true" (changeOption)="onFocusOutEvent('comp4')" [label]="'Sucursal'" formControlName="comp4" [options]="parte4Options" [error]="showErrors('comp4')"></app-select>
       <app-form-errors [control]="form.controls['comp4']"></app-form-errors>
-      <app-select [selected]="comp5Select" (changeOption)="onFocusOutEvent('comp5')" [label]="'Proyecto'" formControlName="comp5" [options]="parte5Options" [error]="showErrors('comp5')"></app-select>
+      <app-select [selected]="comp5Select" [filter]="true" (changeOption)="onFocusOutEvent('comp5')" [label]="'Proyecto'" formControlName="comp5" [options]="parte5Options" [error]="showErrors('comp5')"></app-select>
       <app-form-errors [control]="form.controls['comp5']"></app-form-errors>
-      <app-select [selected]="comp6Select" (changeOption)="onFocusOutEvent('comp6')" [label]="'Subproyecto'" formControlName="comp6" [options]="parte6Options" [error]="showErrors('comp6')"></app-select>
+      <app-select [selected]="comp6Select" [filter]="true" (changeOption)="onFocusOutEvent('comp6')" [label]="'Subproyecto'" formControlName="comp6" [options]="parte6Options" [error]="showErrors('comp6')"></app-select>
       <app-form-errors [control]="form.controls['comp6']"></app-form-errors>
-      <app-select [selected]="comp7Select" (changeOption)="onFocusOutEvent('comp7')" [label]="'Tipo Comprobante'" formControlName="comp7" [options]="parte7Options" [error]="showErrors('comp7')"></app-select>
+      <app-select [selected]="comp7Select" [filter]="true" (changeOption)="onFocusOutEvent('comp7')" [label]="'Tipo Comprobante'" formControlName="comp7" [options]="parte7Options" [error]="showErrors('comp7')"></app-select>
       <app-form-errors [control]="form.controls['comp7']"></app-form-errors>
-      <app-select [selected]="comp8Select" (changeOption)="onFocusOutEvent('comp8')" [label]="'Inte Company'" formControlName="comp8" [options]="parte8Options" [error]="showErrors('comp8')"></app-select>
+      <app-select [selected]="comp8Select" [filter]="true" (changeOption)="onFocusOutEvent('comp8')" [label]="'Inte Company'" formControlName="comp8" [options]="parte8Options" [error]="showErrors('comp8')"></app-select>
       <app-form-errors [control]="form.controls['comp8']"></app-form-errors>
-      <app-select [selected]="comp9Select" (changeOption)="onFocusOutEvent('comp9')" [label]="'Vinculado'" formControlName="comp9" [options]="parte9Options" [error]="showErrors('comp9')"></app-select>
+      <app-select [selected]="comp9Select" [filter]="true" (changeOption)="onFocusOutEvent('comp9')" [label]="'Vinculado'" formControlName="comp9" [options]="parte9Options" [error]="showErrors('comp9')"></app-select>
       <app-form-errors [control]="form.controls['comp9']"></app-form-errors>
-      <app-select [selected]="comp10Select" (changeOption)="onFocusOutEvent('comp10')" [label]="'F1'" formControlName="comp10" [options]="parte10Options" [error]="showErrors('comp10')"></app-select>
+      <app-select [selected]="comp10Select" [filter]="true" (changeOption)="onFocusOutEvent('comp10')" [label]="'F1'" formControlName="comp10" [options]="parte10Options" [error]="showErrors('comp10')"></app-select>
       <app-form-errors [control]="form.controls['comp10']"></app-form-errors>
-      <app-select [selected]="comp11Select" (changeOption)="onFocusOutEvent('comp11')" [label]="'F2'" formControlName="comp11" [options]="parte11Options" [error]="showErrors('comp11')"></app-select>
+      <app-select [selected]="comp11Select" [filter]="true" (changeOption)="onFocusOutEvent('comp11')" [label]="'F2'" formControlName="comp11" [options]="parte11Options" [error]="showErrors('comp11')"></app-select>
       <app-form-errors [control]="form.controls['comp11']"></app-form-errors>
     </div>
     <mat-dialog-actions>
