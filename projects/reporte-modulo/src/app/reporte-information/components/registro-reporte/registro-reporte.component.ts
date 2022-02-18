@@ -27,7 +27,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   listType: Array<DropdownItem>;
   listObligatorio: Array<DropdownItem>;
   listExtension: Array<DropdownItem>;
-  reporte:Reporte;
+  reporte: any;
   constructor(
     private formBuilder: FormBuilder,
     private reporteService: ReporteService,
@@ -40,7 +40,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   }
 
   ngOnInit(): void {
-    
+
     const routeParams = this.route.snapshot.paramMap;
     const id = Number(routeParams.get('id'));
     this.createForm();
@@ -48,71 +48,63 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     this.getObligatorio();
     this.getExtension();
 
-   
     if (id == undefined || id == null || id == 0) {
       this.reporte = {
-          Id:0,
-          NombreReporte:'',
-          CodigoReporte:'',
-          RutaReporte:'',
-          RutaSalidaFTPS:'',
-          NombreArchivo:'',
-          CantidadLinea:0,
-          Pagina:0,
-          CreadoPor:'',
-          Extension:'',
-          Descripcion:'',
-         };
-         this.obtenerRutaFTP();
-         this.obtenerCantidadRegistros();
+        Id: 0,
+        NombreReporte: '',
+        CodigoReporte: '',
+        RutaReporte: '',
+        RutaSalidaFTPS: '',
+        NombreArchivo: '',
+        CantidadLinea: 0,
+        Pagina: 0,
+        CreadoPor: '',
+        Extension: '',
+        Descripcion: '',
+      };
+      this.obtenerRutaFTP();
+      this.obtenerCantidadRegistros();
     } else {
       this.postTsFAHBuscarModuloReportePorIdWS(id);
     }
   }
+
   asignarCodigoReporte() {
-    const dataform =  this.filtrosForm.value;
+    const dataform = this.filtrosForm.value;
     this.reporte = dataform;
-    this.filtrosForm.controls['CodigoReporte'].setValue(this.reporte.NombreReporte?.replace(" ","_").toUpperCase()) 
-
-
+    this.filtrosForm.controls['CodigoReporte'].setValue(this.reporte.NombreReporte?.replace(" ", "_").toUpperCase())
   }
+
   updateForm(): void {
- 
     this.filtrosForm.patchValue({
       Id: this.reporte.Id,
-      NombreReporte:this.reporte.NombreReporte,
-      CodigoReporte:this.reporte.CodigoReporte,
-      RutaReporte:this.reporte.RutaReporte,
-      RutaSalidaFTPS:this.reporte.RutaSalidaFTPS,
-      NombreArchivo:this.reporte.NombreArchivo,
-      CantidadLinea:this.reporte.CantidadLinea,
-      CreadoPor:this.reporte.CreadoPor,
-      Extension:this.reporte.Extension
-    }) 
-
+      NombreReporte: this.reporte.NombreReporte,
+      CodigoReporte: this.reporte.CodigoReporte,
+      RutaReporte: this.reporte.RutaReporte,
+      RutaSalidaFTPS: this.reporte.RutaSalidaFTPS,
+      NombreArchivo: this.reporte.NombreArchivo,
+      CantidadLinea: this.reporte.CantidadLinea,
+      CreadoPor: this.reporte.CreadoPor,
+      Extension: this.reporte.Extension
+    })
   }
 
-  updateItem() {   
+  updateItem() {
     this.delInput(0);
-    this.reporte.parametros?.forEach((currentValue, index) => {
-      console.log('currentValue',currentValue);
+    this.reporte.parametros?.forEach((currentValue: any, index: any) => {
       this.items.push(this.formBuilder.group({
-        IdParam:[currentValue.IdParam],
-        NumeroParametro: [currentValue.NumeroParametro, [Validators.required]],
+        IdParam: [currentValue.IdParam],
+        NumeroParametro: [currentValue.Index, [Validators.required]],
         NombreParametro: [currentValue.NombreParametro, [Validators.required]],
         ValorParametro: [currentValue.ValorParametro, [Validators.required]],
         TipoParametro: [currentValue.TipoParametro, [Validators.required]],
-        Obligatorio : [currentValue.Obligatorio, [Validators.required]],
-        Descripcion : [currentValue.Descripcion, [Validators.required]],
-        Estado : [currentValue.Estado, [Validators.required]],
-    
-        
+        Obligatorio: [currentValue.Obligatorio, [Validators.required]],
+        Descripcion: [currentValue.Descripcion, [Validators.required]],
+        Estado: [currentValue.Estado, [Validators.required]],
       }));
     });
-   
+
   }
-
-
 
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({
@@ -124,50 +116,52 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
       NombreArchivo: [null, [Validators.required]],
       CantidadLinea: [null, [Validators.required]],
       CreadoPor: [null],
-      Extension:[null, [Validators.required]],
+      Extension: [null, [Validators.required]],
       parametros: this.formBuilder.array([this.formBuilder.group({
         IdParam: [0],
         NumeroParametro: [1, [Validators.required]],
         NombreParametro: [null, [Validators.required]],
         ValorParametro: [null, [Validators.required]],
-        TipoParametro : [null, [Validators.required]],
-        Obligatorio : [null, [Validators.required]],
-        Descripcion : [null, [Validators.required]],
-        Estado : [0, [Validators.required]],
+        TipoParametro: [null, [Validators.required]],
+        Obligatorio: [null, [Validators.required]],
+        Descripcion: [null, [Validators.required]],
+        Estado: [0, [Validators.required]],
       })])
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);
     });
   }
+
   obtenerRutaFTP() {
     let request = {
-      profile:"TS_RUTA_SFTP_MODULO_REPORTE"
+      profile: "TS_RUTA_SFTP_MODULO_REPORTE"
     }
     this.reporteService.postTsObtenerPerfilWS(request).subscribe(
-      res =>      this.filtrosForm.controls['RutaSalidaFTPS'].setValue(res.valor) 
+      res => this.filtrosForm.controls['RutaSalidaFTPS'].setValue(res.valor)
     );
   }
+
   obtenerCantidadRegistros() {
     let request = {
-      profile:"TS_CANTIDAD_MODULO_REPORTE"
+      profile: "TS_CANTIDAD_MODULO_REPORTE"
     }
     this.reporteService.postTsObtenerPerfilWS(request).subscribe(
-      res =>      this.filtrosForm.controls['CantidadLinea'].setValue(res.valor) 
+      res => this.filtrosForm.controls['CantidadLinea'].setValue(res.valor)
     );
   }
+
   createItem() {
-    
+    const number = this.items.value.filter((p: any) => p.Estado !== 2)
     this.items.push(this.formBuilder.group({
-      IdParam:[this.ItemsTotal +1],
-      NumeroParametro: [this.items.length+1, [Validators.required]],
+      IdParam: [this.ItemsTotal + 1],
+      NumeroParametro: [number.length + 1, [Validators.required]],
       NombreParametro: [null, [Validators.required]],
       ValorParametro: [null, [Validators.required]],
       TipoParametro: [null, [Validators.required]],
-      Obligatorio : [null, [Validators.required]],
-      Descripcion : [null, [Validators.required]],
-      Estado : [0, [Validators.required]],
-      
+      Obligatorio: [null, [Validators.required]],
+      Descripcion: [null, [Validators.required]],
+      Estado: [0, [Validators.required]],
     }));
   }
 
@@ -178,17 +172,13 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         element.NumeroParametro = number;
         number++;
       }
-    
     });
-     return number as number;
+    return number as number;
   }
 
 
   delInput(id: number): void {
-
-    
-
-    if (this.reporte.Id != 0 && this.items.value[id].Estado !=0) {
+    if (this.reporte.Id != 0 && this.items.value[id].Estado != 0) {
       this.items.value[id].Estado = 2
 
       let number = 1;
@@ -197,13 +187,10 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
           element.NumeroParametro = number;
           number++;
         }
-      
       });
-
     } else {
       this.items.removeAt(id);
     }
-  
   }
 
   get items() {
@@ -221,6 +208,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     }
     this.filtrosForm.get(`${control}`)?.updateValueAndValidity();
   }
+
   getTypeParam(): void {
     const $listType = this.reporteService
       .getTsFAHModuloReporteTipoParametrosWS()
@@ -229,103 +217,105 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         (response: any[]) => {
           this.listType = (response || []).map((data) => ({
             label: data?.valor,
-            value: data?.codigo ,
+            value: data?.codigo,
           }),
-        )}
+          )
+        }
       );
     this.arrayToDestroy.push($listType);
   }
 
-  getExtension(): void{
+  getExtension(): void {
     this.listExtension = new Array<DropdownItem>();
-      this.listExtension.push({label:"CSV",value:"csv"})
-      this.listExtension.push({label:"TXT",value:"txt"})
-    
+    this.listExtension.push({ label: "CSV", value: "csv" })
+    this.listExtension.push({ label: "TXT", value: "txt" })
+
   }
+
   getObligatorio(): void {
-   /* const $listObligatorio = this.reporteService
-      .getTsFAHModuloReporteTipoParametrosWS()
-      .pipe(finalize(() => this.spinner = false))
-      .subscribe(
-        (response: any[]) => {
-          this.listType = (response || []).map((data) => ({
-            label: data?.codigo,
-            value: data?.valor,
-          }),
-        )}
-      ); */
-      this.listObligatorio = new Array<DropdownItem>();
-      this.listObligatorio.push({label:"SI",value:"Y"})
-      this.listObligatorio.push({label:"NO",value:"N"})
-  //  this.arrayToDestroy.push($listObligatorio);
+    /* const $listObligatorio = this.reporteService
+       .getTsFAHModuloReporteTipoParametrosWS()
+       .pipe(finalize(() => this.spinner = false))
+       .subscribe(
+         (response: any[]) => {
+           this.listType = (response || []).map((data) => ({
+             label: data?.codigo,
+             value: data?.valor,
+           }),
+         )}
+       ); */
+    this.listObligatorio = new Array<DropdownItem>();
+    this.listObligatorio.push({ label: "SI", value: "Y" })
+    this.listObligatorio.push({ label: "NO", value: "N" })
+    //  this.arrayToDestroy.push($listObligatorio);
   }
+
   postTsFAHBuscarModuloReportePorIdWS(IdReporte: number) {
-    this.spinner= true;
-    this.reporteService.postTsFAHBuscarModuloReportePorIdWS({Id:IdReporte}).subscribe(rest =>{
+    this.spinner = true;
+    this.reporteService.postTsFAHBuscarModuloReportePorIdWS({ Id: IdReporte }).subscribe(rest => {
       this.reporte = rest;
-      this.spinner= false;
-      console.log('postTsFAHBuscarModuloReportePorIdWS',rest)
+      this.spinner = false;
       this.updateForm();
       this.postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte);
     },
-    ()=> {
-      this.spinner= false;
-    });
+      () => {
+        this.spinner = false;
+      });
   }
-  cancelar(){
+
+  cancelar() {
     this.router.navigate(['/reporte-information/listado']);
   }
-  postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
-    console.log('inicio postTsFAHBuscarParametrosModuloReportePorIdWS')
-    this.spinner= true;
-    this.reporteService.postTsFAHBuscarParametrosModuloReportePorIdWS({Id:IdReporte}).subscribe(rest =>{
-      this.reporte.parametros = rest;
-      console.log('parametros',this.reporte.parametros)
-      this.spinner= false;
 
+  postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
+    this.spinner = true;
+    this.reporteService.postTsFAHBuscarParametrosModuloReportePorIdWS({ Id: IdReporte }).subscribe(rest => {
+      this.reporte.parametros = rest;
+      this.spinner = false;
+      let number = 1;
+      this.reporte.parametros.forEach((element: any) => {
+        if (element.Estado != 2) {
+          element.Index = number;
+          number++;
+        }
+      });
       this.updateItem();
     },
-    ()=> {
-      this.spinner= false;
-    });
+      () => {
+        this.spinner = false;
+      });
   }
+
   guardar() {
-   const dataform =  this.filtrosForm.value;
-   this.reporte = dataform;
-
+    const dataform = this.filtrosForm.value;
+    this.reporte = dataform;
     if (this.filtrosForm.valid) {
-      this.spinner= true;
-
-      if (this.reporte.Id ==   0 ) {
-        
-            this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),this.authService.getUsuarioV2()).subscribe(rest => {
-            //  console.log('rst')
-            //  console.log(JSON.stringify(rest))
-              this.filtrosForm.controls['Id'].setValue(rest.data.Id) ;
-              this.toastr.success(rest?.message, 'Registro');
-              this.spinner= false;
-            },
-            ()=> {
-              this.spinner= false;
-            });
+      this.spinner = true;
+      if (this.reporte.Id == 0) {
+        this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(), this.authService.getUsuarioV2()).subscribe(rest => {
+          this.filtrosForm.controls['Id'].setValue(rest.data.Id);
+          this.toastr.success(rest?.message, 'Registro');
+          this.spinner = false;
+        },
+          () => {
+            this.spinner = false;
+          });
       } else {
-         
-            this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(),this.authService.getUsuarioV2()).subscribe(rest => {
-             // console.log('rst')
-             // console.log(JSON.stringify(rest))
-              this.toastr.success(rest?.message, 'Registro');
-              this.spinner= false;
-             // this.filtrosForm.controls['Id'].setValue(rest.data.Id) ;
-            },
-            ()=> {
-              this.spinner= false;
-            });
+
+        this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(), this.authService.getUsuarioV2()).subscribe(rest => {
+          this.toastr.success(rest?.message, 'Registro');
+          this.spinner = false;
+        },
+          () => {
+            this.spinner = false;
+          });
       }
-      
-    } else{
+
+    } else {
       this.filtrosForm.markAllAsTouched();
-    } 
+    }
   }
+
   showErrors(control: string): boolean {
     return (
       (this.filtrosForm.controls[control].dirty || this.filtrosForm.controls[control].touched) &&
