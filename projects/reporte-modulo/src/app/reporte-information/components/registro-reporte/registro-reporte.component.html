@@ -29,7 +29,7 @@
         <app-input (input)="onFocusOutEvent('NombreArchivo')" maxlength="300" (focusout)="onFocusOutEvent('NombreArchivo')" [label]="'Nombre Archivo'"
           formControlName="NombreArchivo" [error]="showErrors('NombreArchivo')"></app-input>
         <app-form-errors [control]="filtrosForm.controls['NombreArchivo']"></app-form-errors>
-        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('CantidadLinea')" (focusout)="onFocusOutEvent('CantidadLinea')"
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('CantidadLinea')" max="200" (focusout)="onFocusOutEvent('CantidadLinea')"
           [label]="'Cantidad'" formControlName="CantidadLinea" [error]="showErrors('CantidadLinea')"></app-input>
         <app-form-errors [control]="filtrosForm.controls['CantidadLinea']"></app-form-errors>
 
@@ -41,12 +41,12 @@
     </mat-card-content>
     <app-title-header [Title]="'Parámetros'" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
     <mat-card-content class="evol-form-container">
-      {{items.value | json }}
+   
       <div formArrayName="parametros">
         <div *ngFor="let item of items.controls; let index=index; let last=last;" [formGroupName]="index">
           <ng-container *ngIf="item.value.Estado != 2" >
-          <h4>Parámetro N° {{item.value.NumeroParametro}}  <mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></h4>
-          <app-input [label]="'Nombre Parametro'" formControlName="NombreParametro" ></app-input>
+          <h4>Parámetro N° {{item.value.NumeroParametro}} <mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></h4>
+          <app-input [label]="'Nombre Parametro'" formControlName="NombreParametro"  ></app-input>
           <app-input [label]="'Descripcion'" formControlName="Descripcion" ></app-input>
           <app-input [label]="'Valor'" formControlName="ValorParametro" ></app-input>
           <app-select [label]="'Tipo'" formControlName="TipoParametro" [options]="listType"></app-select>
@@ -57,6 +57,7 @@
 
       
     </mat-card-content>
+    <app-title-header  [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
     <mat-card-actions class="evol-footer-actions">
       <app-actions [color]="'accent'" [class]="'flat'" [label]="'Volver'"  (click)="cancelar()"></app-actions>
       <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'"   (click)="guardar()"></app-actions>

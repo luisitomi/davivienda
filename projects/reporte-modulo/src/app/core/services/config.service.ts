@@ -56,6 +56,17 @@ export class ConfigService {
     /\/$/,
     ''
   );
+
+  TsObtenerPerfilWS = this.enviroment.TsObtenerPerfilWS?.replace(
+    /\/$/,
+    ''
+  );
+
+  TsModuloReporteEliminarWS = this.enviroment.TsModuloReporteEliminarWS?.replace(
+    /\/$/,
+    ''
+  );
+
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
 
   constructor(

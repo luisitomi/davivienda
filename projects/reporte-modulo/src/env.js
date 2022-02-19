@@ -12,5 +12,8 @@
     window.__env.TsFahTxtTraceModuloReporteWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/bd5dbc5c663248d6bc42d45eb9923887/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=DVOzqKNdMdk1UNqaW4qFEtzjvADL8P2SVR0qB2Nuf6g";
     window.__env.TsFAHListadoModuloReporteWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/67864ef2a2324e33a90df05f4adb8d9b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=_Kql1BZN0nteG4j-nhKR5JqHBV8OG-_p9bPN3kvxGvg";
     window.__env.TsFahObtenerUsuarioWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/6fb371a135fa404bad7fe40ce3225ef9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5CEEXkzdXYb1pT4Svzl7PxL0aN2-vO7RUVTbvdN6hoU";
+ 
+    window.__env.TsObtenerPerfilWS ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/bc0c0ab8218646af9c3349ea3fb83f9e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=brnqb00PY-OUobpxxMfASnZPNYubRKGf3T-cxGXaTS0";
+    window.__env.TsModuloReporteEliminarWS ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/ea7e639494344c40a1ecab53fc715b6c/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-6VzPgstHV4gJNkLK8Pngr1WH6OMXOj3FBtv7w0YGRE";
   }(this));
   

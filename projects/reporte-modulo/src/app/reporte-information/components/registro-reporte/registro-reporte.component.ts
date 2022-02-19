@@ -96,7 +96,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         IdParam: [currentValue.IdParam],
         NumeroParametro: [currentValue.Index, [Validators.required]],
         NombreParametro: [currentValue.NombreParametro, [Validators.required]],
-        ValorParametro: [currentValue.ValorParametro, [Validators.required]],
+        ValorParametro: [currentValue.ValorParametro],
         TipoParametro: [currentValue.TipoParametro, [Validators.required]],
         Obligatorio: [currentValue.Obligatorio, [Validators.required]],
         Descripcion: [currentValue.Descripcion, [Validators.required]],
@@ -121,7 +121,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         IdParam: [0],
         NumeroParametro: [1, [Validators.required]],
         NombreParametro: [null, [Validators.required]],
-        ValorParametro: [null, [Validators.required]],
+        ValorParametro: [null],
         TipoParametro: [null, [Validators.required]],
         Obligatorio: [null, [Validators.required]],
         Descripcion: [null, [Validators.required]],
@@ -154,10 +154,10 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   createItem() {
     const number = this.items.value.filter((p: any) => p.Estado !== 2)
     this.items.push(this.formBuilder.group({
-      IdParam: [this.ItemsTotal + 1],
+      IdParam: [0],
       NumeroParametro: [number.length + 1, [Validators.required]],
       NombreParametro: [null, [Validators.required]],
-      ValorParametro: [null, [Validators.required]],
+      ValorParametro: [null],
       TipoParametro: [null, [Validators.required]],
       Obligatorio: [null, [Validators.required]],
       Descripcion: [null, [Validators.required]],
@@ -178,6 +178,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
 
 
   delInput(id: number): void {
+    debugger;
     if (this.reporte.Id != 0 && this.items.value[id].Estado != 0) {
       this.items.value[id].Estado = 2
 
@@ -289,22 +290,27 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   guardar() {
     const dataform = this.filtrosForm.value;
     this.reporte = dataform;
+    this.reporte.parametros = this.items.value;
     if (this.filtrosForm.valid) {
       this.spinner = true;
       if (this.reporte.Id == 0) {
-        this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(), this.authService.getUsuarioV2()).subscribe(rest => {
+        this.reporteService.postTsFahModuloReporteRegistrarWS(this.reporte, this.authService.getUsuarioV2()).subscribe(rest => {
           this.filtrosForm.controls['Id'].setValue(rest.data.Id);
           this.toastr.success(rest?.message, 'Registro');
           this.spinner = false;
+          this.cancelar();
+        //  this.postTsFAHBuscarModuloReportePorIdWS(rest.data.Id);
         },
           () => {
             this.spinner = false;
           });
       } else {
 
-        this.reporteService.postTsFahModuloReporteRegistrarWS(this.filtrosForm.getRawValue(), this.authService.getUsuarioV2()).subscribe(rest => {
+        this.reporteService.postTsFahModuloReporteRegistrarWS(this.reporte  , this.authService.getUsuarioV2()).subscribe(rest => {
           this.toastr.success(rest?.message, 'Registro');
           this.spinner = false;
+          this.cancelar();
+        //this.postTsFAHBuscarModuloReportePorIdWS(rest.data.Id);
         },
           () => {
             this.spinner = false;
