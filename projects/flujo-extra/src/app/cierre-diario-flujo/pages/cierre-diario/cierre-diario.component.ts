@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { CierreDiarioService } from '../../../core/services/cierre-diario.service';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
@@ -40,28 +41,33 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   filtrar(filtroReporte: FiltroReporte) {
     filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format) || '',
     this.spinner = true;
-    this.cierreDiarioService.getListPre().subscribe(res1 => {
+    const $cierre = this.cierreDiarioService.getListPre().subscribe(res1 => {
       this.cierreDiarioService.getList(filtroReporte).subscribe(res => {
         this.informationsList = res;
         this.spinner = false;
       },
-      ()=> {
+        () => {
+          this.spinner = false;
+        });
+    },
+      () => {
         this.spinner = false;
       });
-    },
-    ()=> {
-      this.spinner = false;
-    });
+    this.arrayToDestroy.push($cierre);
   }
 
   cierre(id: number) {
     this.spinner = true;
-    this.cierreDiarioService.cierreDia(id, this.nombreUsuario).subscribe(res => {
-      this.informationsList = res;
-      this.spinner = false;
-    },
-    ()=> {
-      this.spinner = false;
-    });
+    const $cierre = this.cierreDiarioService
+      .cierreDia(id, this.nombreUsuario)
+      .pipe(finalize(() => this.filtrar(this.filtro)))
+      .subscribe(res => {
+        this.informationsList = res;
+        this.spinner = false;
+      },
+        () => {
+          this.spinner = false;
+        });
+    this.arrayToDestroy.push($cierre);
   }
 }
