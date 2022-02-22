@@ -17,5 +17,8 @@ export class ApiService {
   TsFAHListadoModuloReporteWS: string = '';
   TsFahObtenerUsuarioWS: string = '';
 
+  TsObtenerPerfilWS: string = '';
+  TsModuloReporteEliminarWS: string = '';
+
   constructor() { }
 }

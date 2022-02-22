@@ -31,7 +31,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="Parametro">
               <th mat-header-cell *matHeaderCellDef> Parametro </th>
-              <td mat-cell *matCellDef="let element"> {{element.NombreParametro}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
             </ng-container>
           
             <!-- Weight Column -->
@@ -57,7 +57,7 @@
         </div>
 
     </div>
-    <mat-dialog-actions class="evol-footer-actions">
-        <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
+    <mat-dialog-actions class="evol-footer-actions"  >
+        <app-actions [color]="'accent'" [class]="'flat'" (click)="save()"  [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
     </mat-dialog-actions>
 </form>

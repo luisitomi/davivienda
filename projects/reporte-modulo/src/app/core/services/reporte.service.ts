@@ -22,6 +22,7 @@ export class ReporteService {
   url = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/c98b5b8b8b67416fa00fb647ee2fc10b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5ChglnE_iJEv5lXY-66cLNW8YA_cQpQqZCYTMvX8sjI";
   */
   TsObtenerPerfilWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/bc0c0ab8218646af9c3349ea3fb83f9e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=brnqb00PY-OUobpxxMfASnZPNYubRKGf3T-cxGXaTS0";
+  TsModuloReporteEliminarWS  ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/ea7e639494344c40a1ecab53fc715b6c/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-6VzPgstHV4gJNkLK8Pngr1WH6OMXOj3FBtv7w0YGRE";
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
@@ -70,8 +71,15 @@ export class ReporteService {
     postTsObtenerPerfilWS (reporte: any): Observable<any> {
       return this.configService.getApiUrl().pipe(
         first(),
-        switchMap(url => this.http.post<any>(this.TsObtenerPerfilWS,reporte)),
+        switchMap(url => this.http.post<any>(this.configService.TsObtenerPerfilWS,reporte)),
         );
       }
+
+      postTsModuloReporteEliminarWS  (request: any): Observable<any> {
+        return this.configService.getApiUrl().pipe(
+          first(),
+          switchMap(url => this.http.post<any>(this.configService.TsModuloReporteEliminarWS,request)),
+        );
+      } 
 
 }

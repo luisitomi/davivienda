@@ -32,6 +32,7 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.filtrar();
   }
 
   createForm(): void {

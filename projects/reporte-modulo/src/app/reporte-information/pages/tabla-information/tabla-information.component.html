@@ -29,7 +29,11 @@
             <td mat-cell *matCellDef="let element">
               {{ element?.NombreArchivo }}</td>
           </ng-container>
-     
+          <ng-container matColumnDef="Accion">
+            <th mat-header-cell *matHeaderCellDef>Accion</th>
+            <td mat-cell *matCellDef="let element">
+              <app-actions [color]="'warn'" [class]="'flat'" (click)="eliminar(element?.Id)" [label]="'Eliminar'"></app-actions></td>
+          </ng-container>
           <ng-container matColumnDef="progress">
             <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
               <app-progress [loading]="loading"></app-progress>

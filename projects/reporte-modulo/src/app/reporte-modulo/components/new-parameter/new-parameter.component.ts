@@ -48,11 +48,12 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   ngOnInit(): void {
     this.createForm();
     this.getListReportes();
+   
   }
 
   createForm(): void {
     this.form = this.formBuilder.group({
-      Id:[0,[Validators.required]],
+      Id:[null,[Validators.required]],
       Usuario: [null],
       parametros: this.formBuilder.array([])
     });
@@ -61,6 +62,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     });
   }
   changeOption(event: any){
+    this.informationsParam= [];
     this.form.patchValue({
       Id: event?.value,
     });
@@ -83,14 +85,18 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
         TipoParametro: currentValue?.TipoParametro,
         Obligatorio : currentValue?.Obligatorio,
         NumeroParametro: currentValue?.NumeroParametro,
+        Descripcion: currentValue?.Descripcion,
       }));
     });
   }
 
   postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
+    this.spinner = true;
     this.reporteEjecucion.postTsFAHParametrosEjecucionModuloReporteWS({Id:IdReporte}).subscribe(rest =>{
     this.informationsParam = rest;
+    
     this.updateItem();
+    this.spinner = false;
     });
   }
   getListReportes(): void {
@@ -155,6 +161,16 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
 
   save(): void {
     //aca tendras las modificaciones de los inputs
+      
+ this.informationsParam = this.items.value
+    for (let index = 0; index < this.informationsParam.length; index++) {
+      const arrayElement = this.informationsParam[index];
+      if (arrayElement.Obligatorio == 'Y' && (arrayElement.ValorParametro == null || arrayElement.ValorParametro == '' )) {
+        this.toastr.warning("El campo " +arrayElement.Descripcion +" es obligatorio." , 'Advertencia');
+        return;
+      }
+    }
+    
 
     if (this.form.valid) {
       this.spinner = true;
