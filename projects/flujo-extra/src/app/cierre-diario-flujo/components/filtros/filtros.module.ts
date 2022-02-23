@@ -9,6 +9,7 @@ import { TitleHeaderModule } from '../../../shared/component/ui/title-header/tit
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormErrorsModule,
     MatExpansionModule,
     MatIconModule,
+    CalendarModule,
   ],
   exports: [FiltrosComponent],
 })
