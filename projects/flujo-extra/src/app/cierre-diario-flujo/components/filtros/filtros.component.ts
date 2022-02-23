@@ -35,6 +35,7 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({
       fecha: [null, []],
+      final: [null, []],
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);

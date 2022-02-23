@@ -10,8 +10,10 @@
     </mat-expansion-panel-header>
     <div class="evol-filtro-container">
       <div class="evol-filtro-section">
-        <app-input (input)="onFocusOutEvent('fecha')" (focusout)="onFocusOutEvent('fecha')" [label]="'Fecha'" formControlName="fecha" [error]="showErrors('fecha')"></app-input>
+        <app-input (input)="onFocusOutEvent('fecha')" (focusout)="onFocusOutEvent('fecha')" [label]="'Fecha Inicio'" formControlName="fecha" [error]="showErrors('fecha')"></app-input>
         <app-form-errors [control]="filtrosForm.controls['fecha']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('final')" (focusout)="onFocusOutEvent('final')" [label]="'Fecha Final'" formControlName="final" [error]="showErrors('final')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['final']"></app-form-errors>
       </div>
     </div>
     <mat-action-row>

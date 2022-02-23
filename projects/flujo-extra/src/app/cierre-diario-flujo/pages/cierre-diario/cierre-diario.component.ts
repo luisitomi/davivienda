@@ -22,6 +22,7 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   informationsList: Reporte[];
   filtro: FiltroReporte = {
     fecha: '',
+    final: '',
   }
   nombreUsuario: string;
 
@@ -40,6 +41,7 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
 
   filtrar(filtroReporte: FiltroReporte) {
     filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format) || '',
+    filtroReporte.final = this.datePipe.transform(filtroReporte.final, appConstants.eventDate.format) || '',
     this.spinner = true;
     const $cierre = this.cierreDiarioService.getListPre().subscribe(res1 => {
       this.cierreDiarioService.getList(filtroReporte).subscribe(res => {
