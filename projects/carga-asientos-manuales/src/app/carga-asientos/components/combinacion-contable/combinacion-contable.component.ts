@@ -160,7 +160,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte2: Maestra[]) => {
           this.parte2Options = (parte2 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
             type: data?.REQUIERE_IDENTIFICACION_CLI
           }))
@@ -176,7 +176,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte3: Maestra[]) => {
           this.parte3Options = (parte3 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -191,7 +191,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte4: Maestra[]) => {
           this.parte4Options = (parte4 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -206,7 +206,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte5: Maestra[]) => {
           this.parte5Options = (parte5 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -221,7 +221,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte6: Maestra[]) => {
           this.parte6Options = (parte6 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -236,7 +236,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte7: Maestra[]) => {
           this.parte7Options = (parte7 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -251,7 +251,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte8: Maestra[]) => {
           this.parte8Options = (parte8 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -266,7 +266,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte9: Maestra[]) => {
           this.parte9Options = (parte9 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -281,7 +281,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte10: Maestra[]) => {
           this.parte10Options = (parte10 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
         }
@@ -300,7 +300,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte11: Maestra[]) => {
           this.parte11Options = (parte11 || []).map((data) => ({
-            label: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
           }))
           this.spinner = false;
