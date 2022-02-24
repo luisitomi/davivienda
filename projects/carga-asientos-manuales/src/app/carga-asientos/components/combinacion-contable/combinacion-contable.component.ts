@@ -137,8 +137,8 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .subscribe(
         (parte1: Maestra[]) => { 
           this.parte1Options = (parte1 || []).map((data) => ({
-            label: data?.valor,
-            value: data?.valor,
+            label: `${data?.codigo} - ${data?.valor}`,
+            value: data?.codigo,
             type: data?.codigo
           }))
           this.filteredParte1Options = this.form.controls['comp1'].valueChanges.pipe(
