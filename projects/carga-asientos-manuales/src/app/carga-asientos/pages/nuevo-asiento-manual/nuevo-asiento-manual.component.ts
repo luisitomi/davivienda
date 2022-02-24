@@ -116,7 +116,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         LegderName: this.dataHeader?.leader,
         SourceName: this.dataHeader?.origen,
         TrxNumber: this.dataHeader?.number,
-        AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',
+        AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format2) || '',
         Description: this.dataHeader?.description,
         Company: '',
         Usuario: this.nombreUsuario,
