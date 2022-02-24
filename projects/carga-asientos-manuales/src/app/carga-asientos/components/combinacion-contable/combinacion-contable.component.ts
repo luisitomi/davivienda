@@ -328,9 +328,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   save(): void {
     if (this.form.valid) {
-      const valueForm = this.form.value;
+      const valueForm =this.form.value;
       const request: CombinacionContable = {
-        Company: valueForm.comp1,
+        Company:  valueForm.comp1,
         SegGlAccount: valueForm.comp2,
         SegOficina: valueForm.comp3,
         SegSucursal: valueForm.comp4,
@@ -342,7 +342,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         SegVinculado: valueForm.comp9,
         SegF1: valueForm.comp10,
         SegF2: valueForm.comp11,
-        ValueInformation: `${valueForm.comp1}-${valueForm.comp2}-${valueForm.comp3}-${valueForm.comp4}-${valueForm.comp5}-${valueForm.comp6}-${valueForm.comp7}-${valueForm.comp8}-${valueForm.comp9}-${valueForm.comp10}-${valueForm.comp11}`
+        ValueInformation: `${this.parte1Options.find(p => p.label === valueForm.comp1)?.value}-${valueForm.comp2}-${valueForm.comp3}-${valueForm.comp4}-${valueForm.comp5}-${valueForm.comp6}-${valueForm.comp7}-${valueForm.comp8}-${valueForm.comp9}-${valueForm.comp10}-${valueForm.comp11}`
       }
       this.dialogRef.close(request);
     }
