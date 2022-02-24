@@ -161,7 +161,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
         (response: any[]) => {
           this.leaders = (response || []).map((data) => ({
             label: data?.BU_NAME,
-            value: data?.BU_NAME,
+            value: data?.LEDGER_ID,
           }),
         )}
       );

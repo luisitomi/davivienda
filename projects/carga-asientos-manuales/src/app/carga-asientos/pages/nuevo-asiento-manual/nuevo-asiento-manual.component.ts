@@ -39,6 +39,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   updateLine = false;
   restForm = false;
   valorupdateForm: string;
+  leaders: Array<DropdownItem>;
 
   constructor(
     private cdRef:ChangeDetectorRef,
@@ -49,6 +50,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     private toastr: ToastrService,
     private authService: AuthService,
     private dialog: MatDialog,
+    private periodoContableService: HeaderLineService,
   ) {
     super();
     this.activatedRoute.queryParams.subscribe(params => {
@@ -102,6 +104,21 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.disabledForm = false;
       this.restForm = true;
     }
+  }
+
+  getLeader(): void {
+    const $leader = this.periodoContableService
+      .getListLeader()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any[]) => {
+          this.leaders = (response || []).map((data) => ({
+            label: data?.BU_NAME,
+            value: data?.LEDGER_ID,
+          }),
+        )}
+      );
+    this.arrayToDestroy.push($leader);
   }
 
   saveHeadboard(): void {
@@ -232,7 +249,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       if (permission) {
         const request: InserHeaderLine = {
           id: 0,
-          legderName: model?.header?.LegderName,
+          legderName: this.leaders.find( p => p.value === model?.header?.LegderName)?.label || '',
           sourceName: model?.header?.SourceName,
           trxNumber: model?.header?.TrxNumber,
           accountingDate: model?.header?.AccountingDate,
