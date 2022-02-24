@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -24,7 +24,7 @@ import { HeaderLineService } from '../../services/header-line.service';
   styleUrls: ['./nuevo-asiento-manual.component.scss'],
   providers: [DatePipe],
 })
-export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements AfterViewChecked {
+export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements AfterViewChecked, OnInit {
   disabledForm = false;
   validateForm = false;
   visibleForm = true;
@@ -57,6 +57,10 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.queryParams = params;
     });
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
+  }
+  
+  ngOnInit(): void {
+    this.getLeader();
   }
 
   ngAfterViewChecked(){
