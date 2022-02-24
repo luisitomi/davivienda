@@ -1,5 +1,5 @@
 export interface FiltroReporte {
-  fecha: string;
-  final: string;
+  fecha: string | undefined;
+  final: string | undefined;
 }
   

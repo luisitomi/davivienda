@@ -8,15 +8,15 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class ConfigService {
-  listado = this.enviroment.listado?.replace(
+  TsFAHCierreDiarioList = this.enviroment.TsFAHCierreDiarioList?.replace(
     /\/$/,
     ''
   );
-  listadoPre = this.enviroment.listadoPre?.replace(
+  listadoPre = this.enviroment.TSFAHCierreDiarioSave?.replace(
     /\/$/,
     ''
   );
-  cierre = this.enviroment.cierre?.replace(
+  cierre = this.enviroment.TSFAHCierreDiarioUpdate?.replace(
     /\/$/,
     ''
   );
@@ -24,7 +24,7 @@ export class ConfigService {
     /\/$/,
     ''
   );
-  listadoUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.listado);
+  listadoUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHCierreDiarioList);
   cierreUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.cierre);
   TsFahObtenerUsuarioWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahObtenerUsuarioWS);
   listadoPreUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.listadoPre);

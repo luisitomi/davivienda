@@ -10,14 +10,14 @@
     </mat-expansion-panel-header>
     <div class="evol-filtro-container">
       <div class="evol-filtro-section">
-        <app-calendar (input)="onFocusOutEvent('fecha')" (focusout)="onFocusOutEvent('fecha')" [label]="'Fecha Inicio'" formControlName="fecha" [error]="showErrors('fecha')"></app-calendar>
+        <app-calendar [maxDate]="maxDate" (input)="onFocusOutEvent('fecha')" (focusout)="onFocusOutEvent('fecha')" [label]="'Fecha Inicio'" formControlName="fecha" [error]="showErrors('fecha')"></app-calendar>
         <app-form-errors [control]="filtrosForm.controls['fecha']"></app-form-errors>
-        <app-calendar (input)="onFocusOutEvent('final')" (focusout)="onFocusOutEvent('final')" [label]="'Fecha Final'" formControlName="final" [error]="showErrors('final')"></app-calendar>
+        <app-calendar [maxDate]="maxDate" (input)="onFocusOutEvent('final')" (focusout)="onFocusOutEvent('final')" [label]="'Fecha Final'" formControlName="final" [error]="showErrors('final')"></app-calendar>
         <app-form-errors [control]="filtrosForm.controls['final']"></app-form-errors>
       </div>
     </div>
     <mat-action-row>
-      <app-actions [color]="'warn'" [class]="'flat'" (click)="filtrar()" [label]="'Filtrar'"></app-actions>
+      <app-actions [color]="'warn'" [class]="'flat'" [disabled]="!filtrosForm.valid" (click)="filtrar()" [label]="'Filtrar'"></app-actions>
     </mat-action-row>
   </mat-expansion-panel>
 </form>

@@ -1,5 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
@@ -10,6 +11,7 @@ import { FiltroReporte } from '../../../shared/models/filtro-reporte.model';
   selector: 'app-filtros',
   templateUrl: './filtros.component.html',
   styleUrls: ['./filtros.component.scss'],
+  providers: [DatePipe],
 })
 export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -21,6 +23,7 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
   usuarioOptions: Array<DropdownItem>;
   spinner: boolean;
   filtrosData: {};
+  maxDate = new Date();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,8 +37,8 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
 
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({
-      fecha: [null, []],
-      final: [null, []],
+      fecha: [null, [Validators.required]],
+      final: [null, [Validators.required]],
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);
@@ -43,7 +46,9 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
   }
 
   filtrar(): void {
-    this.filtros.emit(this.filtrosForm.value);
+    const dataForm = this.filtrosForm.value;
+
+    this.filtros.emit(dataForm);
     this.panel?.close();
   }
 

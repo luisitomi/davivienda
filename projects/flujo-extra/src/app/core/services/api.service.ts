@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
   apiUrl: string = '';
-  listado: string = '';
-  listadoPre: string = '';
-  cierre: string = '';
+  TsFAHCierreDiarioList: string = '';
+  TSFAHCierreDiarioSave: string = '';
+  TSFAHCierreDiarioUpdate: string = '';
   TsFahObtenerUsuarioWS: string = '';
 
   constructor() { }
