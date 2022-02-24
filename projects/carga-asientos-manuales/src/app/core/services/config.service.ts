@@ -16,47 +16,47 @@ export class ConfigService {
     /\/$/,
     ''
   );
-  getOptions2 = this.enviroment.getOptions2?.replace(
+  getOptions2 = this.enviroment.TsFahGetCuentaContableWS?.replace(
     /\/$/,
     ''
   );
-  getParte1 = this.enviroment.getParte1?.replace(
+  getParte1 = this.enviroment.TsFahGetCompaniaWS?.replace(
     /\/$/,
     ''
   );
-  getOptions3 = this.enviroment.getOptions3?.replace(
+  getOptions3 = this.enviroment.TsFahGetOficinaWS?.replace(
     /\/$/,
     ''
   );
-  getOptions4 = this.enviroment.getOptions4?.replace(
+  getOptions4 = this.enviroment.TsFahGetSucursalWS?.replace(
     /\/$/,
     ''
   );
-  getOptions5 = this.enviroment.getOptions5?.replace(
+  getOptions5 = this.enviroment.TsFahGetProyectoWS?.replace(
     /\/$/,
     ''
   );
-  getOptions6 = this.enviroment.getOptions6?.replace(
+  getOptions6 = this.enviroment.TsFahGetSubproyectoWS?.replace(
     /\/$/,
     ''
   );
-  getOptions7 = this.enviroment.getOptions7?.replace(
+  getOptions7 = this.enviroment.TsFahGetTipoComprobanteWS?.replace(
     /\/$/,
     ''
   );
-  getOptions8 = this.enviroment.getOptions8?.replace(
+  getOptions8 = this.enviroment.TsFahGetIntercompaniaWS?.replace(
     /\/$/,
     ''
   );
-  getOptions9 = this.enviroment.getOptions9?.replace(
+  getOptions9 = this.enviroment.TsFahGetVinculadoWS?.replace(
     /\/$/,
     ''
   );
-  getOptions10 = this.enviroment.getOptions10?.replace(
+  getOptions10 = this.enviroment.TsFahGetFuturo1WS?.replace(
     /\/$/,
     ''
   );
-  getOptions11 = this.enviroment.getOptions11?.replace(
+  getOptions11 = this.enviroment.TsFahGetFuturo2WS?.replace(
     /\/$/,
     ''
   );
