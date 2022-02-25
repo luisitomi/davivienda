@@ -266,9 +266,13 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.selectPeriod = '';
     const value = this.form.value;
     this.getPeriod(value?.leader);
-    this.processValidate.emit(this.form.valid && this.fechaIsValid);
-    this.dataValidate.emit(this.form.value);
+    this.processValidate.emit(true);
+    this.dataValidate.emit(undefined);
     this.proceesAutomaty.emit(true);
     this.proceesAutomatyResh.emit(true);
+    const data = this.form.value;
+    if (data?.period) {
+      this.removeChanges();
+    }
   }
 }
