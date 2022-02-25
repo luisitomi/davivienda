@@ -59,7 +59,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   }
 
   method () : void {
-    this.asientos = this.aprobador ? this.asientos : this.asientos.filter(o => o.usuario === this.nombreUsuario);
+    this.asientos = this.aprobador ? this.asientos.filter(o => o.estado === 'Pendiente') : this.asientos.filter(o => o.usuario === this.nombreUsuario);
     this.loadingAsientos = false
     this.spinner = false
   }

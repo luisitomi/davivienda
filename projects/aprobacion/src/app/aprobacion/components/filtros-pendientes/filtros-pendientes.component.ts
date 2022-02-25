@@ -110,7 +110,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
   }
 
   setData(): void {
-    this.listFilter = this.isAprobad ? this.listFilter : this.listFilter.filter(o => o.usuario === this.nombreUsuario);
+    this.listFilter = this.isAprobad ? this.listFilter.filter(o => o.estado === 'Pendiente') : this.listFilter.filter(o => o.usuario === this.nombreUsuario);
     this.origenOptions = (this.listFilter || []).map((item) => ({
       label: item?.origen,
       value: item?.origen,
