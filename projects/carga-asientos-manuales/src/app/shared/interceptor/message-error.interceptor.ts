@@ -21,7 +21,7 @@ export class MessageErrorInterceptor implements HttpInterceptor {
           }
         },
         (error: HttpErrorResponse) => {
-          this.toastr.error('Error', error?.error?.error?.message);
+          this.toastr.error('Error', error?.error?.error?.message || error?.error?.Mensaje);
         }
       )
     );
