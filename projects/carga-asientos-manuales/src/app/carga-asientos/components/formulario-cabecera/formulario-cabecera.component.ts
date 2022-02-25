@@ -56,10 +56,15 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
 
   ngAfterViewChecked(){
     if (this.restForm) {
-      this.proceesAutomaty.emit(true);
       this.form.patchValue({
-        number: this.valorupdateForm,
+        period: null,
+        number: null,
+        description: null,
+        accountingDate: null,
       });
+      this.selectOrigen = '';
+      this.selectLeaders = '';
+      this.restForm = !this.restForm
     }
     this.cdRef.detectChanges();
   }
@@ -100,7 +105,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       this.selectLeaders = model?.header?.LegderName;
       this.getPeriod(Number(model?.header?.LegderName));
     }
-    this.processValidate.emit(this.form.valid);
+    this.processValidate.emit(this.form.valid && this.fechaIsValid);
     this.dataValidate.emit(this.form.value);
     this.proceesAutomaty.emit(this.form.valid);
   }
@@ -208,7 +213,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       ]);
     }
     this.form.get(`${control}`)?.updateValueAndValidity();
-    this.processValidate.emit(this.form.valid);
+    this.processValidate.emit(this.form.valid && this.fechaIsValid);
     this.dataValidate.emit(this.form.value);
   }
 
@@ -245,7 +250,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
         event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
         event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
       : 1))?.period_name;
-      this.processValidate.emit(this.form.valid);
+      this.processValidate.emit(this.form.valid && this.fechaIsValid);
       this.dataValidate.emit(this.form.value);
     }
   }
@@ -261,9 +266,9 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.selectPeriod = '';
     const value = this.form.value;
     this.getPeriod(value?.leader);
-    this.processValidate.emit(this.form.valid);
+    this.processValidate.emit(this.form.valid && this.fechaIsValid);
     this.dataValidate.emit(this.form.value);
-    this.proceesAutomaty.emit(this.form.valid);
+    this.proceesAutomaty.emit(true);
     this.proceesAutomatyResh.emit(true);
   }
 }

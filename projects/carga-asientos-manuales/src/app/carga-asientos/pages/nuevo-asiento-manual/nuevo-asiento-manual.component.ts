@@ -69,7 +69,11 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
 
   proceesAutomaty(validate: boolean){
     if(validate){
-      this.saveHeadboard();
+      this.restForm = true;
+      this.disabledForm = false;
+      this.validateTable = false;
+      this.visibleForm = true;
+      this.visibleTable = false;
     }
   }
 

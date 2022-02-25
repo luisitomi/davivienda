@@ -41,7 +41,8 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(){
     if (this.refreshLine) {
-      this.getLine();
+      localStorage.removeItem(appConstants.modelSave.NEWSEAT);
+      this.lines.data = [];
     }
     this.cdRef.detectChanges();
   }
