@@ -69,7 +69,6 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
 
   proceesAutomaty(validate: boolean){
     if(validate){
-      this.restForm = true;
       this.disabledForm = false;
       this.validateTable = false;
       this.visibleForm = true;
@@ -110,7 +109,6 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.visibleForm = true;
       this.visibleTable = false;
       this.disabledForm = false;
-      this.restForm = true;
     }
   }
 

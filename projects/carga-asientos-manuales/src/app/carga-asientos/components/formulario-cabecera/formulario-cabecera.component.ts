@@ -105,7 +105,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       this.selectLeaders = model?.header?.LegderName;
       this.getPeriod(Number(model?.header?.LegderName));
     }
-    this.processValidate.emit(this.form.valid && this.fechaIsValid);
+    this.processValidate.emit(this.form.valid && (this.fechaIsValid) || Boolean(new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`)));
     this.dataValidate.emit(this.form.value);
     this.proceesAutomaty.emit(this.form.valid);
   }
@@ -153,6 +153,9 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
         if (model?.header) {
           this.selectPeriod = model?.header?.Period;
           this.disabledFecha = true;
+        }
+        if (model?.header?.period) {
+          this.removeChanges2();
         }
       });
     this.arrayToDestroy.push($period);
@@ -272,7 +275,20 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.proceesAutomatyResh.emit(true);
     const data = this.form.value;
     if (data?.period) {
-      this.removeChanges();
+      this.removeChanges2();
     }
+  }
+
+  removeChanges2(): void {
+    this.form.patchValue({
+      period: null,
+      number: null,
+      description: null,
+      accountingDate: null,
+    });
+    this.processValidate.emit(true);
+    this.dataValidate.emit(undefined);
+    this.proceesAutomaty.emit(true);
+    this.proceesAutomatyResh.emit(true);
   }
 }
