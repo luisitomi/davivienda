@@ -65,6 +65,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       this.selectOrigen = '';
       this.selectLeaders = '';
       this.restForm = !this.restForm
+      this.processValidate.emit(this.form.valid && this.fechaIsValid);
     }
     this.cdRef.detectChanges();
   }
@@ -105,7 +106,9 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       this.selectLeaders = model?.header?.LegderName;
       this.getPeriod(Number(model?.header?.LegderName));
     }
-    this.processValidate.emit(this.form.valid && (this.fechaIsValid) || Boolean(new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`)));
+    this.processValidate.emit(this.form.valid && (this.fechaIsValid) || Boolean(
+      model?.header?.SourceName && Boolean(new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`)))
+    );
     this.dataValidate.emit(this.form.value);
     this.proceesAutomaty.emit(this.form.valid);
   }
@@ -271,7 +274,6 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.getPeriod(value?.leader);
     this.processValidate.emit(true);
     this.dataValidate.emit(undefined);
-    this.proceesAutomaty.emit(true);
     this.proceesAutomatyResh.emit(true);
     const data = this.form.value;
     if (data?.period) {
@@ -288,7 +290,6 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     });
     this.processValidate.emit(true);
     this.dataValidate.emit(undefined);
-    this.proceesAutomaty.emit(true);
     this.proceesAutomatyResh.emit(true);
   }
 }

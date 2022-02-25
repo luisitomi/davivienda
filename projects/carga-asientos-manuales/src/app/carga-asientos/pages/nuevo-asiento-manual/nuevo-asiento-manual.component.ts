@@ -69,10 +69,10 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
 
   proceesAutomaty(validate: boolean){
     if(validate){
-      this.disabledForm = false;
+      this.disabledForm = true;
       this.validateTable = false;
-      this.visibleForm = true;
-      this.visibleTable = false;
+      this.visibleForm = false;
+      this.visibleTable = true;
     }
   }
 
@@ -84,6 +84,10 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
 
   proceesAutomatyResh(validate: boolean): void {
     this.updateLine = validate;
+    this.restForm = validate;
+    this.visibleForm = true;
+    this.disabledForm = false;
+    this.visibleTable = false;
   }
 
   processValidate(validate: boolean): void {
@@ -258,7 +262,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           legderName: this.leaders.find( p => p.value === model?.header?.LegderName)?.label || '',
           sourceName: model?.header?.SourceName,
           trxNumber: model?.header?.TrxNumber,
-          accountingDate: model?.header?.AccountingDate,
+          accountingDate: model?.header?.AccountingDate?.replace('/','-').replace('/','-').replace('/','-'),
           description: model?.header?.Description,
           usuario: this.nombreUsuario,
           linea: lineSave || undefined,
