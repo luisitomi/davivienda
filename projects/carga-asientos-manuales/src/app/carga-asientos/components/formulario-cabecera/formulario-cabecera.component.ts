@@ -230,7 +230,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     const valueFecha = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
     event?.value?.getMonth()+1 < 10 ? 
       event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
-      event?.value?.getFullYear()+event?.value?.getMonth()+1 
+      event?.value?.getFullYear()+''+(event?.value?.getMonth()+1)
     : 1))?.closing_status === 'O';
     if (!valueFecha) {
       this.toastr.warning('Periodo no esta activo', 'Advertencia');

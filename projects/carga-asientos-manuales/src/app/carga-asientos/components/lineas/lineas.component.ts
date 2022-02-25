@@ -52,6 +52,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   getLine(): void {
+    this.lines.data = [];
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     if (model?.line) {
       this.lines.data = model?.line || [];
