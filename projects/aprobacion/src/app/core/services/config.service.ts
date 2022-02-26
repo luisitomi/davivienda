@@ -52,6 +52,10 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  TsLimitActiveProfile = this.enviroment.TsLimitActiveProfile?.replace(
+    /\/$/,
+    ''
+  );
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
   apiUrlSubjectTsConfigutLimitAsientSave: BehaviorSubject<string> = new BehaviorSubject(this.TsConfigutLimitAsientSave);
   apiUrlSubjectTSFAHConfigLimitDesAct: BehaviorSubject<string> = new BehaviorSubject(this.TSFAHConfigLimitDesAct);
@@ -62,6 +66,7 @@ export class ConfigService {
   apiUrlSubjectTsFAHConfiguracionLimiteAccount: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimiteAccount);
   apiUrlSubjectRol: BehaviorSubject<string> = new BehaviorSubject(this.Rol);
   _TsFAHConfigurationDownload: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfigurationDownload);
+  _TsLimitActiveProfile: BehaviorSubject<string> = new BehaviorSubject(this.TsLimitActiveProfile);
 
   constructor(
     private enviroment: ApiService
@@ -105,6 +110,10 @@ export class ConfigService {
 
   getApiUrlTsFAHConfigurationDownload(): Observable<string> {
     return this._TsFAHConfigurationDownload.asObservable().pipe(first());
+  }
+
+  getApiUrlTsLimitActiveProfile(): Observable<string> {
+    return this._TsLimitActiveProfile.asObservable().pipe(first());
   }
 }
 

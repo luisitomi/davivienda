@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { Asiento } from '../../../shared';
@@ -12,7 +12,7 @@ import { LimitService } from '../../services/limit.service';
   templateUrl: './tabla-asientos.component.html',
   styleUrls: ['./tabla-asientos.component.scss']
 })
-export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnInit, OnChanges {
+export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnChanges {
 
   @Input() asientos: Asiento[] = [];
   @Input() loading: boolean = false;
@@ -34,9 +34,6 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnIni
   ) {
     super();
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
-  }
-
-  ngOnInit(): void {
   }
 
   ngOnChanges(): void {

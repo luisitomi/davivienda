@@ -59,4 +59,11 @@ export class LimitService {
     );
   }
 
+  getByIdProfile(usuario: string, nivel: number): Observable<any> {
+    return this.configService.getApiUrlTsLimitActiveProfile().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url,{Usuario: usuario, Nivel: nivel})),
+    );
+  }
+
 }

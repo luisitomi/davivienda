@@ -20,6 +20,7 @@ import { LimitHeaderService } from '../../services/limitHeader.service';
 })
 export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements OnInit {
   asientos: Asiento[] = [];
+  asientosCopy: Asiento[] = [];
   loadingAsientos: boolean = false;
   spinner = false;
   nombreUsuario: string;
@@ -48,7 +49,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   getByRolUser(): void {
     this.spinner = true;
     const $rol = this.limitService
-                  .getByIdRol(this.nombreUsuario)
+                  .getByIdRol('empleado2')
                   .pipe(finalize(() => this.filtrar(this.filtros)))
                   .subscribe(
                     (response: any) => {
@@ -58,10 +59,47 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.arrayToDestroy.push($rol);
   }
 
-  method () : void {
-    this.asientos = this.aprobador ? this.asientos.filter(o => o.estado === 'Pendiente') : this.asientos.filter(o => o.usuario === this.nombreUsuario);
+  functionLoad(data: any): void {
+    this.asientos = data;
+    this.spinner = false;
     this.loadingAsientos = false
-    this.spinner = false
+  }
+
+  method () : void {
+    const dataLoad: any = [];
+    this.asientosCopy = this.aprobador ? this.asientosCopy.filter(o => o.estado === 'Pendiente') : this.asientosCopy.filter(o => o.usuario === this.nombreUsuario);
+    if (this.aprobador) {
+      this.asientosCopy.forEach((element,index) => {
+        this.spinner = true;
+        if (index + 1 === this.asientosCopy?.length) {
+          const profile = this.limitService
+            .getByIdProfile('empleado2', element?.nivel)
+            .pipe(finalize(() => this.functionLoad(dataLoad)))
+            .subscribe(
+              (response: any) => {
+                if (response?.message?.XV_PERSON_ID_APROBADOR) {
+                  dataLoad.push(element)
+                }
+              }
+            )
+          this.arrayToDestroy.push(profile);
+        } else {
+          const profile = this.limitService
+            .getByIdProfile('empleado2', element?.nivel)
+            .subscribe(
+              (response: any) => {
+                if (response?.message?.XV_PERSON_ID_APROBADOR) {
+                  dataLoad.push(element)
+                }
+              }
+            )
+          this.arrayToDestroy.push(profile);
+        }        
+      });
+    } else{
+      this.spinner = false;
+      this.asientos = this.asientosCopy;
+    }
   }
 
   filtrar(filtros: any): void {
@@ -83,7 +121,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       .pipe(finalize(() => this.method()))
       .subscribe(
         (asiento: LimitHeader[]) => {
-          this.asientos = (asiento || []).map((item) => ({
+          this.asientosCopy = (asiento || []).map((item) => ({
             id: item?.Id,
             origen: item?.Origen,
             fechaCarga: item?.Carga,
@@ -97,7 +135,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             nivel: item.NivelLimit,
             estado: item?.Estado,
           }));
-          this.asientos = this.eliminarObjetosDuplicados(this.asientos, 'id');
+          this.asientosCopy = this.eliminarObjetosDuplicados(this.asientosCopy, 'id');
         }
       );
     this.arrayToDestroy.push($subas);

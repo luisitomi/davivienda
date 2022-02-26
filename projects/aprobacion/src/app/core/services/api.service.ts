@@ -15,6 +15,7 @@ export class ApiService {
   TsFAHConfiguracionLimiteAccount: string = '';
   Rol: string = '';
   TsFAHConfigurationDownload: string = '';
+  TsLimitActiveProfile: string = '';
 
   constructor() { }
 }
