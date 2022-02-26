@@ -197,7 +197,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       const lineSave: LineSave[] = (line || []).map((data) => ({
         id: 0,
         nroLinea: data?.nroLinea,
-        company: data?.combinationAccount?.Company,
+        company: data?.combinationAccount?.Company?.split(' ')[0],
         segGlAccount: data?.combinationAccount?.SegGlAccount,
         segGlAccountValue: data?.combinationAccount?.SegGlAccountValue,
         segOficina: data?.combinationAccount?.SegOficina,
