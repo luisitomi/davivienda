@@ -194,9 +194,9 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       const line: Array<LineaAsientoInsert> = model?.line || [];
       const lineSaveComprobante = line[0]?.combinationAccount?.SegTipoComprobante;;
-      const lineSave: LineSave[] = (line || []).map((data) => ({
+      const lineSave: LineSave[] = (line || []).map((data, index) => ({
         id: 0,
-        nroLinea: data?.nroLinea,
+        nroLinea: index + 1,
         company: data?.combinationAccount?.Company?.split(' ')[0],
         segGlAccount: data?.combinationAccount?.SegGlAccount,
         segGlAccountValue: data?.combinationAccount?.SegGlAccountValue,
