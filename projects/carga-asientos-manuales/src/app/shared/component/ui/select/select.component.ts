@@ -34,6 +34,18 @@ export class SelectComponent {
   protected inputOptions: Array<DropdownItem>;
 
   @Input()
+  get options1(): Array<DropdownItem> {
+    return this.inputOptions1;
+  }
+  set options1(items: Array<DropdownItem>) {
+    if (Array.isArray(items)) {
+      this.inputOptions1 = items;
+    }
+  }
+
+  protected inputOptions1: Array<DropdownItem>;
+
+  @Input()
   get disabled(): boolean {
     return this.inputDisabled;
   }

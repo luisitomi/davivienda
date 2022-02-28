@@ -277,11 +277,14 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
                 this.dialog.open(ConfirmationComponent, {
                   width: '80%',
                   maxWidth: '400px',
-                  data: { name: 'Se regitró correctamente con el número de resultado '+ response?.trxNumber},
+                  data: { name: 'Se regitró correctamente con el número de asiento '+ response?.trxNumber},
                   panelClass: 'my-dialog',
                 });
-                this.valorupdateForm = response?.trxNumber;
-                this.proceesLineRefreshInitial(true);
+                this.valorupdateForm = response?.trxNumber;                
+                this.processValidate(true);
+                this.proceesAutomatyResh(true);               
+                this.processValidate(true);
+                this.proceesAutomatyResh(true);
                 this.toastr.success(response?.message, 'Registro');
               }          
             }
