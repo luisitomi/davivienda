@@ -7,7 +7,8 @@ import { AuthService } from '../../../core/services/auth.service';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
-import { LimitSave } from '../../models/limite.model';
+import { DropdownItem } from '../../../shared/component/ui/select/select.model';
+import { Limit, LimitSave } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
   loading: boolean;
   nombreUsuario: string;
   selectTypeUser = DATA_TYPE;
+  selectTypeNivel: Array<DropdownItem> = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -38,6 +40,7 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
   
   ngOnInit(): void {
     this.createForm();
+    this.getListLimits();
   }
 
   ngAfterViewChecked(){
@@ -73,6 +76,40 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
 
   validate(): ValidationErrors {  
     return { required: true };
+  }
+
+  getListLimits(): void {
+    this.spinner = true;
+    const $limits = this.limitService
+      .getLimits()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: Limit[]) => {
+          response = response.filter(p => p.Description !== 'Automatico');
+          this.selectTypeNivel = (response || []).map((data) => ({
+            label: data?.Description?.toUpperCase(),
+            value: data?.Description,
+          }))
+          this.selectTypeNivel = this.eliminarObjetosDuplicados(this.selectTypeNivel, 'label');
+          this.selectTypeNivel.unshift({label: 'Todos', value: ''})
+        }
+      );
+    this.arrayToDestroy.push($limits);
+  }
+
+  eliminarObjetosDuplicados(arr: any, prop: any): any {
+    var nuevoArray: any = [];
+    var lookup:any = {};
+
+    for (var i in arr) {
+        lookup[arr[i][prop]] = arr[i];
+    }
+
+    for (i in lookup) {
+        nuevoArray.push(lookup[i]);
+    }
+
+    return nuevoArray;
   }
 
   showErrors(control: string): boolean {

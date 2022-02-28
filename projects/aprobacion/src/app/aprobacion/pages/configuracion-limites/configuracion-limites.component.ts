@@ -62,10 +62,26 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             label: data?.Description,
             value: data?.Description,
           }))
+          this.selectLimits = this.eliminarObjetosDuplicados(this.selectLimits, 'label');
           this.selectLimits.unshift({label: 'Todos', value: ''})
         }
       );
     this.arrayToDestroy.push($limits);
+  }
+
+  eliminarObjetosDuplicados(arr: any, prop: any): any {
+    var nuevoArray: any = [];
+    var lookup:any = {};
+
+    for (var i in arr) {
+        lookup[arr[i][prop]] = arr[i];
+    }
+
+    for (i in lookup) {
+        nuevoArray.push(lookup[i]);
+    }
+
+    return nuevoArray;
   }
 
   buscar(): void {
