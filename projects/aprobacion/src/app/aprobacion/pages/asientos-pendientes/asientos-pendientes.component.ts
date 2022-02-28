@@ -49,7 +49,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   getByRolUser(): void {
     this.spinner = true;
     const $rol = this.limitService
-                  .getByIdRol('empleado2')
+                  .getByIdRol(this.nombreUsuario)
                   .pipe(finalize(() => this.filtrar(this.filtros)))
                   .subscribe(
                     (response: any) => {

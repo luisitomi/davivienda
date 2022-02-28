@@ -62,7 +62,6 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.getListData(this.filtrosData);
     this.getByRolUser();
   }
 
@@ -116,7 +115,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.spinner = true;
     const $rol = this.limitService
                   .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize(() => this.spinner = false))
+                  .pipe(finalize(() => this.getListData(this.filtrosData)))
                   .subscribe(
                     (response: any) => {
                       this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
