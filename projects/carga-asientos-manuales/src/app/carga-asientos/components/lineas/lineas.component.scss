@@ -52,6 +52,11 @@ table {
   @extend %column;
 }
 
+.mat-column-descripcion {
+  @extend %column;
+  width: 30em;
+}
+
 .mat-column-referenciales {
   @extend %column;
   width: 30em;

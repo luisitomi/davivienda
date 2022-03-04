@@ -193,7 +193,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       this.spinner = true;
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       const line: Array<LineaAsientoInsert> = model?.line || [];
-      const lineSaveComprobante = line[0]?.combinationAccount?.SegTipoComprobante;;
+      const lineSaveComprobante = line[0]?.combinationAccount?.SegTipoComprobante;
       const lineSave: LineSave[] = (line || []).map((data, index) => ({
         id: 0,
         nroLinea: index + 1,
@@ -221,6 +221,14 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           valor: refere?.valor,
         }))
       }));
+      
+      const totalDebito = lineSave.map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+      const totalCredito = lineSave.map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+      if (totalDebito !== totalCredito) {
+        this.toastr.warning("La suma entre los montos de crédito y débito son diferentes", 'Advertencia');
+        this.spinner = false;
+        return;
+      }
       let permission = true;
       lineSave.forEach((element, index) => {
         if (!element.informacionReferencial?.length) {

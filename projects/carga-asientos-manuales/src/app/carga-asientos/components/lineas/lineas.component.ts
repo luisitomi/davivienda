@@ -22,7 +22,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   title = "Líneas";
   lineList: Array<LineaAsientoInsert> = [];
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
-  displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'acciones'];
+  displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'descripcion', 'acciones'];
   queryParams: any;
   lineName: string;
   validateInfo: any;
@@ -53,6 +53,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   getLine(): void {
     this.lines.data = [];
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    console.log(model)
     if (model?.line) {
       this.lines.data = model?.line || [];
       let number = 1;
