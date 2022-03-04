@@ -127,7 +127,6 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   private _filterParte1(name: string): DropdownItem[] {
     const filterValue = name.toLowerCase();
-    this.getOptions5(filterValue)
     return this.parte1Options.filter(option => option.value?.toLowerCase().includes(filterValue));
     
   }
@@ -331,6 +330,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       this.validateClient = this.parte2Options.find(p => p.value === this.form.get(`${control}`)?.value)?.type || '';
     }
     this.form.get(`${control}`)?.updateValueAndValidity();
+    if (control === 'comp1'){
+      this.getOptions5(this.form.get(`${control}`)?.value?.split(' ')[0]);
+    }
   }
 
   save(): void {
