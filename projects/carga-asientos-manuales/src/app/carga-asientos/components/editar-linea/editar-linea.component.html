@@ -9,6 +9,8 @@
     <app-form-errors [control]="form.controls['type']"></app-form-errors>
     <app-input (input)="onFocusOutEvent('amount')" (focusout)="onFocusOutEvent('amount')" [label]="inputName" formControlName="amount" [error]="showErrors('amount')" [onlyNumber]="true"></app-input>
     <app-form-errors [control]="form.controls['amount']"></app-form-errors>
+    <app-input (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
+    <app-form-errors [control]="form.controls['description']"></app-form-errors>
   </div>
   <mat-dialog-actions class="evol-footer-actions">
     <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>

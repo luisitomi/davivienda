@@ -55,6 +55,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
       currency: [null, [Validators.required]],
       type: [null, [Validators.required]],
       amount: [null, [Validators.required]],
+      description: [null, [Validators.required]],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
@@ -66,6 +67,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
       currency: this.data?.data?.SegCurrency,
       type: this.data?.data?.EnteredDebit ? appConstants.typeCredit.DEBITO : appConstants.typeCredit.CREDITO,
       amount: this.data?.data?.EnteredDebit ? this.data?.data?.EnteredDebit : this.data?.data?.EnteredCredit,
+      description: this.data?.data?.Description,
     });
     this.selectType = this.data?.data?.EnteredDebit ? appConstants.typeCredit.DEBITO : appConstants.typeCredit.CREDITO;
     this.selectTypeCurrency = this.data?.data?.SegCurrency;
@@ -139,7 +141,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
         SegCurrency: valueForm.currency,
         EnteredDebit: valueForm.type === appConstants.typeCredit.DEBITO ? valueForm.amount : '',
         EnteredCredit: valueForm.type === appConstants.typeCredit.DEBITO ? '' : valueForm.amount,
-        Description: '',
+        Description: valueForm.description,
         Usuario: '',
         columnasReferenciales: [],
       }
