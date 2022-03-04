@@ -77,7 +77,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             .pipe(finalize(() => this.functionLoad(dataLoad)))
             .subscribe(
               (response: any) => {
-                if (response?.message?.XV_PERSON_ID_APROBADOR) {
+                if (response?.message?.XV_USUARIO_APROBADOR === this.nombreUsuario) {
                   dataLoad.push(element)
                 }
               }
@@ -88,7 +88,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             .getByIdProfile(this.nombreUsuario, element?.nivel)
             .subscribe(
               (response: any) => {
-                if (response?.message?.XV_PERSON_ID_APROBADOR) {
+                if (response?.message?.XV_USUARIO_APROBADOR === this.nombreUsuario) {
                   dataLoad.push(element)
                 }
               }
