@@ -17,7 +17,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   @Output() updateLis = new EventEmitter<boolean>();
   @Input() limites: Limite[];
   @Input() loading: boolean = false;
-  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValorFinish'];
+  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValorFinish', 'estado'];
   spinner  = false;
   sinCambios: boolean = true;
 
