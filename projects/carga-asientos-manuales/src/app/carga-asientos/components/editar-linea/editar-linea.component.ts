@@ -25,6 +25,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
   focusoutType: boolean;
   loading = false;
   selectType: string;
+  selectTypeCurrency: string;
   spinner: boolean;
 
   constructor(
@@ -67,6 +68,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
       amount: this.data?.data?.EnteredDebit ? this.data?.data?.EnteredDebit : this.data?.data?.EnteredCredit,
     });
     this.selectType = this.data?.data?.EnteredDebit ? appConstants.typeCredit.DEBITO : appConstants.typeCredit.CREDITO;
+    this.selectTypeCurrency = this.data?.data?.SegCurrency;
   }
 
   showErrors(control: string): boolean {
@@ -146,5 +148,4 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
   }
 }
 
-const DATA_CURRENCY = ['COP', 'USD'];
 const DATA_TYPE = ['Débito', 'Crédito'];

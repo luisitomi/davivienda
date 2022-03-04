@@ -7,16 +7,17 @@ import { DropdownItem, EventDropdown } from './select.model';
 type DropdownItemType = string | number | DropdownItem | any;
 
 @Component({
-  selector: 'app-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectComponent ), multi: true }],
+  selector: 'app-select-filter',
+  templateUrl: './selectFilter.component.html',
+  styleUrls: ['./selectFilter.component.scss'],
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectFilterComponent ), multi: true }],
 })
-export class SelectComponent {
+export class SelectFilterComponent {
   @Input() label: string;
   @Input() placeholder: string;
   @Output() changeOption: EventEmitter<EventDropdown> = new EventEmitter<EventDropdown>();
   @ViewChild(MatSelect, { static: true }) dropdown: MatSelect;
+  @ViewChild('singleSelect') singleSelect: MatSelect;
 
   @Input() selected: DropdownItemType;
 
@@ -30,7 +31,18 @@ export class SelectComponent {
     }
   }
 
+  @Input()
+  get options1(): Array<DropdownItem> {
+    return this.inputOptions1;
+  }
+  set options1(items: Array<DropdownItem>) {
+    if (Array.isArray(items)) {
+      this.inputOptions1 = items;
+    }
+  }
+
   protected inputOptions: Array<DropdownItem>;
+  protected inputOptions1: Array<DropdownItem>;
 
   @Input()
   get disabled(): boolean {
@@ -89,6 +101,16 @@ export class SelectComponent {
       value: event?.value,
       type: this.options.find((o) => o.value === event?.value)?.type || '',
     });
+  }
+
+  search(event: any): void {
+    let search = event?.target?.value;
+    if (!search?.length) {
+      this.options = this.options1
+    } else {
+      this.options = this.options1
+      this.options = this.options.filter(option => (option.label || '').toLowerCase().indexOf(search?.toLowerCase()) > -1)
+    }
   }
 
   writeValue(value: any): void {

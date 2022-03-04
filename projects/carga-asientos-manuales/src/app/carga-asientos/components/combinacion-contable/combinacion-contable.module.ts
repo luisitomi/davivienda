@@ -3,7 +3,6 @@ import '@angular/common/locales/global/es-CO';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CombinacionContableComponent } from './combinacion-contable.component';
-import { SelectModule } from '../../../shared/component/ui/select/select.module';
 import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
@@ -12,6 +11,8 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatInputModule } from '@angular/material/input';
+import { SelectFilterModule } from '../../../shared/component/ui/select-filter/selectFilter.module';
+import { SelectModule } from '../../../shared/component/ui/select/select.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SelectModule,
+    SelectFilterModule,
     CloseModule,
     FormErrorsModule,
     ActionsModule,
@@ -30,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     NgxMatFileInputModule,
     MatAutocompleteModule,
     MatInputModule,
+    SelectModule,
   ],
   entryComponents: [CombinacionContableComponent],
 })

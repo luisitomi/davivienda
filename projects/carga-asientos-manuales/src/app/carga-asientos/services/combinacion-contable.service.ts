@@ -29,9 +29,9 @@ export class CombinacionContableService {
     );
   }
 
-  getParte3(): Observable<Maestra[]> {
+  getParte3(name: string): Observable<Maestra[]> {
     return this.configService.getApiUrlgetOptions3().pipe(
-      switchMap(url => this.http.get<Maestra[]>(url)),
+      switchMap(url => this.http.post<Maestra[]>(url ,{sucursal: name})),
     );
   }
 
@@ -41,9 +41,9 @@ export class CombinacionContableService {
     );
   }
 
-  getParte5(): Observable<Maestra[]> {
+  getParte5(name: string): Observable<Maestra[]> {
     return this.configService.getApiUrlgetOptions5().pipe(
-      switchMap(url => this.http.get<Maestra[]>(url)),
+      switchMap(url => this.http.post<Maestra[]>(url ,{compania: name})),
     );
   }
 

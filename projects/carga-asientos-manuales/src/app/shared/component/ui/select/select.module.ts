@@ -6,7 +6,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
-import { MatSelectFilterModule } from 'mat-select-filter';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,6 @@ import { MatSelectFilterModule } from 'mat-select-filter';
     NgxMatFileInputModule,
     MatInputModule,
     MatSelectModule,
-    MatSelectFilterModule,
   ],
   exports: [SelectComponent],
 })

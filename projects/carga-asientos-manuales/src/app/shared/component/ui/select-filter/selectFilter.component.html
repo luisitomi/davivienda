@@ -3,6 +3,7 @@
     <ng-content select="[header]"></ng-content>
   </mat-label>
   <mat-select
+    #singleSelect
     matInput
     [placeholder]="placeholder"
     [disabled]="disabled"
@@ -10,6 +11,14 @@
     (selectionChange)="changeDropdown($event)"
     [ngClass]="{ 'is-invalid-input u-mb0': error }"
   >
+    <mat-option>
+      <ngx-mat-select-search 
+        placeholderLabel="Buscar..."
+        (input)="search($event)"
+        noEntriesFoundLabel="'No se encontrarn resultados'"
+      >
+      </ngx-mat-select-search>
+    </mat-option>
     <mat-option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}
     </mat-option>

@@ -26,6 +26,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     CloseModule,
     MatDialogModule,
     LoaderModule,
+    SelectModule,
   ],
   entryComponents: [EditarLineaComponent],
 })

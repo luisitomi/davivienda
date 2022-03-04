@@ -99,9 +99,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       comp11: this.data?.data?.SegF2,
     });
     this.comp1Select = this.data?.data?.Company;
+    this.getOptions5(this.data?.data?.Company.split(' ')[0])
     this.comp2Select = this.data?.data?.SegGlAccount;
     this.comp3Select = this.data?.data?.SegOficina;
     this.comp4Select = this.data?.data?.SegSucursal;
+    this.getOptions3(this.comp4Select);
     this.comp5Select = this.data?.data?.SegProyecto;
     this.comp6Select = this.data?.data?.SegSubProyecto;
     this.comp7Select = this.data?.data?.SegTipoComprobante;
@@ -125,8 +127,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   private _filterParte1(name: string): DropdownItem[] {
     const filterValue = name.toLowerCase();
-
+    this.getOptions5(filterValue)
     return this.parte1Options.filter(option => option.value?.toLowerCase().includes(filterValue));
+    
   }
 
   getOptions1(): void {
@@ -146,8 +149,6 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             map(value => (typeof value === 'string' ? value : value.name)),
             map(name => (name ? this._filterParte1(name) : this.parte1Options.slice())),
           );
-      
-        
         }
       );
     this.arrayToDestroy.push($option1);
@@ -156,7 +157,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   getOptions2(): void {
     const $option2 = this.combinacionContableService
       .getParte2()
-      .pipe(finalize(() => this.getOptions3()))
+      .pipe(finalize(() => this.getOptions4()))
       .subscribe(
         (parte2: Maestra[]) => {
           this.parte2Options = (parte2 || []).map((data) => ({
@@ -169,15 +170,20 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.arrayToDestroy.push($option2);
   }
 
-  getOptions3(): void {
+  changeSelection(event: any): void {
+    this.getOptions3(event?.value);
+  }
+
+  getOptions3(name: string): void {
+    this.spinner = true
     const $option3 = this.combinacionContableService
-      .getParte3()
-      .pipe(finalize(() => this.getOptions4()))
+      .getParte3(name)
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
-        (parte3: Maestra[]) => {
+        (parte3: any[]) => {
           this.parte3Options = (parte3 || []).map((data) => ({
-            label: `${data?.codigo} - ${data?.valor}`,
-            value: data?.codigo,
+            label: `${data?.value} - ${data?.description_name}`,
+            value: data?.value,
           }))
         }
       );
@@ -187,7 +193,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   getOptions4(): void {
     const $option4 = this.combinacionContableService
       .getParte4()
-      .pipe(finalize(() => this.getOptions5()))
+      .pipe(finalize(() => this.getOptions6()))
       .subscribe(
         (parte4: Maestra[]) => {
           this.parte4Options = (parte4 || []).map((data) => ({
@@ -199,10 +205,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.arrayToDestroy.push($option4);
   }
 
-  getOptions5(): void {
+  getOptions5(name: string): void {
+    this.spinner = true;
     const $option5 = this.combinacionContableService
-      .getParte5()
-      .pipe(finalize(() => this.getOptions6()))
+      .getParte5(name)
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte5: Maestra[]) => {
           this.parte5Options = (parte5 || []).map((data) => ({
@@ -293,9 +300,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     const $option11 = this.combinacionContableService
       .getParte11()
       .pipe(finalize(() => {
-          if (this.data?.type === appConstants.typeEvent.EDIT) {
-            this.updateForm();
-          }
+        if (this.data?.type === appConstants.typeEvent.EDIT) {
+          this.updateForm();
+        }
       }))
       .subscribe(
         (parte11: Maestra[]) => {
