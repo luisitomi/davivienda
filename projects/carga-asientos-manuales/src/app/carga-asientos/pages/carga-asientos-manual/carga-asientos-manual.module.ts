@@ -13,6 +13,7 @@ import { ActionsModule } from '../../../shared/component/ui/actions/actions.modu
 import { DirectivesModule } from '../../../shared/component/ui/directives/directives.module';
 import { MatInputModule } from '@angular/material/input';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     ListItemModule,
     ActionsModule,
     LoaderModule,
+    MatDialogModule,
   ],
   exports: [CargaAsientosManualComponent],
 })

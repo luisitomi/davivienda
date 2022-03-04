@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { ResultadoCarga } from 'src/app/shared';
 import { AuthService } from '../../../core/services/auth.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { ConfirmationComponent } from '../../components/confirmation/confirmation.component';
 import { HeaderLineService } from '../../services/header-line.service';
 
 @Component({
@@ -25,6 +27,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
   constructor(
     private asientoManualService: HeaderLineService,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     super();
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
@@ -36,9 +39,21 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
       .cargarAsientos(this.cargaForm.value.archivo, this.nombreUsuario)
       .pipe(finalize(() => this.spinner= false))
       .subscribe(
-        res => {
+        (res) => {
           this.resultado = res?.data;
           this.message = res?.estado;
+          const message = res?.log.map(function(elem: any){
+            return elem.mensaje;
+          }).join(",");
+          const archivo = new Blob([message], { type: 'text/plain' });
+          const url = URL.createObjectURL(archivo);
+          this.urlBlob = url;
+          this.dialog.open(ConfirmationComponent, {
+            width: '80%',
+            maxWidth: '400px',
+            data: { name: 'Se completó con éxito la subida del archivo'},
+            panelClass: 'my-dialog',
+          });
         },
         (error: any) => {
           this.message = error?.error?.estado;

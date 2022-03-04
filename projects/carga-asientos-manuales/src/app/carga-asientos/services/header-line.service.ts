@@ -58,7 +58,7 @@ export class HeaderLineService {
     formData.append('usuario', usuario);
     return this.configService.getApiUrlcargarAsientos().pipe(
       first(),
-      switchMap(url => this.http.post<any>(url,formData )),
+      switchMap(url => this.http.post<any>(url, formData )),
     );
   }
 }
