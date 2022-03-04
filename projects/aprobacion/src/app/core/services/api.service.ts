@@ -16,6 +16,7 @@ export class ApiService {
   Rol: string = '';
   TsFAHConfigurationDownload: string = '';
   TsLimitActiveProfile: string = '';
+  TsFAHConfiguracionLimiteFilter: string = '';
 
   constructor() { }
 }

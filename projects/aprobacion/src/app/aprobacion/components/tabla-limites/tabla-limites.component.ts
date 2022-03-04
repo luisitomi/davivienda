@@ -17,7 +17,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   @Output() updateLis = new EventEmitter<boolean>();
   @Input() limites: Limite[];
   @Input() loading: boolean = false;
-  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValor', 'nuevoValorFinish', 'estado'];
+  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValorFinish'];
   spinner  = false;
   sinCambios: boolean = true;
 
@@ -32,27 +32,43 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   grabar(): void {
     if (!this.sinCambios) {
       this.spinner = true;
-      this.limites.forEach((element, index) => {
-        const request = {
-          Id: element?.id,
-          Descripcion: element?.codigoNew,
-          Valor: element?.nuevoValorNew,
-          ValorFinal: element?.importeMaximoNew,
-          Usuario: '',
-        }
-        const $edit = this.limitService
-          .EditLimit(request)
-          .pipe(finalize(() => this.spinner = false))
-          .subscribe(
-            (response) => {
-              if(response?.status === appConstants.responseStatus.OK && index + 1 === this.limites.length) {
-                this.toastr.success(response?.mensaje,'Actualizado');
-                this.updateLis.emit(true);
-                this.sinCambios = true;
-              }
+      this.limites.forEach((element: any, index: number) => {
+        if (Number(element.importeMaximoNew) !== Number(element.importeMaximo)) {
+          if (this.limites[index-1]?.nuevoValor === element.nuevoValor) {
+            if (Number(this.limites[index-1]?.importeMaximoNew) >= Number(element.importeMaximoNew)) {
+              this.spinner = false;
+              this.toastr.warning('No puede agregar un valor menor al registro anterior','Adevertencia');
+              return;
             }
-          )
-        this.arrayToDestroy.push($edit);
+          }
+          if (this.limites[index+1]?.nuevoValor === element.nuevoValor) {
+            if (Number(this.limites[index+1]?.importeMaximoNew) <= Number(element.importeMaximoNew)) {
+              this.spinner = false;
+              this.toastr.warning('No puede agregar un valor mayor al registro posterior','Adevertencia');
+              return;
+            }
+          }
+          const request = {
+            Id: element?.id,
+            Descripcion: element?.codigoNew,
+            Valor: element?.nuevoValorNew,
+            ValorFinal: element?.importeMaximoNew,
+            Usuario: '',
+          }
+          const $edit = this.limitService
+            .EditLimit(request)
+            .pipe(finalize(() => this.spinner = false))
+            .subscribe(
+              (response) => {
+                if(response?.status === appConstants.responseStatus.OK && index + 1 === this.limites.length) {
+                  this.toastr.success(response?.mensaje,'Actualizado');
+                  this.updateLis.emit(true);
+                  this.sinCambios = true;
+                }
+              }
+            )
+          this.arrayToDestroy.push($edit);
+        }        
       });
     }    
   }

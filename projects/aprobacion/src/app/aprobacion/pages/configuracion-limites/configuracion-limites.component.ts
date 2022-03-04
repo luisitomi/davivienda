@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
-import { Limit, Limite } from '../../models/limite.model';
+import { Limit } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
 
 @Component({
@@ -12,8 +12,8 @@ import { LimitService } from '../../services/limit.service';
   styleUrls: ['./configuracion-limites.component.scss']
 })
 export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implements OnInit {
-  limits: Array<Limite> = [];
-  limitsCopy: Array<Limite> = [];
+  limits:any = [];
+  limitsCopy:any = [];
   selectLimits: Array<DropdownItem> = [];
   spinner = false;
   form: FormGroup;
@@ -28,16 +28,36 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
   ngOnInit(): void {
     this.createForm();
     this.getListLimits();
+    this.getListLimitsFilter();
   }
 
   updateLis(value: boolean): void {
-    if (value) this.getListLimits();
+    if (value) {
+      this.getListLimits();
+    }
   }
 
   createForm(): void {
     this.form = this.formBuilder.group({
       text: ['', []],
     });
+  }
+
+  getListLimitsFilter(): void {
+    this.spinner = true;
+    const $limits = this.limitService
+      .getFilter()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any[]) => {
+          this.selectLimits = (response || []).map((data) => ({
+            label: data?.Nombre,
+            value: data?.Nombre,
+          }))
+          this.selectLimits.unshift({label: 'Todos', value: ''})
+        }
+      );
+    this.arrayToDestroy.push($limits);
   }
 
   getListLimits(): void {
@@ -47,7 +67,8 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (response: Limit[]) => {
-          this.limits = (response || []).map((data,index) => ({
+          console.log(response)
+          this.limits = (response || []).map((data) => ({
             nuevoValor: data?.Value,
             nuevoValorNew: data?.Value,
             codigo: `${data?.Description}`,
@@ -57,13 +78,10 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             estado: data?.Estado,
             id: data?.Id,
           }))
+          this.limits.sort(function (a: any, b: any) {   
+            return a.nuevoValor - b.nuevoValor || a.importeMaximo - b.importeMaximo;
+          });
           this.limitsCopy = this.limits;
-          this.selectLimits = (response || []).map((data) => ({
-            label: data?.Description,
-            value: data?.Description,
-          }))
-          this.selectLimits = this.eliminarObjetosDuplicados(this.selectLimits, 'label');
-          this.selectLimits.unshift({label: 'Todos', value: ''})
         }
       );
     this.arrayToDestroy.push($limits);
@@ -86,6 +104,6 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
 
   buscar(): void {
     const data = this.form.value;
-    this.limitsCopy = this.limits.filter(p => p.codigo === data?.text).length ? this.limits.filter(p => p.codigo === data?.text) : this.limits;
+    this.limitsCopy = this.limits.filter((p: any) => p.codigo === data?.text).length ? this.limits.filter((p: any) => p.codigo === data?.text) : data?.text?.length ? [] : this.limits;
   }
 }

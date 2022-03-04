@@ -8,7 +8,7 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
-import { Limit, LimitSave } from '../../models/limite.model';
+import { LimitSave } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
 
 @Component({
@@ -81,17 +81,16 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
   getListLimits(): void {
     this.spinner = true;
     const $limits = this.limitService
-      .getLimits()
+      .getFilter()
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
-        (response: Limit[]) => {
+        (response: any[]) => {
           response = response.filter(p => p.Description !== 'Automatico');
           this.selectTypeNivel = (response || []).map((data) => ({
-            label: data?.Description?.toUpperCase(),
-            value: data?.Description,
+            label: data?.Nombre?.toUpperCase(),
+            value: data?.Nombre,
           }))
           this.selectTypeNivel = this.eliminarObjetosDuplicados(this.selectTypeNivel, 'label');
-          this.selectTypeNivel.unshift({label: 'Todos', value: ''})
         }
       );
     this.arrayToDestroy.push($limits);

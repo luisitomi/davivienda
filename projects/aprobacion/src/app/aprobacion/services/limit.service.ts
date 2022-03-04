@@ -66,4 +66,11 @@ export class LimitService {
     );
   }
 
+  getFilter(): Observable<any> {
+    return this.configService.getApiUrlTsFAHConfiguracionLimiteFilter().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+
 }
