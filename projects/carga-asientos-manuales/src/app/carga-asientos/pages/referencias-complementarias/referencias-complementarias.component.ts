@@ -76,7 +76,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       panelClass: 'my-dialog',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       if (model?.line) {
         this.lineList = model?.line;
@@ -84,9 +84,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       this.references.data.splice(index, 1);
       if (result?.nombre) {
         result.index = index + 1;
-        console.log(result)
         this.references.data.splice(index, 0, result);
-        console.log(this.references.data)
         this.lineList[this.index].columnasReferenciales = this.references.data || [];
         const request: ManualLading = {
           header: model?.header,

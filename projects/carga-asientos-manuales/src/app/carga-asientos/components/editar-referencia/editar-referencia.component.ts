@@ -173,7 +173,6 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
 
   save(): void {
-    console.log(this.form.valid)
     if (this.form.valid) {
       const valueForm = this.form.value;
       if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'Número de Identificación') {
@@ -188,7 +187,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
       }
       const request: ReferenciaComplementaria = {
         index: 0,
-        nombre: this.typeReference.find((p: any) => p.label === valueForm.name)?.label || '',
+        nombre: this.typeReference.find((p: any) => p.value === valueForm.name)?.label || this.typeReference.find((p: any) => p.label === valueForm.name)?.label || '',
         nombreValue: valueForm.name,
         valor: valueForm.value,
       };
