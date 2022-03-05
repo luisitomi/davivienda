@@ -194,6 +194,8 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       const line: Array<LineaAsientoInsert> = model?.line || [];
       const lineSaveComprobante = line[0]?.combinationAccount?.SegTipoComprobante;
+      const lineSaveSucursal = line[0]?.combinationAccount?.SegSucursal;
+      const lineSaveOficina = line[0]?.combinationAccount?.SegOficina;
       const lineSave: LineSave[] = (line || []).map((data, index) => ({
         id: 0,
         nroLinea: index + 1,
@@ -239,6 +241,18 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         }
         if (element?.segTipoComprobante !== lineSaveComprobante) {
           this.toastr.warning("Los tipos de comprobante son diferentes", 'Advertencia');
+          this.spinner = false;
+          permission = false;
+          return;
+        }
+        if (element?.segSucursal !== lineSaveSucursal) {
+          this.toastr.warning("Los valores de sucursal son diferentes", 'Advertencia');
+          this.spinner = false;
+          permission = false;
+          return;
+        }
+        if (element?.segOficina !== lineSaveOficina) {
+          this.toastr.warning("Los valores de oficina son diferentes", 'Advertencia');
           this.spinner = false;
           permission = false;
           return;

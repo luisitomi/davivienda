@@ -37,14 +37,14 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
           if (this.limites[index-1]?.nuevoValor === element.nuevoValor) {
             if (Number(this.limites[index-1]?.importeMaximoNew) >= Number(element.importeMaximoNew)) {
               this.spinner = false;
-              this.toastr.warning('No puede agregar un valor menor al registro anterior','Adevertencia');
+              this.toastr.warning('No puede agregar un importe menor al registro anterior','Adevertencia');
               return;
             }
           }
           if (this.limites[index+1]?.nuevoValor === element.nuevoValor) {
             if (Number(this.limites[index+1]?.importeMaximoNew) <= Number(element.importeMaximoNew)) {
               this.spinner = false;
-              this.toastr.warning('No puede agregar un valor mayor al registro posterior','Adevertencia');
+              this.toastr.warning('No puede agregar un importe mayor al registro posterior','Adevertencia');
               return;
             }
           }
