@@ -73,7 +73,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
         this.spinner = true;
         if (index + 1 === this.asientosCopy?.length) {
           const profile = this.limitService
-            .getByIdProfile(this.nombreUsuario, element?.nivel)
+            .getByIdProfile(element?.usuario, element?.nivel)
             .pipe(finalize(() => this.functionLoad(dataLoad)))
             .subscribe(
               (response: any) => {
@@ -85,7 +85,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
           this.arrayToDestroy.push(profile);
         } else {
           const profile = this.limitService
-            .getByIdProfile(this.nombreUsuario, element?.nivel)
+            .getByIdProfile(element?.usuario, element?.nivel)
             .subscribe(
               (response: any) => {
                 if (response?.message?.XV_USUARIO_APROBADOR === this.nombreUsuario) {
