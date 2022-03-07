@@ -3,12 +3,12 @@
 <h1 mat-dialog-title>Nuevo límite</h1>
 <form [formGroup]="form" autocomplete="off">
     <div mat-dialog-content class="evol-editar-linea-container">
-        <app-select (changeOption)="onFocusOutEvent('description');" [label]="'Descripción'" formControlName="description"
+        <app-select (changeOption)="onFocusOutEvent('description');" [label]="'Nivel'" formControlName="description"
           [options]="selectTypeNivel" [error]="showErrors('description')"></app-select>
         <app-form-errors [control]="form.controls['description']"></app-form-errors>
         <app-input [onlyNumber]="true" (input)="onFocusOutEvent('value')" (focusout)="onFocusOutEvent('value')" [label]="'Cuenta empieza por'" formControlName="value" [error]="showErrors('value')"></app-input>
         <app-form-errors [control]="form.controls['value']"></app-form-errors>
-        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('valueFinal')" (focusout)="onFocusOutEvent('valueFinal')" [label]="'Valor Máximo'" formControlName="valueFinal" [error]="showErrors('valueFinal')"></app-input>
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('valueFinal')" (focusout)="onFocusOutEvent('valueFinal')" [label]="'Importe Máximo'" formControlName="valueFinal" [error]="showErrors('valueFinal')"></app-input>
         <app-form-errors [control]="form.controls['valueFinal']"></app-form-errors>
     </div>
     <mat-dialog-actions class="evol-footer-actions">

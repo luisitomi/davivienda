@@ -137,6 +137,9 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
             if(response?.status === appConstants.responseStatus.OK) {
               this.toastr.success(response?.mensaje,'Registrado');
               this.dialogRef.close(request);
+            } else {
+              this.toastr.warning(response?.mensaje,'Advertencia');
+              return;
             }
           }
         )
