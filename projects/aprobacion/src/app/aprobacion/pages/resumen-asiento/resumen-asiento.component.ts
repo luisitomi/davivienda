@@ -75,7 +75,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
           this.listFilter = (asiento || []).map((item) => ({
             id: item?.Id,
             origen: item?.Origen,
-            fechaCarga: item?.Carga,
+            fechaCarga: this.ChangeFormateDate(item?.Carga),
             usuario: item?.Usuario,
             comprobante: item?.Comprobante,
             fechaContable: item?.Contable,
@@ -91,6 +91,13 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
         }
       );
     this.arrayToDestroy.push($subas);
+  }
+
+  ChangeFormateDate(oldDate: any): string{
+    if (oldDate.split('-').length === 1) {
+      return oldDate.toString().split("/").reverse().join("/").replace('/','-').replace('/','-');
+    }
+    return oldDate;
   }
 
   getListAaccount(): void {

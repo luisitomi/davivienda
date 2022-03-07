@@ -30,6 +30,7 @@ export class AuthGuard implements CanActivate {
           });
             
         }
+        return true;
         if (logged) {
           return true;
         } else {

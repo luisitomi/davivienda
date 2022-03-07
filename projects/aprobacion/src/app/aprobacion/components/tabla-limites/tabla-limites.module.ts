@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 import { TitleHeaderModule } from '../../../shared/component/ui/title-header/title-header.module';
 import { NewLimitModule } from '../new-limit/new-limit.module';
+import { ConfirmationModule } from '../confirmation/confirmation.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { NewLimitModule } from '../new-limit/new-limit.module';
     LoaderModule,
     TitleHeaderModule,
     NewLimitModule,
+    ConfirmationModule,
   ],
   exports: [TablaLimitesComponent],
 })

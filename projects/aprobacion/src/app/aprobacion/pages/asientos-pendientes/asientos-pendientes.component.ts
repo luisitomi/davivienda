@@ -60,6 +60,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   }
 
   functionLoad(data: any): void {
+    data.sort((a: any, b: any): any => (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0));
     this.asientos = data;
     this.spinner = false;
     this.loadingAsientos = false
@@ -97,6 +98,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
         }        
       });
     } else{
+      this.asientosCopy.sort((a: any, b: any): any => (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0));
       this.spinner = false;
       this.asientos = this.asientosCopy;
     }
@@ -124,7 +126,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
           this.asientosCopy = (asiento || []).map((item) => ({
             id: item?.Id,
             origen: item?.Origen,
-            fechaCarga: item?.Carga,
+            fechaCarga: this.ChangeFormateDate(item?.Carga),
             usuario: item?.Usuario,
             comprobante: item?.Comprobante,
             fechaContable: item?.Contable,
@@ -141,6 +143,13 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.arrayToDestroy.push($subas);
   }
 
+  ChangeFormateDate(oldDate: any): string{
+    if (oldDate.split('-').length === 1) {
+      return oldDate.toString().split("/").reverse().join("/").replace('/','-').replace('/','-');
+    }
+    return oldDate;
+  }
+
   eliminarObjetosDuplicados(arr: any, prop: any) {
     var nuevoArray = [];
     var lookup: any  = {};
@@ -152,7 +161,6 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     for (i in lookup) {
         nuevoArray.push(lookup[i]);
     }
-
     return nuevoArray;
 }
 

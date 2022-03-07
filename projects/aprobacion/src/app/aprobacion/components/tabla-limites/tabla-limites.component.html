@@ -6,9 +6,7 @@
       <table mat-table [dataSource]="limites">
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef>Nivel</th>
-          <td mat-cell *matCellDef="let element">
-            <app-input (input)="onCambio()" [(ngModel)]="element.codigoNew"></app-input>
-          </td>
+          <td mat-cell *matCellDef="let element">{{ element.codigoNew }}</td>
         </ng-container>
         <ng-container matColumnDef="empiezaCon">
           <th mat-header-cell *matHeaderCellDef>Cuenta empieza por</th>

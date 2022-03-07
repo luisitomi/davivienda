@@ -6,6 +6,7 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { Limite } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { NewLimitComponent } from '../new-limit/new-limit.component';
 
 @Component({
@@ -30,6 +31,11 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   }
 
   grabar(): void {
+    let total = 0;
+    const countModifi =  this.limites.filter(l => 
+      l.codigo !== l.codigoNew || 
+      Number(l.nuevoValorNew) !== Number(l.nuevoValor) ||
+      Number(l.importeMaximo) !== Number(l.importeMaximoNew)).length;
     if (!this.sinCambios) {
       this.spinner = true;
       this.limites.forEach((element: any, index: number) => {
@@ -60,11 +66,17 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
             .pipe(finalize(() => this.spinner = false))
             .subscribe(
               (response) => {
-                if(response?.status === appConstants.responseStatus.OK && index + 1 === this.limites.length) {
-                  this.toastr.success(response?.mensaje,'Actualizado');
+                if(response?.status === appConstants.responseStatus.OK && (Number(total) + 1 === Number(countModifi))) {
+                  this.dialog.open(ConfirmationComponent, {
+                    width: '80%',
+                    maxWidth: '400px',
+                    data: { name: 'Se procesaron los cambios correctamente'},
+                    panelClass: 'my-dialog',
+                  });
                   this.updateLis.emit(true);
                   this.sinCambios = true;
                 }
+                total += total + 1;
               }
             )
           this.arrayToDestroy.push($edit);

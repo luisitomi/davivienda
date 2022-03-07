@@ -1,7 +1,7 @@
 export interface Asiento {
   id: number;
   origen: string;
-  fechaCarga: Date;
+  fechaCarga: string;
   usuario: string;
   comprobante: string;
   fechaContable: Date;

@@ -39,6 +39,11 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
   ngOnChanges(): void {
     this.selection.clear();
     this.getByRolUser();
+  } 
+
+  ChangeFormateDate2(oldDate: any): any{
+    var p = oldDate.split(/\D/g)
+    return [p[2],p[1],p[0] ].join("/")
   }
 
   getByRolUser(): void {
