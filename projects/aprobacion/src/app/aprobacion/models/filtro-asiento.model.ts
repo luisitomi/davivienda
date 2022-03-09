@@ -5,6 +5,8 @@ export interface FiltroAsiento {
   usuario: string;
   estado: string;
   cuenta: string;
+  aprobador: number;
+  aprobadorName: string;
 }
 
 export interface FiltroAsientoLimit {

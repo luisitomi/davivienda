@@ -36,6 +36,8 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     usuario: '',
     estado: '',
     cuenta: '',
+    aprobador: 0,
+    aprobadorName: '',
   };
   nombreUsuario: string;
   isAprobad: boolean;
@@ -47,15 +49,17 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     private limitService: LimitService,
   ) {
     super();
-    const getUsernameSub = this.authService.getUsuarioV2().subscribe(
-      nombre => this.nombreUsuario = nombre || '',
-    );
-    this.arrayToDestroy.push(getUsernameSub);
   }
 
-  ngOnInit(): void {
-    this.createForm();
+  ngOnInit() {
+    this.authService.getUsuarioV2().subscribe(
+      (nombre) => 
+      {
+        this.nombreUsuario = nombre || ''
+      }
+    );
     this.getByRolUser();
+    this.createForm();
   }
 
   createForm(): void {
@@ -96,14 +100,14 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     );
   }
 
-  getByRolUser(): void {
+   getByRolUser() {
     this.spinner = true;
     const $rol = this.limitService
                   .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize(() => this.getListData(this.filtrosData)))
+                  .pipe(finalize( () => this.getListData(this.filtrosData)))
                   .subscribe(
                     (response: any) => {
-                      this.isAprobad = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
+                      this.isAprobad = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
                     }
                   )
     this.arrayToDestroy.push($rol);
@@ -153,11 +157,13 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     return nuevoArray;
   }
 
-  getListData(filtros: FiltroAsiento): void {
+   getListData(filtros: FiltroAsiento) {
+    filtros.aprobador = Number(this.isAprobad)
+    filtros.aprobadorName = this.nombreUsuario
     this.spinner = true;
     const $subas = this.lineHeaderService
       .getLimitsHeader(filtros)
-      .pipe(finalize(() => this.setData()))
+      .pipe(finalize(() =>  this.setData()))
       .subscribe(
         (asiento: LimitHeader[]) => {
           this.listFilter = (asiento || []).map((item) => ({

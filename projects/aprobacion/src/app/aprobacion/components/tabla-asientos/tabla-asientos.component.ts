@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
@@ -12,7 +12,7 @@ import { LimitService } from '../../services/limit.service';
   templateUrl: './tabla-asientos.component.html',
   styleUrls: ['./tabla-asientos.component.scss']
 })
-export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnChanges {
+export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnChanges, OnInit {
 
   @Input() asientos: Asiento[] = [];
   @Input() loading: boolean = false;
@@ -33,12 +33,20 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
     private authService: AuthService,
   ) {
     super();
-    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
+  }
+  
+  ngOnInit(): void {    
+    this.authService.getUsuarioV2().subscribe(
+      (nombre) => 
+      {
+        this.nombreUsuario = nombre || ''
+      }
+    );
+    this.getByRolUser();
   }
 
   ngOnChanges(): void {
     this.selection.clear();
-    this.getByRolUser();
   } 
 
   ChangeFormateDate2(oldDate: any): any{
@@ -53,9 +61,9 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
                   .pipe(finalize(() => this.spinner = false))
                   .subscribe(
                     (response: any) => {
-                      this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
-                      this.preparador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR');
-                      this.trabajo = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO');
+                      this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
+                      this.preparador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR'));
+                      this.trabajo = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO'));
                     }
                   )
     this.arrayToDestroy.push($rol);

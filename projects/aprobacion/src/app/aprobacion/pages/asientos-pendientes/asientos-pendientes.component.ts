@@ -24,7 +24,16 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   loadingAsientos: boolean = false;
   spinner = false;
   nombreUsuario: string;
-  filtros = null;
+  filtros = {
+    inicio: '',
+    fin: '',
+    origen: '',
+    usuario: '',
+    estado: '',
+    cuenta: '',
+    aprobador: 0,
+    aprobadorName: '',
+  };;
   aprobador: boolean;
 
   constructor(
@@ -36,24 +45,26 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     private limitService: LimitService,
   ) {
     super();
-    const getUsernameSub = this.authService.getUsuarioV2().subscribe(
-      nombre => this.nombreUsuario = nombre || '',
-    );
-    this.arrayToDestroy.push(getUsernameSub);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.authService.getUsuarioV2().subscribe(
+      (nombre) => 
+      {
+        this.nombreUsuario = nombre || ''
+      }
+    );
     this.getByRolUser();
   }
 
-  getByRolUser(): void {
+   getByRolUser() {
     this.spinner = true;
     const $rol = this.limitService
                   .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize(() => this.filtrar(this.filtros)))
+                  .pipe(finalize( () =>  this.filtrar(this.filtros)))
                   .subscribe(
                     (response: any) => {
-                      this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
+                      this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
                     }
                   )
     this.arrayToDestroy.push($rol);
@@ -66,61 +77,29 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.loadingAsientos = false
   }
 
-  method () : void {
-    const dataLoad: any = [];
-    this.asientosCopy = this.aprobador ? this.asientosCopy.filter(o => o.estado === 'Pendiente') : this.asientosCopy.filter(o => o.usuario === this.nombreUsuario);
-    if (this.aprobador) {
-      this.asientosCopy.forEach((element,index) => {
-        this.spinner = true;
-        if (index + 1 === this.asientosCopy?.length) {
-          const profile = this.limitService
-            .getByIdProfile(element?.usuario, element?.nivel)
-            .pipe(finalize(() => this.functionLoad(dataLoad)))
-            .subscribe(
-              (response: any) => {
-                if (response?.message?.XV_USUARIO_APROBADOR === this.nombreUsuario) {
-                  dataLoad.push(element)
-                }
-              }
-            )
-          this.arrayToDestroy.push(profile);
-        } else {
-          const profile = this.limitService
-            .getByIdProfile(element?.usuario, element?.nivel)
-            .subscribe(
-              (response: any) => {
-                if (response?.message?.XV_USUARIO_APROBADOR === this.nombreUsuario) {
-                  dataLoad.push(element)
-                }
-              }
-            )
-          this.arrayToDestroy.push(profile);
-        }        
-      });
-    } else{
-      this.asientosCopy.sort((a: any, b: any): any => (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0));
-      this.spinner = false;
-      this.asientos = this.asientosCopy;
-    }
+   method () {
+    this.asientosCopy.sort((a: any, b: any): any => (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0));
+    this.spinner = false;
+    this.asientos = this.asientosCopy;
   }
 
   filtrar(filtros: any): void {
-    let request = {};
     this.loadingAsientos = true;
-    if (filtros) {
-      request = {
-        estado: filtros?.estado || '',
-        origen: filtros?.origen || '',
-        usuario: filtros?.usuario || '',
-        fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format2) || '',
-        inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format2) || '',
-        cuenta: filtros?.cuenta || '',
-      }
+    const request = {
+      estado: filtros?.estado || '',
+      origen: filtros?.origen || '',
+      usuario: filtros?.usuario || '',
+      fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format2) || '',
+      inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format2) || '',
+      cuenta: filtros?.cuenta || '',
+      aprobador: Number(this.aprobador),
+      aprobadorName: this.nombreUsuario,
+
     }
     this.spinner = true;
     const $subas = this.lineHeaderService
-      .getLimitsHeader(request || filtros)
-      .pipe(finalize(() => this.method()))
+      .getLimitsHeader(request)
+      .pipe(finalize(() =>  this.method()))
       .subscribe(
         (asiento: LimitHeader[]) => {
           this.asientosCopy = (asiento || []).map((item) => ({

@@ -32,6 +32,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     usuario: '',
     estado: '',
     cuenta: '',
+    aprobador: 0,
+    aprobadorName: '',
   };
   nombreUsuario: string;
   eventSuccess = false;
@@ -53,7 +55,6 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.route.queryParams.subscribe(params => {
       this.queryParams = params;
     });
-    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
     const btn: any = document.getElementById('export');
     btn?.addEventListener('click', () => {
       this.download();
@@ -61,15 +62,16 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   }
 
   ngOnInit(): void {
+    this.authService.getUsuarioV2().subscribe((rpta) => this.nombreUsuario = rpta || '');
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.getByRolUser();
   }
 
-  getListData(filtros: FiltroAsiento): void {
+  async getListData(filtros: FiltroAsiento) {
     this.spinner = true;
     const $subas = this.lineHeaderService
       .getLimitsHeader(filtros)
-      .pipe(finalize(() => this.getListAaccount()))
+      .pipe(finalize(async() => await this.getListAaccount()))
       .subscribe(
         (asiento: LimitHeader[]) => {
           this.listFilter = (asiento || []).map((item) => ({
@@ -122,12 +124,12 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.spinner = true;
     const $rol = this.limitService
                   .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize(() => this.getListData(this.filtrosData)))
+                  .pipe(finalize(async () => await this.getListData(this.filtrosData)))
                   .subscribe(
                     (response: any) => {
-                      this.aprobador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR');
-                      this.preparador = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR');
-                      this.trabajo = response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO');
+                      this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
+                      this.preparador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR'));
+                      this.trabajo = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO'));
                     }
                   )
     this.arrayToDestroy.push($rol);
