@@ -12,7 +12,7 @@ const routes: Routes = [
     data: { feature: Features.AprobacionCargas, permission: Permissions.Admin },
   },
   {
-    path: 'resumen-asiento/:id',
+    path: 'resumen-asiento/:id/:cuenta',
     component: ResumenAsientoComponent,
     data: { feature: Features.AprobacionCargas, permission: Permissions.Admin },
   },

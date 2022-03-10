@@ -18,6 +18,7 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnInit {
   id: number = 0;
+  cuentaid: string;
   asiento?: Asiento;
   spinner: boolean;
   queryParams: any;
@@ -25,15 +26,11 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   cuenta: string;
   listFilter: Asiento[];
   accountInfo: AccountLine[] = [];
-  filtrosData: FiltroAsiento = {
-    inicio: '',
-    fin: '',
-    origen: '',
-    usuario: '',
-    estado: '',
+  filtrosData: any = {
     cuenta: '',
     aprobador: 0,
     aprobadorName: '',
+    id: 0,
   };
   nombreUsuario: string;
   eventSuccess = false;
@@ -59,22 +56,29 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     btn?.addEventListener('click', () => {
       this.download();
     });
- 
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.cuentaid = this.route.snapshot.paramMap.get('cuenta') || '';
   }
 
   ngOnInit(): void {
-    this.authService.getUsuarioV2().subscribe((rpta) => this.nombreUsuario = rpta || '');
-    this.id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('id:'+ this.id)
-  //  this.filtrosData.id=  this.id;
+    this.authService.getUsuarioV2().subscribe(
+      (nombre) => 
+      {
+        this.nombreUsuario = nombre || ''
+      }
+    );
     this.getByRolUser();
   }
 
-  async getListData(filtros: FiltroAsiento) {
+  async getListData(filtros: any) {
+    filtros.aprobador = Number(this.aprobador);
+    filtros.aprobadorName = this.nombreUsuario;
+    filtros.cuenta = this.cuentaid;
+    filtros.id = this.id;
     this.spinner = true;
     const $subas = this.lineHeaderService
-      .getLimitsHeader(filtros)
-      .pipe(finalize(async() => await this.getListAaccount()))
+      .consultAsient(filtros)
+      .pipe(finalize(() => this.getListAaccount()))
       .subscribe(
         (asiento: LimitHeader[]) => {
           this.listFilter = (asiento || []).map((item) => ({
@@ -91,8 +95,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             nivel: item.NivelLimit,
             estado: item?.Estado,
           }))
-          const subSelect = this.listFilter.find(p => p.id === this.id);
-          this.cuenta = subSelect?.cuentas || '';
+          this.asiento = this.listFilter.length ?  this.listFilter[0] : undefined
         }
       );
     this.arrayToDestroy.push($subas);
@@ -108,8 +111,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   getListAaccount(): void {
     this.spinner = true;
     const $subas = this.limitService
-      .getAccountLine(this.id, this.cuenta, this.eventNumber)
-      .pipe(finalize(() => this.setData()))
+      .getAccountLine(this.id, this.cuentaid, this.eventNumber)
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (asiento: AccountLine[]) => {
           this.accountInfo = asiento;
@@ -118,16 +121,11 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.arrayToDestroy.push($subas);
   }
 
-  setData(): void {
-    this.asiento = this.listFilter.find(p => p.id === this.id);
-    this.spinner = false;
-  }
-
   getByRolUser(): void {
     this.spinner = true;
     const $rol = this.limitService
                   .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize(async () => await this.getListData(this.filtrosData)))
+                  .pipe(finalize(() => this.getListData(this.filtrosData)))
                   .subscribe(
                     (response: any) => {
                       this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
@@ -142,7 +140,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     const request: FiltroAsientoLimit = {
       Usuario: this.nombreUsuario,
       Status: 1,
-      Id: this.asiento?.id || 0,
+      Id: this.id || 0,
     }
     console.log(request)
     this.spinner = true;
@@ -153,7 +151,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
         (response: any) => {
           if (response?.status === appConstants.responseStatus.OK) {
             this.toastr.success(response?.message, 'Aprobado');
-            this.getListData(this.filtrosData);
+            this.volver();
           }
         }
       );
@@ -164,7 +162,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     const request: FiltroAsientoLimit = {
       Usuario: this.nombreUsuario,
       Status: 2,
-      Id: this.asiento?.id || 0,
+      Id: this.id || 0,
     }
     this.spinner = true;
     const $subas = this.lineHeaderService
@@ -174,7 +172,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
         (response: any) => {
           if (response?.status === appConstants.responseStatus.OK) {
             this.toastr.success(response?.message, 'Rechazado');
-            this.getListData(this.filtrosData);
+            this.volver();
           }
         }
       );

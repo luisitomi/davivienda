@@ -74,7 +74,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
    method () {
     this.asientosCopy.sort(function (a, b) {
       return (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0) || ('' + b.comprobante).localeCompare(a.comprobante);
-  })
+    })
     this.spinner = false;
     this.asientos = this.asientosCopy;
   }

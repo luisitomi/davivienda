@@ -58,7 +58,7 @@
         <ng-container matColumnDef="acciones" stickyEnd >
           <th mat-header-cell *matHeaderCellDef>Acciones</th>
           <td mat-cell *matCellDef="let element">
-            <app-actions [class]="'flat'" *ngIf="aprobador || preparador" [color]="'accent'" (click)="ver(element.id)" [label]="'Ver'"></app-actions>
+            <app-actions [class]="'flat'" *ngIf="aprobador || preparador" [color]="'accent'" (click)="ver(element.id, element.cuentas)" [label]="'Ver'"></app-actions>
           </td>
         </ng-container>
         <ng-container matColumnDef="progress">

@@ -17,6 +17,7 @@ export class ApiService {
   TsFAHConfigurationDownload: string = '';
   TsLimitActiveProfile: string = '';
   TsFAHConfiguracionLimiteFilter: string = '';
+  TsFAHConfiguracionLimiteHeaderById: string = '';
 
   constructor() { }
 }

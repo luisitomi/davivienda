@@ -102,8 +102,8 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
 
   }
 
-  ver(id: number): void {
-    this.router.navigate(['/aprobacion/resumen-asiento', id],
+  ver(id: number, cuenta: string): void {
+    this.router.navigate(['/aprobacion/resumen-asiento', id, cuenta],
     {
       queryParams: this.queryParams,
       skipLocationChange: false,
