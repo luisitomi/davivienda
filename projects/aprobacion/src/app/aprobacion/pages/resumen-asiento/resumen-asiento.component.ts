@@ -59,11 +59,14 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     btn?.addEventListener('click', () => {
       this.download();
     });
+ 
   }
 
   ngOnInit(): void {
     this.authService.getUsuarioV2().subscribe((rpta) => this.nombreUsuario = rpta || '');
     this.id = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('id:'+ this.id)
+  //  this.filtrosData.id=  this.id;
     this.getByRolUser();
   }
 
@@ -141,6 +144,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       Status: 1,
       Id: this.asiento?.id || 0,
     }
+    console.log(request)
     this.spinner = true;
     const $subas = this.lineHeaderService
       .saveStatusAsient(request)

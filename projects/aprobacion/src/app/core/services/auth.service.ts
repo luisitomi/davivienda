@@ -76,4 +76,21 @@ export class AuthService {
       )),
     );
   }
+  postTsFahObtenerUsuarioWSv2 (tokenJson: any) : Observable<boolean> {
+    const data = {usuario: tokenJson.prn};
+    return this.postTsFahObtenerUsuarioWS(tokenJson).pipe(
+      map(u => u === null ? false : true),
+    );
+   /* return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<Usuario>(this.configService.TsFahObtenerUsuarioWS,data).pipe(
+        first(),
+        switchMap(res => this.usuario.next(res).asObservable().pipe(
+          map(u => u === null ? false : true)
+        ))
+        ),
+      )),
+    ); */
+  }
+  
 }

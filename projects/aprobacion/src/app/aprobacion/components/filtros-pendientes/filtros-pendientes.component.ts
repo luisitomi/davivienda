@@ -108,6 +108,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
                   .subscribe(
                     (response: any) => {
                       this.isAprobad = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
+                      this.spinner = false;
                     }
                   )
     this.arrayToDestroy.push($rol);

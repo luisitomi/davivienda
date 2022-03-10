@@ -61,10 +61,12 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.spinner = true;
     const $rol = this.limitService
                   .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize( () =>  this.filtrar(this.filtros)))
+                   .pipe(finalize( () =>  this.filtrar(this.filtros)))
                   .subscribe(
                     (response: any) => {
+                      console.log('response',response);
                       this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
+                      this.spinner = false;
                     }
                   )
     this.arrayToDestroy.push($rol);
@@ -96,8 +98,12 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       aprobadorName: this.nombreUsuario,
 
     }
+    console.log('this.aprobador ' +this.aprobador)
+    console.log(this.nombreUsuario)
     this.spinner = true;
+    console.log(JSON.stringify(request));
     const $subas = this.lineHeaderService
+  
       .getLimitsHeader(request)
       .pipe(finalize(() =>  this.method()))
       .subscribe(

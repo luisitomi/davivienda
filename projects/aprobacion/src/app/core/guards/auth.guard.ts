@@ -22,15 +22,17 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.navigationService.setPrevUrl(state.url);
-    return this.authService.isLoggedIn().pipe(
+    console.log(route.queryParams.token)
+
+    if (route.queryParams.token != undefined && route.queryParams.token != null) {
+      this.authService.setToken(route.queryParams.token);
+    } else {
+      return false;
+    }
+    const decoded =  jwtDecode(route.queryParams.token);
+    return this.authService.postTsFahObtenerUsuarioWSv2(decoded).pipe(
       map(logged => {
-        if (route.queryParams.token != undefined && route.queryParams.token != null) {
-          const decoded =  jwtDecode(route.queryParams.token);
-          this.authService.postTsFahObtenerUsuarioWS(decoded).subscribe(rest => {
-          });
-            
-        }
-        return true;
+ 
         if (logged) {
           return true;
         } else {
