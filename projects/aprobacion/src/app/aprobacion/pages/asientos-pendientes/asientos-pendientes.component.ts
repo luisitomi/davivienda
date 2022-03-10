@@ -64,7 +64,6 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
                    .pipe(finalize( () =>  this.filtrar(this.filtros)))
                   .subscribe(
                     (response: any) => {
-                      console.log('response',response);
                       this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
                       this.spinner = false;
                     }
@@ -72,15 +71,10 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.arrayToDestroy.push($rol);
   }
 
-  functionLoad(data: any): void {
-    data.sort((a: any, b: any): any => (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0));
-    this.asientos = data;
-    this.spinner = false;
-    this.loadingAsientos = false
-  }
-
    method () {
-    this.asientosCopy.sort((a: any, b: any): any => (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0));
+    this.asientosCopy.sort(function (a, b) {
+      return (a.fechaCarga > b.fechaCarga) ? -1 : ((a.fechaCarga < b.fechaCarga) ? 1 : 0) || ('' + b.comprobante).localeCompare(a.comprobante);
+  })
     this.spinner = false;
     this.asientos = this.asientosCopy;
   }
@@ -98,10 +92,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       aprobadorName: this.nombreUsuario,
 
     }
-    console.log('this.aprobador ' +this.aprobador)
-    console.log(this.nombreUsuario)
     this.spinner = true;
-    console.log(JSON.stringify(request));
     const $subas = this.lineHeaderService
   
       .getLimitsHeader(request)
