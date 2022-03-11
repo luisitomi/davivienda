@@ -225,7 +225,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             JL_CURRENCY: item?.JL_CURRENCY,
             JL_ENTERED_DEBIT: item?.JL_ENTERED_DEBIT,
             JL_ENTERED_CREDIT: item?.JL_ENTERED_CREDIT,
-            JL_DESCRIPTION: item?.JL_ENTERED_CREDIT,
+            JL_DESCRIPTION: item?.JL_DESCRIPTION,
             JL_REF1: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[0]?.JL_REFERENCIA_COM || '',
             JL_REF1_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[0]?.VALOR || '',
             JL_REF2: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[1]?.JL_REFERENCIA_COM || '',
