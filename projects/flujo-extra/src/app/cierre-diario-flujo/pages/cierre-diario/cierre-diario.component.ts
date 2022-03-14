@@ -42,12 +42,8 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
   }
 
   filtrar(filtroReporte: FiltroReporte): void {
-    const res = new Date();
-    const resFinally = new Date();
-    res.setDate(filtroReporte.final ? new Date(filtroReporte?.final).getDate() - 31 : res.getDate() - 31)
-    resFinally.setDate(filtroReporte.fecha ? new Date(filtroReporte?.fecha).getDate() + 31 : res.getDate())
-    filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format2) || this.datePipe.transform(res, appConstants.eventDate.format2) || '';
-    filtroReporte.final = this.datePipe.transform(filtroReporte.final, appConstants.eventDate.format2) || this.datePipe.transform(resFinally, appConstants.eventDate.format2) || '';
+    filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format3) || this.datePipe.transform(new Date().setDate(-15), appConstants.eventDate.format3) || '';
+    filtroReporte.final = this.datePipe.transform(filtroReporte.final, appConstants.eventDate.format3) || this.datePipe.transform(new Date(), appConstants.eventDate.format3) || '';
 
     if (filtroReporte.fecha > filtroReporte.final) {
       this.toastr.warning('Fechas para la búsqueda incorrecta', 'Advertencia')
@@ -65,10 +61,6 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
       this.toastr.warning('La búsqueda solo se permite máximo 1 mes', 'Advertencia')
       return;
     }
-
-    filtroReporte.fecha = this.datePipe.transform(filtroReporte.fecha, appConstants.eventDate.format) || this.datePipe.transform(res, appConstants.eventDate.format) || '';
-    filtroReporte.final = this.datePipe.transform(filtroReporte.final, appConstants.eventDate.format) || this.datePipe.transform(resFinally, appConstants.eventDate.format) || '';
-
 
     this.spinner = true;
     const $cierre = this.cierreDiarioService.getListPre().subscribe(res1 => {

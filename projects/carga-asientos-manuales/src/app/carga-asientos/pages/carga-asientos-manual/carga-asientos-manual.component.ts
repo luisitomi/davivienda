@@ -44,7 +44,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
           this.message = res?.estado;
           const message = res?.log.map(function(elem: any){
             return elem.mensaje;
-          }).join(",");
+          }).join("\n");
           const archivo = new Blob([message], { type: 'text/plain' });
           const url = URL.createObjectURL(archivo);
           this.urlBlob = url;
@@ -59,7 +59,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
           this.message = error?.error?.estado;
           const message = error?.error?.logError.map(function(elem: any){
             return elem.mensaje;
-          }).join(",");
+          }).join("\n");
           const archivo = new Blob([message], { type: 'text/plain' });
           const url = URL.createObjectURL(archivo);
           this.urlBlob = url;

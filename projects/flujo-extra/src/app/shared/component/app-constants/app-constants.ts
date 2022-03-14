@@ -17,6 +17,7 @@ export const appConstants = {
     eventDate: {
         format: 'dd/MM/yyyy',
         format2: 'yyyy/MM/dd',
+        format3: 'MM/dd/yyyy',
     },
     typeDate: {
         FECHA:'Fecha',
