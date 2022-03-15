@@ -66,6 +66,10 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  TsPruebaObtenerArchivoWS = this.enviroment.TsPruebaObtenerArchivoWS?.replace(
+    /\/$/,
+    ''
+  );
 
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
 

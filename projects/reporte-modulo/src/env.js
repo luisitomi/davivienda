@@ -15,5 +15,6 @@
  
     window.__env.TsObtenerPerfilWS ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/bc0c0ab8218646af9c3349ea3fb83f9e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=brnqb00PY-OUobpxxMfASnZPNYubRKGf3T-cxGXaTS0";
     window.__env.TsModuloReporteEliminarWS ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/ea7e639494344c40a1ecab53fc715b6c/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-6VzPgstHV4gJNkLK8Pngr1WH6OMXOj3FBtv7w0YGRE";
+    window.__env.TsPruebaObtenerArchivoWS ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/b3db918661174eba805683d34d9e3789/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kq1_X-sGHDn9AB9NowRkh15hr9yg_YpPmaEAE2n286s";
   }(this));
   
