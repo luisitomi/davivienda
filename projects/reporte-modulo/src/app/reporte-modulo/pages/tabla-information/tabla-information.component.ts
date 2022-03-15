@@ -122,6 +122,7 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
       }
     );
   }
+ 
 
   download(prmBean: ListadoEjecucionReporte): void {
 

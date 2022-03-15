@@ -59,4 +59,6 @@ export class ReporteEjecucionService {
           switchMap(url => this.http.post<TxtLog[]>(this.configService.TsFahTxtTraceModuloReporteWS,data)),
         );
       }
+
+
 }
