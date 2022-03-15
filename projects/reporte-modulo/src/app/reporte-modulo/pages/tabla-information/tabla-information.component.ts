@@ -34,7 +34,6 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
   }
   ngOnInit(): void {
     this.createForm();
-    this.downloadFile();
   }
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({

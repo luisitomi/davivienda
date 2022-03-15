@@ -4,6 +4,9 @@
   <mat-card>
     <app-title-header [Title]="''" [ViewIcon]="true" [IconType]="'refresh'" (click)="refrescar()"></app-title-header>
     <app-title-header [title]="'hola mundo'" [ViewIcon]="true" [IconType]="'add'" (click)="addNewInformation()"></app-title-header>
+    <mat-action-row>
+      <app-actions [class]="'flat'" [color]="'primary'" (click)="downloadFile()" [label]="'Descargar'"></app-actions>
+    </mat-action-row>
     <mat-card-content class="evol-tabla-limites-container">
       <div class="evol-tabla-wrapper">
         <table mat-table [dataSource]="informationsList">
