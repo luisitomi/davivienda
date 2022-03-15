@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
@@ -21,42 +21,49 @@ export class ReporteEjecucionService {
   TsFAHParametrosEjecucionModuloReporteWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/58851a47a01e4fd98cff8c991011b309/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=iDt1P9BK_DGzbL9MIgIzHPeIyI0FpzDOXH2v7_zeXT8";  
     TsFAHListarReportesParaEjecucionWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/a10aa59b0b69400d9c8010d10c9c5ef8/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0dLXaKiu8EINjJrocB-mqfRvnqz9_4vpPD7V9BgYEhU";
  */
-    constructor(
+  constructor(
     private http: HttpClient,
     private configService: ConfigService,
   ) { }
 
-    getTsFAHListarReportesParaEjecucionWS(): Observable<Reporte[]>{
-      return this.configService.getApiUrl().pipe(
-        first(),
-        switchMap(url => this.http.get<Reporte[]>(this.configService.TsFAHListarReportesParaEjecucionWS)),
-      );
-    }
+  getTsFAHListarReportesParaEjecucionWS(): Observable<Reporte[]> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<Reporte[]>(this.configService.TsFAHListarReportesParaEjecucionWS)),
+    );
+  }
 
-    postTsFAHParametrosEjecucionModuloReporteWS (reporte: any): Observable<ParametrosReporteEjecucionParam[]> {
-      return this.configService.getApiUrl().pipe(
-        first(),
-        switchMap(url => this.http.post<ParametrosReporteEjecucionParam[]>(this.configService.TsFAHParametrosEjecucionModuloReporteWS ,reporte)),
-        );
-      }
-      postTsFahModuloReporteEjecutarWS (ejecucionReporte: ReporteEjecucionParam): Observable<any> {
-        return this.configService.getApiUrl().pipe(
-          first(),
-          switchMap(url => this.http.post<any>(this.configService.TsFahModuloReporteEjecutarWS ,ejecucionReporte)),
-          );
-      }
-      posTsFAHListarEjecucionReporteWS  (filtro: any): Observable<ListadoEjecucionReporte[]> {
-        return this.configService.getApiUrl().pipe(
-          first(),
-          switchMap(url => this.http.post<ListadoEjecucionReporte[]>(this.configService.TsFAHListarEjecucionReporteWS ,filtro)),
-          );
-      }
+  postTsFAHParametrosEjecucionModuloReporteWS(reporte: any): Observable<ParametrosReporteEjecucionParam[]> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<ParametrosReporteEjecucionParam[]>(this.configService.TsFAHParametrosEjecucionModuloReporteWS, reporte)),
+    );
+  }
+  postTsFahModuloReporteEjecutarWS(ejecucionReporte: ReporteEjecucionParam): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(this.configService.TsFahModuloReporteEjecutarWS, ejecucionReporte)),
+    );
+  }
+  posTsFAHListarEjecucionReporteWS(filtro: any): Observable<ListadoEjecucionReporte[]> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<ListadoEjecucionReporte[]>(this.configService.TsFAHListarEjecucionReporteWS, filtro)),
+    );
+  }
 
-      postTsFahTxtTraceModuloReporteWS(id: any) : Observable<TxtLog[]> {
-        const data = {Id: id};
-        return this.configService.getApiUrl().pipe(
-          first(),
-          switchMap(url => this.http.post<TxtLog[]>(this.configService.TsFahTxtTraceModuloReporteWS,data)),
-        );
-      }
+  postTsFahTxtTraceModuloReporteWS(id: any): Observable<TxtLog[]> {
+    const data = { Id: id };
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<TxtLog[]>(this.configService.TsFahTxtTraceModuloReporteWS, data)),
+    );
+  }
+
+  getFile() {
+    const httpOptions = {  
+      responseType: 'blob' as 'json'  
+    };  
+    return this.http.get(this.configService.TsPruebaObtenerArchivoWS, httpOptions);
+  }
 }
