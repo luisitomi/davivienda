@@ -179,9 +179,10 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
     .subscribe(
       (response: any) => {
         response.forEach((item: any) => {
-         this.ejecucionReporteService.getDownoadFile(item?.RUTA.replace('_'+item?.ID_EJECUCION+'.', '')).subscribe(
+          const ruta = item?.RUTA.replace('/FAHDES/Salida/InterfacesSalida/ProcesamientoAHC/','')
+          this.ejecucionReporteService.getDownoadFile(ruta.replace('_'+item?.ID_EJECUCION+'.', '.')).subscribe(
            (rpta: any) => {
-            saveAs(rpta, item?.RUTA);
+            saveAs(rpta, ruta);
            }
          )
        });
