@@ -1,7 +1,8 @@
 import { ElementRef, TemplateRef } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Directive, Input, ViewContainerRef } from '@angular/core';
-import { PermissionService } from 'src/app/core/services/permission.service';
+import { PermissionService } from '../../core/services/permission.service';
+
 import { Features, Permissions } from '../enums';
 
 @Directive({

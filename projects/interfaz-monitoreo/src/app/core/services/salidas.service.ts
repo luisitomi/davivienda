@@ -15,13 +15,11 @@ import { ConfigService } from './config.service';
 })
 export class SalidasService {
 
-  salidaEndpoint: string = '/salidas';
-  interfazEndpoint: string = '/interfaces';
-  estadosEndpoint: string = '/estados-salida';
-  urlOrigen ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/701094b4d4da46078377cda8173daab3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SA8ZcMpHX_1Aey0laSaCmp0WX6hPPS9aKNXFPw9U_CU";
-  url = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/c98b5b8b8b67416fa00fb647ee2fc10b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5ChglnE_iJEv5lXY-66cLNW8YA_cQpQqZCYTMvX8sjI";
-  urlMonitoreo = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/ec929fc542494d8092f4f5d7efcbb52e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2pm8KqYyNP9rqMHYStldx2ybNMiJyQH05uUu9xb3thg";
-  urlTxtLog = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/ba0cc9bb753b49faae8942876bbf36df/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NYsPwQeKjJlg_Eg2iqsKjMwvyGwuAMwiF5mqSCm9aa8";
+  
+  //TsFahOrigenMonitoreoInterfazSalida ="https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/701094b4d4da46078377cda8173daab3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SA8ZcMpHX_1Aey0laSaCmp0WX6hPPS9aKNXFPw9U_CU";
+ // TsFahEstadoMonitoreoInterfazSalida = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/c98b5b8b8b67416fa00fb647ee2fc10b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5ChglnE_iJEv5lXY-66cLNW8YA_cQpQqZCYTMvX8sjI";
+ // TsMonitoreoInterfazSalidaWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/ec929fc542494d8092f4f5d7efcbb52e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2pm8KqYyNP9rqMHYStldx2ybNMiJyQH05uUu9xb3thg";
+ // TsFahTxtTraceIntSalLogWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/ba0cc9bb753b49faae8942876bbf36df/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NYsPwQeKjJlg_Eg2iqsKjMwvyGwuAMwiF5mqSCm9aa8";
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
@@ -38,7 +36,7 @@ export class SalidasService {
 getEstados(): Observable<Maestra[]> {
   return this.configService.getApiUrl().pipe(
     first(),
-    switchMap(url => this.http.get<Maestra[]>(this.url)),
+    switchMap(url => this.http.get<Maestra[]>(this.configService.TsFahEstadoMonitoreoInterfazSalida)),
   );
 }
 /*
@@ -52,26 +50,26 @@ getEstados(): Observable<Maestra[]> {
   getInterfaces(): Observable<Maestra[]> {
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.get<Maestra[]>(this.urlOrigen)),
+      switchMap(url => this.http.get<Maestra[]>(this.configService.TsFahOrigenMonitoreoInterfazSalida)),
     );
   }
 
   postSalidas(data: any): Observable<Salida[]> {
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.post<Salida[]>(this.urlMonitoreo,data)),
+      switchMap(url => this.http.post<Salida[]>(this.configService.TsMonitoreoInterfazSalidaWS,data)),
     );
   }
   postTxtLog(id: any): Observable<TxtLog[]> {
     const data = {Id: id};
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.post<TxtLog[]>(this.urlTxtLog,data)),
+      switchMap(url => this.http.post<TxtLog[]>(this.configService.TsFahTxtTraceIntSalLogWS,data)),
     );
   }
 
   
-
+/*
   getSalidas(
     interfaz: string = '',
     estado: string = '',
@@ -94,6 +92,6 @@ getEstados(): Observable<Maestra[]> {
       first(),
       switchMap(url => this.http.get<Salida[]>(url + this.salidaEndpoint, { params })),
     );
-  }
+  }*/
 
 }

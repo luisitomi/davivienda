@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { of } from 'rxjs';
+import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
@@ -23,13 +24,14 @@ export class AuthGuard implements CanActivate {
     this.navigationService.setPrevUrl(state.url);
     return this.authService.isLoggedIn().pipe(
       map(logged => {
-        console.log(route.queryParams.token)
-
-        this.authService.getTokenERP(route.queryParams.token).subscribe( res => {
-          console.log('consultando token')
-          console.log(res)
-
-        });
+        if (route.queryParams.token != undefined && route.queryParams.token != null) {
+          const decoded =  jwtDecode(route.queryParams.token); 
+         // this.authService.setTokenJson(decoded);
+          this.authService.postTsFahObtenerUsuarioWS(decoded).subscribe(rest => {
+          //    console.log('getUsuarioV2' +this.authService.getUsuarioV2())
+          });
+            
+         }
 
         return true;
         if (logged) {

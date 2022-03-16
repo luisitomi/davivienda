@@ -7,9 +7,8 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { INTERCEPTORS } from 'src/environments/environment';
 
-import { CuadreCajaModule } from './cuadre-caja/cuadre-caja.module';
+
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { tokenInterceptorProvider } from './core/interceptors/token.interceptor';
 //import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,13 +24,12 @@ import { EnvironmentServiceProvider } from './core/interceptors/dev-backend.inte
     CoreModule,
     DashboardModule,
     BrowserAnimationsModule,
-    CuadreCajaModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' } },
    tokenInterceptorProvider,
-    INTERCEPTORS,
+    //INTERCEPTORS,
   /*s  {
       provide: HTTP_INTERCEPTORS,
       useClass: MessageErrorInterceptor,

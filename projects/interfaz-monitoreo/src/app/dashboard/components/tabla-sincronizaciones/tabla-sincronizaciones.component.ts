@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Sincronizacion } from 'src/app/shared';
+import { Sincronizacion } from '../../../shared';
+
 
 @Component({
   selector: 'app-tabla-sincronizaciones',

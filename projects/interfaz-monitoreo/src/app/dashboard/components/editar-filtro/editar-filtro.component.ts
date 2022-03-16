@@ -3,6 +3,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Inject, O
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { CorreccionFiltrosService } from '../../../core/services/correccion-filtros.service';
 import { ReprocesoService } from '../../../core/services/reproceso.service';
 import { CorreccionFiltro } from '../../../shared';
@@ -39,6 +40,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
     private reprocesoService: ReprocesoService,
     private correccionFiltrosService: CorreccionFiltrosService,
     private datePipe: DatePipe,
+    private authService: AuthService
   ) {
     super();
   }
@@ -192,7 +194,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
       IdArchivoZip:this.correccionFiltrosService.getIdCarga(),
       TipoArchivo: this.correccionFiltrosService.getTipoArchivo(),
       TipoFiltro: "FILTRO",
-      Usuario:""
+      Usuario:this.authService.getUsuarioV2()
     }
     this.correccionFiltrosService.postTsRegistroCorreccionAHCWS(objeto).subscribe(
       res => {

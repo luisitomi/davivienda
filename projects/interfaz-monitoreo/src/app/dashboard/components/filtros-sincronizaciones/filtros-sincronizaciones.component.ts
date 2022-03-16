@@ -3,8 +3,9 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Subscription } from 'rxjs';
-import { SincronizacionesService } from 'src/app/core/services/sincronizaciones.service';
-import { FiltroSincronizacion } from 'src/app/shared';
+import { SincronizacionesService } from '../../../core/services/sincronizaciones.service';
+import { FiltroSincronizacion } from '../../../shared';
+
 
 @Component({
   selector: 'app-filtros-sincronizaciones',

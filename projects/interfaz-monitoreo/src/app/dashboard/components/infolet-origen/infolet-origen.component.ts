@@ -19,6 +19,7 @@ import { UtilServices } from '../general/util.service';
 export class InfoletOrigenComponent implements OnInit, OnDestroy {
 
   title: string = '';
+  origen: string = '';
 
   @Input() infolet?: Infolet;
   filterForm = new FormGroup({
@@ -34,19 +35,22 @@ export class InfoletOrigenComponent implements OnInit, OnDestroy {
     private infoletService: InfoletService,
     private route: ActivatedRoute,
     private utilServices: UtilServices,
+    
   ) { }
 
   ngOnInit(): void {
-    this.utilServices.setTextValue('Infolet');
-    if (this.infolet?.origen !== null ) {
+    const routeParams = this.route.snapshot.paramMap;
+    this.origen = String(routeParams.get('origen'));
+    //this.utilServices.setTextValue('Infolet');
+    if (this.infolet?.origen !== null &&  this.infolet?.origen !== undefined) {
       this.filterForm.controls['origen'].setValue(this.infolet?.origen);
     }
   
     this.title = this.infolet?.origen !== null ? 'Infolet de Origen' : 'Infolet Global de Integración';
-
+/*  
     this.getOrigenesSub = this.origenService.getOrigenes().subscribe(
       origenes => this.origenOptions = origenes,
-    );
+    ); */
 
 
 
@@ -54,14 +58,15 @@ export class InfoletOrigenComponent implements OnInit, OnDestroy {
 
   }
   seleccionarOrigen(){
-    console.log(this.filterForm.controls['origen'].value)
     this.obtenerInfoletPorOrigen();
   }
 
   obtenerInfoletPorOrigen(){
     this.infoletService.postInfoletPorOrigen(this.filterForm.controls['origen'].value).subscribe(res => {
       this.infolet = res;
-      () => console.log('asdsadds')
+      () => {
+        
+      }
     });
   }
   ngOnDestroy(): void {

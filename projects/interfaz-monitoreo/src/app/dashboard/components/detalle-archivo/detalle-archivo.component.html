@@ -26,7 +26,7 @@
 
       <mat-list-item>
         <h3>Estado</h3>
-        <h3>{{ carga.estado }}</h3>
+        <h3>{{ carga.estadoProceso }}</h3>
       </mat-list-item>
 
       <mat-divider></mat-divider>
@@ -52,22 +52,22 @@
         <li><p>Stage Debit</p><p>{{ carga.debitoStage }}</p></li>
         <li><p>Stage Credit</p><p>{{ carga.creditoStage }}</p></li>
         <li><p>XLA Debit</p><p>{{ carga.debitoXLA }}</p></li>
-        <li><p>XLA Debit</p><p>{{ carga.creditoXLA }}</p></li>
+        <li><p>XLA Credit</p><p>{{ carga.creditoXLA }}</p></li>
         <li><p>GL Debit</p><p>{{ carga.debitoGL }}</p></li>
-        <li><p>GL Debit</p><p>{{ carga.creditoGL }}</p></li>
+        <li><p>GL Credit</p><p>{{ carga.creditoGL }} </p></li>
       </ul>
     </div>
   </div>
 </div>
-
-<mat-dialog-actions>
+<div *ngIf="!validarReversa(carga.nombreArchivo)">
+<mat-dialog-actions *ngIf="admistrador && carga.estadoImporting== 'SUCCEEDED' && carga.estadoProceso !='CERRADO' " >
   
     <button mat-flat-button color="accent"  (click)="reversar()" [disabled]="loadingCargas" *ngIf="carga.reversado !== reversado"  >Reversar</button>
  
 
-    <button mat-flat-button color="accent" disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estado != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Cabeceras, carga.origen]">Corregir Cabeceras</button>
-  <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estado != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Lineas, carga.origen]">Corregir Líneas</button>
-  <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estado != 'REPROCESADO'" (click)="reprocesar()">Reprocesar</button>
+    <button mat-flat-button color="accent" disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estadoProceso != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Cabeceras, carga.origen]">Corregir Cabeceras</button>
+  <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estadoProceso != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Lineas, carga.origen]">Corregir Líneas</button>
+  <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estadoProceso != 'REPROCESADO'" (click)="reprocesar()">Reprocesar</button>
 
 
   <!--
@@ -81,3 +81,4 @@
   </ng-template>
 -->
 </mat-dialog-actions>
+</div>

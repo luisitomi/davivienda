@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
 import { CargasService } from '../../../core/services/cargas.service';
 import { CorreccionColumnasService } from '../../../core/services/correccion-columnas.service';
 import { CorreccionFiltrosService } from '../../../core/services/correccion-filtros.service';
@@ -61,15 +62,11 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     private navigationService: NavigationService,
     private router: Router,
     private cargasService: CargasService,
-
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
 
-  
-    console.log(this.tipoArchivo)
-    console.log(this.cargaId)
-    console.log('saddasasdsdasd')
   //  const origen = "COBIS";
    /* if (this.tipoArchivo == 'HEADER'){
       this.GetColumnas(origen,1);
@@ -148,7 +145,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       carga => {
         this.loadingCargas = false;
        // this.carga = carga;
-        console.log(carga);
+    
         
       }
     )
@@ -159,7 +156,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(EditarFiltroComponent, {
       width: '300px',
     }).afterClosed().subscribe(result => {
-        console.log('result: '+ result)
+      
         this.obtenerFiltros();
     });
 
@@ -183,11 +180,11 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       TipoArchivo: this.tipoArchivo,
       TipoFiltro: 'FILTRO',
       Columna: filtro.columna,
-      Usuario: ""
+      Usuario: this.authService.getUsuarioV2()
     }
     this.correccionFiltrosService.postTsEliminarCorreccionAHCWS(prmBean).subscribe(
       res => {
-        console.log(res)
+ 
         
         this.snackBar.open('Se eliminó correctamente')
         this.obtenerColumnas();
@@ -226,11 +223,11 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       TipoArchivo: this.tipoArchivo,
       TipoFiltro: 'COLUMNA',
       Columna: columna.columna,
-      Usuario: ""
+      Usuario: this.authService.getUsuarioV2()
     }
     this.correccionFiltrosService.postTsEliminarCorreccionAHCWS(prmBean).subscribe(
       res => {
-        console.log(res)
+        
         this.obtenerColumnas();
       },
       () => {
@@ -245,11 +242,11 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       IdArchivoZip:  this.cargaId,
       TipoArchivo: this.tipoArchivo,
       TipoFiltro: "FILTRO",
-      Usuario: "",
+      Usuario: this.authService.getUsuarioV2(),
       FiltrosSeleccionados: this.filtros.data
     }
     this.loadingCargas = true;
-    console.log(JSON.stringify(obj))
+   
     /*
     let sw = this.reprocesoService.calcularCantidadRegistroMetodo(obj);
     
@@ -261,7 +258,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
 
       this.reprocesoService.calcularCantidadRegistrosService(obj).subscribe(
          res => {
-           console.log(res)
+           
           if (res!= null && res.CantidadRegistros!= null) {
             this.reprocesoService.agregarCantidadRegistro(res.CantidadRegistros);
           }
@@ -281,11 +278,11 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       IdArchivoZip:  this.cargaId,
       TipoArchivo: this.tipoArchivo,
       TipoFiltro: "COLUMNA",
-      Usuario: "",
+      Usuario: this.authService.getUsuarioV2(),
       FiltrosSeleccionados: this.columnas.data
     }
     this.loadingCargas = true;
-    console.log(JSON.stringify(obj))
+    
     const dialogRef = this.dialog.open(CorregirConfirmacionComponent);
     dialogRef.afterClosed().subscribe(
       res => {
@@ -299,9 +296,9 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
               this.loadingCargas = false;
               if (url) {
                 const carga = `${url.includes('?') ? '&' : '?'}carga=${this.cargaId}`;
-                console.log('url + carga:' +url + carga)
+              
                 this.router.navigateByUrl(url + carga);
-                console.log(url);
+                
               }
             }
           );

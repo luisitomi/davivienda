@@ -2,6 +2,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthService } from '../../../core/services/auth.service';
 import { CorreccionColumnasService } from '../../../core/services/correccion-columnas.service';
 import { ReprocesoService } from '../../../core/services/reproceso.service';
 import { Columna, CorreccionColumna } from '../../../shared';
@@ -42,23 +43,21 @@ export class EditarColumnaComponent implements OnInit {
   //  @Inject(MAT_DIALOG_DATA) public correccionValores: CorreccionColumnaValores,
     private correccionColumnasService: CorreccionColumnasService,
     private reprocesoService: ReprocesoService,
+    private authService: AuthService
 
   ) { }
 
   ngOnInit(): void {
-    console.log('DATA::::' +this.correccionColumnasService.getTipoArchivo())
+    
     let origen = this.correccionColumnasService.getOrigen();
     let tipoArchivo1 = this.correccionColumnasService.getTipoArchivo();
-    console.log(tipoArchivo1);
+   
     if (tipoArchivo1 == 'HEADER') {
       this.GetColumnas(origen,1);
     } else if (tipoArchivo1 == 'LINE') {
       this.GetColumnas(origen,2);
     }
 
-    console.log('ingresando modal')
-
-    
     this.editarColumnaForm.valueChanges.subscribe(v => {
       this.tipo = this.columnas.find(c => c.valor === v.columna)?.tipo || '';
     });
@@ -90,11 +89,11 @@ export class EditarColumnaComponent implements OnInit {
       IdArchivoZip:this.correccionColumnasService.getIdCarga(),
       TipoArchivo: this.correccionColumnasService.getTipoArchivo(),
       TipoFiltro: "COLUMNA",
-      Usuario:""
+      Usuario:this.authService.getUsuarioV2()
     }
     this.correccionColumnasService.postTsRegistroCorreccionAHCWS(objeto).subscribe(
       res => {
-        console.log('res' + res)
+       
         this.dialogRef.close('OK');
         /*
         if (this.filtro === null) {
@@ -117,8 +116,7 @@ export class EditarColumnaComponent implements OnInit {
       origen,tipoColumna
     ).subscribe(
       data =>{
-        console.log('data:')
-        console.log(data);
+       
         this.columnas = data}/*console.log('data: '+data)*/,
       error => console.log(error),
       () => this.loadingCargas = false,

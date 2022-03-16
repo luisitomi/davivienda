@@ -1,4 +1,4 @@
 <div class="evol-control">
-  <app-filtros-carga class="evol-filtro-control" [origen]="origen" (filtrarCargas)="filtrarCargas($event)"></app-filtros-carga>
-  <app-tabla-control class="evol-tabla-control" [cargas]="cargas" (mostrarDetalle)="mostrarDetalle($event)" [loading]="loadingCargas"></app-tabla-control>
+  <app-filtros-carga class="evol-filtro-control" [filtroInput]="inputFiltro" [origen]="origen" (filtrarCargas)="filtrarCargas($event)"></app-filtros-carga>
+  <app-tabla-control class="evol-tabla-control" [cargas]="cargas" (filtrarDatos)="filtrarDatos($event)" (mostrarDetalle)="mostrarDetalle($event)" [loading]="loadingCargas"></app-tabla-control>
 </div>

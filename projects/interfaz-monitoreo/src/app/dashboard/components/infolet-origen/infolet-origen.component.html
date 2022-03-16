@@ -53,7 +53,8 @@
         <div class="evol-infolet-rate-indicator">
           <mat-icon class="evol-rate-arrow-down" *ngIf="(infolet?.variacion || 0) < 0">arrow_drop_down</mat-icon>
           <mat-icon class="evol-rate-arrow-up" *ngIf="(infolet?.variacion || 0) > 0">arrow_drop_up</mat-icon>
-          <h2>{{ infolet?.variacion || 0 / 100 | percent:'.0-2' }}</h2>
+          <h2>{{ infolet?.variacion }}%</h2>
+ <!--         <h2>{{ infolet?.variacion || 0 / 100 | percent:'.0-2' }}</h2> -->
         </div>
       </mat-list-item>
     </mat-list>

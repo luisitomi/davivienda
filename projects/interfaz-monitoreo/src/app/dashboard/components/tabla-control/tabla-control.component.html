@@ -1,6 +1,7 @@
 <mat-card>
+  <app-title-header [Title]="''" [ViewIcon]="true" [IconType]="'refresh'" (click)="refrescar()"></app-title-header>
   <mat-card-content class="evol-tabla-container">
-    <table mat-table [dataSource]="cargas">
+    <table mat-table [dataSource]="cargas" #tabla1>
 
       <!-- Columna Numeracion -->
       <ng-container matColumnDef="numeracion" sticky>
@@ -27,9 +28,9 @@
       </ng-container>
 
       <!-- Columna Estado -->
-      <ng-container matColumnDef="estado">
+      <ng-container matColumnDef="estado" sticky>
         <th mat-header-cell *matHeaderCellDef>Estado</th>
-        <td mat-cell *matCellDef="let element"> {{ element.estado }} </td>
+        <td mat-cell *matCellDef="let element"> {{ element.estadoProceso }} </td>
       </ng-container>
 
       <!-- Columna Reversado -->
@@ -44,12 +45,22 @@
         <td mat-cell *matCellDef="let element"> {{ element.jobImportAccounting }} </td>
       </ng-container>
 
+      <ng-container matColumnDef="estadoImportingAcc" sticky>
+        <th mat-header-cell *matHeaderCellDef>Estado Job Import Accounting</th>
+        <td mat-cell *matCellDef="let element"> {{ element.estadoImporting }} </td>
+      </ng-container>
+
       <!-- Columna Job Create Accounting -->
       <ng-container matColumnDef="jobCreateAccounting">
         <th mat-header-cell *matHeaderCellDef>Job Create Accounting</th>
         <td mat-cell *matCellDef="let element"> {{ element.jobCreateAccounting }} </td>
       </ng-container>
 
+      <ng-container matColumnDef="estadoAccountingDataset" sticky>
+        <th mat-header-cell *matHeaderCellDef>Estado Job Create Accounting</th>
+        <td mat-cell *matCellDef="let element"> {{ element.estadoAccountingDataSet }} </td>
+      </ng-container>
+      
       <!-- Columna Cantidad H -->
       <ng-container matColumnDef="cantidadH">
         <th mat-header-cell *matHeaderCellDef>Cantidad H.</th>
@@ -125,5 +136,6 @@
       </tr>
 
     </table>
+
   </mat-card-content>
 </mat-card>

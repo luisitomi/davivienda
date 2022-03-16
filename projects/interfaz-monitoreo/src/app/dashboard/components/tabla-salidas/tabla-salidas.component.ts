@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Salida } from 'src/app/shared';
+
 import { SalidasService } from '../../../core/services/salidas.service';
+import { Salida } from '../../../shared';
 import { TxtLog } from '../../../shared/models/txtLog.model';
 
 @Component({
@@ -33,7 +34,7 @@ export class TablaSalidasComponent implements OnInit {
       this.txtLog = rest;
 
   var contenido =     this.convertToTXT(this.txtLog);
-        console.log(contenido);
+        
         const a = document.createElement("a"); 
         const archivo = new Blob([contenido], { type: 'text/plain' });
         const url = URL.createObjectURL(archivo);
@@ -65,7 +66,7 @@ export class TablaSalidasComponent implements OnInit {
       //  start with the rows
       for (const dataset of data) {
         let line = '';
-        console.log(dataset.mensaje)
+      
         row += dataset.mensaje + '\r\n';
       }
       return row;

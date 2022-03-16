@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
-import { CorreccionColumna } from 'src/app/shared';
+import { CorreccionColumna } from '../../shared';
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -11,8 +11,8 @@ import { ConfigService } from './config.service';
 export class CorreccionColumnasService {
 
   columnas: CorreccionColumna[] = [];
-  urlTsListarColumnasCorreccionXProcesoWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/2c93a2f567274e508b1dcd096853f2d1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=guvktC0yogdu-pQTnQxjDEy_5P8CxEb2RSFqxCvh4po";
-  urlTsRegistroCorreccionAHCWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/bf1df4448e3647489714a73c37fd5754/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Jp3OiIRwlQUHwhpYS1-glXREmaOgjPGrfu0e5R6ZmIQ";
+ // TsListarColumnasCorreccionXProcesoWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/2c93a2f567274e508b1dcd096853f2d1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=guvktC0yogdu-pQTnQxjDEy_5P8CxEb2RSFqxCvh4po";
+  //TsRegistroCorreccionAHCWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/bf1df4448e3647489714a73c37fd5754/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Jp3OiIRwlQUHwhpYS1-glXREmaOgjPGrfu0e5R6ZmIQ";
   
   columnasSubject: Subject<CorreccionColumna[]> = new Subject();
   tipoArchivo: string = "";
@@ -50,7 +50,7 @@ export class CorreccionColumnasService {
     }
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.post<CorreccionColumna[]>(this.urlTsListarColumnasCorreccionXProcesoWS,obj)),
+      switchMap(url => this.http.post<CorreccionColumna[]>(this.configService.TsListarColumnasCorreccionXProcesoWS,obj)),
     );
   }
 
@@ -58,7 +58,7 @@ export class CorreccionColumnasService {
     
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.post<CorreccionColumna[]>(this.urlTsRegistroCorreccionAHCWS,obj)),
+      switchMap(url => this.http.post<CorreccionColumna[]>(this.configService.TsRegistroCorreccionAHCWS,obj)),
     );
   }
 

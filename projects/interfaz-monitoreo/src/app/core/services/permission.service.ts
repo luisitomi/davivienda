@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FeaturePermission, Features, Permissions, Usuario } from 'src/app/shared';
+import {  FeaturePermission, Features, Permissions, Usuario} from '../../shared';
+
 import { AuthService } from './auth.service';
 
 @Injectable({

@@ -3,8 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Subscription } from 'rxjs';
 
-import { FiltroSalida } from 'src/app/shared';
 import { SalidasService } from '../../../core/services/salidas.service';
+import { FiltroSalida } from '../../../shared';
 import { Maestra } from '../../../shared/models/maestra.model';
 import { UtilServices } from '../general/util.service';
 

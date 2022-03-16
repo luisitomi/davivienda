@@ -1,17 +1,18 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
-import { FeaturePermission, Usuario } from 'src/app/shared';
+import { FeaturePermission, Usuario } from '../../shared';
+
 import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  TsAnnouncementsTokenWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/1c3b52c80fd34e1e9e76856bb870fe98/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7_IHw03w7-TauzrmMv-b_bxhjHvfSHqC1hWRPORbwWw";
+//  TsFahObtenerUsuarioWS    = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/6fb371a135fa404bad7fe40ce3225ef9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5CEEXkzdXYb1pT4Svzl7PxL0aN2-vO7RUVTbvdN6hoU";
+  //TsFahObtenerRolesPorUsuarioWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/f8dfa763fb064c14ab07c015da23df77/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vy-z4erZRb8Oz-G2c6Y3tx6ZDmIkl1jRRx3opXZa9js"; 
   url: string = 'http://rutadelservicio.com/api/v1.0/usuario';
 
   private usuario: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
@@ -22,6 +23,10 @@ export class AuthService {
     private configService: ConfigService,
   ) { }
 
+  setTokenJson(tokenJson: any) {
+    
+  //  this.usuario = new BehaviorSubject();
+  }
   isLoggedIn(): Observable<boolean> {
     return this.usuario.asObservable().pipe(
       map(u => u === null ? false : true),
@@ -45,27 +50,15 @@ export class AuthService {
       map(u => u?.nombre),
     );
   }
+  getUsuarioV2() {
+    return this.usuario.value?.email;
+  /*  return this.usuario.asObservable().pipe(
+      map(u => u?.email),
+    );*/
+  }
 
   getToken(): Observable<string> {
     return this.token.asObservable().pipe(filter(t => t !==''), first());
-  }
-
-  getTokenERP(token: string): Observable<any> {
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Access-Control-Allow-Origin':'***',
-        Authorization: 'Bearer '+token
-      })
-    };
-
-    const prmBean = {
-      jwt:token
-    };
-    return this.configService.getApiUrl().pipe(
-      first(),
-      switchMap(url => this.http.post<any>(this.TsAnnouncementsTokenWS,prmBean)),
-    );
   }
 
   setToken(token: string | undefined): void {
@@ -79,4 +72,24 @@ export class AuthService {
       map(u => u?.permisosACaracteristicas),
     );
   }
+
+  postTsFahObtenerUsuarioWS (tokenJson: any) : Observable<Usuario> {
+    const data = {usuario: tokenJson.prn};
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<Usuario>(this.configService.TsFahObtenerUsuarioWS,data).pipe(
+        tap(res => this.usuario.next(res)),
+      )),
+    );
+  }
+
+
+  getByIdRol(usuario: any): Observable<any> {
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(this.configService.TsFahObtenerRolesPorUsuarioWS
+      ,{usuario: usuario})),
+    );
+  }
+ 
 }

@@ -24,6 +24,8 @@ import { SharedModule } from '../shared';
 import { CorregirConfirmacionComponent } from './components/corregir-confirmacion/corregir-confirmacion.component';
 import { ConfirmacionReversaComponent } from './components/confirmacion-reversa/confirmacion-reversa.component';
 import { EditarFiltroModule } from './components/editar-filtro/editar-filtro.module';
+import { ConfirmacionReprocesoComponent } from './components/confirmacion-reproceso/confirmacion-reproceso.component';
+import { TitleHeaderModule } from '../shared/component/ui/title-header/title-header.module';
 
 
 @NgModule({
@@ -46,6 +48,7 @@ import { EditarFiltroModule } from './components/editar-filtro/editar-filtro.mod
     TablaSincronizacionesComponent,
     CorregirConfirmacionComponent,
     ConfirmacionReversaComponent,
+    ConfirmacionReprocesoComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,7 @@ import { EditarFiltroModule } from './components/editar-filtro/editar-filtro.mod
     MaterialModule,
     SharedModule,
     EditarFiltroModule,
+    TitleHeaderModule
   ]
 })
 export class DashboardModule { }

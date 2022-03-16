@@ -18,4 +18,7 @@ export interface Carga {
   creditoXLA: number;
   debitoGL: number;
   creditoGL: number;
+  estadoProceso: string;
+  estadoImporting: string;
+  estadoAccountingDataSet: string;
 }

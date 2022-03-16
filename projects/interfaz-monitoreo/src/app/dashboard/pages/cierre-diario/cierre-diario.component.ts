@@ -4,8 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { EstadosDiaService } from 'src/app/core/services/estados-dia.service';
-import { EstadoDia } from 'src/app/shared';
+import { EstadosDiaService } from '../../../core/services/estados-dia.service';
+import { EstadoDia } from '../../../shared';
+
 
 @Component({
   selector: 'app-cierre-diario',

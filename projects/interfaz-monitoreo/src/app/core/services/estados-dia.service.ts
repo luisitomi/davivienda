@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { EstadoDia } from 'src/app/shared';
-import { ResultadoCierre } from 'src/app/shared/models/resultado-cierre.response';
+import { EstadoDia } from '../../shared';
+import { ResultadoCierre } from '../../shared/models/resultado-cierre.response';
+
 import { ConfigService } from './config.service';
 
 @Injectable({

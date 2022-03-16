@@ -36,6 +36,16 @@ table {
   @extend %column;
 }
 
+.mat-column-estadoImportingAcc {
+  @extend %column;
+}
+
+.mat-column-estadoAccountingDataset {
+  @extend %column;
+}
+
+
+
 .mat-column-reversado {
   @extend %column;
 }

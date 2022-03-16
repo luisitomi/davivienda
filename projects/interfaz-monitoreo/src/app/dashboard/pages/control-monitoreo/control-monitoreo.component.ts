@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,12 +14,12 @@ import { UtilServices } from '../../components/general/util.service';
   templateUrl: './control-monitoreo.component.html',
   styleUrls: ['./control-monitoreo.component.scss']
 })
-export class ControlMonitoreoComponent implements OnInit, OnDestroy {
-
+export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChecked {
+ inputFiltro: boolean = false;
   origen?: string;
 
   carga?: number;
-
+ 
   cargas: Carga[] = [];
 
   loadingCargas: boolean = false;
@@ -32,17 +32,16 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private utilServices: UtilServices,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private cdRef:ChangeDetectorRef,
   ) { }
-
+  ngAfterViewChecked(): void {
+    this.cdRef.detectChanges();
+  }
   ngOnInit(): void {
     this.utilServices.setTextValue('Monitoreo de Cargas');
     //this.loadingCargas = true;
-    console.log('Peeee  ')
-console.log('Peeee  '+this.configService.getApiUrl().subscribe(url =>  {
-  console.log(url)
-}
-  )  )
+  
     this.origen = this.route.snapshot.queryParams.origen ;
     this.carga = Number(this.route.snapshot.queryParams.carga);
     /*
@@ -63,8 +62,6 @@ console.log('Peeee  '+this.configService.getApiUrl().subscribe(url =>  {
     this.dialog.closeAll();
   }
   filtrarCargas(filtros: Filtros): void {
-  console.log('filtro')
-  console.log(filtros)
     let fechaInicio = "";
     let fechaFin ="";
     if (filtros.despuesDe != null) {
@@ -106,14 +103,21 @@ console.log('Peeee  '+this.configService.getApiUrl().subscribe(url =>  {
       TipoCarga:filtros.tipoCarga    
       
     };
-    console.log(prmBean)
     this.loadingCargas = true;
     this.getCargasSub = this.cargasService.postCargas(
       prmBean
     ).subscribe(
-      data => this.cargas = data/*console.log('data: '+data)*/,
-      error => console.log(error),
-      () => this.loadingCargas = false,
+      data => {
+        this.cargas = data;
+        this.inputFiltro = false;
+      }/*console.log('data: '+data)*/,
+      error => {
+        this.inputFiltro = false;
+      },
+      () => {
+          this.loadingCargas = false;
+          this.inputFiltro = false;
+      },
     );
   }
 /*
@@ -134,17 +138,19 @@ console.log('Peeee  '+this.configService.getApiUrl().subscribe(url =>  {
 
   mostrarDetalle(cargaId: number): void {
     this.loadingCargas = true;
-    console.log(cargaId);
     this.getCargaByIdSub = this.cargasService.getCargaById(cargaId).subscribe(
       carga => {
         this.loadingCargas = false;
-        console.log(carga);
         const dialogRef = this.dialog.open(DetalleArchivoComponent, {
           width: '80%',
           data: carga
         });
       }
     )
+  }
+
+  filtrarDatos(val: boolean) {
+    this.inputFiltro = val;
   }
 
 }

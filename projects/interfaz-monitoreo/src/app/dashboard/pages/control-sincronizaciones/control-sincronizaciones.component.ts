@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { SincronizacionesService } from 'src/app/core/services/sincronizaciones.service';
-import { FiltroSincronizacion } from 'src/app/shared';
-import { Sincronizacion } from 'src/app/shared';
+import { SincronizacionesService } from '../../../core/services/sincronizaciones.service';
+import { FiltroSincronizacion, Sincronizacion } from '../../../shared';
+
 
 @Component({
   selector: 'app-control-sincronizaciones',

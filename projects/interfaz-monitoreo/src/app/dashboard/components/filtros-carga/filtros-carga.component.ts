@@ -1,4 +1,4 @@
-import { EventEmitter, Input, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, EventEmitter, Input, ViewChild } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -15,10 +15,10 @@ import { Maestra } from '../../../shared/models/maestra.model';
   templateUrl: './filtros-carga.component.html',
   styleUrls: ['./filtros-carga.component.scss']
 })
-export class FiltrosCargaComponent implements OnInit, OnDestroy {
+export class FiltrosCargaComponent implements OnInit, OnDestroy,AfterViewChecked {
 
   @Input() origen?: string;
-
+  @Input() filtroInput?: boolean;
   @Output() filtrarCargas = new EventEmitter<Filtros>();
 
   @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
@@ -26,7 +26,7 @@ export class FiltrosCargaComponent implements OnInit, OnDestroy {
   filterForm = new FormGroup({
     origen: new FormControl(0),
     estado: new FormControl(''),
-    despuesDe: new FormControl(new Date('12/12/2017')),
+    despuesDe: new FormControl(new Date()),
     antesDe: new FormControl(new Date()),
     jobId: new FormControl(''),
     nombreArchivo: new FormControl(''),
@@ -44,7 +44,19 @@ export class FiltrosCargaComponent implements OnInit, OnDestroy {
   constructor(
     private origenService: OrigenService,
     private estadosCargaService: EstadosCargaService,
+    private cdRef:ChangeDetectorRef,
   ) { }
+  ngAfterViewChecked(): void {
+    if (this.filtroInput)
+    {
+     
+    this.filter();
+    this.cdRef.detectChanges();
+    
+
+    }
+    //throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.getOrigenesSub = this.origenService.getOrigenes().subscribe(
@@ -72,6 +84,7 @@ export class FiltrosCargaComponent implements OnInit, OnDestroy {
   filter(): void {
     this.filtrarCargas.emit(this.filterForm.value);
     this.panel?.close();
+    
   }
 
   esHoy(fecha: Date): boolean {

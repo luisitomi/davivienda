@@ -36,7 +36,7 @@
           <mat-label for="estado">Estado</mat-label>
           <mat-select id="estado" formControlName="estado">
             <mat-option [value]="''">Todos</mat-option>
-            <mat-option *ngFor="let estado of estadoOptions" [value]="estado.codigo">{{ estado.valor }}</mat-option>
+            <mat-option *ngFor="let estado of estadoOptions" [value]="estado.valor">{{ estado.valor }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -44,7 +44,7 @@
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Carga</mat-label>
-          <mat-date-range-input [rangePicker]="picker" disabled>
+          <mat-date-range-input [rangePicker]="picker">
             <input matInput matStartDate formControlName="despuesDe" placeholder="Después de" autocomplete="off">
             <input matInput matEndDate formControlName="antesDe" placeholder="Antes de" autocomplete="off">
           </mat-date-range-input>

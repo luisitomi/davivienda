@@ -3,7 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { delay, first, map, switchMap, tap } from 'rxjs/operators';
-import { Usuario } from 'src/app/shared';
+import { Usuario } from '../../../shared';
+
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
 

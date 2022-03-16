@@ -57,7 +57,7 @@ export class ReprocesoComponent implements OnInit, OnDestroy {
         }
       },
     );
-    console.log(this.elemento )
+    
   }
 
 

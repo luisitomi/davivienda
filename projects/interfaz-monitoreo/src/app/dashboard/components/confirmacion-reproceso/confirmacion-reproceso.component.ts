@@ -3,18 +3,18 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-confirmacion-reversa',
-  templateUrl: './confirmacion-reversa.component.html',
-  styleUrls: ['./confirmacion-reversa.component.scss']
+  selector: 'app-confirmacion-reproceso',
+  templateUrl: './confirmacion-reproceso.component.html',
+  styleUrls: ['./confirmacion-reproceso.component.scss']
 })
-export class ConfirmacionReversaComponent implements OnInit {
+export class ConfirmacionReprocesoComponent implements OnInit {
 
   filterForm = new FormGroup({
     fechaContable: new FormControl(new Date()),
   });
   minDate = new Date();
   constructor(
-    private dialogRef: MatDialogRef<ConfirmacionReversaComponent>,
+    private dialogRef: MatDialogRef<ConfirmacionReprocesoComponent>,
     @Inject(MAT_DIALOG_DATA) public texto: string,
   ) { }
 
@@ -34,7 +34,7 @@ export class ConfirmacionReversaComponent implements OnInit {
     } else {
       prmBean.fecha = this.filterForm.controls['fechaContable'].value;
     }
-   
+ 
     this.dialogRef.close(prmBean);
   }
 
