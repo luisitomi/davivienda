@@ -19,7 +19,8 @@ export class ApiService {
 
   TsObtenerPerfilWS: string = '';
   TsModuloReporteEliminarWS: string = '';
-  TsPruebaObtenerArchivoWS: string = '';
+  TsListarArchivosModuloReporteWS: string = '';
+  TsModuloReporteDescargarArchivoWS: string = '';
 
   constructor() { }
 }

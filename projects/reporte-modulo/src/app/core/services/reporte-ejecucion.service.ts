@@ -60,10 +60,15 @@ export class ReporteEjecucionService {
     );
   }
 
-  getFile() {
+  getFile(id: string) {
+    return this.http.post(this.configService.TsListarArchivosModuloReporteWS, {IdEjecucion: id});
+  }
+
+  getDownoadFile(ruta: string) {
     const httpOptions = {  
       responseType: 'blob' as 'json'  
     };  
-    return this.http.get(this.configService.TsPruebaObtenerArchivoWS, httpOptions);
+    return this.http.post(this.configService.TsModuloReporteDescargarArchivoWS, {rutaArchivo: ruta}, httpOptions);
   }
+  
 }

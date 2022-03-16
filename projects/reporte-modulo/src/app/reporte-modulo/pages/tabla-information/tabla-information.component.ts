@@ -16,7 +16,7 @@ import { NewParameterComponent } from '../../components/new-parameter/new-parame
   styleUrls: ['./tabla-information.component.scss']
 })
 export class TablaInformationComponent extends UnsubcribeOnDestroy {
-  displayedColumns: string[] = ['Id', 'NombreReporte', 'CodigoReporte', 'FechaEjecucion', 'FechaFinEjecucion', 'Estado', 'log'];
+  displayedColumns: string[] = ['Id', 'NombreReporte', 'CodigoReporte', 'FechaEjecucion', 'FechaFinEjecucion', 'Estado', 'log', 'archivo'];
   spinner = false;
   loading = false;
   informationsList: ListadoEjecucionReporte[];
@@ -171,11 +171,20 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
 
   }
 
-  downloadFile(): void {
-    const $subfile = this.ejecucionReporteService.getFile().subscribe(
+  downloadFile(element: any): void {
+    this.spinner = true;
+    const $subfile = this.ejecucionReporteService
+    .getFile(element?.IdEjecucion)
+    .pipe(finalize(() => this.spinner = false))
+    .subscribe(
       (response: any) => {
-        var blob = new Blob([response], {type: 'application/octet-stream'});
-        saveAs(blob, 'file.zip');
+        response.forEach((item: any) => {
+         this.ejecucionReporteService.getDownoadFile(item?.RUTA.replace('_'+item?.ID_EJECUCION, '')).subscribe(
+           (rpta: any) => {
+            saveAs(rpta, item?.RUTA);
+           }
+         )
+       });
       }
     )
     this.arrayToDestroy.push($subfile)

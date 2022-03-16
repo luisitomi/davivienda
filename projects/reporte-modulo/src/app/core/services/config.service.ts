@@ -66,7 +66,11 @@ export class ConfigService {
     /\/$/,
     ''
   );
-  TsPruebaObtenerArchivoWS = this.enviroment.TsPruebaObtenerArchivoWS?.replace(
+  TsListarArchivosModuloReporteWS = this.enviroment.TsListarArchivosModuloReporteWS?.replace(
+    /\/$/,
+    ''
+  );
+  TsModuloReporteDescargarArchivoWS = this.enviroment.TsModuloReporteDescargarArchivoWS?.replace(
     /\/$/,
     ''
   );
