@@ -13,7 +13,7 @@ export class ApiService {
   TSFAHConfigLimitSave: string = '';
   TSFAHConfigLimitEdit: string = '';
   TsFAHConfiguracionLimiteAccount: string = '';
-  Rol: string = '';
+  TsFahObtenerRolesPorUsuarioWS: string = '';
   TsFAHConfigurationDownload: string = '';
   TsLimitActiveProfile: string = '';
   TsFAHConfiguracionLimiteFilter: string = '';

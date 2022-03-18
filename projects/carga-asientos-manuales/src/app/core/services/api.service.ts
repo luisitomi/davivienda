@@ -18,13 +18,13 @@ export class ApiService {
   TsFahGetFuturo1WS: string = '';
   TsFahGetFuturo2WS: string = '';
   TsFAHCuurencyMoney: string = '';
-  validateCliente360: string = '';
-  ListReference: string = '';
-  urlOrigen: string = '';
-  ListPeriod: string = '';
-  getLeader: string = '';
-  cargarAsientos: string = '';
-  saveHeaderLine: string = '';
+  TsGetPersona360PornumeroIDWS: string = '';
+  TsFahColumnaODICargaAsientoManualWS: string = '';
+  TsFAHOrigenCargaContableWS: string = '';
+  TsFahPeriodoAllWS: string = '';
+  TsFahOperationUnitWS: string = '';
+  TsFahCargaAsientosCSVWS: string = '';
+  TsCargaAsientoManualSaveWS: string = '';
 
   constructor() { }
 }

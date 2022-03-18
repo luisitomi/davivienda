@@ -181,7 +181,7 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
         response.forEach((item: any) => {
          this.ejecucionReporteService.getDownoadFile(item?.RUTA).subscribe(
            (rpta: any) => {
-            saveAs(rpta, item?.RUTA.replace('_'+item?.ID_EJECUCION, ''));
+            saveAs(rpta, item?.NOMBRE_ARCHIVO.replace('_'+item?.ID_EJECUCION, ''));
            }
          )
        });

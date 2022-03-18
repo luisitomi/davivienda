@@ -44,7 +44,7 @@ export class ConfigService {
     /\/$/,
     ''
   );
-  Rol = this.enviroment.Rol?.replace(
+  Rol = this.enviroment.TsFahObtenerRolesPorUsuarioWS?.replace(
     /\/$/,
     ''
   );

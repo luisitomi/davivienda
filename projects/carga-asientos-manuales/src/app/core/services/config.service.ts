@@ -64,31 +64,31 @@ export class ConfigService {
     /\/$/,
     ''
   );
-  validateCliente360 = this.enviroment.validateCliente360?.replace(
+  validateCliente360 = this.enviroment.TsGetPersona360PornumeroIDWS?.replace(
     /\/$/,
     ''
   );
-  ListReference = this.enviroment.ListReference?.replace(
+  ListReference = this.enviroment.TsFahColumnaODICargaAsientoManualWS?.replace(
     /\/$/,
     ''
   );
-  urlOrigen = this.enviroment.urlOrigen?.replace(
+  urlOrigen = this.enviroment.TsFAHOrigenCargaContableWS?.replace(
     /\/$/,
     ''
   );
-  ListPeriod = this.enviroment.ListPeriod?.replace(
+  ListPeriod = this.enviroment.TsFahPeriodoAllWS?.replace(
     /\/$/,
     ''
   );
-  getLeader = this.enviroment.getLeader?.replace(
+  getLeader = this.enviroment.TsFahOperationUnitWS?.replace(
     /\/$/,
     ''
   );
-  cargarAsientos = this.enviroment.cargarAsientos?.replace(
+  cargarAsientos = this.enviroment.TsFahCargaAsientosCSVWS?.replace(
     /\/$/,
     ''
   );
-  saveHeaderLine = this.enviroment.saveHeaderLine?.replace(
+  saveHeaderLine = this.enviroment.TsCargaAsientoManualSaveWS?.replace(
     /\/$/,
     ''
   );
