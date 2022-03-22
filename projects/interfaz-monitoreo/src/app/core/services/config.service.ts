@@ -115,6 +115,11 @@ TsFahOrigenMonitoreoInterfazSalida = this.enviroment.TsFahOrigenMonitoreoInterfa
     ''
   );
 
+  TsFAHConfiguracionProfileIM = this.enviroment.TsFAHConfiguracionProfileIM?.replace(
+    /\/$/,
+    ''
+  );
+
   //Agregado FIN
   //Comentado inicio
  // apiUrl: BehaviorSubject<string> = new BehaviorSubject('http://rutadelservidor.com');
@@ -149,6 +154,7 @@ TsFahObtenerRolesPorUsuarioWSUrlSubject : BehaviorSubject<string> = new Behavior
 TsFAHOrigenCargaContableWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHOrigenCargaContableWS);
 
 TsFahActualizarEstadosJobMonitoreoCargasWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahActualizarEstadosJobMonitoreoCargasWS);
+TsFAHConfiguracionProfileIMUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionProfileIM);
 //Agregado Fin
   constructor( private enviroment: ApiService) { }
   

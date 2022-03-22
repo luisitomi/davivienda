@@ -32,5 +32,7 @@ TsFahObtenerRolesPorUsuarioWS : string = '';
 TsFAHOrigenCargaContableWS : string = '';
 TsFahActualizarEstadosJobMonitoreoCargasWS: string = '';
 
+TsFAHConfiguracionProfileIM: string = '';
+
   constructor() { }
 }
