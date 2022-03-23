@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../core/services/auth.service';
 import { CargasService } from '../../../core/services/cargas.service';
 import { Carga } from '../../../shared';
+import { FiltroPerfilComponent } from '../filtro-perfil/filtro-perfil.component';
 
 
 @Component({
@@ -48,18 +50,19 @@ export class TablaControlComponent implements OnInit {
     'creditoGL',
     'acciones',
   ];
- // dataSource= new MatTableDataSource<Carga>(this.cargas);
+  // dataSource= new MatTableDataSource<Carga>(this.cargas);
   //@ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   constructor(
     private cargasService: CargasService,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    ) { }
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
-    
-  //  this.dataSource = new MatTableDataSource<Carga>(this.cargas);
-  //  this.dataSource.paginator = this.paginator;
+
+    //  this.dataSource = new MatTableDataSource<Carga>(this.cargas);
+    //  this.dataSource.paginator = this.paginator;
   }
 
   clickVer(cargaId: number): void {
@@ -67,13 +70,22 @@ export class TablaControlComponent implements OnInit {
   }
 
   refrescar() {
-    this.cargasService.postTsFahActualizarEstadosJobMonitoreoCargasWS(this.authService.getUsuarioV2()).subscribe( rest=>{
+    this.cargasService.postTsFahActualizarEstadosJobMonitoreoCargasWS(this.authService.getUsuarioV2()).subscribe(rest => {
       this.snackBar.open('Se comenzó a validar los estados de los procesos de trabajo.')
       this.filtrarDatos.emit(true);
-    } );
-    
+    });
 
 
+
+  }
+
+  executeFunctionModal() {
+    this.dialog.open(FiltroPerfilComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: null,
+      panelClass: 'my-dialog',
+    });
   }
 
 }

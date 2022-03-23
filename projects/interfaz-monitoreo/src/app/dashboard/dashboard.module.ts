@@ -26,6 +26,8 @@ import { ConfirmacionReversaComponent } from './components/confirmacion-reversa/
 import { EditarFiltroModule } from './components/editar-filtro/editar-filtro.module';
 import { ConfirmacionReprocesoComponent } from './components/confirmacion-reproceso/confirmacion-reproceso.component';
 import { TitleHeaderModule } from '../shared/component/ui/title-header/title-header.module';
+import { ActionsModule } from '../shared/component/ui/actions/actions.module';
+import { FiltroPerfilModule } from './components/filtro-perfil/filtro-perfil.module';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import { TitleHeaderModule } from '../shared/component/ui/title-header/title-hea
     MaterialModule,
     SharedModule,
     EditarFiltroModule,
-    TitleHeaderModule
+    TitleHeaderModule,
+    ActionsModule,
+    FiltroPerfilModule,
   ]
 })
 export class DashboardModule { }

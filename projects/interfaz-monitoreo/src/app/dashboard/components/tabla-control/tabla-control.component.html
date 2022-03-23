@@ -1,5 +1,10 @@
 <mat-card>
   <app-title-header [Title]="''" [ViewIcon]="true" [IconType]="'refresh'" (click)="refrescar()"></app-title-header>
+
+  <mat-action-row>
+    <app-actions [class]="'flat'" [color]="'primary'" [label]="'Ejecutar'" (click)="executeFunctionModal()"></app-actions>
+  </mat-action-row>
+  
   <mat-card-content class="evol-tabla-container">
     <table mat-table [dataSource]="cargas" #tabla1>
 
