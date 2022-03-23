@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { finalize } from "rxjs/operators";
 import { ReprocesoService } from "../../../core/services/reproceso.service";
@@ -32,6 +33,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
   selectId = 0;
 
   constructor(
+    public dialogRef: MatDialogRef<FiltroPerfilComponent>,
     private formBuilder: FormBuilder,
     private reprocesoService: ReprocesoService,
     private cdRef:ChangeDetectorRef,
@@ -124,6 +126,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
         .subscribe((response: any) => {
           if (response) {
             this.toastr.success('Se procesó con éxito la Solicitud','Proceso');
+            this.dialogRef.close(true);
           }
         })
       this.arrayToDestroy.push($postview);

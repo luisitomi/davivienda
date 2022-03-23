@@ -13,6 +13,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { tokenInterceptorProvider } from './core/interceptors/token.interceptor';
 //import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EnvironmentServiceProvider } from './core/interceptors/dev-backend.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,11 @@ import { EnvironmentServiceProvider } from './core/interceptors/dev-backend.inte
     CoreModule,
     DashboardModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
