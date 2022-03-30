@@ -1,0 +1,6 @@
+<app-close></app-close>
+<h1 mat-dialog-title>{{message}}</h1>
+<mat-action-row style="place-content: center">
+    <app-actions [mat-dialog-close]="false" [class]="'flat'" [color]="'primary'"  [label]="'Si'"></app-actions>
+    <app-actions [mat-dialog-close]="true" [class]="'flat'" [color]="'warn'"  [label]="'No'"></app-actions>
+</mat-action-row>

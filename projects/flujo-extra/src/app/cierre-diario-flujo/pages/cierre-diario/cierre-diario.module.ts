@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 import { TitleHeaderModule } from '../../../shared/component/ui/title-header/title-header.module';
 import { FitroModule } from '../../components/filtros/filtros.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FitroModule } from '../../components/filtros/filtros.module';
     LoaderModule,
     TitleHeaderModule,
     FitroModule,
+    MatDialogModule,
   ],
   exports: [CierreDiarioComponent],
 })

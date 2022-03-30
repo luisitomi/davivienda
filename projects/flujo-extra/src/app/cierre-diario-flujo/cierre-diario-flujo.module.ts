@@ -7,6 +7,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { SharedModule } from '../shared';
 import { CierreDiarioModule } from './pages/cierre-diario/cierre-diario.module';
 import { CierreDiarioFlujoRoutingModule } from './cierre-diario-flujo-routing.module';
+import { ConfirmationModule } from './components/confirmation/confirmation.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CierreDiarioFlujoRoutingModule } from './cierre-diario-flujo-routing.mo
     SharedModule,
     CierreDiarioModule,
     CierreDiarioFlujoRoutingModule,
+    ConfirmationModule,
   ],
 })
 export class CierrediarioflujonModule { }
