@@ -28,6 +28,7 @@ import { ConfirmacionReprocesoComponent } from './components/confirmacion-reproc
 import { TitleHeaderModule } from '../shared/component/ui/title-header/title-header.module';
 import { ActionsModule } from '../shared/component/ui/actions/actions.module';
 import { FiltroPerfilModule } from './components/filtro-perfil/filtro-perfil.module';
+import { CloseModule } from '../shared/component/ui/close/close.module';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { FiltroPerfilModule } from './components/filtro-perfil/filtro-perfil.mod
     TitleHeaderModule,
     ActionsModule,
     FiltroPerfilModule,
+    CloseModule,
   ]
 })
 export class DashboardModule { }

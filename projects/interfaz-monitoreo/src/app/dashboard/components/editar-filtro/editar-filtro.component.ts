@@ -50,6 +50,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   ngOnInit(): void {
+    console.log(this.filtro)
     this.getTypes();
     this.createForm();
     this.btnLabel = !this.filtro ? 'Agregar' : 'Cambiar';
@@ -69,6 +70,8 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
       valor: [!isNaN(dateValue.getTime()) ? dateValue : this.filtro?.valor, [Validators.required]],
     });
     this.selectTerm = this.filtro?.criterio;
+    this.isNumber = this.filtro?.tipo === appConstants.typeDate.NUMERICO;
+    this.isDate = this.filtro?.tipo === appConstants.typeDate.FECHA;
     this.editarFiltroForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.editarFiltroForm.invalid);
     });

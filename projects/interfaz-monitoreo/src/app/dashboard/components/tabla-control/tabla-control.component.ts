@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../core/services/auth.service';
 import { CargasService } from '../../../core/services/cargas.service';
 import { Carga } from '../../../shared';
@@ -57,7 +55,12 @@ export class TablaControlComponent implements OnInit {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
   ) { }
+
+  ngAfterViewChecked(): void {
+    this.cdRef.detectChanges();
+  }
 
   ngOnInit(): void {
 
@@ -74,9 +77,6 @@ export class TablaControlComponent implements OnInit {
       this.snackBar.open('Se comenzó a validar los estados de los procesos de trabajo.')
       this.filtrarDatos.emit(true);
     });
-
-
-
   }
 
   executeFunctionModal() {

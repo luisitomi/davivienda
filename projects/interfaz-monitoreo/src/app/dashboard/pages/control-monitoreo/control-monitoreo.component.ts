@@ -14,12 +14,12 @@ import { UtilServices } from '../../components/general/util.service';
   templateUrl: './control-monitoreo.component.html',
   styleUrls: ['./control-monitoreo.component.scss']
 })
-export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChecked {
- inputFiltro: boolean = false;
+export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewChecked {
+  inputFiltro: boolean = false;
   origen?: string;
 
   carga?: number;
- 
+
   cargas: Carga[] = [];
 
   loadingCargas: boolean = false;
@@ -33,16 +33,18 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChe
     public dialog: MatDialog,
     private utilServices: UtilServices,
     private configService: ConfigService,
-    private cdRef:ChangeDetectorRef,
+    private cdRef: ChangeDetectorRef,
   ) { }
+
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
   }
+
   ngOnInit(): void {
     this.utilServices.setTextValue('Monitoreo de Cargas');
     //this.loadingCargas = true;
-  
-    this.origen = this.route.snapshot.queryParams.origen ;
+
+    this.origen = this.route.snapshot.queryParams.origen;
     this.carga = Number(this.route.snapshot.queryParams.carga);
     /*
     this.getCargasSub = this.cargasService.getCargas(this.origen).subscribe(
@@ -61,9 +63,10 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChe
     this.getCargaByIdSub?.unsubscribe();
     this.dialog.closeAll();
   }
+
   filtrarCargas(filtros: Filtros): void {
     let fechaInicio = "";
-    let fechaFin ="";
+    let fechaFin = "";
     if (filtros.despuesDe != null) {
       let day = filtros.despuesDe.getDate();
       let month = filtros.despuesDe.getMonth() + 1;
@@ -93,15 +96,15 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChe
     }
 
     const prmBean = {
-      
-      Origen:(filtros.origen == undefined  ? '' : filtros.origen  ),
-      FechaCargaInicio:fechaInicio,
-      FechaCargaFin:fechaFin,
-      Estado:filtros.estado,
-      NombreArchivo:filtros.nombreArchivo,
-      JobCarga:filtros.jobId,
-      TipoCarga:filtros.tipoCarga    
-      
+
+      Origen: (filtros.origen == undefined ? '' : filtros.origen),
+      FechaCargaInicio: fechaInicio,
+      FechaCargaFin: fechaFin,
+      Estado: filtros.estado,
+      NombreArchivo: filtros.nombreArchivo,
+      JobCarga: filtros.jobId,
+      TipoCarga: filtros.tipoCarga
+
     };
     this.loadingCargas = true;
     this.getCargasSub = this.cargasService.postCargas(
@@ -115,26 +118,26 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChe
         this.inputFiltro = false;
       },
       () => {
-          this.loadingCargas = false;
-          this.inputFiltro = false;
+        this.loadingCargas = false;
+        this.inputFiltro = false;
       },
     );
   }
-/*
-  filtrarCargas(filtros: Filtros): void {
-    this.loadingCargas = true;
-    this.getCargasSub = this.cargasService.getCargas(
-      filtros.origen,
-      filtros.despuesDe,
-      filtros.antesDe,
-      filtros.jobId,
-      filtros.estado
-    ).subscribe(
-      data => this.cargas = data,
-      error => console.log(error),
-      () => this.loadingCargas = false,
-    );
-  }*/
+  /*
+    filtrarCargas(filtros: Filtros): void {
+      this.loadingCargas = true;
+      this.getCargasSub = this.cargasService.getCargas(
+        filtros.origen,
+        filtros.despuesDe,
+        filtros.antesDe,
+        filtros.jobId,
+        filtros.estado
+      ).subscribe(
+        data => this.cargas = data,
+        error => console.log(error),
+        () => this.loadingCargas = false,
+      );
+    }*/
 
   mostrarDetalle(cargaId: number): void {
     this.loadingCargas = true;
@@ -143,7 +146,8 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy,AfterViewChe
         this.loadingCargas = false;
         const dialogRef = this.dialog.open(DetalleArchivoComponent, {
           width: '80%',
-          data: carga
+          data: carga,
+          hasBackdrop: false,
         });
       }
     )

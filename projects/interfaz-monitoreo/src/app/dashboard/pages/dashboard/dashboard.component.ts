@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authService: AuthService,
     private utilServices: UtilServices,
+    private cdRef:ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +37,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getInfoletsSub = this.dashboardService.getInfolets(this.origen).subscribe(
       infolets => this.infolets = infolets,
     );
+  }
+
+  ngAfterViewChecked(){
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy(): void {
