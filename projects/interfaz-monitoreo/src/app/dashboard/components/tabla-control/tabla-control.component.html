@@ -6,7 +6,7 @@
   </mat-action-row>
   
   <mat-card-content class="evol-tabla-container">
-    <table mat-table [dataSource]="cargas" #tabla1>
+    <table mat-table [dataSource]="dataSource" #tabla1>
 
       <!-- Columna Numeracion -->
       <ng-container matColumnDef="numeracion" sticky>
@@ -141,6 +141,13 @@
       </tr>
 
     </table>
+    <mat-paginator
+      [length]="dataSource?.data?.length"
+      [pageSize]="5"
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+    >
+    </mat-paginator>
 
   </mat-card-content>
 </mat-card>

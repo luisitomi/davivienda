@@ -1,6 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import {MatPaginator} from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../core/services/auth.service';
 import { CargasService } from '../../../core/services/cargas.service';
 import { Carga } from '../../../shared';
@@ -48,24 +51,34 @@ export class TablaControlComponent implements OnInit {
     'creditoGL',
     'acciones',
   ];
-  // dataSource= new MatTableDataSource<Carga>(this.cargas);
-  //@ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
+  @Input() statusInitial: boolean;
+
+  //@ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<Carga>([]);
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   constructor(
     private cargasService: CargasService,
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
-  ) { }
+  ) {
+  }
 
   ngAfterViewChecked(): void {
+    if (this.cargas.length && this.statusInitial) {
+      this.dataSource.data = this.cargas;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.statusInitial = !this.statusInitial;
+    }
     this.cdRef.detectChanges();
   }
 
   ngOnInit(): void {
-
-    //  this.dataSource = new MatTableDataSource<Carga>(this.cargas);
-    //  this.dataSource.paginator = this.paginator;
+    //console.log(this.dataSource.paginator)
   }
 
   clickVer(cargaId: number): void {

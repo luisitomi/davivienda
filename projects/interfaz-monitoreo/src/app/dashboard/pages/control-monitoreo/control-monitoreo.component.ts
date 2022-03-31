@@ -26,6 +26,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
 
   getCargasSub?: Subscription;
   getCargaByIdSub?: Subscription;
+  statusInitial = false;
 
   constructor(
     private cargasService: CargasService,
@@ -65,6 +66,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   filtrarCargas(filtros: Filtros): void {
+    this.statusInitial = false;
     let fechaInicio = "";
     let fechaFin = "";
     if (filtros.despuesDe != null) {
@@ -112,6 +114,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
     ).subscribe(
       data => {
         this.cargas = data;
+        this.statusInitial = true;
         this.inputFiltro = false;
       }/*console.log('data: '+data)*/,
       error => {
