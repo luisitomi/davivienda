@@ -141,6 +141,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       Usuario: this.nombreUsuario,
       Status: 1,
       Id: this.id || 0,
+      Message: '',
     }
     console.log(request)
     this.spinner = true;
@@ -163,6 +164,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       Usuario: this.nombreUsuario,
       Status: 2,
       Id: this.id || 0,
+      Message: '',
     }
     this.spinner = true;
     const $subas = this.lineHeaderService

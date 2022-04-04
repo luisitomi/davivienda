@@ -22,7 +22,7 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
   spinner = false;
   displayedColumns: string[] = ['seleccion', 'fechaCarga', 'usuario', 'comprobante', 'fechaContable', 'descripcion', 'cargos', 'abonos', 'estado', 'acciones'];
   nombreUsuario: string;
-  selection = new SelectionModel<Asiento>(true, []);
+  selection = new SelectionModel<any>(true, []);
   aprobador = false;
   preparador = false;
   trabajo = false;

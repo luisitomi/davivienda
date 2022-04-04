@@ -115,10 +115,11 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
         maxWidth: '400px',
         data: null,
         panelClass: 'my-dialog',
+        hasBackdrop: false,
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
+        if (result?.Descripcion) {
           this.updateLis.emit(true);
         }
       });

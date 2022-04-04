@@ -51,7 +51,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.authService.getUsuarioV2().subscribe(
       (nombre) => 
       {
-        this.nombreUsuario = nombre || ''
+        this.nombreUsuario = 'empleado2' || ''
       }
     );
     this.getByRolUser();
@@ -147,6 +147,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
           Usuario: this.nombreUsuario,
           Status: 1,
           Id: element?.id,
+          Message: '',
         }
         this.spinner = true;
         const $subas = this.lineHeaderService
@@ -172,6 +173,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
           Usuario: this.nombreUsuario,
           Status: 2,
           Id: element?.id,
+          Message: '',
         }
         this.spinner = true;
         const $subas = this.lineHeaderService

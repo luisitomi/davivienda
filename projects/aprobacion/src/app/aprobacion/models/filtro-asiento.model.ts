@@ -13,5 +13,6 @@ export interface FiltroAsientoLimit {
   Id: number;
   Usuario: string;
   Status: number;
+  Message: string;
 }
 
