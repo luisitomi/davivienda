@@ -29,7 +29,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private dialog: MatDialog,
-    private cdRef:ChangeDetectorRef,
+    private cdRef: ChangeDetectorRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
@@ -39,7 +39,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     if (this.refreshLine) {
       this.lines.data = [];
     }
@@ -53,7 +53,6 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   getLine(): void {
     this.lines.data = [];
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    console.log(model)
     if (model?.line) {
       this.lines.data = model?.line || [];
       let number = 1;
@@ -91,10 +90,10 @@ export class LineasComponent implements OnInit, AfterViewChecked {
           queryParamsHandling: 'merge',
         }
       );
-    }else{
+    } else {
       this.toastr.warning(`Falta agregar Combinación Contable en el ${index + 1} registro.`, 'Advertencia');
       return;
-    }   
+    }
   }
 
   editLine(data: LineaAsientoInsert, index: number): void {
@@ -103,6 +102,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       maxWidth: '400px',
       data: { data: data, type: appConstants.typeEvent.EDIT },
       panelClass: 'my-dialog',
+      hasBackdrop: false,
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -127,9 +127,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   deleteLine(index: number): void {
     this.lines.data.splice(index, 1);
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    this.lines.data?.forEach((element: any,indexItem: any) => {
-      if(indexItem > index) {
-        element.nroLinea -=  1;
+    this.lines.data?.forEach((element: any, indexItem: any) => {
+      if (indexItem > index) {
+        element.nroLinea -= 1;
       }
     });
     const request: ManualLading = {
@@ -139,48 +139,28 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     this.setDataLocal(request, this.lines.data);
   }
 
-  newLine(): void {
-    let validateConta: number = 0;
-    let validateRefe: number = 0;
-    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    model?.line?.forEach((element: any) => {
-      if (!element?.combinationAccount) {
-        validateConta += 1;
-      }
-      if (!element?.columnasReferenciales.length) {
-        validateRefe += 1;
-      }
-    });
-    if (this.visibleTable && Boolean(this.lines.data.length && !validateConta && !validateRefe)) {
-      const dialogRef = this.dialog.open(EditarLineaComponent, {
-        width: '80%',
-        maxWidth: '400px',
-        data: { data: null, type: appConstants.typeEvent.SAVE },
-        panelClass: 'my-dialog',
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-        this.lineList = model?.line || [];
-        if (result?.SegCurrency) {
-          result.nroLinea = this.lineList.length + 1;
-          this.lineList.push(result);
-          const request: ManualLading = {
-            header: model?.header,
-            line: this.lineList,
-          }
-          this.setDataLocal(request, this.lineList);
+  newLine(event: any): void {
+    if (event?.srcElement.tagName == "MAT-ICON") {
+      let validateConta: number = 0;
+      let validateRefe: number = 0;
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+      model?.line?.forEach((element: any) => {
+        if (!element?.combinationAccount) {
+          validateConta += 1;
+        }
+        if (!element?.columnasReferenciales.length) {
+          validateRefe += 1;
         }
       });
-    } else {
-      if (this.lines.data.length === 0 && this.visibleTable) {
+      if (this.visibleTable && Boolean(this.lines.data.length && !validateConta && !validateRefe)) {
         const dialogRef = this.dialog.open(EditarLineaComponent, {
           width: '80%',
           maxWidth: '400px',
           data: { data: null, type: appConstants.typeEvent.SAVE },
           panelClass: 'my-dialog',
+          hasBackdrop: false,
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
           this.lineList = model?.line || [];
@@ -195,7 +175,31 @@ export class LineasComponent implements OnInit, AfterViewChecked {
           }
         });
       } else {
-        this.toastr.warning(`Faltan completar datos`, 'Advertencia');
+        if (this.lines.data.length === 0 && this.visibleTable) {
+          const dialogRef = this.dialog.open(EditarLineaComponent, {
+            width: '80%',
+            maxWidth: '400px',
+            data: { data: null, type: appConstants.typeEvent.SAVE },
+            panelClass: 'my-dialog',
+            hasBackdrop: false,
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+            this.lineList = model?.line || [];
+            if (result?.SegCurrency) {
+              result.nroLinea = this.lineList.length + 1;
+              this.lineList.push(result);
+              const request: ManualLading = {
+                header: model?.header,
+                line: this.lineList,
+              }
+              this.setDataLocal(request, this.lineList);
+            }
+          });
+        } else {
+          this.toastr.warning(`Faltan completar datos`, 'Advertencia');
+        }
       }
     }
   }
@@ -204,13 +208,14 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     this.lineList = model?.line || [];
     const complem = this.lineList[index]?.combinationAccount || undefined;
-   
+
     const dialogRef = this.dialog.open(CombinacionContableComponent, {
       width: '80%',
       maxWidth: '400px',
       data: { data: complem ? complem : null, type: complem ? appConstants.typeEvent.EDIT : appConstants.typeEvent.SAVE },
       panelClass: 'my-dialog',
       maxHeight: '600px',
+      hasBackdrop: false,
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -230,7 +235,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
   setDataLocal(request: ManualLading, lits: Array<LineaAsientoInsert>): void {
     localStorage.removeItem(appConstants.modelSave.NEWSEAT);
-    localStorage.setItem(appConstants.modelSave.NEWSEAT,JSON.stringify(request));
+    localStorage.setItem(appConstants.modelSave.NEWSEAT, JSON.stringify(request));
     let validateConta: number = 0;
     let validateRefe: number = 0;
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');

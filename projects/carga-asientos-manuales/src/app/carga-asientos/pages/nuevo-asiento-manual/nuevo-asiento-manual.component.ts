@@ -8,6 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { HeadboardSeat } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { UtilServices } from '../../../shared/component/general/util.sevice';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { CabeceraAsientoInsert } from '../../../shared/models/cabecera-asiento-insert.model';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
@@ -51,6 +52,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     private authService: AuthService,
     private dialog: MatDialog,
     private periodoContableService: HeaderLineService,
+    private utilServices: UtilServices,
   ) {
     super();
     this.activatedRoute.queryParams.subscribe(params => {
@@ -60,6 +62,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   }
   
   ngOnInit(): void {
+    this.utilServices.setTextValue('Carga Manual');
     this.getLeader();
   }
 

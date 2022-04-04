@@ -1,6 +1,6 @@
 <app-loader *ngIf="spinner"></app-loader>
 <mat-card>
-  <app-title-header [ViewIcon]="true" [IconType]="'add'" (click)="addNewRegister()"></app-title-header>
+  <app-title-header [ViewIcon]="true" [IconType]="'add'" (click)="addNewRegister($event)"></app-title-header>
   <mat-card-content class="evol-tabla-limites-container">
     <div class="evol-tabla-wrapper">
       <table mat-table [dataSource]="limites">

@@ -13,6 +13,7 @@ import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscri
 import { HeaderLineService } from '../../services/header-line.service';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { finalize } from 'rxjs/operators';
+import { UtilServices } from '../../../shared/component/general/util.sevice';
 
 @Component({
   selector: 'app-referencias-complementarias',
@@ -37,6 +38,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
     private router: Router,
     private toastr: ToastrService,
     private headerLineService: HeaderLineService,
+    private utilServices: UtilServices,
   ) {
     super();
     this.activatedRoute.params.subscribe(params => {
@@ -50,6 +52,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
   }
 
   ngOnInit(): void {
+    this.utilServices.setTextValue('Masivo');
     this.getReferncesByid();
     this.getListReference();
   }
@@ -74,6 +77,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       maxWidth: '400px',
       data: { data: data, type: appConstants.typeEvent.EDIT, name: this.line },
       panelClass: 'my-dialog',
+      hasBackdrop: false,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -121,6 +125,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       maxWidth: '400px',
       data: { data: null, type: appConstants.typeEvent.SAVE, name: this.line },
       panelClass: 'my-dialog',
+      hasBackdrop: false,
     });
 
     dialogRef.afterClosed().subscribe(result => {

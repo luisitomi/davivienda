@@ -1,5 +1,5 @@
 <mat-card>
-  <app-title-header [Title]="title" [ViewIcon]="visibleTable" [IconType]="'add'" (click)="newLine()"></app-title-header>
+  <app-title-header [Title]="title" [ViewIcon]="visibleTable" [IconType]="'add'" (click)="newLine($event)"></app-title-header>
   <mat-card-content class="evol-card-content">
     <div class="evol-tabla-container">
       <table mat-table [dataSource]="lines">

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { ResultadoCarga } from 'src/app/shared';
 import { AuthService } from '../../../core/services/auth.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { UtilServices } from '../../../shared/component/general/util.sevice';
 import { ConfirmationComponent } from '../../components/confirmation/confirmation.component';
 import { HeaderLineService } from '../../services/header-line.service';
 
@@ -13,7 +14,7 @@ import { HeaderLineService } from '../../services/header-line.service';
   templateUrl: './carga-asientos-manual.component.html',
   styleUrls: ['./carga-asientos-manual.component.scss']
 })
-export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
+export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements OnInit {
   spinner: boolean;
   cargaForm = new FormGroup({
     archivo: new FormControl(null ,[Validators.required]),
@@ -28,9 +29,14 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy {
     private asientoManualService: HeaderLineService,
     private authService: AuthService,
     private dialog: MatDialog,
+    private utilServices: UtilServices,
   ) {
     super();
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
+  }
+
+  ngOnInit(): void {
+    this.utilServices.setTextValue('Carga Masivo');
   }
 
   cargar(): void {

@@ -26,7 +26,7 @@ const routes: Routes = [
       {
         path: 'carga-asientos',
         loadChildren: () => import('./carga-asientos/carga-asientos.module').then(m => m.CargaAsientosModule),
-        data: { title: 'Carga Manual' },
+        data: { title: 'Carga' },
       },
       {
         path: 'aprobacion',
