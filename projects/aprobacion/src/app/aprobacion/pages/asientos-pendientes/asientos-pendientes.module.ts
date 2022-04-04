@@ -5,6 +5,7 @@ import { AsientosPendientesComponent } from './asientos-pendientes.component';
 import { TablaAsientoModule } from '../../components/tabla-asientos/tabla-asientosmodule';
 import { FitroPendienteModule } from '../../components/filtros-pendientes/filtros-pendientes.module';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { ReboteInformationModule } from '../../components/rebote-information/rebote-information.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     TablaAsientoModule,
     FitroPendienteModule,
     LoaderModule,
+    ReboteInformationModule,
   ],
   exports: [AsientosPendientesComponent],
 })

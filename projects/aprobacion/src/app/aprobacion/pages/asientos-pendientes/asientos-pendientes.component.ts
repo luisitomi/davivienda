@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
@@ -7,6 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Asiento } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { ReboteInformationComponent } from '../../components/rebote-information/rebote-information.component';
 import { FiltroAsientoLimit } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
@@ -43,6 +45,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     private authService: AuthService,
     private toastr: ToastrService,
     private limitService: LimitService,
+    private dialog: MatDialog,
   ) {
     super();
   }
@@ -167,27 +170,38 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   }
 
   rechazar(asientos: Asiento[]): void {
-    asientos.forEach(element => {
-      if (element ){
-        const request: FiltroAsientoLimit = {
-          Usuario: this.nombreUsuario,
-          Status: 2,
-          Id: element?.id,
-          Message: '',
-        }
-        this.spinner = true;
-        const $subas = this.lineHeaderService
-          .saveStatusAsient(request)
-          .pipe(finalize(() => this.spinner = false))
-          .subscribe(
-            (response: any) => {
-              if(response?.status === appConstants.responseStatus.OK) {
-                this.toastr.success(response?.message, 'Rechazado');
-                this.filtrar(this.filtros);
-              }          
+    const dialogRef = this.dialog.open(ReboteInformationComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: null,
+      panelClass: 'my-dialog',
+      hasBackdrop: false,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.description) {
+        asientos.forEach(element => {
+          if (element ){
+            const request: FiltroAsientoLimit = {
+              Usuario: this.nombreUsuario,
+              Status: 2,
+              Id: element?.id,
+              Message: result?.description,
             }
-          );
-        this.arrayToDestroy.push($subas);
+            this.spinner = true;
+            const $subas = this.lineHeaderService
+              .saveStatusAsient(request)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if(response?.status === appConstants.responseStatus.OK) {
+                    this.toastr.success(response?.message, 'Rechazado');
+                    this.filtrar(this.filtros);
+                  }          
+                }
+              );
+            this.arrayToDestroy.push($subas);
+          }
+        });
       }
     });
   }
@@ -195,5 +209,4 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   openSnackBar(mensaje: string): void {
     this.snackBar.open(mensaje);
   }
-
 }
