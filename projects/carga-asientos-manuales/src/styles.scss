@@ -53,3 +53,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .evol-tabla-row-selected {
   background-color: gainsboro;
 }
+
+.cdk-overlay-container, .cdk-global-overlay-wrapper {
+  pointer-events: revert !important;
+}
