@@ -83,18 +83,19 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
     this.arrayToDestroy.push($cierre);
   }
 
-  cierre(id: number) {
+  cierre(element: any) {
+    console.log(element)
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { name: 'Deseas cerrar el día'},
+      data: { name: `¿Esta seguro que desea cerrar la fecha ${element?.Fecha}`},
       panelClass: 'my-dialog',
     });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
         this.spinner = true;
         const $cierre = this.cierreDiarioService
-          .cierreDia(id, this.nombreUsuario)
+          .cierreDia(element?.id, this.nombreUsuario)
           .pipe(finalize(() => this.filtrar(this.filtro)))
           .subscribe(res => {
             this.spinner = false;
