@@ -90,6 +90,7 @@ export class CierreDiarioComponent extends UnsubcribeOnDestroy {
       maxWidth: '400px',
       data: { name: `¿Esta seguro que desea cerrar la fecha ${element?.Fecha}`},
       panelClass: 'my-dialog',
+       disableClose: true,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
