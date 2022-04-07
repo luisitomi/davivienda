@@ -36,6 +36,7 @@ export class EditarLineaComponent extends UnsubcribeOnDestroy implements OnInit,
     private combinacionContableService: CombinacionContableService,
   ) {
     super();
+    dialogRef.disableClose = true
   }
 
   ngOnInit(){

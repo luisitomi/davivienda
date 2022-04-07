@@ -77,7 +77,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       maxWidth: '400px',
       data: { data: data, type: appConstants.typeEvent.EDIT, name: this.line },
       panelClass: 'my-dialog',
-      hasBackdrop: false,
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -125,7 +125,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       maxWidth: '400px',
       data: { data: null, type: appConstants.typeEvent.SAVE, name: this.line },
       panelClass: 'my-dialog',
-      hasBackdrop: false,
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {

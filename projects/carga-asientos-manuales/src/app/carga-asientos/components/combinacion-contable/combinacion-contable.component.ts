@@ -54,6 +54,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     private combinacionContableService: CombinacionContableService,
   ) {
     super();
+    dialogRef.disableClose = true
   }
 
   createForm(): void {

@@ -21,6 +21,7 @@ export class ReboteInformationComponent extends UnsubcribeOnDestroy implements O
     private cdRef:ChangeDetectorRef,
   ) {
     super();
+    dialogRef.disableClose = true
   }
   
   ngOnInit(): void {

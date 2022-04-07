@@ -41,7 +41,9 @@ export class DetalleArchivoComponent implements OnDestroy {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private authService: AuthService,
-  ) { }
+  ) {
+    dialogRef.disableClose = true
+  }
 
   ngOnInit(): void {
     this.getByRolUser();

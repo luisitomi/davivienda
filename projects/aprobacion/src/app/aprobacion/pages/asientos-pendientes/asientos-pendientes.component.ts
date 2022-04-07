@@ -175,7 +175,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       maxWidth: '400px',
       data: null,
       panelClass: 'my-dialog',
-      hasBackdrop: false,
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result?.description) {

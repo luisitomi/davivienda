@@ -68,8 +68,8 @@ export class TablaControlComponent implements OnInit {
   }
 
   ngAfterViewChecked(): void {
-    if (this.cargas.length && this.statusInitial) {
-      this.dataSource.data = this.cargas;
+    if (this.cargas?.length && this.statusInitial) {
+      this.dataSource.data = this.cargas || [];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.statusInitial = !this.statusInitial;

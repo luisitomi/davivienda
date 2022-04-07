@@ -2,6 +2,7 @@ export interface Carga {
   id: number;
   fechaCarga: Date;
   fechaCargaStr: string;
+  fechaCreacionStr: Date;
   origenId: number;
   origen: string;
   nombreArchivo: string;

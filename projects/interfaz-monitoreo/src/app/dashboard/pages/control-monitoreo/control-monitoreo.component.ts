@@ -35,14 +35,15 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
     private utilServices: UtilServices,
     private configService: ConfigService,
     private cdRef: ChangeDetectorRef,
-  ) { }
+  ) {
+    this.utilServices.setTextValue('Monitoreo de Cargas');
+  }
 
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
   }
 
   ngOnInit(): void {
-    this.utilServices.setTextValue('Monitoreo de Cargas');
     //this.loadingCargas = true;
 
     this.origen = this.route.snapshot.queryParams.origen;
@@ -150,7 +151,7 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
         const dialogRef = this.dialog.open(DetalleArchivoComponent, {
           width: '80%',
           data: carga,
-          hasBackdrop: false,
+          disableClose: true,
         });
       }
     )

@@ -99,22 +99,25 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
 
     this.getFiltrosSub = this.correccionFiltrosService.getFiltrosTsListarColumnasCorreccionXProcesoWS(this.cargaId,'FILTRO',tipoColumna,this.origen).subscribe(
      // filtros => this.filtros.data = filtros,
-     filtros => { 
-       if (filtros == undefined || filtros == null) {
-        
+     filtros => {
+       console.log(filtros)
+        this.filtros.data = []
+       if (filtros) {
+        this.poblarFiltros(filtros || [])
        } else {
-        this.poblarFiltros(filtros)
+        this.poblarFiltros([])
        }
        this.loadingCargas = false;
      },
     );
   }
   poblarFiltros( object :CorreccionFiltro[]) {
-    this.filtros.data = object;
+    this.filtros.data = object || [];
     this.correccionFiltrosService.filtros = object;
   }
 
   obtenerColumnas(){
+    this.columnas.data = [];
     this.loadingCargas = true;
     let tipoColumna = 0;
       if (this.tipoArchivo == 'HEADER'){
@@ -131,7 +134,13 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
             this.columnas.data = columnas
           }
           this.loadingCargas = false;
-         },
+        },
+        () => {
+          this.loadingCargas = false;
+        },
+        () => {
+          this.loadingCargas = false;
+        }
       );
     }
   ngOnDestroy(): void {
@@ -188,6 +197,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
         
         this.snackBar.open('Se eliminó correctamente')
         this.obtenerColumnas();
+        this.obtenerFiltros();
       },
       () => {
         this.loadingCargas = false;
@@ -229,6 +239,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
       res => {
         
         this.obtenerColumnas();
+        this.obtenerFiltros();
       },
       () => {
         this.loadingCargas = false;

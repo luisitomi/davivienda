@@ -34,7 +34,8 @@ export class NewLimitComponent extends UnsubcribeOnDestroy implements OnInit {
     private limitService: LimitService,
     private authService: AuthService,
   ) {
-    super();
+    super();    
+    dialogRef.disableClose = true
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
   }
   

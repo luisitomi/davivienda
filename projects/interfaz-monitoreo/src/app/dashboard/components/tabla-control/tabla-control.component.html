@@ -11,13 +11,13 @@
       <!-- Columna Numeracion -->
       <ng-container matColumnDef="numeracion" sticky>
         <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+        <td mat-cell *matCellDef="let element; index as i"> {{ element.id }} </td>
       </ng-container>
 
       <!-- Columna Fecha -->
       <ng-container matColumnDef="fecha">
         <th mat-header-cell *matHeaderCellDef>Fecha</th>
-        <td mat-cell *matCellDef="let element"> {{ element.fechaCargaStr }} </td>
+        <td mat-cell *matCellDef="let element"> {{ element.fechaCreacionStr }}</td>
       </ng-container>
 
       <!-- Columna Origen -->
@@ -142,7 +142,6 @@
 
     </table>
     <mat-paginator
-      [length]="dataSource?.data?.length"
       [pageSize]="5"
       [showFirstLastButtons]="true"
       [pageSizeOptions]="[5, 10, 25, 100]"

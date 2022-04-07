@@ -39,6 +39,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
     private toastr: ToastrService,
   ) {
     super();
+    dialogRef.disableClose = true
   }
   
   ngOnInit(): void {

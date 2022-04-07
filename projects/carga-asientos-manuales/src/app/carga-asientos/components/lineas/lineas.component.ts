@@ -102,7 +102,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       maxWidth: '400px',
       data: { data: data, type: appConstants.typeEvent.EDIT },
       panelClass: 'my-dialog',
-      hasBackdrop: false,
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -158,7 +158,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
           maxWidth: '400px',
           data: { data: null, type: appConstants.typeEvent.SAVE },
           panelClass: 'my-dialog',
-          hasBackdrop: false,
+          disableClose: true,
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -181,7 +181,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
             maxWidth: '400px',
             data: { data: null, type: appConstants.typeEvent.SAVE },
             panelClass: 'my-dialog',
-            hasBackdrop: false,
+            disableClose: true,
           });
 
           dialogRef.afterClosed().subscribe(result => {
@@ -215,7 +215,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       data: { data: complem ? complem : null, type: complem ? appConstants.typeEvent.EDIT : appConstants.typeEvent.SAVE },
       panelClass: 'my-dialog',
       maxHeight: '600px',
-      hasBackdrop: false,
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {
