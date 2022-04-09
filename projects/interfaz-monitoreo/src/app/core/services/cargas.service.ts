@@ -113,5 +113,15 @@ export class CargasService {
     );
   }
 
+  verLogInformation(id: number): Observable<boolean> {
+    const prmBean = {
+      Id: id,
+    }
+  
+    return this.configService.getApiUrl().pipe(
+      switchMap(url => this.http.post<any>(this.configService.TsFahTxtTraceModuloReporteWSMonitoreo , prmBean)),
+    );
+  }
+
   //urlTsFAHReprocesarCargaGobIntContableWS
 }

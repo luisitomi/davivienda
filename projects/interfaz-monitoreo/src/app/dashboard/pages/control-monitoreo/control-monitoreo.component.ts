@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CargasService } from '../../../core/services/cargas.service';
-import { ConfigService } from '../../../core/services/config.service';
 import { Carga, Filtros } from '../../../shared';
 import { DetalleArchivoComponent } from '../../components/detalle-archivo/detalle-archivo.component';
 import { UtilServices } from '../../components/general/util.service';
@@ -33,7 +32,6 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private utilServices: UtilServices,
-    private configService: ConfigService,
     private cdRef: ChangeDetectorRef,
   ) {
     this.utilServices.setTextValue('Monitoreo de Cargas');
@@ -44,16 +42,8 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   ngOnInit(): void {
-    //this.loadingCargas = true;
-
     this.origen = this.route.snapshot.queryParams.origen;
     this.carga = Number(this.route.snapshot.queryParams.carga);
-    /*
-    this.getCargasSub = this.cargasService.getCargas(this.origen).subscribe(
-      data => this.cargas = data,
-      error => console.log(error),
-      () => this.loadingCargas = false,
-    );*/
 
     if (this.carga) {
       this.mostrarDetalle(this.carga);
@@ -117,8 +107,8 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
         this.cargas = data;
         this.statusInitial = true;
         this.inputFiltro = false;
-      }/*console.log('data: '+data)*/,
-      error => {
+      },
+      () => {
         this.inputFiltro = false;
       },
       () => {
@@ -127,28 +117,13 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
       },
     );
   }
-  /*
-    filtrarCargas(filtros: Filtros): void {
-      this.loadingCargas = true;
-      this.getCargasSub = this.cargasService.getCargas(
-        filtros.origen,
-        filtros.despuesDe,
-        filtros.antesDe,
-        filtros.jobId,
-        filtros.estado
-      ).subscribe(
-        data => this.cargas = data,
-        error => console.log(error),
-        () => this.loadingCargas = false,
-      );
-    }*/
 
   mostrarDetalle(cargaId: number): void {
     this.loadingCargas = true;
     this.getCargaByIdSub = this.cargasService.getCargaById(cargaId).subscribe(
       carga => {
         this.loadingCargas = false;
-        const dialogRef = this.dialog.open(DetalleArchivoComponent, {
+        this.dialog.open(DetalleArchivoComponent, {
           width: '80%',
           data: carga,
           disableClose: true,

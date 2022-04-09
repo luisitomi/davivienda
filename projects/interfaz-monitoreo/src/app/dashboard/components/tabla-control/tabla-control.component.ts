@@ -85,6 +85,25 @@ export class TablaControlComponent implements OnInit {
     this.mostrarDetalle.emit(cargaId);
   }
 
+  clickVerLog(Id: number): void {
+    this.cargasService.verLogInformation(Id).subscribe(
+      (response: any) => {
+          const message = response.map(function(elem: any){
+            return elem.mensaje;
+          }).join("\n");
+          const archivo = new Blob([message], { type: 'text/plain' });
+          const url = window.URL.createObjectURL(archivo)
+          const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement
+          a.href = url
+          a.download = "log_process_"+Id+".txt"
+          window.document.body.appendChild(a)
+          a.click()
+          window.document.body.removeChild(a)
+          URL.revokeObjectURL(url)
+      }
+    )
+  }
+
   refrescar() {
     this.cargasService.postTsFahActualizarEstadosJobMonitoreoCargasWS(this.authService.getUsuarioV2()).subscribe(rest => {
       this.snackBar.open('Se comenzó a validar los estados de los procesos de trabajo.')

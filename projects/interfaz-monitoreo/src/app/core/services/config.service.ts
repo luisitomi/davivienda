@@ -10,8 +10,8 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class ConfigService {
-	//Agregado Inicio
- apiUrl = this.enviroment.apiUrl?.replace(
+  //Agregado Inicio
+  apiUrl = this.enviroment.apiUrl?.replace(
     /\/$/,
     ''
   );
@@ -20,79 +20,79 @@ export class ConfigService {
     /\/$/,
     ''
   );
-TsGobContableEstadoWS = this.enviroment.TsGobContableEstadoWS?.replace(
+  TsGobContableEstadoWS = this.enviroment.TsGobContableEstadoWS?.replace(
     /\/$/,
     ''
   );
-TsGobContableTipoCargaWS = this.enviroment.TsGobContableTipoCargaWS?.replace(
+  TsGobContableTipoCargaWS = this.enviroment.TsGobContableTipoCargaWS?.replace(
     /\/$/,
     ''
   );
-TsFahTxtTraceIntSalLogWS = this.enviroment.TsFahTxtTraceIntSalLogWS?.replace(
+  TsFahTxtTraceIntSalLogWS = this.enviroment.TsFahTxtTraceIntSalLogWS?.replace(
     /\/$/,
     ''
   );
-TsFAHReprocesarCargaGobIntContableWS = this.enviroment.TsFAHReprocesarCargaGobIntContableWS?.replace(
+  TsFAHReprocesarCargaGobIntContableWS = this.enviroment.TsFAHReprocesarCargaGobIntContableWS?.replace(
     /\/$/,
     ''
   );
-TsGetGobiernoInterfacesSalidaPorIdWS = this.enviroment.TsGetGobiernoInterfacesSalidaPorIdWS?.replace(
+  TsGetGobiernoInterfacesSalidaPorIdWS = this.enviroment.TsGetGobiernoInterfacesSalidaPorIdWS?.replace(
     /\/$/,
     ''
   );
-TsFahEstadoMonitoreoInterfazSalida = this.enviroment.TsFahEstadoMonitoreoInterfazSalida?.replace(
+  TsFahEstadoMonitoreoInterfazSalida = this.enviroment.TsFahEstadoMonitoreoInterfazSalida?.replace(
     /\/$/,
     ''
   );
-TsRegistroCorreccionAHCWS = this.enviroment.TsRegistroCorreccionAHCWS?.replace(
+  TsRegistroCorreccionAHCWS = this.enviroment.TsRegistroCorreccionAHCWS?.replace(
     /\/$/,
     ''
   );
-TsFahCorreccionRegistrosWS = this.enviroment.TsFahCorreccionRegistrosWS?.replace(
+  TsFahCorreccionRegistrosWS = this.enviroment.TsFahCorreccionRegistrosWS?.replace(
     /\/$/,
     ''
   );
-TsAnnouncementsTokenWS = this.enviroment.TsAnnouncementsTokenWS?.replace(
+  TsAnnouncementsTokenWS = this.enviroment.TsAnnouncementsTokenWS?.replace(
     /\/$/,
     ''
   );
-TsGobiernoInterfacesSalida = this.enviroment.TsGobiernoInterfacesSalida?.replace(
+  TsGobiernoInterfacesSalida = this.enviroment.TsGobiernoInterfacesSalida?.replace(
     /\/$/,
     ''
   );
-TsEliminarCorreccionAHCWS = this.enviroment.TsEliminarCorreccionAHCWS?.replace(
+  TsEliminarCorreccionAHCWS = this.enviroment.TsEliminarCorreccionAHCWS?.replace(
     /\/$/,
     ''
   );
-TsFahInfoletPorOrigenWS = this.enviroment.TsFahInfoletPorOrigenWS?.replace(
+  TsFahInfoletPorOrigenWS = this.enviroment.TsFahInfoletPorOrigenWS?.replace(
     /\/$/,
     ''
   );
-TsCalcularCantidadRegistrosWS = this.enviroment.TsCalcularCantidadRegistrosWS?.replace(
+  TsCalcularCantidadRegistrosWS = this.enviroment.TsCalcularCantidadRegistrosWS?.replace(
     /\/$/,
     ''
   );
-TsModificarRegistrosTMPGobIntSalWS = this.enviroment.TsModificarRegistrosTMPGobIntSalWS?.replace(
+  TsModificarRegistrosTMPGobIntSalWS = this.enviroment.TsModificarRegistrosTMPGobIntSalWS?.replace(
     /\/$/,
     ''
   );
-TsFAHListarInfoletWS = this.enviroment.TsFAHListarInfoletWS?.replace(
+  TsFAHListarInfoletWS = this.enviroment.TsFAHListarInfoletWS?.replace(
     /\/$/,
     ''
   );
-TsFahColumnaProcesoAHCWS = this.enviroment.TsFahColumnaProcesoAHCWS?.replace(
+  TsFahColumnaProcesoAHCWS = this.enviroment.TsFahColumnaProcesoAHCWS?.replace(
     /\/$/,
     ''
   );
-TsListarColumnasCorreccionXProcesoWS = this.enviroment.TsListarColumnasCorreccionXProcesoWS?.replace(
+  TsListarColumnasCorreccionXProcesoWS = this.enviroment.TsListarColumnasCorreccionXProcesoWS?.replace(
     /\/$/,
     ''
   );
-TsFAHReversaCargaGobIntContableWS = this.enviroment.TsFAHReversaCargaGobIntContableWS?.replace(
+  TsFAHReversaCargaGobIntContableWS = this.enviroment.TsFAHReversaCargaGobIntContableWS?.replace(
     /\/$/,
     ''
   );
-TsFahOrigenMonitoreoInterfazSalida = this.enviroment.TsFahOrigenMonitoreoInterfazSalida?.replace(
+  TsFahOrigenMonitoreoInterfazSalida = this.enviroment.TsFahOrigenMonitoreoInterfazSalida?.replace(
     /\/$/,
     ''
   );
@@ -120,51 +120,58 @@ TsFahOrigenMonitoreoInterfazSalida = this.enviroment.TsFahOrigenMonitoreoInterfa
     ''
   );
 
+  TsFahTxtTraceModuloReporteWSMonitoreo = this.enviroment.TsFahTxtTraceModuloReporteWSMonitoreo?.replace(
+    /\/$/,
+    ''
+  );
+
   //Agregado FIN
   //Comentado inicio
- // apiUrl: BehaviorSubject<string> = new BehaviorSubject('http://rutadelservidor.com');
-//Comentado Fin
-//Agregado Inicio
-apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
+  // apiUrl: BehaviorSubject<string> = new BehaviorSubject('http://rutadelservidor.com');
+  //Comentado Fin
+  //Agregado Inicio
+  apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
 
-TsMonitoreoInterfazSalidaWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsMonitoreoInterfazSalidaWS);
-TsGobContableEstadoWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsGobContableEstadoWS);
-TsGobContableTipoCargaWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsGobContableTipoCargaWS);
-TsFahTxtTraceIntSalLogWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahTxtTraceIntSalLogWS);
-TsFAHReprocesarCargaGobIntContableWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHReprocesarCargaGobIntContableWS);
-TsGetGobiernoInterfacesSalidaPorIdWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsGetGobiernoInterfacesSalidaPorIdWS);
-TsFahEstadoMonitoreoInterfazSalidaUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahEstadoMonitoreoInterfazSalida);
-TsRegistroCorreccionAHCWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsRegistroCorreccionAHCWS);
-TsFahCorreccionRegistrosWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahCorreccionRegistrosWS);
-TsAnnouncementsTokenWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsAnnouncementsTokenWS);
-TsGobiernoInterfacesSalidaUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsGobiernoInterfacesSalida);
-TsEliminarCorreccionAHCWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsEliminarCorreccionAHCWS);
-TsFahInfoletPorOrigenWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahInfoletPorOrigenWS);
-TsCalcularCantidadRegistrosWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsCalcularCantidadRegistrosWS);
-TsModificarRegistrosTMPGobIntSalWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsModificarRegistrosTMPGobIntSalWS);
-TsFAHListarInfoletWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHListarInfoletWS);
-TsFahColumnaProcesoAHCWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahColumnaProcesoAHCWS);
-TsListarColumnasCorreccionXProcesoWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsListarColumnasCorreccionXProcesoWS);
-TsFAHReversaCargaGobIntContableWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHReversaCargaGobIntContableWS);
-TsFahOrigenMonitoreoInterfazSalidaUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahOrigenMonitoreoInterfazSalida);
+  TsMonitoreoInterfazSalidaWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsMonitoreoInterfazSalidaWS);
+  TsGobContableEstadoWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsGobContableEstadoWS);
+  TsGobContableTipoCargaWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsGobContableTipoCargaWS);
+  TsFahTxtTraceIntSalLogWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahTxtTraceIntSalLogWS);
+  TsFAHReprocesarCargaGobIntContableWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHReprocesarCargaGobIntContableWS);
+  TsGetGobiernoInterfacesSalidaPorIdWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsGetGobiernoInterfacesSalidaPorIdWS);
+  TsFahEstadoMonitoreoInterfazSalidaUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahEstadoMonitoreoInterfazSalida);
+  TsRegistroCorreccionAHCWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsRegistroCorreccionAHCWS);
+  TsFahCorreccionRegistrosWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahCorreccionRegistrosWS);
+  TsAnnouncementsTokenWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsAnnouncementsTokenWS);
+  TsGobiernoInterfacesSalidaUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsGobiernoInterfacesSalida);
+  TsEliminarCorreccionAHCWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsEliminarCorreccionAHCWS);
+  TsFahInfoletPorOrigenWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahInfoletPorOrigenWS);
+  TsCalcularCantidadRegistrosWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsCalcularCantidadRegistrosWS);
+  TsModificarRegistrosTMPGobIntSalWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsModificarRegistrosTMPGobIntSalWS);
+  TsFAHListarInfoletWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHListarInfoletWS);
+  TsFahColumnaProcesoAHCWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahColumnaProcesoAHCWS);
+  TsListarColumnasCorreccionXProcesoWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsListarColumnasCorreccionXProcesoWS);
+  TsFAHReversaCargaGobIntContableWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHReversaCargaGobIntContableWS);
+  TsFahOrigenMonitoreoInterfazSalidaUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahOrigenMonitoreoInterfazSalida);
 
 
-TsFahObtenerUsuarioWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahObtenerUsuarioWS);
-TsFahObtenerRolesPorUsuarioWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahObtenerRolesPorUsuarioWS);
-TsFAHOrigenCargaContableWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHOrigenCargaContableWS);
+  TsFahObtenerUsuarioWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahObtenerUsuarioWS);
+  TsFahObtenerRolesPorUsuarioWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahObtenerRolesPorUsuarioWS);
+  TsFAHOrigenCargaContableWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHOrigenCargaContableWS);
 
-TsFahActualizarEstadosJobMonitoreoCargasWSUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFahActualizarEstadosJobMonitoreoCargasWS);
-TsFAHConfiguracionProfileIMUrlSubject : BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionProfileIM);
-//Agregado Fin
-  constructor( private enviroment: ApiService) { }
-  
+  TsFahActualizarEstadosJobMonitoreoCargasWSUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahActualizarEstadosJobMonitoreoCargasWS);
+  TsFAHConfiguracionProfileIMUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionProfileIM);
+
+  TsFahTxtTraceModuloReporteWSMonitoreoUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.TsFahTxtTraceModuloReporteWSMonitoreo);
+  //Agregado Fin
+  constructor(private enviroment: ApiService) { }
+
   getApiUrl(): Observable<string> {
-	  //
-   // return this.apiUrl.asObservable().pipe(first());
-	//Agregado Inicio
- // console.log('behavior')
-//  console.log(this.apiUrl)
-	    return this.apiUrlSubject.asObservable().pipe(first());
-		  //Agregado FIN
+    //
+    // return this.apiUrl.asObservable().pipe(first());
+    //Agregado Inicio
+    // console.log('behavior')
+    //  console.log(this.apiUrl)
+    return this.apiUrlSubject.asObservable().pipe(first());
+    //Agregado FIN
   }
 }

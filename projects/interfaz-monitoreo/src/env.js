@@ -27,5 +27,7 @@
     window.__env.TsFAHOrigenCargaContableWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/df64cec7a27c48d4ac5a2d85125ee9f6/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xldpRtwM-lQCTyyz5s5hJuGQGbQIyV_62FQ7s_5t9-w"; 
     window.__env.TsFahActualizarEstadosJobMonitoreoCargasWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/89e6662a6fe74e34b45d65ec3802ee9a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5p2eZft075GCbPJBwIcHq0ohXK1ZxxTqQhqAPrUvxl8";
     window.__env.TsFAHConfiguracionProfileIM = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/a05e07a5b08342fcb2faac4b7810b300/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xDLR2hwT_XZON-FLgoasMmZuCfo0e48faD_esDT-bIQ";
+    
+    window.__env.TsFahTxtTraceModuloReporteWSMonitoreo = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/3ac12d60325b473e8b7c970c9392b294/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uxyLsPYofT74OtBLnmAPCKBd-E9Y0VDyCPMNaGc_M_U";
   }(this));
   
