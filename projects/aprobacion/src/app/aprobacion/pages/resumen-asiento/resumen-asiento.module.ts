@@ -8,6 +8,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { ReboteInformationModule } from '../../components/rebote-information/rebote-information.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
     ActionsModule,
     MatCardModule,
     MatListModule,
+    ReboteInformationModule,
   ],
   exports: [ResumenAsientoComponent],
 })

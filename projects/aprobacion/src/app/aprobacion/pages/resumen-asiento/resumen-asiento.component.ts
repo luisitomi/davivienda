@@ -10,6 +10,8 @@ import { Asiento } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
+import { ReboteInformationComponent } from '../../components/rebote-information/rebote-information.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-resumen-asiento',
@@ -47,6 +49,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     private limitService: LimitService,
     private authService: AuthService,
     private toastr: ToastrService,
+    private dialog: MatDialog,
   ) {
     super();
     this.route.queryParams.subscribe(params => {
@@ -62,8 +65,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
 
   ngOnInit(): void {
     this.authService.getUsuarioV2().subscribe(
-      (nombre) => 
-      {
+      (nombre) => {
         this.nombreUsuario = nombre || ''
       }
     );
@@ -95,15 +97,15 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             nivel: item.NivelLimit,
             estado: item?.Estado,
           }))
-          this.asiento = this.listFilter.length ?  this.listFilter[0] : undefined
+          this.asiento = this.listFilter.length ? this.listFilter[0] : undefined
         }
       );
     this.arrayToDestroy.push($subas);
   }
 
-  ChangeFormateDate(oldDate: any): string{
+  ChangeFormateDate(oldDate: any): string {
     if (oldDate.split('-').length === 1) {
-      return oldDate.toString().split("/").reverse().join("/").replace('/','-').replace('/','-');
+      return oldDate.toString().split("/").reverse().join("/").replace('/', '-').replace('/', '-');
     }
     return oldDate;
   }
@@ -124,15 +126,15 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   getByRolUser(): void {
     this.spinner = true;
     const $rol = this.limitService
-                  .getByIdRol(this.nombreUsuario)
-                  .pipe(finalize(() => this.getListData(this.filtrosData)))
-                  .subscribe(
-                    (response: any) => {
-                      this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
-                      this.preparador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR'));
-                      this.trabajo = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO'));
-                    }
-                  )
+      .getByIdRol(this.nombreUsuario)
+      .pipe(finalize(() => this.getListData(this.filtrosData)))
+      .subscribe(
+        (response: any) => {
+          this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
+          this.preparador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR'));
+          this.trabajo = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO'));
+        }
+      )
     this.arrayToDestroy.push($rol);
   }
 
@@ -160,39 +162,51 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   }
 
   rechazar(): void {
-    const request: FiltroAsientoLimit = {
-      Usuario: this.nombreUsuario,
-      Status: 2,
-      Id: this.id || 0,
-      Message: '',
-    }
-    this.spinner = true;
-    const $subas = this.lineHeaderService
-      .saveStatusAsient(request)
-      .pipe(finalize(() => this.spinner = false))
-      .subscribe(
-        (response: any) => {
-          if (response?.status === appConstants.responseStatus.OK) {
-            this.toastr.success(response?.message, 'Rechazado');
-            this.volver();
-          }
+    const dialogRef = this.dialog.open(ReboteInformationComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: null,
+      panelClass: 'my-dialog',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.description) {
+        const request: FiltroAsientoLimit = {
+          Usuario: this.nombreUsuario,
+          Status: 2,
+          Id: this.id || 0,
+          Message: '',
         }
-      );
-    this.arrayToDestroy.push($subas);
+        this.spinner = true;
+        const $subas = this.lineHeaderService
+          .saveStatusAsient(request)
+          .pipe(finalize(() => this.spinner = false))
+          .subscribe(
+            (response: any) => {
+              if (response?.status === appConstants.responseStatus.OK) {
+                this.toastr.success(response?.message, 'Rechazado');
+                this.volver();
+              }
+            }
+          );
+        this.arrayToDestroy.push($subas);
+      }
+    })
+
   }
 
   volver(): void {
     this.router.navigate(['/aprobacion/asientos-pendientes'],
-    {
-      queryParams: this.queryParams,
-      skipLocationChange: false,
-      queryParamsHandling: 'merge',
-    })
+      {
+        queryParams: this.queryParams,
+        skipLocationChange: false,
+        queryParamsHandling: 'merge',
+      })
   }
 
   event(): void {
     this.eventSuccess = !this.eventSuccess;
-    this.eventNumber = this.eventSuccess  ? 7 : 11;
+    this.eventNumber = this.eventSuccess ? 7 : 11;
     this.getListAaccount();
   }
 
