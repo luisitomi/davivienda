@@ -27,17 +27,18 @@ export class TablaControlComponent implements OnInit {
   displayedColumns: String[] = [
     'numeracion',
     'fecha',
+    'fechaCreacionStr',
     'origen',
     'nombreArchivo',
     'estado',
     'reversado',
 
     'jobImportAccounting',
-
+    'fechaImporAccJob',
     'estadoImportingAcc',
 
     'jobCreateAccounting',
-
+    'fechaImporJob',
     'estadoAccountingDataset',
 
     'cantidadH',
