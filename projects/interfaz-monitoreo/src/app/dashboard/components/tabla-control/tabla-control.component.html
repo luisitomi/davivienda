@@ -141,8 +141,10 @@
       <!-- Columna Acciones -->
       <ng-container matColumnDef="acciones" stickyEnd>
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let element"><button mat-flat-button color="accent" (click)="clickVer(element.id)">Ver</button></td>
-        <td mat-cell *matCellDef="let element"><button mat-flat-button color="accent" (click)="clickVerLog(element.id)">Ver Log</button></td>
+        <td mat-cell *matCellDef="let element">
+          <button mat-flat-button color="accent" (click)="clickVer(element.id)">Ver Detalle</button>
+          <button mat-flat-button color="accent" (click)="clickVerLog(element.id)">Ver Log</button>
+        </td>
       </ng-container>
 
       <!-- Columna unica para el progress bar -->
