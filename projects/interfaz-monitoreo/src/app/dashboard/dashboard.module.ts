@@ -29,6 +29,9 @@ import { TitleHeaderModule } from '../shared/component/ui/title-header/title-hea
 import { ActionsModule } from '../shared/component/ui/actions/actions.module';
 import { FiltroPerfilModule } from './components/filtro-perfil/filtro-perfil.module';
 import { CloseModule } from '../shared/component/ui/close/close.module';
+import { CalendarModule } from '../shared/component/ui/calendar/calendar.module';
+import { FormErrorsModule } from '../shared/component/ui/form-errors/form-errors.module';
+import { InputModule } from '../shared/component/ui/input/input.module';
 
 
 @NgModule({
@@ -65,6 +68,9 @@ import { CloseModule } from '../shared/component/ui/close/close.module';
     ActionsModule,
     FiltroPerfilModule,
     CloseModule,
+    CalendarModule,
+    FormErrorsModule,
+    InputModule,
   ]
 })
 export class DashboardModule { }

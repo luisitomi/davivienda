@@ -164,6 +164,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     this.correccionFiltrosService.addValoresCorreccion(this.tipoArchivo,this.cargaId,this.origen) ;
     const dialogRef = this.dialog.open(EditarFiltroComponent, {
       width: '300px',
+      disableClose: true,
     }).afterClosed().subscribe(result => {
       
         this.obtenerFiltros();
@@ -177,6 +178,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(EditarFiltroComponent, {
       width: '300px',
       data: filtro,
+      disableClose: true,
     }).afterClosed().subscribe(result => {
       this.obtenerFiltros();
     });
@@ -211,6 +213,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     this.correccionColumnasService.addValoresCorreccion(this.tipoArchivo,this.cargaId,this.origen) ;
     const dialogRef = this.dialog.open(EditarColumnaComponent, {
       width: '300px',
+      disableClose: true,
     }).afterClosed().subscribe(result => {
       this.obtenerColumnas();
     });
@@ -221,6 +224,7 @@ export class CorreccionDatosComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(EditarColumnaComponent, {
       width: '300px',
       data: columna,
+      disableClose: true,
     }).afterClosed().subscribe(result => {
       this.obtenerColumnas();
     });

@@ -43,6 +43,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
     private authService: AuthService
   ) {
     super();
+    dialogRef.disableClose = true;
   }
 
   ngAfterViewChecked(): void {

@@ -1,10 +1,11 @@
+<app-close></app-close>
 <h1 mat-dialog-title>Nueva Columna</h1>
 
 <form [formGroup]="editarColumnaForm" (ngSubmit)="onSave()">
   <div mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label for="columna">Columna</mat-label>
-      <mat-select id="columna" formControlName="columna" required>
+      <mat-select (selectionChange)="select($event)" id="columna" formControlName="columna" required>
         <mat-option *ngFor="let c of columnas" [value]="c.valor">{{ c.valor }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -12,10 +13,11 @@
     <p>Tipo</p>
     <p>{{ tipo }}</p>
 
-    <mat-form-field appearance="fill">
-      <mat-label for="valor">Valor</mat-label>
-      <input matInput formControlName="valor" required>
-    </mat-form-field>
+    
+      <app-input *ngIf="!isDate" [label]="'Valor'" formControlName="valor" [error]="showErrors('valor')" [onlyNumber]="isNumber"></app-input>
+      <app-calendar *ngIf="isDate" [label]="'Valor'" formControlName="valor" [error]="showErrors('valor')"></app-calendar>
+      <app-form-errors [control]="editarColumnaForm.controls['valor']"></app-form-errors>
+    
   </div>
 
   <mat-dialog-actions class="evol-footer-actions">
