@@ -8,6 +8,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ActionsModule } from '../../actions/actions.module';
+import { InputModule } from '../../input/input.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormErrorsModule } from '../../form-errors/form-errors.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,10 @@ import { ActionsModule } from '../../actions/actions.module';
     MatCardModule,
     MatPaginatorModule,
     ActionsModule,
+    InputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
   ],
   entryComponents: [ModalComponent],
 })

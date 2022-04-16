@@ -18,7 +18,8 @@ type DropdownItemType = string | number | DropdownItem | any;
 export class SelectFilterComponent {
   @Input() complementary: boolean;
   @Input() label: string;
-  @Input() valueId: string;
+  @Input() valueId1: string;
+  @Input() valueId2: string;
   @Output() changeOption: EventEmitter<EventDropdown> = new EventEmitter<EventDropdown>();
   @Input() placeholder: string;
   @Output() optionAdd: EventEmitter<any> = new EventEmitter<any>();
@@ -184,7 +185,7 @@ export class SelectFilterComponent {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: { name: name, valueId: this.valueId }},
+      data: { data: { name: name, valueId1: this.valueId1, valueId2: this.valueId2 }},
       panelClass: 'my-dialog',
       maxHeight: '600px',
       disableClose: true,
@@ -192,7 +193,7 @@ export class SelectFilterComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result?.codigo) {
-        this.optionAdd.emit(result)
+        this.optionAdd.emit({result: result, label: this.label})
       }
     });
   }

@@ -1,41 +1,43 @@
 <app-loader *ngIf="spinner"></app-loader>
 <app-close></app-close>
 <h1 mat-dialog-title>Listado de información</h1>
+<form [formGroup]="form" autocomplete="off">
+  <app-input [label]="'Código'" formControlName="codigo" [error]="showErrors('codigo')"></app-input>
+  <app-form-errors [control]="form.controls['codigo']"></app-form-errors>
+  <app-input [label]="'Valor'" formControlName="valor" [error]="showErrors('valor')"></app-input>
+  <app-form-errors [control]="form.controls['valor']"></app-form-errors>
+  <mat-dialog-actions style="margin-bottom: 1rem !important" class="evol-footer-actions">
+    <app-actions [color]="'accent'" [class]="'flat'" (click)="search()" [label]="'Buscar'"></app-actions>
+  </mat-dialog-actions>
+</form>
 <mat-card-content class="evol-tabla-container">
-    <table mat-table [dataSource]="dataSource" #tabla1>
 
-      <!-- Columna Numeracion -->
-      <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef>Código</th>
-        <td mat-cell *matCellDef="let element; index as i"> {{ element.codigo }} </td>
-      </ng-container>
+  <table mat-table [dataSource]="dataSource" #tabla1>
 
-      <!-- Columna Fecha -->
-      <ng-container matColumnDef="valor">
-        <th mat-header-cell *matHeaderCellDef>Valor</th>
-        <td mat-cell *matCellDef="let element"> {{ element.valor }}</td>
-      </ng-container>
+    <ng-container matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef>Código</th>
+      <td mat-cell *matCellDef="let element; index as i"> {{ element.codigo }} </td>
+    </ng-container>
+    <ng-container matColumnDef="valor">
+      <th mat-header-cell *matHeaderCellDef>Valor</th>
+      <td mat-cell *matCellDef="let element"> {{ element.valor }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-flat-button color="accent" (click)="send(element)">Seleccionar</button>
+      </td>
+    </ng-container>
 
-      <!-- Columna Acciones -->
-      <ng-container matColumnDef="acciones" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-flat-button color="accent" (click)="send(element)">Seleccionar</button>
-        </td>
-      </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length" *ngIf="!spinner">No hay registros que cumplan los
+        filtros establecidos</td>
+    </tr>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayedColumns.length" *ngIf="!spinner">No hay registros que cumplan los filtros establecidos</td>
-      </tr>
+  </table>
+  <mat-paginator [pageSize]="20" [showFirstLastButtons]="true" [pageSizeOptions]="[20, 50, 100]">
+  </mat-paginator>
 
-    </table>
-    <mat-paginator
-      [pageSize]="20"
-      [showFirstLastButtons]="true"
-      [pageSizeOptions]="[20, 50, 100]"
-    >
-    </mat-paginator>
-
-  </mat-card-content>
+</mat-card-content>

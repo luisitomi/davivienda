@@ -12,12 +12,12 @@
     [ngClass]="{ 'is-invalid-input u-mb0': error }"
   >
     <mat-option>
-      <ngx-mat-select-search 
+      <!--<ngx-mat-select-search 
         placeholderLabel="Buscar..."
         (input)="search($event)"
         noEntriesFoundLabel="'No se encontrarn resultados'"
       >
-      </ngx-mat-select-search>
+      </ngx-mat-select-search>-->
     </mat-option>
     <mat-option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}

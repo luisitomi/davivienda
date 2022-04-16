@@ -45,6 +45,8 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   comp11Select: string;
   spinner: boolean;
   validateClient: string;
+  valueId1: string;
+  valueId2: string;
 
   constructor(
     public dialogRef: MatDialogRef<CombinacionContableComponent>,
@@ -79,7 +81,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
   }
-  
+
   ngOnInit(): void {
     this.getOptions1();
     this.createForm();
@@ -122,14 +124,14 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     );
   }
 
-  validate(): ValidationErrors {  
+  validate(): ValidationErrors {
     return { required: true };
   }
 
   private _filterParte1(name: string): DropdownItem[] {
     const filterValue = name.toLowerCase();
     return this.parte1Options.filter(option => option.value?.toLowerCase().includes(filterValue));
-    
+
   }
 
   getOptions1(): void {
@@ -138,7 +140,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .getParte1()
       .pipe(finalize(() => this.getOptions2()))
       .subscribe(
-        (parte1: Maestra[]) => { 
+        (parte1: Maestra[]) => {
           this.parte1Options = (parte1 || []).map((data) => ({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
@@ -172,6 +174,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   changeSelection(event: any): void {
     this.getOptions3(event?.value);
+    this.valueId1 = event?.value;
   }
 
   getOptions3(name: string): void {
@@ -331,16 +334,17 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       this.validateClient = this.parte2Options.find(p => p.value === this.form.get(`${control}`)?.value)?.type || '';
     }
     this.form.get(`${control}`)?.updateValueAndValidity();
-    if (control === 'comp1'){
+    if (control === 'comp1') {
       this.getOptions5(this.form.get(`${control}`)?.value?.split(' ')[0]);
+      this.valueId2 = this.form.get(`${control}`)?.value?.split(' ')[0];
     }
   }
 
   save(): void {
     if (this.form.valid) {
-      const valueForm =this.form.value;
+      const valueForm = this.form.value;
       const request: CombinacionContable = {
-        Company:  valueForm.comp1,
+        Company: valueForm.comp1,
         SegGlAccount: valueForm.comp2,
         SegOficina: valueForm.comp3,
         SegSucursal: valueForm.comp4,
@@ -355,6 +359,135 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         ValueInformation: `${this.parte1Options.find(p => p.label === valueForm.comp1)?.value}-${valueForm.comp2}-${valueForm.comp3}-${valueForm.comp4}-${valueForm.comp5}-${valueForm.comp6}-${valueForm.comp7}-${valueForm.comp8}-${valueForm.comp9}-${valueForm.comp10}-${valueForm.comp11}`
       }
       this.dialogRef.close(request);
+    }
+  }
+
+  optionAdd(event: any): void {
+    switch (event?.label) {
+      case appConstants.segment.Cuenta:
+        const id_2 = this.parte2Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_2) {
+          this.parte2Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp2Select = event?.result?.codigo
+        this.validateClient = event?.result?.tipo || 'N'
+        break;
+      case appConstants.segment.Compania:
+        const id_1 = this.parte1Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_1) {
+          this.parte1Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.codigo,
+          })
+        }
+        this.comp1Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Futuro_1:
+        const id_10 = this.parte10Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_10) {
+          this.parte10Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp10Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Intercompañía:
+        const id_8 = this.parte8Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_8) {
+          this.parte8Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp8Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Futuro_2:
+        const id_11 = this.parte11Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_11) {
+          this.parte11Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp11Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Oficina:
+        const id_3 = this.parte3Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_3) {
+          this.parte3Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp3Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Proyecto:
+        const id_5 = this.parte5Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_5) {
+          this.parte5Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp5Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Subproyecto:
+        const id_6 = this.parte6Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_6) {
+          this.parte6Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp6Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Sucursal:
+        const id_4 = this.parte4Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_4) {
+          this.parte4Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp4Select = event?.result?.codigo
+        this.getOptions3(event?.result?.codigo);
+        this.valueId1 = event?.result?.codigo;
+        break;
+      case appConstants.segment.Tipo_Comprobante:
+        const id_7 = this.parte7Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_7) {
+          this.parte7Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp7Select = event?.result?.codigo
+        break;
+      case appConstants.segment.Vinculado:
+        const id_9 = this.parte9Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())
+        if (!id_9) {
+          this.parte9Options.unshift({
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          })
+        }
+        this.comp9Select = event?.result?.codigo
+        break;
     }
   }
 }
