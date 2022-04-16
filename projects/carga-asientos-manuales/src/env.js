@@ -21,5 +21,6 @@
     window.__env.TsFahOperationUnitWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/971afe20b95f4b339b4450dfde1beeda/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=yjjdhxmN0zA4BRUNyQOQ8F0XeLA0GURnyUKllpY7w1k";
     window.__env.TsFahCargaAsientosCSVWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/3b2447e6b95b4fbbaa8161bcfef975a2/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vccWf-JC_STsIU9SRp8z03pxcJULvHv9zrbATtYZEDk";
     window.__env.TsCargaAsientoManualSaveWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/8a9447c21fa343e1a27b33302e3b9091/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SvIyCN85XU-f_dOEr5IhOxR6RmFdN4IWCCyb7QePn7I";
+    window.__env.TsFahGetSegmentosWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/90da79d5b3004f26b097fe5a46cb507d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=wj-gS29Nnvufp5nLOy3DQJqWpoDtnceb89RRMuTHRRk";
   }(this));
   

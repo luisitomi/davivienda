@@ -25,6 +25,7 @@ export class ApiService {
   TsFahOperationUnitWS: string = '';
   TsFahCargaAsientosCSVWS: string = '';
   TsCargaAsientoManualSaveWS: string = '';
+  TsFahGetSegmentosWS: string = '';
 
   constructor() { }
 }

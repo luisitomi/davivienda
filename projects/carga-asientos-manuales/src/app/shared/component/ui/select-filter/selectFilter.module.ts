@@ -9,6 +9,8 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { MatSelectSearchModule } from 'mat-select-search';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ModalModule } from './modal/modal.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatSelectSearchModule,
     NgxMatSelectSearchModule,
     ReactiveFormsModule,
+    ModalModule,
+    MatDialogModule,
   ],
   exports: [SelectFilterComponent],
 })

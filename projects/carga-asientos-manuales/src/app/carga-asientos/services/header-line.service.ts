@@ -61,4 +61,11 @@ export class HeaderLineService {
       switchMap(url => this.http.post<any>(url, formData )),
     );
   }
+
+  getApiUrlTsFahGetSegmentosWS(request: any): Observable<any> {
+    return this.configService.getApiUrlTsFahGetSegmentosWS().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url, request)),
+    );
+  }
 }

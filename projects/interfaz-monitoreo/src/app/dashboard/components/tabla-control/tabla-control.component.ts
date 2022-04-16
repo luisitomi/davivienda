@@ -118,6 +118,7 @@ export class TablaControlComponent implements OnInit {
       maxWidth: '400px',
       data: null,
       panelClass: 'my-dialog',
+      disableClose: true,
     });
   }
 

@@ -51,7 +51,6 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   ngOnInit(): void {
-    console.log(this.filtro)
     this.getTypes();
     this.createForm();
     this.btnLabel = !this.filtro ? 'Agregar' : 'Cambiar';

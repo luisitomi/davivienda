@@ -35,5 +35,31 @@ export const appConstants = {
         nueve: '9',
         diez: '10',
         once: '11'
+    },
+    segment: {
+        Cuenta: 'Cuenta',
+        Compania: 'COMPANIA',
+        Oficina: 'Oficina',
+        Proyecto: 'Proyecto',
+        Subproyecto: 'Subproyecto',
+        Tipo_Comprobante: 'Tipo Comprobante',
+        Intercompañía: 'Intercompañía',
+        Vinculado: 'Vinculado',
+        Futuro_1: 'Futuro 1',
+        Futuro_2: 'Futuro 2',
+        Sucursal: 'Sucursal',
+    },
+    segmentValue: {
+        Cuenta: 'CUENTA',
+        Compania: 'COMPANIA',
+        Oficina: 'OFICINA',
+        Proyecto: 'PROYECTO',
+        Subproyecto: 'SUBPROYECTO',
+        Tipo_Comprobante: 'TIPO_COMPROBANTE',
+        Intercompañía: 'INTERCOMPANIA',
+        Vinculado: 'VINCULADA',
+        Futuro_1: 'FUTURO1',
+        Futuro_2: 'FUTURO2',
+        Sucursal: 'SUCURSAL',
     }
 }

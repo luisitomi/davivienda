@@ -92,6 +92,10 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  TsFahGetSegmentosWS = this.enviroment.TsFahGetSegmentosWS?.replace(
+    /\/$/,
+    ''
+  );
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
   _getOptions2: BehaviorSubject<string> = new BehaviorSubject(this.getOptions2);
   _getOptions1: BehaviorSubject<string> = new BehaviorSubject(this.getParte1);
@@ -112,6 +116,7 @@ export class ConfigService {
   _getLeader: BehaviorSubject<string> = new BehaviorSubject(this.getLeader);
   _cargarAsientos: BehaviorSubject<string> = new BehaviorSubject(this.cargarAsientos);
   _saveHeaderLine: BehaviorSubject<string> = new BehaviorSubject(this.saveHeaderLine);
+  _TsFahGetSegmentosWS: BehaviorSubject<string> = new BehaviorSubject(this.TsFahGetSegmentosWS);
 
   constructor(
     private enviroment: ApiService
@@ -195,5 +200,9 @@ export class ConfigService {
 
   getApiUrlsaveHeaderLine(): Observable<string> {
     return this._saveHeaderLine.asObservable().pipe(first());
+  }
+
+  getApiUrlTsFahGetSegmentosWS(): Observable<string> {
+    return this._TsFahGetSegmentosWS.asObservable().pipe(first());
   }
 }

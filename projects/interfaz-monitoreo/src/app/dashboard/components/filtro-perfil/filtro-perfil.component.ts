@@ -40,6 +40,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
     private toastr: ToastrService,
   ) {
     super();
+    dialogRef.disableClose = true;
   }
 
   ngOnInit(): void {
