@@ -148,7 +148,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
           }))
           this.filteredParte1Options = this.form.controls['comp1'].valueChanges.pipe(
             startWith(''),
-            map(value => (typeof value === 'string' ? value : value.name)),
+            map(value => (typeof value === 'string' ? value : value?.name)),
             map(name => (name ? this._filterParte1(name) : this.parte1Options.slice())),
           );
         }
