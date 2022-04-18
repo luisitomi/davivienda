@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -15,14 +16,15 @@ import { Maestra } from '../../../shared/models/maestra.model';
 @Component({
   selector: 'app-editar-columna',
   templateUrl: './editar-columna.component.html',
-  styleUrls: ['./editar-columna.component.scss']
+  styleUrls: ['./editar-columna.component.scss'],
+  providers: [DatePipe],
 })
 export class EditarColumnaComponent implements OnInit {
 
   // columna = this.correccionValores.correccionColumna;
   editarColumnaForm = new FormGroup({
     columna: new FormControl(this.columna?.columna),
-    valor: new FormControl(this.columna?.valor),
+    valor: new FormControl(new Date(this.columna?.valor) ? new Date(new Date(this.columna?.valor)?.setDate(new Date(this.columna?.valor).getDate() + 1)) : this.columna?.valor),
   });
   tipoArchivo = "";
   columnas: Maestra[] = [];
@@ -48,7 +50,8 @@ export class EditarColumnaComponent implements OnInit {
     //  @Inject(MAT_DIALOG_DATA) public correccionValores: CorreccionColumnaValores,
     private correccionColumnasService: CorreccionColumnasService,
     private reprocesoService: ReprocesoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private datePipe: DatePipe,
 
   ) {
     dialogRef.disableClose = true;
@@ -65,7 +68,7 @@ export class EditarColumnaComponent implements OnInit {
     } else if (tipoArchivo1 == 'LINE') {
       this.GetColumnas(origen, 2);
     }
-
+    this.tipo = this.columnas.find(c => c.valor === this.columna?.tipo)?.tipo || '';
     this.editarColumnaForm.valueChanges.subscribe(v => {
       this.tipo = this.columnas.find(c => c.valor === v.columna)?.tipo || '';
     });
@@ -106,7 +109,7 @@ export class EditarColumnaComponent implements OnInit {
     const objeto = {
       Columna: filtro.columna,
       Criterio: '',
-      Valor: filtro.valor,
+      Valor: this.isDate ? this.datePipe.transform(filtro.valor, appConstants.eventDate.format) : filtro.valor,
       IdArchivoZip: this.correccionColumnasService.getIdCarga(),
       TipoArchivo: this.correccionColumnasService.getTipoArchivo(),
       TipoFiltro: "COLUMNA",
