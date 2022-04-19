@@ -73,6 +73,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   ngOnInit(): void {
     this.createForm();
     this.getOrigen();
+    this.getLeader();
     this.updateForm();
   }
 
@@ -124,7 +125,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
     this.spinner = true;
     const $origen = this.origenService
       .getOrigenes()
-      .pipe(finalize(() => this.getLeader()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (response: Origen[]) => {
           this.origens = (response || []).map((data) => ({
@@ -165,6 +166,7 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   getLeader(): void {
+    this.spinner = true;
     const $leader = this.periodoContableService
       .getListLeader()
       .pipe(finalize(() => this.spinner = false))
