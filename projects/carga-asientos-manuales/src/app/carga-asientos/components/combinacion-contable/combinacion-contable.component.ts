@@ -84,6 +84,13 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
 
   ngOnInit(): void {
     this.getOptions1();
+    this.getOptions2();
+    this.getOptions4();
+    this.getOptions6();
+    this.getOptions7();
+    this.getOptions8();
+    this.getOptions9();
+    this.getOptions10();
     this.createForm();
   }
 
@@ -138,7 +145,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.spinner = true;
     const $option1 = this.combinacionContableService
       .getParte1()
-      .pipe(finalize(() => this.getOptions2()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte1: Maestra[]) => {
           this.parte1Options = (parte1 || []).map((data) => ({
@@ -157,9 +164,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions2(): void {
+    this.spinner = true
     const $option2 = this.combinacionContableService
       .getParte2()
-      .pipe(finalize(() => this.getOptions4()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte2: Maestra[]) => {
           this.parte2Options = (parte2 || []).map((data) => ({
@@ -194,9 +202,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions4(): void {
+    this.spinner = true
     const $option4 = this.combinacionContableService
       .getParte4()
-      .pipe(finalize(() => this.getOptions6()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte4: Maestra[]) => {
           this.parte4Options = (parte4 || []).map((data) => ({
@@ -225,9 +234,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions6(): void {
+    this.spinner = true
     const $option6 = this.combinacionContableService
       .getParte6()
-      .pipe(finalize(() => this.getOptions7()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte6: Maestra[]) => {
           this.parte6Options = (parte6 || []).map((data) => ({
@@ -240,9 +250,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions7(): void {
+    this.spinner = true
     const $option7 = this.combinacionContableService
       .getParte7()
-      .pipe(finalize(() => this.getOptions8()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte7: Maestra[]) => {
           this.parte7Options = (parte7 || []).map((data) => ({
@@ -255,9 +266,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions8(): void {
+    this.spinner = true
     const $option8 = this.combinacionContableService
       .getParte8()
-      .pipe(finalize(() => this.getOptions9()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte8: Maestra[]) => {
           this.parte8Options = (parte8 || []).map((data) => ({
@@ -270,9 +282,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions9(): void {
+    this.spinner = true
     const $option9 = this.combinacionContableService
       .getParte9()
-      .pipe(finalize(() => this.getOptions10()))
+      .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte9: Maestra[]) => {
           this.parte9Options = (parte9 || []).map((data) => ({
@@ -285,6 +298,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions10(): void {
+    this.spinner = true
     const $option10 = this.combinacionContableService
       .getParte10()
       .pipe(finalize(() => this.getOptions11()))
@@ -300,6 +314,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   getOptions11(): void {
+    this.spinner = true
     const $option11 = this.combinacionContableService
       .getParte11()
       .pipe(finalize(() => {
