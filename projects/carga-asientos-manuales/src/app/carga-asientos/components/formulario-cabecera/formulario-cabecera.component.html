@@ -16,7 +16,7 @@
         <app-form-errors [control]="form.controls['number']"></app-form-errors>
       </div>
       <div class="evol-form-section">
-        <app-input [disabled]="disabledForm" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
+        <app-input [maxlength]="'240'" [disabled]="disabledForm" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
         <app-form-errors [control]="form.controls['description']"></app-form-errors>
         <app-calendar (changeCalendarOption)="onSelectedCalendar();onSelectCalendarMont($event)" [disabled]="disabledForm || disabledFecha" [label]="'Fecha Contable'" formControlName="accountingDate" [error]="showErrors('accountingDate')"></app-calendar>
         <app-form-errors [control]="form.controls['accountingDate']"></app-form-errors>
