@@ -119,10 +119,12 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       comp11: this.data?.data?.SegF2,
     });
     this.comp1Select = this.data?.data?.Company;
+    this.valueId2 = this.data?.data?.Company.split(' ')[0];
     this.getOptions5(this.data?.data?.Company.split(' ')[0])
     this.comp2Select = this.data?.data?.SegGlAccount;
     this.comp3Select = this.data?.data?.SegOficina;
     this.comp4Select = this.data?.data?.SegSucursal;
+    this.valueId1 = this.comp4Select;
     this.getOptions3(this.comp4Select);
     this.comp5Select = this.data?.data?.SegProyecto;
     this.comp6Select = this.data?.data?.SegSubProyecto;
