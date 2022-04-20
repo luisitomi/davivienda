@@ -47,6 +47,16 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   validateClient: string;
   valueId1: string;
   valueId2: string;
+  addCuenta: any;
+  addSucursal: any;
+  addOficina: any;
+  addProyecto: any;
+  addSubProyecto: any;
+  addTipoComprobante: any;
+  addIntercompañia: any;
+  addVinculado: any;
+  addFuturo1: any;
+  addFuturo2: any;
 
   constructor(
     public dialogRef: MatDialogRef<CombinacionContableComponent>,
@@ -122,6 +132,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.comp10Select = this.data?.data?.SegF1;
     this.comp11Select = this.data?.data?.SegF2;
     this.validateClient = this.data?.data?.SegGlAccountValue;
+    this.addFunctions();
   }
 
   showErrors(control: string): boolean {
@@ -363,6 +374,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         SegGlAccount: valueForm.comp2,
         SegOficina: valueForm.comp3,
         SegSucursal: valueForm.comp4,
+        nameSucursal: this.parte1Options.find(p => p.value === valueForm.comp4)?.label || '',
         SegProyecto: valueForm.comp5,
         SegSubProyecto: valueForm.comp6,
         SegTipoComprobante: valueForm.comp7,
@@ -371,7 +383,17 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         SegVinculado: valueForm.comp9,
         SegF1: valueForm.comp10,
         SegF2: valueForm.comp11,
-        ValueInformation: `${this.parte1Options.find(p => p.label === valueForm.comp1)?.value}-${valueForm.comp2}-${valueForm.comp3}-${valueForm.comp4}-${valueForm.comp5}-${valueForm.comp6}-${valueForm.comp7}-${valueForm.comp8}-${valueForm.comp9}-${valueForm.comp10}-${valueForm.comp11}`
+        ValueInformation: `${this.parte1Options.find(p => p.label === valueForm.comp1)?.value}-${valueForm.comp2}-${valueForm.comp3}-${valueForm.comp4}-${valueForm.comp5}-${valueForm.comp6}-${valueForm.comp7}-${valueForm.comp8}-${valueForm.comp9}-${valueForm.comp10}-${valueForm.comp11}`,
+        addCuenta: this.addCuenta,
+        addFuturo1: this.addFuturo1,
+        addFuturo2: this.addFuturo2,
+        addIntercompañia: this.addIntercompañia,
+        addOficina: this.addOficina,
+        addProyecto: this.addProyecto,
+        addSubProyecto: this.addSubProyecto,
+        addSucursal: this.addSucursal,
+        addTipoComprobante: this.addTipoComprobante,
+        addVinculado: this.addVinculado,
       }
       this.dialogRef.close(request);
     }
@@ -387,6 +409,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addCuenta = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp2Select = event?.result?.codigo
         this.validateClient = event?.result?.tipo || 'N'
@@ -410,6 +437,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addFuturo1 = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp10Select = event?.result?.codigo
         break;
@@ -421,6 +453,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addIntercompañia = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp8Select = event?.result?.codigo
         break;
@@ -432,6 +469,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addFuturo2 = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp11Select = event?.result?.codigo
         break;
@@ -443,6 +485,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addOficina = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp3Select = event?.result?.codigo
         break;
@@ -454,6 +501,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addProyecto = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp5Select = event?.result?.codigo
         break;
@@ -465,6 +517,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addSubProyecto = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp6Select = event?.result?.codigo
         break;
@@ -476,6 +533,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addSucursal = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp4Select = event?.result?.codigo
         this.getOptions3(event?.result?.codigo);
@@ -489,6 +551,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addTipoComprobante = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp7Select = event?.result?.codigo
         break;
@@ -500,9 +567,57 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             value: event?.result?.codigo,
             type: event?.result?.tipo,
           })
+          this.addVinculado = {
+            label: `${event?.result?.codigo} - ${event?.result?.valor}`,
+            value: event?.result?.codigo,
+            type: event?.result?.tipo,
+          }
         }
         this.comp9Select = event?.result?.codigo
         break;
+    }
+  }
+
+  addFunctions(): void {
+    const cuenta_functions: any = this.parte2Options.find(p => p.value === this.data?.data?.addCuenta?.value);
+    if (cuenta_functions === -1){
+      this.parte2Options.unshift(this.data?.data?.addCuenta)
+    }
+    const oficina_functions: any = this.parte3Options.find(p => p.value === this.data?.data?.addOficina?.value);
+    if (oficina_functions === -1){
+      this.parte3Options.unshift(this.data?.data?.addOficina)
+    }
+    const sucursal_functions: any = this.parte4Options.find(p => p.value === this.data?.data?.addSucursal?.value);
+    if (sucursal_functions === -1){
+      this.parte4Options.unshift(this.data?.data?.addSucursal)
+    }
+    const proyecto_functions: any = this.parte5Options.find(p => p.value === this.data?.data?.addProyecto?.value);
+    if (proyecto_functions === -1){
+      this.parte5Options.unshift(this.data?.data?.addProyecto)
+    }
+    const sub_proyecto_functions: any = this.parte6Options.find(p => p.value === this.data?.data?.addSubProyecto?.value);
+    if (sub_proyecto_functions === -1){
+      this.parte6Options.unshift(this.data?.data?.addSubProyecto)
+    }
+    const tipo_comprobante_functions: any = this.parte7Options.find(p => p.value === this.data?.data?.addTipoComprobante?.value);
+    if (tipo_comprobante_functions === -1){
+      this.parte7Options.unshift(this.data?.data?.addTipoComprobante)
+    }
+    const intercompañia_functions: any = this.parte8Options.find(p => p.value === this.data?.data?.addIntercompañia?.value);
+    if (intercompañia_functions === -1){
+      this.parte8Options.unshift(this.data?.data?.addIntercompañia)
+    }
+    const vinculado_functions: any = this.parte9Options.find(p => p.value === this.data?.data?.addVinculado?.value);
+    if (vinculado_functions === -1){
+      this.parte9Options.unshift(this.data?.data?.addVinculado)
+    }
+    const futuro_1_functions: any = this.parte10Options.find(p => p.value === this.data?.data?.addFuturo1?.value);
+    if (futuro_1_functions === -1){
+      this.parte10Options.unshift(this.data?.data?.addFuturo1)
+    }
+    const futuro_2_functions: any = this.parte11Options.find(p => p.value === this.data?.data?.addFuturo2?.value);
+    if (futuro_2_functions === -1){
+      this.parte11Options.unshift(this.data?.data?.addFuturo2)
     }
   }
 }

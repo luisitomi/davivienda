@@ -30,6 +30,7 @@ export class LineSave {
 	description?: string;
 	usuario?: string;
     informacionReferencial?: Array<ItemsLine>;
+	nameSucursal: string;
 }
 
 export class ItemsLine {

@@ -12,4 +12,15 @@ export class CombinacionContable {
 	SegF1:string;
 	SegF2:string;
 	ValueInformation: string;
+	nameSucursal: string;
+	addCuenta: any;
+	addSucursal: any;
+	addOficina: any;
+	addProyecto: any;
+	addSubProyecto: any;
+	addTipoComprobante: any;
+	addIntercompañia: any;
+	addVinculado: any;
+	addFuturo1: any;
+	addFuturo2: any;
 }

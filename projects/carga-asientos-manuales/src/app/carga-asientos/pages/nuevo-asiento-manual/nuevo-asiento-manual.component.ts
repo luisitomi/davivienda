@@ -197,10 +197,11 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       const line: Array<LineaAsientoInsert> = model?.line || [];
       const lineSaveComprobante = line[0]?.combinationAccount?.SegTipoComprobante;
-      const lineSaveSucursal = line[0]?.combinationAccount?.SegSucursal;
+      //const lineSaveSucursal = line[0]?.combinationAccount?.SegSucursal;
       const lineSaveOficina = line[0]?.combinationAccount?.SegOficina;
       const lineSave: LineSave[] = (line || []).map((data, index) => ({
         id: 0,
+        nameSucursal: data?.combinationAccount?.nameSucursal || '',
         nroLinea: index + 1,
         company: data?.combinationAccount?.Company?.split(' ')[0],
         segGlAccount: data?.combinationAccount?.SegGlAccount,
@@ -227,15 +228,23 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         }))
       }));
       
-      const totalDebito = lineSave.map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+      /*const totalDebito = lineSave.map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
       const totalCredito = lineSave.map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
       if (totalDebito !== totalCredito) {
         this.toastr.warning("La suma entre los montos de crédito y débito son diferentes", 'Advertencia');
         this.spinner = false;
         return;
-      }
+      }*/
+
       let permission = true;
       lineSave.forEach((element, index) => {
+        const totalDebito = lineSave.filter(p => p?.segSucursal === element?.segSucursal).map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+        const totalCredito = lineSave.filter(p => p?.segSucursal === element?.segSucursal).map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+        if (totalDebito !== totalCredito) {
+          this.toastr.warning(`La suma entre los montos de crédito y débito son diferentes en la sucursal ${element?.nameSucursal}`, 'Advertencia');
+          this.spinner = false;
+          return;
+        }
         if (!element.informacionReferencial?.length) {
           this.toastr.warning("Falta agregar Información Referencial en el " + (index + 1 ) + " registro.", 'Advertencia');
           this.spinner = false;
@@ -248,12 +257,13 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           permission = false;
           return;
         }
-        if (element?.segSucursal !== lineSaveSucursal) {
+        /*if (element?.segSucursal !== lineSaveSucursal) {
           this.toastr.warning("Los valores de sucursal son diferentes", 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
-        }
+        }*/
+
         if (element?.segOficina !== lineSaveOficina) {
           this.toastr.warning("Los valores de oficina son diferentes", 'Advertencia');
           this.spinner = false;
