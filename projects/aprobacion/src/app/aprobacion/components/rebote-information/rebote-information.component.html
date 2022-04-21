@@ -3,7 +3,7 @@
 <h1 mat-dialog-title>Observación</h1>
 <form [formGroup]="form" autocomplete="off">
     <div mat-dialog-content class="evol-editar-linea-container">
-        <app-input (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Observación'" formControlName="description" [error]="showErrors('description')"></app-input>
+        <app-input [maxlength]="'240'" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Observación'" formControlName="description" [error]="showErrors('description')"></app-input>
         <app-form-errors [control]="form.controls['description']"></app-form-errors>
     </div>
     <mat-dialog-actions class="evol-footer-actions">
