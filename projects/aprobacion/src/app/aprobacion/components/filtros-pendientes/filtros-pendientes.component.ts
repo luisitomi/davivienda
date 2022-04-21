@@ -180,6 +180,8 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             cuentas: item.Cuenta,
             nivel: item.NivelLimit,
             estado: item?.Estado,
+            abonoTotal: item?.AbonoTodo,
+            cargoTotal: item?.CargoTodo,
           }))
         }
       );

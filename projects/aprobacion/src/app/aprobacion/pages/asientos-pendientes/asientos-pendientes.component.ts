@@ -88,8 +88,8 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       estado: filtros?.estado || '',
       origen: filtros?.origen || '',
       usuario: filtros?.usuario || '',
-      fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format2) || '',
-      inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format2) || '',
+      fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format3) || '',
+      inicio: this.datePipe.transform(filtros?.inicio, appConstants.eventDate.format3) || '',
       cuenta: filtros?.cuenta || '',
       aprobador: Number(this.aprobador),
       aprobadorName: this.nombreUsuario,
@@ -115,6 +115,8 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             cuentas: item.Cuenta,
             nivel: item.NivelLimit,
             estado: item?.Estado,
+            abonoTotal: item?.AbonoTodo,
+            cargoTotal: item?.CargoTodo,
           }));
           this.asientosCopy = this.eliminarObjetosDuplicados(this.asientosCopy, 'id');
         }

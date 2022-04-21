@@ -42,12 +42,17 @@ export interface LimitHeader
   Comprobante: string;
   Contable: Date;
   Descripcion: string;
+  Estado: string;
+
   Cargo: string;
   Abono: string;
+  CargoTodo: string;
+  AbonoTodo: string;
+  
   Origen: string;
   Cuenta: string;
+
   NivelLimit: number;
-  Estado: string;
 }
 
 export interface AccountLine {

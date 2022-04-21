@@ -11,4 +11,6 @@ export interface Asiento {
   cuentas: string;
   nivel: number;
   estado: string;
+  cargoTotal: string;
+  abonoTotal: string;
 }

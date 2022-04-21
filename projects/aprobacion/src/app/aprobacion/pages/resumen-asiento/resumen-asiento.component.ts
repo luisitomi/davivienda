@@ -96,6 +96,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             cuentas: item.Cuenta,
             nivel: item.NivelLimit,
             estado: item?.Estado,
+            abonoTotal: item?.AbonoTodo,
+            cargoTotal: item?.CargoTodo,
           }))
           this.asiento = this.listFilter.length ? this.listFilter[0] : undefined
         }

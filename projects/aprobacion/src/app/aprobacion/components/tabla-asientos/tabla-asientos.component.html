@@ -44,12 +44,20 @@
           <td mat-cell *matCellDef="let element">{{ element?.descripcion }}</td>
         </ng-container>
         <ng-container matColumnDef="cargos">
-          <th mat-header-cell *matHeaderCellDef>Cargos</th>
+          <th mat-header-cell *matHeaderCellDef>Cargos Pendientes</th>
           <td mat-cell *matCellDef="let element">{{ element?.cargos }}</td>
         </ng-container>
         <ng-container matColumnDef="abonos">
-          <th mat-header-cell *matHeaderCellDef>Abonos</th>
+          <th mat-header-cell *matHeaderCellDef>Abonos Pendientes</th>
           <td mat-cell *matCellDef="let element">{{ element?.abonos }}</td>
+        </ng-container>
+        <ng-container matColumnDef="cargosTotal">
+          <th mat-header-cell *matHeaderCellDef>Cargos Totales</th>
+          <td mat-cell *matCellDef="let element">{{ element?.cargosTotal }}</td>
+        </ng-container>
+        <ng-container matColumnDef="abonosTotal">
+          <th mat-header-cell *matHeaderCellDef>Abonos Totales</th>
+          <td mat-cell *matCellDef="let element">{{ element?.abonosTotal }}</td>
         </ng-container>
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef>Estado</th>
