@@ -17,6 +17,7 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
   selectLimits: Array<DropdownItem> = [];
   spinner = false;
   form: FormGroup;
+  activeSelect: any = [{value: '', label: 'Todos'},{value: 0, label: 'Activo'},{value: 1, label: 'Desactivo'}];
   
   constructor(
     private limitService: LimitService,
@@ -40,6 +41,9 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
   createForm(): void {
     this.form = this.formBuilder.group({
       text: ['', []],
+      estado: ['', []],
+      count: ['', []],
+      import: ['', []],
     });
   }
 
@@ -67,7 +71,6 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (response: Limit[]) => {
-          console.log(response)
           this.limits = (response || []).map((data) => ({
             nuevoValor: data?.Value,
             nuevoValorNew: data?.Value,
@@ -104,6 +107,11 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
 
   buscar(): void {
     const data = this.form.value;
-    this.limitsCopy = this.limits.filter((p: any) => p.codigo === data?.text).length ? this.limits.filter((p: any) => p.codigo === data?.text) : data?.text?.length ? [] : this.limits;
+    this.limitsCopy = this.limits.filter((p: any) => 
+                        p.codigo?.toString()?.includes(data?.text || '') &&
+                        p.estado?.toString()?.includes(data?.estado || '') &&
+                        p.nuevoValor?.toString()?.includes(data?.count || '') &&
+                        p.importeMaximo?.toString()?.includes(data?.import || '')
+                      )
   }
 }

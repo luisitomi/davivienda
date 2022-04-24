@@ -3,3 +3,17 @@
   flex-direction: column;
   gap: 2em;
 }
+
+.evol-form-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 2em;
+}
+
+.evol-form-section {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+

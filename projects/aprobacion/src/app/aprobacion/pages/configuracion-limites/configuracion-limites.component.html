@@ -4,8 +4,15 @@
         <mat-card>
             <app-title-header [Title]="'Configuración de Límites'"></app-title-header>
 
-            <mat-card-content>
-                <app-select [label]="'Nivel'" formControlName="text" [options]="selectLimits"></app-select>
+            <mat-card-content class="evol-form-container">
+                <div class="evol-form-section">
+                    <app-select [label]="'Nivel'" formControlName="text" [options]="selectLimits"></app-select>
+                    <app-select [label]="'Estado'" formControlName="estado" [options]="activeSelect"></app-select>
+                </div>
+                <div class="evol-form-section">
+                    <app-input [label]="'Cuenta empieza por'" formControlName="count"></app-input>
+                    <app-input [label]="'Importe Máximo'" formControlName="import"></app-input>
+                </div>
             </mat-card-content>
 
             <mat-action-row class="evol-footer-actions">

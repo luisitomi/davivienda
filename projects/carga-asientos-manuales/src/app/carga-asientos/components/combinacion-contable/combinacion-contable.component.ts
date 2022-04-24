@@ -134,6 +134,16 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.comp10Select = this.data?.data?.SegF1;
     this.comp11Select = this.data?.data?.SegF2;
     this.validateClient = this.data?.data?.SegGlAccountValue;
+    this.addFuturo2 = this.data?.data?.addFuturo2;
+    this.addCuenta = this.data?.data?.addCuenta;
+    this.addFuturo1 = this.data?.data?.addFuturo1;
+    this.addIntercompañia = this.data?.data?.addIntercompañia;
+    this.addOficina = this.data?.data?.addOficina;
+    this.addProyecto = this.data?.data?.addProyecto;
+    this.addSubProyecto = this.data?.data?.addSubProyecto;
+    this.addTipoComprobante = this.data?.data?.addTipoComprobante;
+    this.addTipoComprobante = this.data?.data?.addTipoComprobante;
+    this.addVinculado = this.data?.data?.addVinculado;
     this.addFunctions();
   }
 
