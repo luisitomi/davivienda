@@ -49,7 +49,7 @@ export class CargasService {
     }
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.post<Carga[]>(this.TsFahActualizarEstadosJobMonitoreoCargasWS,data)),
+      switchMap(url => this.http.post<Carga[]>(this.configService.TsFahActualizarEstadosJobMonitoreoCargasWS,data)),
     );
   }
   /*
