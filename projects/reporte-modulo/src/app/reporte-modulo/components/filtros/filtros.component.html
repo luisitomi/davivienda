@@ -9,21 +9,24 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="evol-filtro-container">
-  <!--    <div class="evol-filtro-section">
-        <app-input (input)="onFocusOutEvent('NombreReporte')" (focusout)="onFocusOutEvent('NombreReporte')" [label]="'Búsqueda'" formControlName="NombreReporte" [error]="showErrors('NombreReporte')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['NombreReporte']"></app-form-errors>
+    <div class="evol-filtro-section">
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('Id')" (focusout)="onFocusOutEvent('Id')" [label]="'Id Ejecución'" formControlName="Id" [error]="showErrors('Id')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['Id']"></app-form-errors>
 
-        <app-input (input)="onFocusOutEvent('CodigoReporte')" (focusout)="onFocusOutEvent('CodigoReporte')" [label]="'Búsqueda'" formControlName="NombreReporte" [error]="showErrors('CodigoReporte')"></app-input>
-        <app-form-errors [control]="filtrosForm.controls['CodigoReporte']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('CreadoPor')" (focusout)="onFocusOutEvent('CreadoPor')" [label]="'Usuario'" formControlName="CreadoPor" [error]="showErrors('CreadoPor')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CreadoPor']"></app-form-errors>
 
-      </div> -->
+      </div> 
 
       <div class="evol-filtro-section">
         <mat-form-field appearance="fill">
           <mat-label for="NombreReporte">Nombre Reporte</mat-label>
           <input matInput formControlName="NombreReporte" autocomplete="off">
         </mat-form-field>
-
+        <app-select [label]="'Estado'" (input)="onFocusOutEvent('Estado')" 
+        (focusout)="onFocusOutEvent('Estado')"  formControlName="Estado" [options]="listEstado" [error]="showErrors('Estado')">
+        <app-form-errors [control]="filtrosForm.controls['Estado']"></app-form-errors>
+        </app-select>
     
       </div>
 
@@ -40,6 +43,7 @@
         </mat-form-field>
 
      
+
       </div>
 
 

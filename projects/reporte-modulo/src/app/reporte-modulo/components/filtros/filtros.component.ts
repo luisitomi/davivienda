@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
@@ -20,7 +20,7 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
   usuarioOptions: Array<DropdownItem>;
   spinner: boolean;
   filtrosData: {};
-
+  listEstado: Array<DropdownItem>;
   constructor(
     private formBuilder: FormBuilder,
   ) {
@@ -29,15 +29,25 @@ export class FiltrosComponent extends UnsubcribeOnDestroy implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.getExtension();  
   }
 
+  getExtension(): void {
+    this.listEstado = new Array<DropdownItem>();
+    this.listEstado.push({ label: "Procesando", value: "Procesando" })
+    this.listEstado.push({ label: "Finalizado", value: "Finalizado" })
+    this.listEstado.push({ label: "Error", value: "Error" })
+    this.listEstado.push({ label: "Advertencia", value: "Advertencia" })
+  }
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({
       NombreReporte: [null, []],
       CodigoReporte: [null, []],
-      Estado: [null, []],
+      Estado: ["Procesando", []],
       FechaInicio: [null, []],
       FechaFin: [null, []],
+      Id: [0, []],
+      CreadoPor: [null, []],
     });
     this.filtrosForm.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.filtrosForm.invalid);

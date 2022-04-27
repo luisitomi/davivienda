@@ -46,6 +46,7 @@ export class ReporteEjecucionService {
     );
   }
   posTsFAHListarEjecucionReporteWS(filtro: any): Observable<ListadoEjecucionReporte[]> {
+    debugger;
     return this.configService.getApiUrl().pipe(
       first(),
       switchMap(url => this.http.post<ListadoEjecucionReporte[]>(this.configService.TsFAHListarEjecucionReporteWS, filtro)),

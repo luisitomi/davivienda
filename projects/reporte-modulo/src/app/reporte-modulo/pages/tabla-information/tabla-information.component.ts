@@ -16,7 +16,7 @@ import { NewParameterComponent } from '../../components/new-parameter/new-parame
   styleUrls: ['./tabla-information.component.scss']
 })
 export class TablaInformationComponent extends UnsubcribeOnDestroy {
-  displayedColumns: string[] = ['Id', 'NombreReporte', 'CodigoReporte', 'FechaEjecucion', 'FechaFinEjecucion', 'Estado', 'log', 'archivo'];
+  displayedColumns: string[] = ['Id', 'NombreReporte', 'CodigoReporte', 'FechaEjecucion', 'FechaFinEjecucion', 'Creadopor','Estado', 'log', 'archivo'];
   spinner = false;
   loading = false;
   informationsList: ListadoEjecucionReporte[];
@@ -39,9 +39,11 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
     this.filtrosForm = this.formBuilder.group({
       NombreReporte: [null, []],
       CodigoReporte: [null, []],
-      Estado: [null, []],
+      Estado: ["Procesando", []],
       FechaInicio: [null, []],
       FechaFin: [null, []],
+      Id: [0, []],
+      CreadoPor: [null, []],
     });
 
   }
@@ -100,15 +102,17 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
     } else {
       fechaFin = "01/01/2050";
     }
-
+    let Idb  = "";
+    Idb == data.Id.toString();
     const prmBean = {
       NombreReporte: (data.NombreReporte == null ? "" : data.NombreReporte),
       CodigoReporte: (data.CodigoReporte == null ? "" : data.CodigoReporte),
       Estado: (data.Estado == null ? "" : data.Estado),
       FechaInicio: fechaInicio,
-      FechaFin: fechaFin
+      FechaFin: fechaFin,
+      Id: ( (Idb == null || Idb == '' )? 0 :data.Id),
+      Usuario: data.CreadoPor
     }
-
 
     this.ejecucionReporteService.posTsFAHListarEjecucionReporteWS(prmBean).subscribe(
       rest => {

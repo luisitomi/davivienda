@@ -6,5 +6,6 @@ export interface ListadoEjecucionReporte {
     FechaInicio: Date;
     FechaFin: Date;
     Estado: string;
+    CreadoPor:string;
   }
   

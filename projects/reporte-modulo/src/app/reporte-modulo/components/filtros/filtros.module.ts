@@ -11,6 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from '../../../shared/material.module';
 import { SharedModule } from '../../../shared';
+import { SelectModule } from '../../../shared/component/ui/select/select.module';
 
 @NgModule({
   declarations: [
@@ -27,9 +28,9 @@ import { SharedModule } from '../../../shared';
     FormErrorsModule,
     MatExpansionModule,
     MatIconModule,
-
     MaterialModule,
     SharedModule,
+    SelectModule,
   ],
   exports: [FiltrosComponent],
 })
