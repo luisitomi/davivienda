@@ -19,6 +19,7 @@ table {
 %column {
   padding: 0 1em;
   text-align: center;
+  width: 100%;
 }
 
 .mat-column-fechaCarga {
@@ -48,6 +49,15 @@ table {
 .mat-column-abonos {
   @extend %column;
 }
+
+.mat-column-cargosTotal {
+  @extend %column;
+}
+
+.mat-column-abonosTotal {
+  @extend %column;
+}
+
 
 .mat-column-acciones {
   @extend %column;
