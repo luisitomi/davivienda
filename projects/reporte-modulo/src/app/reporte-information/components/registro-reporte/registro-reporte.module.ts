@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RegistroReporteComponent } from './registro-reporte.component';
 import { MatCardModule } from '@angular/material/card';
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
+import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SelectModule } from '../../../shared/component/ui/select/select.module'
     MatIconModule,
     MatCardModule,
     SelectModule,
+    CalendarModule,
   ],
   exports: [RegistroReporteComponent],
 })

@@ -3,7 +3,7 @@
   <app-filtros (filtros)="filtrar($event)"></app-filtros>
   <mat-card>
     <app-title-header [Title]="''" [ViewIcon]="true" [IconType]="'refresh'" (click)="refrescar()"></app-title-header>
-    <app-title-header [title]="'Ejecutar'" [ViewIcon]="true" [IconType]="'add'" (click)="addNewInformation()"></app-title-header>
+    <app-title-header [title]="'Ejecutar'" [ViewIcon]="true" [IconType]="'add'" (click)="addNewInformation($event)"></app-title-header>
     <mat-card-content class="evol-tabla-limites-container">
       <div class="evol-tabla-wrapper">
         <table mat-table [dataSource]="informationsList">

@@ -2,7 +2,7 @@
 <div class="evol-asientos-pendientes">
   <app-filtros></app-filtros>
   <mat-card>
-    <app-title-header [title]="'Ejecutar'" [ViewIcon]="true" [IconType]="'add'" (click)="addNewInformation()"></app-title-header>
+    <app-title-header [title]="'Ejecutar'" [ViewIcon]="true" [IconType]="'add'" (click)="addNewInformation($event)"></app-title-header>
     <mat-card-content class="evol-tabla-limites-container">
       <div class="evol-tabla-wrapper">
         <table mat-table [dataSource]="informationsList">

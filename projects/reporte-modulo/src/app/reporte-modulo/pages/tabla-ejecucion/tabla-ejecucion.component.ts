@@ -24,18 +24,20 @@ export class TablaEjecucionComponent extends UnsubcribeOnDestroy {
     super();
   }
 
-  addNewInformation(): void {
-    const dialogRef = this.dialog.open(RegistroReporteComponent, {
-      width: '80%',
-      maxWidth: '400px',
-      data: null,
-      panelClass: 'my-dialog',
-    });
+  addNewInformation(event: any): void {
+    if (event?.srcElement.tagName == "MAT-ICON") {
+      const dialogRef = this.dialog.open(RegistroReporteComponent, {
+        width: '80%',
+        maxWidth: '400px',
+        data: null,
+        panelClass: 'my-dialog',
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.status) {
-        this.toastr.success(result?.message, 'Registrado')
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.status) {
+          this.toastr.success(result?.message, 'Registrado')
+        }
+      });
+    }
   }
 }

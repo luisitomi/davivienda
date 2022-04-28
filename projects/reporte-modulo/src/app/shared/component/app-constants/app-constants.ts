@@ -20,6 +20,7 @@ export const appConstants = {
     typeDate: {
         FECHA:'Fecha',
         NUMERICO: 'Numerico',
+        NUMERO: 'Numero',
         LETRAS: 'Texto'
     },
 }

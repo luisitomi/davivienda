@@ -5,10 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { ReporteService } from '../../../core/services/reporte.service';
+import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
-import { ReporteParam } from '../../../shared/models/reporte-param.model';
 import { Reporte } from '../../../shared/models/reporte.model';
 
 @Component({
@@ -28,6 +28,10 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   listObligatorio: Array<DropdownItem>;
   listExtension: Array<DropdownItem>;
   reporte: any;
+
+  isDate: boolean;
+  isNumber: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private reporteService: ReporteService,
@@ -67,6 +71,11 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     } else {
       this.postTsFAHBuscarModuloReportePorIdWS(id);
     }
+  }
+
+  changeOption(event: any): void {
+    this.isNumber = event?.value === appConstants.typeDate.NUMERO;
+    this.isDate = event?.value === appConstants.typeDate.FECHA;
   }
 
   asignarCodigoReporte() {

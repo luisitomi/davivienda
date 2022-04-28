@@ -12,6 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     SelectModule, 
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    CalendarModule,
   ],
   entryComponents: [NewParameterComponent],
 })

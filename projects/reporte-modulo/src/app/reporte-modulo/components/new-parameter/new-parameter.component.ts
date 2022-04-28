@@ -204,9 +204,9 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
       this.ejecucionReporte.parametros = this.items.value;*/    
       
       this.reporteEjecucion.postTsFahModuloReporteEjecutarWS(request).subscribe(
-        res => {
+        () => {
           this.spinner = false;
-          this.toastr.success(res?.Mensaje, 'Registro');
+          this.toastr.success('Se guardaron los cambios correctamente', 'Registro');
           this.dialogRef.close();
         },()  =>{
           this.spinner = false;

@@ -48,8 +48,9 @@
           <h4>Parámetro N° {{item.value.NumeroParametro}} <mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></h4>
           <app-input [label]="'Nombre Parametro'" formControlName="NombreParametro"  ></app-input>
           <app-input [label]="'Descripcion'" formControlName="Descripcion" ></app-input>
-          <app-input [label]="'Valor'" formControlName="ValorParametro" ></app-input>
-          <app-select [label]="'Tipo'" formControlName="TipoParametro" [options]="listType"></app-select>
+          <app-select (changeOption)="changeOption($event);" [label]="'Tipo'" formControlName="TipoParametro" [options]="listType"></app-select>
+          <app-input *ngIf="!isDate" [onlyNumber]="isNumber"  [label]="'Valor'" formControlName="ValorParametro"></app-input>
+          <app-calendar *ngIf="isDate" [label]="'Valor'" formControlName="ValorParametro"></app-calendar>
           <app-select [label]="'Obligatorio'" formControlName="Obligatorio" [options]="listObligatorio"></app-select>
         </ng-container>
         </div>

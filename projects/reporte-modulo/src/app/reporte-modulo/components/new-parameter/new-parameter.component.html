@@ -1,6 +1,6 @@
 <app-close></app-close>
 <app-loader *ngIf="spinner"></app-loader>
-<h1 mat-dialog-title>Ejecutar</h1>
+<h1 mat-dialog-title>Ejecutar1</h1>
 <form [formGroup]="form" autocomplete="off">
     <div mat-dialog-content class="evol-editar-linea-container">
       <app-select [label]="'Reporte'" formControlName="Id" (changeOption)="changeOption($event)"  [options]="listReportestype"></app-select>
@@ -44,9 +44,8 @@
             <ng-container  matColumnDef="Valor">
               <th mat-header-cell *matHeaderCellDef> Valor </th>
               <td mat-cell *matCellDef="let row; let index = index" [formGroupName]="index">
-                <mat-form-field appearance="fill">
-                  <input matInput formControlName="ValorParametro"  >
-                </mat-form-field>
+                <app-input *ngIf="row.TipoParametro !== 'Fecha'" formControlName="ValorParametro" [onlyNumber]="row.TipoParametro === 'Numero'"></app-input>
+                <app-calendar *ngIf="row.TipoParametro === 'Fecha'" formControlName="ValorParametro"></app-calendar>
               </td>
             </ng-container>
           

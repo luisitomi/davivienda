@@ -49,23 +49,25 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
   }
 
 
-  addNewInformation(): void {
-    const dialogRef = this.dialog.open(NewParameterComponent, {
-      width: '80%',
-      maxWidth: '1000px',
-      data: null,
-      panelClass: 'my-dialog',
-    });
+  addNewInformation(event: any): void {
+    if (event?.srcElement.tagName == "MAT-ICON") {
+      const dialogRef = this.dialog.open(NewParameterComponent, {
+        width: '80%',
+        maxWidth: '1000px',
+        data: null,
+        panelClass: 'my-dialog',
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe(result => {
 
 
-      this.refrescar();
-      if (result?.status) {
-        this.toastr.success(result?.message, 'Registrado')
+        this.refrescar();
+        if (result?.status) {
+          this.toastr.success(result?.message, 'Registrado')
 
-      }
-    });
+        }
+      });
+    }
   }
   refrescar() {
     this.filtrar(this.filtrosForm.value);
