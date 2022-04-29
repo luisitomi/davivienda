@@ -104,7 +104,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.createForm();
   }
 
-  updateForm(): void {
+  updateForm() {
     this.form.patchValue({
       comp1: this.data?.data?.Company,
       comp2: this.data?.data?.SegGlAccount,
@@ -193,11 +193,11 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte2: Maestra[]) => {
-          this.parte2Options = (parte2 || []).map((data) => ({
+          (parte2 || []).map((data) => (this.parte2Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
             type: data?.REQUIERE_IDENTIFICACION_CLI
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option2);
@@ -215,10 +215,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte3: any[]) => {
-          this.parte3Options = (parte3 || []).map((data) => ({
+          (parte3 || []).map((data) => (this.parte3Options.push({
             label: `${data?.value} - ${data?.description_name}`,
             value: data?.value,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option3);
@@ -231,10 +231,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte4: Maestra[]) => {
-          this.parte4Options = (parte4 || []).map((data) => ({
+          (parte4 || []).map((data) => (this.parte4Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option4);
@@ -247,10 +247,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte5: Maestra[]) => {
-          this.parte5Options = (parte5 || []).map((data) => ({
+          (parte5 || []).map((data) => (this.parte5Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option5);
@@ -263,10 +263,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte6: Maestra[]) => {
-          this.parte6Options = (parte6 || []).map((data) => ({
+          (parte6 || []).map((data) => (this.parte6Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option6);
@@ -279,10 +279,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte7: Maestra[]) => {
-          this.parte7Options = (parte7 || []).map((data) => ({
+          (parte7 || []).map((data) => (this.parte7Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option7);
@@ -295,10 +295,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte8: Maestra[]) => {
-          this.parte8Options = (parte8 || []).map((data) => ({
+          (parte8 || []).map((data) => (this.parte8Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option8);
@@ -311,10 +311,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (parte9: Maestra[]) => {
-          this.parte9Options = (parte9 || []).map((data) => ({
+          (parte9 || []).map((data) => (this.parte9Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option9);
@@ -327,10 +327,10 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => this.getOptions11()))
       .subscribe(
         (parte10: Maestra[]) => {
-          this.parte10Options = (parte10 || []).map((data) => ({
+          (parte10 || []).map((data) => (this.parte10Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
+          })))
         }
       );
     this.arrayToDestroy.push($option10);
@@ -343,15 +343,16 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
       .pipe(finalize(() => {
         if (this.data?.type === appConstants.typeEvent.EDIT) {
           this.updateForm();
+        } else {
+          this.spinner = false;
         }
       }))
       .subscribe(
         (parte11: Maestra[]) => {
-          this.parte11Options = (parte11 || []).map((data) => ({
+          (parte11 || []).map((data) => (this.parte11Options.push({
             label: `${data?.codigo} - ${data?.valor}`,
             value: data?.codigo,
-          }))
-          this.spinner = false;
+          })))
         }
       );
     this.arrayToDestroy.push($option11);
@@ -427,6 +428,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp2: event?.result?.codigo,
+        })
         this.comp2Select = event?.result?.codigo
         this.validateClient = event?.result?.tipo || 'N'
         break;
@@ -439,6 +443,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.codigo,
           })
         }
+        this.form.patchValue({
+          comp1: event?.result?.codigo,
+        })
         this.comp1Select = event?.result?.codigo
         break;
       case appConstants.segment.Futuro_1:
@@ -455,6 +462,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp10: event?.result?.codigo,
+        })
         this.comp10Select = event?.result?.codigo
         break;
       case appConstants.segment.Intercompañía:
@@ -471,6 +481,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp8: event?.result?.codigo,
+        })
         this.comp8Select = event?.result?.codigo
         break;
       case appConstants.segment.Futuro_2:
@@ -487,6 +500,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp11: event?.result?.codigo,
+        })
         this.comp11Select = event?.result?.codigo
         break;
       case appConstants.segment.Oficina:
@@ -503,6 +519,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp3: event?.result?.codigo,
+        })
         this.comp3Select = event?.result?.codigo
         break;
       case appConstants.segment.Proyecto:
@@ -519,6 +538,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp5: event?.result?.codigo,
+        })
         this.comp5Select = event?.result?.codigo
         break;
       case appConstants.segment.Subproyecto:
@@ -535,6 +557,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp6: event?.result?.codigo,
+        })
         this.comp6Select = event?.result?.codigo
         break;
       case appConstants.segment.Sucursal:
@@ -551,6 +576,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp4: event?.result?.codigo,
+        })
         this.comp4Select = event?.result?.codigo
         this.getOptions3(event?.result?.codigo);
         this.valueId1 = event?.result?.codigo;
@@ -569,6 +597,9 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp7: event?.result?.codigo,
+        })
         this.comp7Select = event?.result?.codigo
         break;
       case appConstants.segment.Vinculado:
@@ -585,50 +616,53 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
             type: event?.result?.tipo,
           }
         }
+        this.form.patchValue({
+          comp9: event?.result?.codigo,
+        })
         this.comp9Select = event?.result?.codigo
         break;
     }
   }
 
   addFunctions(): void {
-    const cuenta_functions: any = this.parte2Options.find(p => p.value === this.data?.data?.addCuenta?.value);
-    if (cuenta_functions === -1){
+    const cuenta_functions: any = this.parte2Options.find(p => p.value === this.data?.data?.addCuenta?.value || 0);
+    if (!cuenta_functions && this.data?.data?.addCuenta?.value){
       this.parte2Options.unshift(this.data?.data?.addCuenta)
     }
-    const oficina_functions: any = this.parte3Options.find(p => p.value === this.data?.data?.addOficina?.value);
-    if (oficina_functions === -1){
+    const oficina_functions: any = this.parte3Options.find(p => p.value === this.data?.data?.addOficina?.value || 0);
+    if (!oficina_functions && this.data?.data?.addOficina?.value){
       this.parte3Options.unshift(this.data?.data?.addOficina)
     }
-    const sucursal_functions: any = this.parte4Options.find(p => p.value === this.data?.data?.addSucursal?.value);
-    if (sucursal_functions === -1){
+    const sucursal_functions: any = this.parte4Options.find(p => p.value === this.data?.data?.addSucursal?.value || 0);
+    if (!sucursal_functions && this.data?.data?.addSucursal?.value){
       this.parte4Options.unshift(this.data?.data?.addSucursal)
     }
-    const proyecto_functions: any = this.parte5Options.find(p => p.value === this.data?.data?.addProyecto?.value);
-    if (proyecto_functions === -1){
+    const proyecto_functions: any = this.parte5Options.find(p => p.value === this.data?.data?.addProyecto?.value || 0);
+    if (!proyecto_functions && this.data?.data?.addProyecto?.value){
       this.parte5Options.unshift(this.data?.data?.addProyecto)
     }
-    const sub_proyecto_functions: any = this.parte6Options.find(p => p.value === this.data?.data?.addSubProyecto?.value);
-    if (sub_proyecto_functions === -1){
+    const sub_proyecto_functions: any = this.parte6Options.find(p => p.value === this.data?.data?.addSubProyecto?.value || 0);
+    if (!sub_proyecto_functions && this.data?.data?.addSubProyecto?.value){
       this.parte6Options.unshift(this.data?.data?.addSubProyecto)
     }
-    const tipo_comprobante_functions: any = this.parte7Options.find(p => p.value === this.data?.data?.addTipoComprobante?.value);
-    if (tipo_comprobante_functions === -1){
+    const tipo_comprobante_functions: any = this.parte7Options.find(p => p.value === this.data?.data?.addTipoComprobante?.value || 0);
+    if (!tipo_comprobante_functions && this.data?.data?.addTipoComprobante?.value){
       this.parte7Options.unshift(this.data?.data?.addTipoComprobante)
     }
-    const intercompañia_functions: any = this.parte8Options.find(p => p.value === this.data?.data?.addIntercompañia?.value);
-    if (intercompañia_functions === -1){
+    const intercompañia_functions: any = this.parte8Options.find(p => p.value === this.data?.data?.addIntercompañia?.value || 0);
+    if (!intercompañia_functions && this.data?.data?.addIntercompañia?.value){
       this.parte8Options.unshift(this.data?.data?.addIntercompañia)
     }
-    const vinculado_functions: any = this.parte9Options.find(p => p.value === this.data?.data?.addVinculado?.value);
-    if (vinculado_functions === -1){
+    const vinculado_functions: any = this.parte9Options.find(p => p.value === this.data?.data?.addVinculado?.value || 0);
+    if (!vinculado_functions && this.data?.data?.addVinculado?.value){
       this.parte9Options.unshift(this.data?.data?.addVinculado)
     }
-    const futuro_1_functions: any = this.parte10Options.find(p => p.value === this.data?.data?.addFuturo1?.value);
-    if (futuro_1_functions === -1){
+    const futuro_1_functions: any = this.parte10Options.find(p => p.value === this.data?.data?.addFuturo1?.value || 0);
+    if (!futuro_1_functions && this.data?.data?.addFuturo1?.value){
       this.parte10Options.unshift(this.data?.data?.addFuturo1)
     }
-    const futuro_2_functions: any = this.parte11Options.find(p => p.value === this.data?.data?.addFuturo2?.value);
-    if (futuro_2_functions === -1){
+    const futuro_2_functions: any = this.parte11Options.find(p => p.value === this.data?.data?.addFuturo2?.value || 0);
+    if (!futuro_2_functions && this.data?.data?.addFuturo2?.value){
       this.parte11Options.unshift(this.data?.data?.addFuturo2)
     }
   }

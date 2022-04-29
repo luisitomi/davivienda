@@ -243,6 +243,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         if (totalDebito !== totalCredito) {
           this.toastr.warning(`La suma entre los montos de crédito y débito son diferentes en la sucursal ${element?.nameSucursal}`, 'Advertencia');
           this.spinner = false;
+          permission = false;
           return;
         }
         if (!element.informacionReferencial?.length) {
