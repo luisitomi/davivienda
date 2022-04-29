@@ -10,6 +10,7 @@ import { ActionsModule } from '../../../shared/component/ui/actions/actions.modu
 import { CloseModule } from '../../../shared/component/ui/close/close.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { InputCurrencysModule } from '../../../shared/component/ui/input-currency/input-currency.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     MatDialogModule,
     LoaderModule,
     SelectModule,
+    InputCurrencysModule,
   ],
   entryComponents: [EditarLineaComponent],
 })

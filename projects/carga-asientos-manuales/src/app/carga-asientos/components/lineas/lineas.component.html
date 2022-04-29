@@ -19,11 +19,11 @@
         </ng-container>
         <ng-container matColumnDef="debito">
           <th mat-header-cell *matHeaderCellDef>Débito</th>
-          <td mat-cell *matCellDef="let element">{{ element.EnteredDebit }}</td>
+          <td mat-cell *matCellDef="let element">{{ numerTranfors(element.EnteredDebit) }}</td>
         </ng-container>
         <ng-container matColumnDef="credito">
           <th mat-header-cell *matHeaderCellDef>Crédito</th>
-          <td mat-cell *matCellDef="let element">{{ element.EnteredCredit }}</td>
+          <td mat-cell *matCellDef="let element">{{ numerTranfors(element.EnteredCredit) }}</td>
         </ng-container>        
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef>Descripción</th>

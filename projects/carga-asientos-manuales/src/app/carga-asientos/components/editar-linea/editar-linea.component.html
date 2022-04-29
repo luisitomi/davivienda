@@ -7,7 +7,7 @@
     <app-form-errors [control]="form.controls['currency']"></app-form-errors>
     <app-select [selected]="selectType" (changeOption)="onFocusOutEvent('type');changeSelection($event)" [label]="'Tipo'" formControlName="type" [options]="types" [error]="showErrors('type')"></app-select>
     <app-form-errors [control]="form.controls['type']"></app-form-errors>
-    <app-input (input)="onFocusOutEvent('amount')" (focusout)="onFocusOutEvent('amount')" [label]="inputName" formControlName="amount" [error]="showErrors('amount')" [onlyNumber]="true"></app-input>
+    <app-input-currency (input)="onFocusOutEvent('amount')" (focusout)="onFocusOutEvent('amount')" [label]="inputName" formControlName="amount" [error]="showErrors('amount')"></app-input-currency>
     <app-form-errors [control]="form.controls['amount']"></app-form-errors>
     <app-input [maxlength]="'240'" (input)="onFocusOutEvent('description')" (focusout)="onFocusOutEvent('description')" [label]="'Descripción'" formControlName="description" [error]="showErrors('description')"></app-input>
     <app-form-errors [control]="form.controls['description']"></app-form-errors>

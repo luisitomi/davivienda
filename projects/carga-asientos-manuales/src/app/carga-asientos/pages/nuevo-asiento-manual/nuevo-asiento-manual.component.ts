@@ -220,8 +220,8 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         enteredCredit: data?.EnteredCredit,
         description: '',
         usuario: this.nombreUsuario,
-        informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria) => ({
-          nroRefCom: refere?.index,
+        informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria, subindex) => ({
+          nroRefCom: subindex + 1,
           referenciaComprobante: refere?.nombreValue,
           referenciaComprobanteValue:  refere?.nombre,
           valor: refere?.valor,
