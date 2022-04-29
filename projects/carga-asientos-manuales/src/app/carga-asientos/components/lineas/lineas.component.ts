@@ -140,7 +140,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   newLine(event: any): void {
-    if (event?.srcElement.tagName == "MAT-ICON") {
+    if (event?.srcElement?.tagName == "MAT-ICON") {
       let validateConta: number = 0;
       let validateRefe: number = 0;
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');

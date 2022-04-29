@@ -27,6 +27,13 @@ table {
   width: 150px;
 }
 
+.mat-column-importeMaximo {
+  @extend %column;
+  text-align: right;
+  padding-right: 9rem;
+  width: 150px;
+}
+
 .mat-column-empiezaCon {
   @extend %column;
   text-align: center;

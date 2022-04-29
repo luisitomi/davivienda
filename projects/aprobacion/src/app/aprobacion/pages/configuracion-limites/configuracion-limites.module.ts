@@ -11,6 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
+import { InputCurrencyModule } from '../../../shared/component/ui/input-currency/input-currency.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
     ActionsModule,
     SelectModule,
     LoaderModule,
+    InputCurrencyModule,
   ],
   exports: [ConfiguracionLimitesComponent],
 })

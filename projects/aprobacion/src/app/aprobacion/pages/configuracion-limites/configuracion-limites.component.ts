@@ -111,7 +111,7 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
                         p.codigo?.toString()?.includes(data?.text || '') &&
                         p.estado?.toString()?.includes(data?.estado || '') &&
                         p.nuevoValor?.toString()?.includes(data?.count || '') &&
-                        p.importeMaximo?.toString()?.includes(data?.import || '')
+                        p.importeMaximo?.toString()?.includes(data?.import?.replace(/,/g, "") || '')
                       )
   }
 }

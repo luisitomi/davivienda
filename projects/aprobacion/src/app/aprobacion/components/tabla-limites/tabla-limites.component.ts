@@ -30,6 +30,34 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     super();
   }
 
+  numerTranfors(number: any): string {
+    var num = Number(number)?.toFixed(2)
+    var numArr = num.split('.')
+    // eslint-disable-next-line no-redeclare
+    var [num, dotNum] = numArr
+
+
+    var operateNum = num.split('').reverse()
+    var result = [], len = operateNum.length
+    for (var i = 0; i < len; i++) {
+        result.push(operateNum[i])
+        if (((i + 1) % 3 === 0) && (i !== len - 1)) {
+            result.push(',')
+        }
+    }
+
+    if (dotNum) {
+        result.reverse().push('.', ...dotNum)
+        return result.join('')
+    } else {
+        return result.reverse().join('')
+    }
+  }
+
+  tranformerTwoDecimal(value: number): string {
+    return Number(value*1.00)?.toFixed(2);
+  }
+
   grabar(): void {
     let total = 0;
     const countModifi = this.limites.filter(l =>
@@ -85,11 +113,12 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     }
   }
 
-  onCambio(): void {
+  onCambio(event: any, index: number): void {
+    this.limites[index].importeMaximoNew = Number(event?.target?.value?.replace(/,/g, ""))
     this.sinCambios = this.limites.filter(l =>
       l.codigo !== l.codigoNew ||
-      Number(l.nuevoValorNew) !== Number(l.nuevoValor) ||
-      Number(l.importeMaximo) !== Number(l.importeMaximoNew)).length === 0;
+      (l.nuevoValorNew) !== (l.nuevoValor) ||
+      (l.importeMaximo) !== (l.importeMaximoNew)).length === 0;
   }
 
   onChange(id: number): void {
@@ -109,7 +138,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   }
 
   addNewRegister(event: any): void {
-    if (event?.srcElement.tagName == "MAT-ICON") {
+    if (event?.srcElement?.tagName == "MAT-ICON") {
       const dialogRef = this.dialog.open(NewLimitComponent, {
         width: '80%',
         maxWidth: '400px',

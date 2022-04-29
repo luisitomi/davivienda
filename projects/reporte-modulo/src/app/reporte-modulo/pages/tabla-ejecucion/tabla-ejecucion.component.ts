@@ -25,7 +25,7 @@ export class TablaEjecucionComponent extends UnsubcribeOnDestroy {
   }
 
   addNewInformation(event: any): void {
-    if (event?.srcElement.tagName == "MAT-ICON") {
+    if (event?.srcElement?.tagName == "MAT-ICON") {
       const dialogRef = this.dialog.open(RegistroReporteComponent, {
         width: '80%',
         maxWidth: '400px',

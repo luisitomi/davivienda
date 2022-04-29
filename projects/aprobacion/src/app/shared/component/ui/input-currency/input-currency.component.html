@@ -2,17 +2,17 @@
     <mat-label [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
         <ng-content select="[header]"></ng-content>
     </mat-label>
-    <input
-        matInput
-        [attr.type]="type"
-        style="text-align: right;"
-        [(ngModel)]="value"
+    <input matInput  style="display: none;">
+    <ng-number-input
+        [customStyle]="style ? customStyle1 : customStyle"
+        [ngModel]="value"
         [disabled]="disabled"
+        [limitTo]="limitTo"
         [attr.placeholder]="placeholder"
-        [onlyNumber]="onlyNumber"
-        [maxlength]="maxlength"
-        [decimal]="decimal"
+        [@fade]="'in'"
+        #validators="ngModel"
         [ngClass]="{ 'is-invalid-input u-mb0': error }"
-    />
+    >
+    </ng-number-input>
     <ng-content></ng-content>
 </mat-form-field>

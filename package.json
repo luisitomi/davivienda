@@ -26,6 +26,7 @@
     "mat-select-filter": "^2.4.1",
     "mat-select-search": "^1.2.3",
     "moment": "^2.29.1",
+    "ng-number-input": "^1.0.2",
     "ngx-mat-select-search": "^4.0.2",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",

@@ -13,6 +13,7 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
 import { TitleHeaderModule } from '../../../shared/component/ui/title-header/title-header.module';
 import { NewLimitModule } from '../new-limit/new-limit.module';
 import { ConfirmationModule } from '../confirmation/confirmation.module';
+import { InputCurrencyModule } from '../../../shared/component/ui/input-currency/input-currency.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ConfirmationModule } from '../confirmation/confirmation.module';
     TitleHeaderModule,
     NewLimitModule,
     ConfirmationModule,
+    InputCurrencyModule,
   ],
   exports: [TablaLimitesComponent],
 })

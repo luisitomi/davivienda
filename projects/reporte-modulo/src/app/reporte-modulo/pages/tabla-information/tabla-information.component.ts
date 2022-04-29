@@ -50,7 +50,7 @@ export class TablaInformationComponent extends UnsubcribeOnDestroy {
 
 
   addNewInformation(event: any): void {
-    if (event?.srcElement.tagName == "MAT-ICON") {
+    if (event?.srcElement?.tagName == "MAT-ICON") {
       const dialogRef = this.dialog.open(NewParameterComponent, {
         width: '80%',
         maxWidth: '1000px',

@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.navigationService.setPrevUrl(state.url);
-    console.log(route.queryParams.token)
 
     if (route.queryParams.token != undefined && route.queryParams.token != null) {
       this.authService.setToken(route.queryParams.token);
