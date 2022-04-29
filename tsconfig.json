@@ -20,7 +20,9 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
