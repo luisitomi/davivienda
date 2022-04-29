@@ -34,14 +34,14 @@
 
       <mat-list-item>
         <h3>Job Import Accounting</h3>
-        <h3>{{ carga.jobImportAccounting }}</h3>
+        <h3>{{ numerTranfors(carga.jobImportAccounting) }}</h3>
       </mat-list-item>
 
       <mat-divider></mat-divider>
 
       <mat-list-item>
         <h3>Job Create Accounting</h3>
-        <h3>{{ carga.jobCreateAccounting }}</h3>
+        <h3>{{ numerTranfors(carga.jobCreateAccounting) }}</h3>
       </mat-list-item>
     </mat-list>
 
@@ -50,12 +50,12 @@
     <div class="evol-detalle-control evol-detalle-panel">
       <h3>Control</h3>
       <ul>
-        <li><p>Stage Debit</p><p>{{ carga.debitoStage }}</p></li>
-        <li><p>Stage Credit</p><p>{{ carga.creditoStage }}</p></li>
-        <li><p>XLA Debit</p><p>{{ carga.debitoXLA }}</p></li>
-        <li><p>XLA Credit</p><p>{{ carga.creditoXLA }}</p></li>
-        <li><p>GL Debit</p><p>{{ carga.debitoGL }}</p></li>
-        <li><p>GL Credit</p><p>{{ carga.creditoGL }} </p></li>
+        <li><p>Stage Debit</p><p>{{ numerTranfors(carga.debitoStage) }}</p></li>
+        <li><p>Stage Credit</p><p>{{ numerTranfors(carga.creditoStage) }}</p></li>
+        <li><p>XLA Debit</p><p>{{ numerTranfors(carga.debitoXLA) }}</p></li>
+        <li><p>XLA Credit</p><p>{{ numerTranfors(carga.creditoXLA) }}</p></li>
+        <li><p>GL Debit</p><p>{{ numerTranfors(carga.debitoGL) }}</p></li>
+        <li><p>GL Credit</p><p>{{ numerTranfors(carga.creditoGL) }} </p></li>
       </ul>
     </div>
   </div>
