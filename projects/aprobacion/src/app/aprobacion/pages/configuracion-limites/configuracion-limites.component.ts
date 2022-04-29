@@ -76,8 +76,8 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             nuevoValorNew: data?.Value,
             codigo: `${data?.Description}`,
             codigoNew: `${data?.Description}`,
-            importeMaximo: data?.ValueFinish,
-            importeMaximoNew: data?.ValueFinish,
+            importeMaximo: data?.ValueFinish?.toFixed(2),
+            importeMaximoNew: data?.ValueFinish?.toFixed(2),
             estado: data?.Estado,
             id: data?.Id,
           }))
