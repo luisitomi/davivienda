@@ -1,21 +1,40 @@
-.evol-form-container {
+.evol-tabla-limites-container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0 2em;
+  justify-content: center;
+  width: 100%;
 }
 
-.evol-form-section {
+.evol-tabla-wrapper {
+  overflow: auto;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+}
+
+%column {
+  padding: 1em;
+  text-align: right;
+}
+
+.evol-asientos-pendientes {
   display: flex;
-  flex: 1 0 auto;
   flex-direction: column;
+  gap: 2em;
 }
 
-.mat-flat-button{
-  background-color: rgba(205, 203, 207, 0.788);
-  color: black;
-}
+.noData {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 
-.flat{
-  background-color: rgba(205, 203, 207, 0.788);
+  h3 {
+    font-size: 18px !important;
+    margin: 0;
+  }
 }
