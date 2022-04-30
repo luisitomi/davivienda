@@ -1,9 +1,9 @@
 <app-loader *ngIf="spinner"></app-loader>
-<div class="evol-asientos-pendientes" *ngIf="reporte.length else noData">
+<div class="evol-asientos-pendientes">
   <mat-card>
-    <mat-card-content class="evol-tabla-limites-container">
+    <mat-card-content class="evol-tabla-limites-container">  
       <div class="evol-tabla-wrapper">
-        <table class="w-100" mat-table [dataSource]="reporte">
+        <table class="w-100" mat-table [dataSource]="reporte" *ngIf="reporte?.length else noData">
           <ng-container [matColumnDef]="c" *ngFor="let c of columns">
             <ng-template [ngIf]="c !== 'Acciones'">
               <th mat-header-cell *matHeaderCellDef> {{labels[c]}}</th>
@@ -20,13 +20,12 @@
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;"></tr>
         </table>
+        <ng-template #noData>
+          <div class="noData">
+            <h3>Sin registros</h3>
+          </div>
+        </ng-template>    
       </div>
     </mat-card-content>
   </mat-card>  
 </div>
-
-<ng-template #noData>
-  <div class="noData">
-    <h3>Sin registros</h3>
-  </div>
-</ng-template>

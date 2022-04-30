@@ -34,7 +34,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const id = Number(routeParams.get('id')) || 0;
-    this.postTsFAHBuscarParametrosModuloReportePorIdWS(id);
+    //this.postTsFAHBuscarParametrosModuloReportePorIdWS(id);
   }
 
   postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
