@@ -47,7 +47,31 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
 
   ngOnChanges(): void {
     this.selection.clear();
-  } 
+  }
+
+  numerTranfors(number: any): string {
+    var num = Number(number)?.toFixed(2)
+    var numArr = num.split('.')
+    // eslint-disable-next-line no-redeclare
+    var [num, dotNum] = numArr
+
+
+    var operateNum = num.split('').reverse()
+    var result = [], len = operateNum.length
+    for (var i = 0; i < len; i++) {
+        result.push(operateNum[i])
+        if (((i + 1) % 3 === 0) && (i !== len - 1)) {
+            result.push(',')
+        }
+    }
+
+    if (dotNum) {
+        result.reverse().push('.', ...dotNum)
+        return result.join('')
+    } else {
+        return result.reverse().join('')
+    }
+  }
 
   ChangeFormateDate2(oldDate: any): any{
     var p = oldDate.split(/\D/g)
