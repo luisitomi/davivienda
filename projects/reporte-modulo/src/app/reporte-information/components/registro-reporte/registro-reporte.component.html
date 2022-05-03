@@ -1,31 +1,76 @@
 <app-loader *ngIf="spinner"></app-loader>
-<div class="evol-asientos-pendientes">
+<form [formGroup]="filtrosForm">
   <mat-card>
-    <mat-card-content class="evol-tabla-limites-container">  
-      <div class="evol-tabla-wrapper">
-        <table class="w-100" mat-table [dataSource]="reporte" *ngIf="reporte?.length else noData">
-          <ng-container [matColumnDef]="c" *ngFor="let c of columns">
-            <ng-template [ngIf]="c !== 'Acciones'">
-              <th mat-header-cell *matHeaderCellDef> {{labels[c]}}</th>
-              <td mat-cell *matCellDef="let element"> {{element[c] || '-'}}</td>
-            </ng-template>
-            <ng-template [ngIf]="c === 'Acciones'">
-              <th mat-header-cell *matHeaderCellDef>Acciones</th>
-              <td mat-cell *matCellDef="let element">
-                <app-actions [color]="'warn'" [class]="'flat'" [label]="'Eliminar'"></app-actions>
-                <app-actions style="margin-left: 1rem;" [color]="'warn'" [class]="'flat'" [label]="'Sql'"></app-actions>
-              </td>
-            </ng-template>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="columns"></tr>
-          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-        </table>
-        <ng-template #noData>
-          <div class="noData">
-            <h3>Sin registros</h3>
-          </div>
-        </ng-template>    
+    <app-title-header [Title]="'Registro Reporte'"></app-title-header>
+    <mat-card-content class="evol-form-container">
+      <div class="evol-form-section">
+        <app-input (input)="onFocusOutEvent('NombreReporte')" maxlength="100" (keyup)="asignarCodigoReporte()" [disabled]="reporte.Id != 0" (focusout)="onFocusOutEvent('NombreReporte')" [label]="'Nombre'"
+          formControlName="NombreReporte" [error]="showErrors('NombreReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['NombreReporte']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('CodigoReporte')" [disabled]="true"  (focusout)="onFocusOutEvent('CodigoReporte')" [label]="'Código'"
+          formControlName="CodigoReporte" [error]="showErrors('CodigoReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CodigoReporte']"></app-form-errors>
+        <app-select [label]="'Extension'" (input)="onFocusOutEvent('Extension')" 
+        (focusout)="onFocusOutEvent('Extension')"  formControlName="Extension" [options]="listExtension" [error]="showErrors('Extension')">
+        <app-form-errors [control]="filtrosForm.controls['Extension']"></app-form-errors>
+        </app-select>
+      </div>
+      <div class="evol-form-section">
+        <app-input (input)="onFocusOutEvent('RutaReporte')" maxlength="300" (focusout)="onFocusOutEvent('RutaReporte')" [label]="'Ruta'"
+          formControlName="RutaReporte" [error]="showErrors('RutaReporte')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['RutaReporte']"></app-form-errors>
+        <app-input (input)="onFocusOutEvent('RutaSalidaFTPS')" maxlength="300" (focusout)="onFocusOutEvent('RutaSalidaFTPS')"
+          [label]="'Ruta Ftp'" formControlName="RutaSalidaFTPS" [error]="showErrors('RutaSalidaFTPS')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['RutaSalidaFTPS']"></app-form-errors>
+      </div>
+      <div class="evol-form-section">
+        <app-input (input)="onFocusOutEvent('NombreArchivo')" maxlength="300" (focusout)="onFocusOutEvent('NombreArchivo')" [label]="'Nombre Archivo'"
+          formControlName="NombreArchivo" [error]="showErrors('NombreArchivo')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['NombreArchivo']"></app-form-errors>
+        <app-input [onlyNumber]="true" (input)="onFocusOutEvent('CantidadLinea')" max="200" (focusout)="onFocusOutEvent('CantidadLinea')"
+          [label]="'Cantidad'" formControlName="CantidadLinea" [error]="showErrors('CantidadLinea')"></app-input>
+        <app-form-errors [control]="filtrosForm.controls['CantidadLinea']"></app-form-errors>
       </div>
     </mat-card-content>
-  </mat-card>  
-</div>
+    <app-title-header [Title]="'Parámetros'" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="First">
+          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin-top: 2.5rem;">
+            <thead>
+                <th class="mdl-data-table__cell--non-numeric">#</th>
+                <th class="mdl-data-table__cell--non-numeric">Nombre Parametro</th>
+                <th class="mdl-data-table__cell--non-numeric">Descripcion</th>
+                <th class="mdl-data-table__cell--non-numeric">Tipo</th>
+                <th class="mdl-data-table__cell--non-numeric">Valor</th>
+                <th class="mdl-data-table__cell--non-numeric">Obligatorio</th>
+                <th class="mdl-data-table__cell--non-numeric">Acciones</th>
+            </thead>
+            <tbody>
+                <ng-container formArrayName="parametros">
+                  <tr *ngFor="let item of items.controls; let index=index; let last=last;" [formGroupName]="index">
+                    <ng-container *ngIf="item.value.Estado != 2" >
+                      <td class="mdl-data-table__cell--non-numeric"><h4>Parámetro N° {{item.value.NumeroParametro}}</h4></td>
+                      <td class="mdl-data-table__cell--non-numeric"><app-input [label]="'Nombre Parametro'" formControlName="NombreParametro"  ></app-input></td>
+                      <td class="mdl-data-table__cell--non-numeric"><app-input [label]="'Descripcion'" formControlName="Descripcion" ></app-input></td>
+                      <td class="mdl-data-table__cell--non-numeric"><app-select (changeOption)="changeOption($event);" [label]="'Tipo'" formControlName="TipoParametro" [options]="listType"></app-select></td>
+                      <td class="mdl-data-table__cell--non-numeric"><app-input *ngIf="!isDate" [onlyNumber]="isNumber"  [label]="'Valor'" formControlName="ValorParametro"></app-input>
+                                                                    <app-calendar *ngIf="isDate" [label]="'Valor'" formControlName="ValorParametro"></app-calendar></td>
+                      <td class="mdl-data-table__cell--non-numeric"><app-select [label]="'Obligatorio'" formControlName="Obligatorio" [options]="listObligatorio"></app-select></td>
+                      <td class="mdl-data-table__cell--non-numeric"><mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></td>
+                    </ng-container>
+                  </tr>
+                </ng-container>
+            </tbody>
+          </table>
+        </mat-tab>
+        <mat-tab label="Second"> Content 2 </mat-tab>
+        <mat-tab label="Third"> Content 3 </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions class="evol-footer-actions">
+      <app-actions [color]="'accent'" [class]="'flat'" [label]="'Volver'"  (click)="cancelar()"></app-actions>
+      <app-actions [color]="'accent'" [class]="'flat'" [label]="'Guardar'"   (click)="guardar()"></app-actions>
+    </mat-card-actions>
+  </mat-card>
+</form>

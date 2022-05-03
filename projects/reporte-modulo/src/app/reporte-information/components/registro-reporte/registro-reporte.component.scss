@@ -1,40 +1,25 @@
-.evol-tabla-limites-container {
+.evol-form-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 2em;
 }
 
-.evol-tabla-wrapper {
-  overflow: auto;
-  width: 100%;
-}
-
-table {
-  width: 100%;
-}
-
-.mat-header-cell {
-  text-align: center !important;
-}
-
-%column {
-  padding: 1em;
-  text-align: right;
-}
-
-.evol-asientos-pendientes {
+.evol-form-section {
   display: flex;
+  flex: 1 0 auto;
   flex-direction: column;
-  gap: 2em;
 }
 
-.noData {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.mat-flat-button{
+  background-color: rgba(205, 203, 207, 0.788);
+  color: black;
+}
 
-  h3 {
-    font-size: 18px !important;
-    margin: 0;
-  }
+.flat{
+  background-color: rgba(205, 203, 207, 0.788);
+}
+
+.table-header-fix2{
+  width:14.50% !important; // 12.50 = fullScreenWidth / nr_Columns
 }
