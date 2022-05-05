@@ -5,8 +5,6 @@ import { AprobacionRoutingModule } from './aprobacion-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
-import { AsientosPendientesComponent } from './pages/asientos-pendientes/asientos-pendientes.component';
-import { FiltrosPendientesComponent } from './components/filtros-pendientes/filtros-pendientes.component';
 import { SharedModule } from '../shared';
 import { ResumenAsientoModule } from './pages/resumen-asiento/resumen-asiento.module';
 import { TablaAsientoModule } from './components/tabla-asientos/tabla-asientosmodule';

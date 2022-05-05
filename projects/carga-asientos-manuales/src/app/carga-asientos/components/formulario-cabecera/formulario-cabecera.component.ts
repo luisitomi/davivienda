@@ -146,8 +146,8 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
         (response: any[]) => {
-          this.periodData = response;
-          this.periods = (response || []).map((data) => ({
+          this.periodData = response?.filter(p => p.closing_status === "O");
+          this.periods = (response?.filter(p => p.closing_status === "O") || []).map((data) => ({
             label: data?.period_name,
             value: data?.period_name,
           }),

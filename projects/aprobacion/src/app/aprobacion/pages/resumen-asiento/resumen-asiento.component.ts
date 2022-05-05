@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
-import { FiltroAsiento, FiltroAsientoLimit } from '../../models/filtro-asiento.model';
+import { FiltroAsientoLimit } from '../../models/filtro-asiento.model';
 import { AccountLine, AccountLineDownload, AccountLineDownloadProcess, LimitHeader } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 import { LimitService } from '../../services/limit.service';
@@ -220,7 +220,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   download(): void {
     this.spinner = true;
     const $download = this.lineHeaderService
-      .download(this.asiento?.id || 0)
+      .download(this.id || 0)
       .pipe(finalize(() => this.proccess()))
       .subscribe(
         (response: AccountLineDownload[]) => {

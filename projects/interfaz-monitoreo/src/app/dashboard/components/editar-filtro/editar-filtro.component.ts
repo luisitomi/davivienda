@@ -67,7 +67,7 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
     this.editarFiltroForm = this.formBuilder.group({
       columna: [this.filtro?.columna, [Validators.required]],
       criterio: [this.filtro?.criterio, [Validators.required]],
-      valor: [!isNaN(dateValue.getTime()) ? dateValue : this.filtro?.valor, [Validators.required]],
+      valor: [isNaN(dateValue.getTime()) ? dateValue : this.filtro?.valor, [Validators.required]],
     });
     this.selectTerm = this.filtro?.criterio;
     this.isNumber = this.filtro?.tipo === appConstants.typeDate.NUMERICO;

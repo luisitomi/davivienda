@@ -7,6 +7,7 @@ import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscri
 import { Limite } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 import { NewLimitComponent } from '../new-limit/new-limit.component';
 
 @Component({
@@ -122,19 +123,30 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   }
 
   onChange(id: number): void {
-    this.spinner = true;
-    const $status = this.limitService
-      .ChangeStatus(id)
-      .pipe(finalize(() => this.spinner = false))
-      .subscribe(
-        (response: any) => {
-          if (response?.status === appConstants.responseStatus.OK) {
-            this.toastr.success(response?.mensaje, 'Actualizado');
-            this.updateLis.emit(true);
-          }
-        }
-      )
-    this.arrayToDestroy.push($status);
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: { name: `¿Esta seguro que desea cambiar el estado`},
+      panelClass: 'my-dialog',
+       disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        this.spinner = true;
+        const $status = this.limitService
+          .ChangeStatus(id)
+          .pipe(finalize(() => this.spinner = false))
+          .subscribe(
+            (response: any) => {
+              if (response?.status === appConstants.responseStatus.OK) {
+                this.toastr.success(response?.mensaje, 'Actualizado');
+                this.updateLis.emit(true);
+              }
+            }
+          )
+        this.arrayToDestroy.push($status);
+      }
+    });
   }
 
   addNewRegister(event: any): void {
@@ -155,3 +167,4 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     }
   }
 }
+

@@ -5,12 +5,12 @@
     <input matInput  style="display: none;">
     <ng-number-input
         [customStyle]="style ? customStyle1 : customStyle"
-        [(ngModel)]="value"
+        [mode]="'string'"
+        [(ngModel)]="valueInput"
         [disabled]="disabled"
         [limitTo]="limitTo"
-        [attr.placeholder]="placeholder"
+        [placeholder]="placeholder"
         [@fade]="'in'"
-        #validators="ngModel"
         [ngClass]="{ 'is-invalid-input u-mb0': error }"
     >
     </ng-number-input>

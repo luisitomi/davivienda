@@ -40,12 +40,12 @@
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Movimiento neto de hoy</h2>
-        <h2>{{ infolet?.movimientoNetoHoy | currency:'COP':'code' }}</h2>
+        <h2>COP {{ numerTranfors(infolet?.movimientoNetoHoy) }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Movimiento neto de ayer</h2>
-        <h2>{{ infolet?.movimientoNetoAyer | currency:'COP':'code' }}</h2>
+        <h2>COP {{ numerTranfors(infolet?.movimientoNetoAyer) }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
