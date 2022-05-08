@@ -62,12 +62,12 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   createForm(): void {
-    const dateFormat = this.filtro?.valor.split('/') || '';
-    const dateValue = new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`);
     this.editarFiltroForm = this.formBuilder.group({
       columna: [this.filtro?.columna, [Validators.required]],
       criterio: [this.filtro?.criterio, [Validators.required]],
-      valor: [isNaN(dateValue.getTime()) ? dateValue : this.filtro?.valor, [Validators.required]],
+      valor: [
+        new Date(this.filtro?.valor) ? new Date(new Date(this.filtro?.valor)?.setDate(new Date(this.filtro?.valor).getDate() + 1)) : this.filtro?.valor
+        , [Validators.required]],
     });
     this.selectTerm = this.filtro?.criterio;
     this.isNumber = this.filtro?.tipo === appConstants.typeDate.NUMERICO;
@@ -87,6 +87,9 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
   changeOption(event: DropdownItem): void {
     this.isNumber = event?.type === appConstants.typeDate.NUMERICO;
     this.isDate = event?.type === appConstants.typeDate.FECHA;
+    this.editarFiltroForm.patchValue({
+      valor: null
+    })
   }
 
   onFocusOutEvent(control: string) {
@@ -189,7 +192,6 @@ export class EditarFiltroComponent extends UnsubcribeOnDestroy implements OnInit
   }
 
   guardar(filtro: CorreccionFiltro) {
-    debugger;
     const objeto = {
       Columna:filtro.columna,
       Criterio:filtro.criterio,

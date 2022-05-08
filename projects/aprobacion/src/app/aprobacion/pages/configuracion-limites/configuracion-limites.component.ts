@@ -109,7 +109,7 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
     const data = this.form.value;
     this.limitsCopy = this.limits.filter((p: any) => 
                         p.codigo?.toString()?.includes(data?.text || '') &&
-                        p.estado?.toString()?.includes(data?.estado || '') &&
+                        p.estado?.toString()?.includes(data?.estado?.toString() || '') &&
                         p.nuevoValor?.toString()?.includes(data?.count || '') &&
                         p.importeMaximo?.toString()?.includes(data?.import?.replace(/,/g, "") || '')
                       )

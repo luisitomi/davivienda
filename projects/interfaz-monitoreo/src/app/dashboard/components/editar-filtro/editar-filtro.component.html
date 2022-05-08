@@ -3,9 +3,9 @@
 <h1 mat-dialog-title>Nuevo filtro</h1>
 <form [formGroup]="editarFiltroForm" autocomplete="off">
   <div mat-dialog-content>
-    <app-select [selected]="selectColumn" (changeOption)="changeOption($event);onFocusOutEvent('columna')" [label]="'Columna'" formControlName="columna" [options]="columnaOptions" [error]="showErrors('columna')"></app-select>
+    <app-select [selected]="selectColumn" (changeOption)="changeOption($event);" [label]="'Columna'" formControlName="columna" [options]="columnaOptions" [error]="showErrors('columna')"></app-select>
     <app-form-errors [control]="editarFiltroForm.controls['columna']"></app-form-errors>
-    <app-select [selected]="selectTerm" (changeOption)="onFocusOutEvent('criterio')" [label]="'Criterio'" formControlName="criterio" [options]="criterioOptions" [error]="showErrors('criterio')"></app-select>
+    <app-select [selected]="selectTerm"  [label]="'Criterio'" formControlName="criterio" [options]="criterioOptions" [error]="showErrors('criterio')"></app-select>
     <app-form-errors [control]="editarFiltroForm.controls['criterio']"></app-form-errors>
     <app-input *ngIf="!isDate" (input)="onFocusOutEvent('valor')" (focusout)="onFocusOutEvent('valor')" [label]="'Valor'" formControlName="valor" [error]="showErrors('valor')" [onlyNumber]="isNumber"></app-input>
     <app-calendar *ngIf="isDate" [label]="'Valor'" formControlName="valor" [error]="showErrors('valor')"></app-calendar>

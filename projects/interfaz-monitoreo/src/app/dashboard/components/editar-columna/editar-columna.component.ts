@@ -1,15 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from '../../../core/services/auth.service';
 import { CorreccionColumnasService } from '../../../core/services/correccion-columnas.service';
 import { ReprocesoService } from '../../../core/services/reproceso.service';
-import { Columna, CorreccionColumna } from '../../../shared';
+import { CorreccionColumna } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
-import { CorreccionColumnaValores } from '../../../shared/models/correccion-columna-valores.model';
 import { Maestra } from '../../../shared/models/maestra.model';
 
 
@@ -68,7 +66,7 @@ export class EditarColumnaComponent implements OnInit {
     } else if (tipoArchivo1 == 'LINE') {
       this.GetColumnas(origen, 2);
     }
-    this.tipo = this.columnas.find(c => c.valor === this.columna?.tipo)?.tipo || '';
+    this.tipo = this.columna?.tipo || '';
     this.editarColumnaForm.valueChanges.subscribe(v => {
       this.tipo = this.columnas.find(c => c.valor === v.columna)?.tipo || '';
     });
@@ -79,6 +77,9 @@ export class EditarColumnaComponent implements OnInit {
   }
 
   select(event: any): void {
+    this.editarColumnaForm.patchValue({
+      valor: null
+    })
     this.isNumber = appConstants.typeDate.NUMERICO === this.columnas.find(c => c.valor === event?.value)?.tipo
     this.isDate = appConstants.typeDate.FECHA === this.columnas.find(c => c.valor === event?.value)?.tipo
     this.tipo = this.columnas.find(c => c.valor === event?.value)?.tipo || '';
