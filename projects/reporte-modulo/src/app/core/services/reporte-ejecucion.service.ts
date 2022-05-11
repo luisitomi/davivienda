@@ -53,6 +53,14 @@ export class ReporteEjecucionService {
     );
   }
 
+  posTsFahModuloReporteEjecucionQueryWS(filtro: any): Observable<any> {
+    debugger;
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(this.configService.TsFahModuloReporteEjecucionQueryWS, filtro)),
+    );
+  }
+
   postTsFahTxtTraceModuloReporteWS(id: any): Observable<TxtLog[]> {
     const data = { Id: id };
     return this.configService.getApiUrl().pipe(

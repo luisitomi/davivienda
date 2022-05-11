@@ -75,6 +75,21 @@ export class ConfigService {
     ''
   );
 
+  TsFahModuloReporteLovMergeWS= this.enviroment.TsFahModuloReporteLovMergeWS?.replace(
+    /\/$/,
+    ''
+  );
+
+  TsFahModuloReporteLovListWS = this.enviroment.TsFahModuloReporteLovListWS?.replace(
+    /\/$/,
+    ''
+  );
+
+  TsFahModuloReporteEjecucionQueryWS= this.enviroment.TsFahModuloReporteEjecucionQueryWS?.replace(
+    /\/$/,
+    ''
+  );
+
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
 
   constructor(

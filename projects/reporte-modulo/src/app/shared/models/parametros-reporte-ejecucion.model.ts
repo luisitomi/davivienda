@@ -5,5 +5,6 @@ export interface ParametrosReporteEjecucionParam {
     TipoParametro: string;
     Obligatorio: string;
     Descripcion: string;
+    Query: string;
   }
   

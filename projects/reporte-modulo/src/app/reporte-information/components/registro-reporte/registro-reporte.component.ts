@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
@@ -9,7 +10,10 @@ import { appConstants } from '../../../shared/component/app-constants/app-consta
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
+import { ReporteLov } from '../../../shared/models/reporte-lov.model';
 import { Reporte } from '../../../shared/models/reporte.model';
+import { InformacionAdicionalReporteComponent } from '../Informacion-adicional-reporte/informacion-adicional-reporte.component';
+import { ModalRegistroLovComponent } from '../modal-registro-lov/modal-registro-lov.component';
 
 @Component({
   selector: 'app-registro-reporte',
@@ -20,15 +24,17 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() reporteRegistrado = new EventEmitter<Reporte>();
-
+  displayedColumns: string[] = [ 'NombreLov', 'TipoLov', 'Accion'];
+  informationsList: ReporteLov[];
   filtrosForm: FormGroup;
   spinner: boolean;
+  loading = false;
   //listType = [];
   listType: Array<DropdownItem>;
   listObligatorio: Array<DropdownItem>;
   listExtension: Array<DropdownItem>;
   reporte: any;
-
+  listLOV: Array<DropdownItem>;
   isDate: boolean;
   isNumber: boolean;
 
@@ -39,6 +45,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     private toastr: ToastrService,
     private router: Router,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     super();
   }
@@ -110,6 +117,9 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         Obligatorio: [currentValue.Obligatorio, [Validators.required]],
         Descripcion: [currentValue.Descripcion, [Validators.required]],
         Estado: [currentValue.Estado, [Validators.required]],
+        FormatoFecha: [currentValue.FormatoFecha],
+        Visible:[currentValue.Visible, [Validators.required]],
+        LovId:[currentValue.LovId],
       }));
     });
 
@@ -135,6 +145,9 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
         Obligatorio: [null, [Validators.required]],
         Descripcion: [null, [Validators.required]],
         Estado: [0, [Validators.required]],
+        FormatoFecha: [null],
+        Visible:[null, [Validators.required]],
+        LovId:[null],
       })])
     });
     this.filtrosForm.valueChanges.subscribe(() => {
@@ -171,6 +184,9 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
       Obligatorio: [null, [Validators.required]],
       Descripcion: [null, [Validators.required]],
       Estado: [0, [Validators.required]],
+      FormatoFecha: [null],
+        Visible:[null, [Validators.required]],
+        LovId:[null],
     }));
   }
 
@@ -217,6 +233,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
     }
     this.filtrosForm.get(`${control}`)?.updateValueAndValidity();
   }
+
 
   getTypeParam(): void {
     const $listType = this.reporteService
@@ -266,6 +283,7 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
       this.spinner = false;
       this.updateForm();
       this.postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte);
+      this.postTsFahModuloReporteLovListaWS();
     },
       () => {
         this.spinner = false;
@@ -335,5 +353,111 @@ export class RegistroReporteComponent extends UnsubcribeOnDestroy implements OnI
       (this.filtrosForm.controls[control].dirty || this.filtrosForm.controls[control].touched) &&
       !isEmpty(this.filtrosForm.controls[control].errors)
     );
+  }
+
+  //------------
+
+  addNewInformation(data: any): void {
+
+   
+      const dialogRef = this.dialog.open(InformacionAdicionalReporteComponent, {
+        width: '80%',
+        maxWidth: '1000px',
+        data: data,
+        panelClass: 'my-dialog',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        data = result;
+        console.log('resul Data: ',data);
+        console.log('resul result: ',result);
+      //  this.refrescar();
+        if (result?.status) {
+          this.toastr.success(result?.message, 'Registrado')
+
+        }
+      });
+   
+  }
+
+  nuevo() {
+    this.modalCrearLov(null);
+  }
+
+  modalCrearLov(data: any) {
+    debugger;
+    var dataLov = {};
+    if (data == null) {
+       dataLov = {
+        Id:this.reporte.Id,
+        IdLov:0,
+        NombreLov:"",
+        Query:"",
+        Usuario:this.authService.getUsuarioV2(),
+        Estado:"1"
+      };
+    } else{
+      dataLov = data;
+    }
+    
+    const dialogRef = this.dialog.open(ModalRegistroLovComponent, {
+      width: '80%',
+      maxWidth: '1000px',
+      data: dataLov,
+      panelClass: 'my-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    //  data = result;
+    //  console.log('resul Data: ',data);
+      console.log('resul result: ',result);
+    //  this.refrescar();
+      if (result?.status) {
+        this.toastr.success(result?.message, 'Registrado')
+
+      }
+      this.postTsFahModuloReporteLovListaWS();
+    });
+  }
+
+
+  postTsFahModuloReporteLovListaWS() {
+    debugger;
+    const request = {
+      Id:this.reporte.Id
+    };
+    this.spinner = true;
+    this.reporteService.postTsFahModuloReporteLovListaWS(request).subscribe(rest => {
+      this.informationsList = rest;
+      this.spinner = false;
+    
+      this.listLOV = (this.informationsList || []).map((data) => ({
+        label: data?.NombreLov,
+        value: data?.IdLov?.toString(),
+      }),
+      );
+    },
+      () => {
+        this.spinner = false;
+      });
+  }
+  /*
+  getLOVParam(): void {
+    const $listType = this.reporteService
+      .getTsFAHModuloReporteTipoParametrosWS()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any[]) => {
+          this.listType = (response || []).map((data) => ({
+            label: data?.valor,
+            value: data?.codigo,
+          }),
+          )
+        }
+      );
+    this.arrayToDestroy.push($listType);
+  } */
+  eliminar(data: any) {
+
   }
 }

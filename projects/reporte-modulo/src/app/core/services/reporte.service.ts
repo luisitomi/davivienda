@@ -82,4 +82,20 @@ export class ReporteService {
         );
       } 
 
+      postTsFahModuloReporteLovMergeWS  (request: any): Observable<any> {
+        return this.configService.getApiUrl().pipe(
+          first(),
+          switchMap(url => this.http.post<any>(this.configService.TsFahModuloReporteLovMergeWS,request)),
+        );
+      } 
+
+      postTsFahModuloReporteLovListaWS(request: any): Observable<any> {
+        return this.configService.getApiUrl().pipe(
+          first(),
+          switchMap(url => this.http.post<any>(this.configService.TsFahModuloReporteLovListWS,request)),
+        );
+      } 
+
+         
+
 }

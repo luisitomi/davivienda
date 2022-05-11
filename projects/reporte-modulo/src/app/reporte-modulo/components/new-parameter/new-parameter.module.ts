@@ -13,6 +13,7 @@ import { SelectModule } from '../../../shared/component/ui/select/select.module'
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
+import { ModalModule } from '../modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.m
     MatInputModule,
     MatButtonModule,
     CalendarModule,
+    ModalModule,
   ],
   entryComponents: [NewParameterComponent],
 })

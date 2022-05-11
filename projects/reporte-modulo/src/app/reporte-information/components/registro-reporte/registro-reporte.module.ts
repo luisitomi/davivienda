@@ -15,6 +15,9 @@ import { SelectModule } from '../../../shared/component/ui/select/select.module'
 import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+import { InformacionAdicionalReporteModule } from '../Informacion-adicional-reporte/informacion-adicional-reporte.module';
+import { ModalRegistroLovModule } from '../modal-registro-lov/modal-registro-lov.module';
+import { ProgressModule } from '../../../shared/component/ui/progress/progress.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { MatTableModule } from '@angular/material/table';
     CalendarModule,
     MatTabsModule,
     MatTableModule,
+    InformacionAdicionalReporteModule,
+    ModalRegistroLovModule,
+    ProgressModule
   ],
   exports: [RegistroReporteComponent],
 })

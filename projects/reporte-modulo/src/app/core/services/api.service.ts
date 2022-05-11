@@ -22,5 +22,11 @@ export class ApiService {
   TsListarArchivosModuloReporteWS: string = '';
   TsModuloReporteDescargarArchivoWS: string = '';
 
+  TsFahModuloReporteLovMergeWS:string = '';
+
+  TsFahModuloReporteLovListWS:string = '';
+
+  TsFahModuloReporteEjecucionQueryWS:string = '';
+
   constructor() { }
 }

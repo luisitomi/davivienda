@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { ReporteEjecucionService } from '../../../core/services/reporte-ejecucion.service';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
@@ -14,6 +14,7 @@ import { ParametrosReporteEjecucionParam } from '../../../shared/models/parametr
 import { ReporteEjecucionParam } from '../../../shared/models/reporte-ejecucion.model';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-new-parameter',
@@ -41,6 +42,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     private reporteService: ReporteService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     super();
   }
@@ -229,4 +231,85 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
       this.arrayToDestroy.push($limitSave);*/
     }
   }
+
+
+  getTsFahModuloReporteEjecucionQueryWS(query: any) {
+    this.spinner = true;
+    var request = {
+      query:query 
+    };
+    this.reporteEjecucion.posTsFahModuloReporteEjecucionQueryWS(request).subscribe(res => {
+      this.lstReporte = res;
+      this.spinner = false;
+    },
+    ()=>{
+      this.spinner = false;
+    });
+  }
+
+
+  modalCrearLov(data: any, index: number) {
+    console.log("index",index)
+    var dataLov = {};
+   /* if (data == null) {
+       dataLov = {
+        Id:this.reporte.Id,
+        IdLov:0,
+        NombreLov:"",
+        Query:"",
+        Usuario:this.authService.getUsuarioV2(),
+        Estado:"1"
+      };
+    } else{
+      dataLov = data;
+    } */
+    
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '80%',
+      maxWidth: '1000px',
+      data: data.Query,
+      panelClass: 'my-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    //  data = result;
+    //  console.log('resul Data: ',data);
+      console.log('resul result: ',result);
+    //  this.refrescar();
+      if (result?.status) {
+       
+        this.toastr.success(result?.message, 'Registrado')
+    //    this.form.controls['parametros']['ValorParametro'].setValue('cities_array');
+        this.items.value[index].ValorParametro =result.codigo;
+      }
+     // this.postTsFahModuloReporteLovListaWS();
+    });
+  }
+
+
+  updateItemV2() {   
+    this.informationsParam.splice(0, 0)
+    this.informationsParam?.forEach((currentValue) => {
+      this.items.push(this.formBuilder.group({
+        NombreParametro: currentValue?.NombreParametro,
+        ValorParametro: currentValue?.ValorParametro,
+        TipoParametro: currentValue?.TipoParametro,
+        Obligatorio : currentValue?.Obligatorio,
+        NumeroParametro: currentValue?.NumeroParametro,
+        Descripcion: currentValue?.Descripcion,
+      }));
+    });
+  }
+/*
+  createForm(): void {
+    this.form = this.formBuilder.group({
+      Id:[null,[Validators.required]],
+      Usuario: [null],
+      parametros: this.formBuilder.array([])
+    });
+    this.form.valueChanges.subscribe(() => {
+      this.formInvalid.emit(this.form.invalid);
+    });
+  } */
+
 }

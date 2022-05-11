@@ -10,7 +10,7 @@
         <app-input (input)="onFocusOutEvent('cc')" (focusout)="onFocusOutEvent('cc')" [label]="'CC'" formControlName="cc" [error]="showErrors('cc')"></app-input>
         <app-form-errors [control]="form.controls['cc']"></app-form-errors>
     </div>
-    <mat-dialog-actions class="evol-footer-actions">
+<!-- <mat-dialog-actions class="evol-footer-actions">
         <app-actions [color]="'accent'" [class]="'flat'" (click)="save()" [disabled]="!form.valid" [loading]="loading" [label]="'Guardar'"></app-actions>
-    </mat-dialog-actions>
+    </mat-dialog-actions>-->
 </form>

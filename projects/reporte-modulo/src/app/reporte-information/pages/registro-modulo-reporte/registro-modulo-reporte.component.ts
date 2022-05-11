@@ -14,6 +14,9 @@ import { NewParameterComponent } from '../../components/new-parameter/new-parame
 })
 export class RegistroModuloReporteComponent extends UnsubcribeOnDestroy {
   displayedColumns: string[] = ['nombre', 'fechaIni', 'fechaFin', 'estado', 'ruta', 'log'];
+
+
+
   spinner  = false;
   loading = false;
   informationsList = [];

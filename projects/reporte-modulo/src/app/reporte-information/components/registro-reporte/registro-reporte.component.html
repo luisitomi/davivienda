@@ -32,18 +32,22 @@
         <app-form-errors [control]="filtrosForm.controls['CantidadLinea']"></app-form-errors>
       </div>
     </mat-card-content>
-    <app-title-header [Title]="'Parámetros'" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
+  
     <mat-card-content>
       <mat-tab-group>
-        <mat-tab label="First">
+        <mat-tab label="Parámetros">
+          <app-title-header [Title]="''" [ViewIcon]="true" [IconType]="'add'" (click)="createItem()"></app-title-header>
           <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin-top: 2.5rem;">
             <thead>
                 <th class="mdl-data-table__cell--non-numeric">#</th>
                 <th class="mdl-data-table__cell--non-numeric">Nombre Parametro</th>
                 <th class="mdl-data-table__cell--non-numeric">Descripcion</th>
                 <th class="mdl-data-table__cell--non-numeric">Tipo</th>
-                <th class="mdl-data-table__cell--non-numeric">Valor</th>
+                <th class="mdl-data-table__cell--non-numeric"></th>
+            
+                <th class="mdl-data-table__cell--non-numeric">Valor Inicial</th>
                 <th class="mdl-data-table__cell--non-numeric">Obligatorio</th>
+                <th class="mdl-data-table__cell--non-numeric">Visible</th>
                 <th class="mdl-data-table__cell--non-numeric">Acciones</th>
             </thead>
             <tbody>
@@ -54,9 +58,16 @@
                       <td class="mdl-data-table__cell--non-numeric"><app-input [label]="'Nombre Parametro'" formControlName="NombreParametro"  ></app-input></td>
                       <td class="mdl-data-table__cell--non-numeric"><app-input [label]="'Descripcion'" formControlName="Descripcion" ></app-input></td>
                       <td class="mdl-data-table__cell--non-numeric"><app-select (changeOption)="changeOption($event);" [label]="'Tipo'" formControlName="TipoParametro" [options]="listType"></app-select></td>
+                      <td class="mdl-data-table__cell--non-numeric">
+                        <app-select *ngIf="item.value.TipoParametro =='Menu'" (changeOption)="changeOption($event);" [label]="'Lov'" formControlName="LovId" [options]="listLOV"></app-select>
+                      
+                        <app-input *ngIf="item.value.TipoParametro =='Fecha'" [label]="'Formato Fecha'" formControlName="FormatoFecha" ></app-input>
+                      </td>
+
                       <td class="mdl-data-table__cell--non-numeric"><app-input *ngIf="!isDate" [onlyNumber]="isNumber"  [label]="'Valor'" formControlName="ValorParametro"></app-input>
                                                                     <app-calendar *ngIf="isDate" [label]="'Valor'" formControlName="ValorParametro"></app-calendar></td>
                       <td class="mdl-data-table__cell--non-numeric"><app-select [label]="'Obligatorio'" formControlName="Obligatorio" [options]="listObligatorio"></app-select></td>
+                      <td class="mdl-data-table__cell--non-numeric"> <app-select [label]="'Visible'" formControlName="Visible" [options]="listObligatorio"></app-select> </td>
                       <td class="mdl-data-table__cell--non-numeric"><mat-icon (click)="delInput(index)">remove_circle_outline</mat-icon></td>
                     </ng-container>
                   </tr>
@@ -64,7 +75,44 @@
             </tbody>
           </table>
         </mat-tab>
-        <mat-tab label="Second"> Content 2 </mat-tab>
+        <mat-tab label="Consultas Dinamicas"> 
+          <app-title-header [Title]="''" [ViewIcon]="true" [IconType]="'add'" (click)="nuevo()"></app-title-header>
+
+          <mat-card-content class="evol-tabla-limites-container">
+            <div class="evol-tabla-wrapper">
+              <table mat-table [dataSource]="informationsList">
+                <ng-container matColumnDef="NombreLov">
+                  <th mat-header-cell *matHeaderCellDef>Nombre Consulta</th>
+                  <td mat-cell *matCellDef="let element"> <a href="javascript:void(0)" (click)="modalCrearLov(element)">{{ element?.NombreLov }}   </a>  </td>
+                </ng-container>
+                <ng-container matColumnDef="TipoLov">
+                  <th mat-header-cell *matHeaderCellDef>Tipo Lov</th>
+                  <td mat-cell *matCellDef="let element">{{ element?.TipoLov }}</td>
+            
+                </ng-container>
+                <ng-container matColumnDef="Accion">
+                  <th mat-header-cell *matHeaderCellDef>Acci&oacute;n</th>
+                    <!--   <td mat-cell *matCellDef="let element"  > <a href="javascript:void(0)" (click)="modalCrearLov(element)">{{ element?.NombreReporte }}  </a></td>--> 
+                  <td mat-cell *matCellDef="let element">
+                    <app-actions [color]="'warn'" [class]="'flat'" (click)="eliminar(element?.Id)" [label]="'Eliminar'"></app-actions>
+                  </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="progress">
+                  <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+                    <app-progress [loading]="loading"></app-progress>
+                  </th>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="['progress']" class="evol-tabla-progress"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </mat-card-content>
+
+
+
+        </mat-tab>
         <mat-tab label="Third"> Content 3 </mat-tab>
       </mat-tab-group>
     </mat-card-content>
