@@ -82,7 +82,7 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             id: data?.Id,
           }))
           this.limits.sort(function (a: any, b: any) {   
-            return a.nuevoValor - b.nuevoValor || a.importeMaximo - b.importeMaximo;
+            return a.codigo - b.codigo || a.nuevoValor - b.nuevoValor;
           });
           this.limitsCopy = this.limits;
         }

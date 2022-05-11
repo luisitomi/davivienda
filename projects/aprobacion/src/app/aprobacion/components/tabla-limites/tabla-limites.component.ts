@@ -62,21 +62,22 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   grabar(): void {
     let total = 0;
     const countModifi = this.limites.filter(l =>
+      l.estado === 0 && (
       l.codigo !== l.codigoNew ||
       Number(l.nuevoValorNew) !== Number(l.nuevoValor) ||
-      Number(l.importeMaximo) !== Number(l.importeMaximoNew)).length;
+      Number(l.importeMaximo) !== Number(l.importeMaximoNew))).length;
     if (!this.sinCambios) {
       this.spinner = true;
       this.limites.forEach((element: any, index: number) => {
         if (Number(element.importeMaximoNew) !== Number(element.importeMaximo)) {
-          if (this.limites[index - 1]?.nuevoValor === element.nuevoValor) {
+          if (this.limites[index - 1]?.nuevoValor === element.nuevoValor && element.estado === 0 && this.limites[index - 1]?.estado === 0) {
             if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(element.importeMaximoNew)) {
               this.spinner = false;
               this.toastr.warning('No puede agregar un importe menor al registro anterior', 'Adevertencia');
               return;
             }
           }
-          if (this.limites[index + 1]?.nuevoValor === element.nuevoValor) {
+          if (this.limites[index + 1]?.nuevoValor === element.nuevoValor && element.estado === 0 && this.limites[index - 1]?.estado === 0) {
             if (Number(this.limites[index + 1]?.importeMaximoNew) <= Number(element.importeMaximoNew)) {
               this.spinner = false;
               this.toastr.warning('No puede agregar un importe mayor al registro posterior', 'Adevertencia');
@@ -117,12 +118,32 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   onCambio(event: any, index: number): void {
     this.limites[index].importeMaximoNew = Number(event?.target?.value?.replace(/,/g, ""))
     this.sinCambios = this.limites.filter(l =>
+      l.estado === 0 && (
       l.codigo !== l.codigoNew ||
       (l.nuevoValorNew) !== (l.nuevoValor) ||
-      (l.importeMaximo) !== (l.importeMaximoNew)).length === 0;
+      (l.importeMaximo) !== (l.importeMaximoNew))).length === 0;
   }
 
-  onChange(id: number): void {
+  onChange(data: any, index: number): void {
+    if(data?.estado === 1){
+      if ((this.limites[index - 1]?.estado || 0) === 0){
+        if (this.limites[index - 1]?.nuevoValor === data?.nuevoValor) {
+          if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(data?.importeMaximoNew)) {
+            this.spinner = false;
+            this.toastr.warning('No puede agregar un importe menor al registro anterior', 'Adevertencia');
+            return;
+          }
+        }
+        if (this.limites[index + 1]?.nuevoValor === data?.nuevoValor) {
+          if (Number(this.limites[index + 1]?.importeMaximoNew) <= Number(data?.importeMaximoNew)) {
+            this.spinner = false;
+            this.toastr.warning('No puede agregar un importe mayor al registro posterior', 'Adevertencia');
+            return;
+          }
+        }
+      }
+    }
+    return
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '80%',
       maxWidth: '400px',
@@ -134,7 +155,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
       if (!result) {
         this.spinner = true;
         const $status = this.limitService
-          .ChangeStatus(id)
+          .ChangeStatus(data?.id)
           .pipe(finalize(() => this.spinner = false))
           .subscribe(
             (response: any) => {
