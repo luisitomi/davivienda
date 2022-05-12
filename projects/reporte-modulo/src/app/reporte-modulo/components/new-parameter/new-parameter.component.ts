@@ -29,15 +29,15 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   displayedColumns: string[] = ['Nro', 'Parametro', 'Tipo', 'Valor'];
   reporte: Reporte;
   lstReporte: Reporte[];
-  listReportestype : Array<DropdownItem>;
+  listReportestype: Array<DropdownItem>;
   //listObligatorio: Array<DropdownItem>;
   informationsParam: ParametrosReporteEjecucionParam[];
-  ejecucionReporte:ReporteEjecucionParam;
+  ejecucionReporte: ReporteEjecucionParam;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<NewParameterComponent>,
     private formBuilder: FormBuilder,
-    private cdRef:ChangeDetectorRef,
+    private cdRef: ChangeDetectorRef,
     private reporteEjecucion: ReporteEjecucionService,
     private reporteService: ReporteService,
     private toastr: ToastrService,
@@ -46,16 +46,16 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   ) {
     super();
   }
-  
+
   ngOnInit(): void {
     this.createForm();
     this.getListReportes();
-   
+
   }
 
   createForm(): void {
     this.form = this.formBuilder.group({
-      Id:[null,[Validators.required]],
+      Id: [null, [Validators.required]],
       Usuario: [null],
       parametros: this.formBuilder.array([])
     });
@@ -63,8 +63,8 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
       this.formInvalid.emit(this.form.invalid);
     });
   }
-  changeOption(event: any){
-    this.informationsParam= [];
+  changeOption(event: any) {
+    this.informationsParam = [];
     this.form.patchValue({
       Id: event?.value,
     });
@@ -77,15 +77,15 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   get items() {
     return this.form.get("parametros") as FormArray;
   }
-  
-  updateItem() {   
+
+  updateItem() {
     this.informationsParam.splice(0, 0)
     this.informationsParam?.forEach((currentValue) => {
       this.items.push(this.formBuilder.group({
         NombreParametro: currentValue?.NombreParametro,
         ValorParametro: currentValue?.ValorParametro,
         TipoParametro: currentValue?.TipoParametro,
-        Obligatorio : currentValue?.Obligatorio,
+        Obligatorio: currentValue?.Obligatorio,
         NumeroParametro: currentValue?.NumeroParametro,
         Descripcion: currentValue?.Descripcion,
       }));
@@ -94,11 +94,11 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
 
   postTsFAHBuscarParametrosModuloReportePorIdWS(IdReporte: number) {
     this.spinner = true;
-    this.reporteEjecucion.postTsFAHParametrosEjecucionModuloReporteWS({Id:IdReporte}).subscribe(rest =>{
-    this.informationsParam = rest;
-    
-    this.updateItem();
-    this.spinner = false;
+    this.reporteEjecucion.postTsFAHParametrosEjecucionModuloReporteWS({ Id: IdReporte }).subscribe(rest => {
+      this.informationsParam = rest;
+
+      this.updateItem();
+      this.spinner = false;
     });
   }
   getListReportes(): void {
@@ -112,14 +112,14 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
             label: data?.NombreReporte,
             value: data?.Id,
           }),
-        )
-        this.spinner = false;
-      }
+          )
+          this.spinner = false;
+        }
       );
     this.arrayToDestroy.push($listReportestype);
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     this.cdRef.detectChanges();
   }
 
@@ -129,9 +129,9 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
       this.lstReporte = res;
       this.spinner = false;
     },
-    ()=>{
-      this.spinner = false;
-    });
+      () => {
+        this.spinner = false;
+      });
   }
 
 
@@ -150,7 +150,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     this.form.get(`${control}`)?.updateValueAndValidity();
   }
 
-  validate(): ValidationErrors {  
+  validate(): ValidationErrors {
     return { required: true };
   }
 
@@ -163,16 +163,16 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
 
   save(): void {
     //aca tendras las modificaciones de los inputs
-      
- this.informationsParam = this.items.value
+
+    this.informationsParam = this.items.value
     for (let index = 0; index < this.informationsParam.length; index++) {
       const arrayElement = this.informationsParam[index];
-      if (arrayElement.Obligatorio == 'Y' && (arrayElement.ValorParametro == null || arrayElement.ValorParametro == '' )) {
-        this.toastr.warning("El campo " +arrayElement.Descripcion +" es obligatorio." , 'Advertencia');
+      if (arrayElement.Obligatorio == 'Y' && (arrayElement.ValorParametro == null || arrayElement.ValorParametro == '')) {
+        this.toastr.warning("El campo " + arrayElement.Descripcion + " es obligatorio.", 'Advertencia');
         return;
       }
     }
-    
+
 
     if (this.form.valid) {
       this.spinner = true;
@@ -183,34 +183,34 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
         CC: valueForm?.cc,
         Dni: valueForm?.dni,
       } */
-     /* const header: CabeceraAsientoInsert = {
-        Id: 0,
-        LegderName: this.dataHeader?.leader,
-        SourceName: this.dataHeader?.origen,
-        TrxNumber: this.dataHeader?.number,
-        AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',
-        Description: this.dataHeader?.description,
-        Company: '',
-        Usuario: this.nombreUsuario,
-        Period: this.dataHeader?.period,
-      }*/
-     
+      /* const header: CabeceraAsientoInsert = {
+         Id: 0,
+         LegderName: this.dataHeader?.leader,
+         SourceName: this.dataHeader?.origen,
+         TrxNumber: this.dataHeader?.number,
+         AccountingDate: this.datePipe.transform(this.dataHeader?.accountingDate, appConstants.eventDate.format) || '',
+         Description: this.dataHeader?.description,
+         Company: '',
+         Usuario: this.nombreUsuario,
+         Period: this.dataHeader?.period,
+       }*/
+
       const request = {
         Id: valueForm.Id,
-        Usuario:this.authService.getUsuarioV2(),
-        parametros:this.items.value
+        Usuario: this.authService.getUsuarioV2(),
+        parametros: this.items.value
       }
       /*this.ejecucionReporte = new ReporteEjecucionParam();
       this.ejecucionReporte.Id = 0;
       this.ejecucionReporte.Usuario = "Usuario";
-      this.ejecucionReporte.parametros = this.items.value;*/    
-      
+      this.ejecucionReporte.parametros = this.items.value;*/
+
       this.reporteEjecucion.postTsFahModuloReporteEjecutarWS(request).subscribe(
         () => {
           this.spinner = false;
           this.toastr.success('Se guardaron los cambios correctamente', 'Registro');
           this.dialogRef.close();
-        },()  =>{
+        }, () => {
           this.spinner = false;
           this.toastr.warning("Ocurrio un error inesperado", 'Advertencia');
         }
@@ -236,34 +236,34 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
   getTsFahModuloReporteEjecucionQueryWS(query: any) {
     this.spinner = true;
     var request = {
-      query:query 
+      query: query
     };
     this.reporteEjecucion.posTsFahModuloReporteEjecucionQueryWS(request).subscribe(res => {
       this.lstReporte = res;
       this.spinner = false;
     },
-    ()=>{
-      this.spinner = false;
-    });
+      () => {
+        this.spinner = false;
+      });
   }
 
 
   modalCrearLov(data: any, index: number) {
-    console.log("index",index)
+    console.log("index", index)
     var dataLov = {};
-   /* if (data == null) {
-       dataLov = {
-        Id:this.reporte.Id,
-        IdLov:0,
-        NombreLov:"",
-        Query:"",
-        Usuario:this.authService.getUsuarioV2(),
-        Estado:"1"
-      };
-    } else{
-      dataLov = data;
-    } */
-    
+    /* if (data == null) {
+        dataLov = {
+         Id:this.reporte.Id,
+         IdLov:0,
+         NombreLov:"",
+         Query:"",
+         Usuario:this.authService.getUsuarioV2(),
+         Estado:"1"
+       };
+     } else{
+       dataLov = data;
+     } */
+
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '80%',
       maxWidth: '1000px',
@@ -272,44 +272,48 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    //  data = result;
-    //  console.log('resul Data: ',data);
-      console.log('resul result: ',result);
-    //  this.refrescar();
-      if (result?.status) {
-       
+      //  data = result;
+      //  console.log('resul Data: ',data);
+      console.log('resul result: ', result);
+      //  this.refrescar();
+      if (result?.valor) {
+        console.log(result)
         this.toastr.success(result?.message, 'Registrado')
-    //    this.form.controls['parametros']['ValorParametro'].setValue('cities_array');
-        this.items.value[index].ValorParametro =result.codigo;
+        //    this.form.controls['parametros']['ValorParametro'].setValue('cities_array');
+        
+        this.items.value[index].ValorParametro = result.codigo;
+        this.informationsParam[index].ValorParametro = result.codigo;
+        console.log(this.items)
+        console.log(this.informationsParam)
       }
-     // this.postTsFahModuloReporteLovListaWS();
+      // this.postTsFahModuloReporteLovListaWS();
     });
   }
 
 
-  updateItemV2() {   
+  updateItemV2() {
     this.informationsParam.splice(0, 0)
     this.informationsParam?.forEach((currentValue) => {
       this.items.push(this.formBuilder.group({
         NombreParametro: currentValue?.NombreParametro,
         ValorParametro: currentValue?.ValorParametro,
         TipoParametro: currentValue?.TipoParametro,
-        Obligatorio : currentValue?.Obligatorio,
+        Obligatorio: currentValue?.Obligatorio,
         NumeroParametro: currentValue?.NumeroParametro,
         Descripcion: currentValue?.Descripcion,
       }));
     });
   }
-/*
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      Id:[null,[Validators.required]],
-      Usuario: [null],
-      parametros: this.formBuilder.array([])
-    });
-    this.form.valueChanges.subscribe(() => {
-      this.formInvalid.emit(this.form.invalid);
-    });
-  } */
+  /*
+    createForm(): void {
+      this.form = this.formBuilder.group({
+        Id:[null,[Validators.required]],
+        Usuario: [null],
+        parametros: this.formBuilder.array([])
+      });
+      this.form.valueChanges.subscribe(() => {
+        this.formInvalid.emit(this.form.invalid);
+      });
+    } */
 
 }

@@ -43,10 +43,10 @@
             <!-- Symbol Column -->
             <ng-container  matColumnDef="Valor">
               <th mat-header-cell *matHeaderCellDef> Valor </th>
-              <td mat-cell *matCellDef="let row; let index = index" [formGroupName]="index">
-                <app-input *ngIf="row.TipoParametro !== 'Fecha'" formControlName="ValorParametro" [onlyNumber]="row.TipoParametro === 'Numero'"></app-input>
-                <app-calendar *ngIf="row.TipoParametro === 'Fecha'" formControlName="ValorParametro"></app-calendar>
-                <app-select [label]="'Reporte'" formControlName="Id" (changeOption)="changeOption($event)"  [options]="listReportestype"></app-select>
+              <td mat-cell *matCellDef="let row; let index = index">
+                <app-input [ngModelOptions]="{standalone: true}" *ngIf="row.TipoParametro !== 'Fecha'" [(ngModel)]="row.ValorParametro" [onlyNumber]="row.TipoParametro === 'Numero'" ></app-input>
+                <app-calendar [(ngModel)]="row.ValorParametro" [ngModelOptions]="{standalone: true}" *ngIf="row.TipoParametro === 'Fecha'"></app-calendar>
+                <app-select [(ngModel)]="row.ValorParametro" [ngModelOptions]="{standalone: true}" [label]="'Reporte'" (changeOption)="changeOption($event)"  [options]="listReportestype"></app-select>
 
                 <button mat-raised-button (click)="modalCrearLov(row,index)" color="warn">Warn</button>
               </td>
