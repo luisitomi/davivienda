@@ -66,13 +66,13 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   ngOnInit(): void {
     this.authService.getUsuarioV2().subscribe(
       (nombre) => {
-        this.nombreUsuario = nombre || ''
+        this.nombreUsuario = 'empleado2' || ''
       }
     );
     this.getByRolUser();
   }
 
-  async getListData(filtros: any) {
+  getListData(filtros: any) {
     filtros.aprobador = Number(this.aprobador);
     filtros.aprobadorName = this.nombreUsuario;
     filtros.cuenta = this.cuentaid;
