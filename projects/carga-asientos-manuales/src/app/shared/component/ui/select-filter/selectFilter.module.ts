@@ -11,6 +11,7 @@ import { MatSelectSearchModule } from 'mat-select-search';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ModalModule } from './modal/modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     ModalModule,
     MatDialogModule,
+    MatIconModule,
   ],
   exports: [SelectFilterComponent],
 })

@@ -25,13 +25,13 @@ import {
 export class InputCurrencyComponent implements OnChanges {
   @Input() label: string;
   @Input() placeholder: string;
-  @Input() maxlength: string;
+  @Input() max: number;
   @Input() decimal: boolean;
   @Input() style: boolean;
   @Input() limitTo: number;
   @ViewChild('validators') validators: any;
-  customStyle = { textAlign: 'right' };
-  customStyle1 = { textAlign: 'left' };
+  customStyle = { textAlign: 'right', backgroundColor: 'transparent' };
+  customStyle1 = { textAlign: 'left', backgroundColor: 'transparent' };
   @Input()
   get onlyNumber(): boolean {
     return this.inputOnlyNumber;

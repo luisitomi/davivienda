@@ -1,8 +1,4 @@
-<mat-form-field appearance="fill">
-  <mat-label [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
-    <ng-content select="[header]"></ng-content>
-  </mat-label>
-  <mat-select
+<!--<mat-select
     #singleSelect
     matInput
     [placeholder]="placeholder"
@@ -12,17 +8,24 @@
     [ngClass]="{ 'is-invalid-input u-mb0': error }"
   >
     <mat-option>
-      <!--<ngx-mat-select-search 
+     <ngx-mat-select-search 
         placeholderLabel="Buscar..."
         (input)="search($event)"
         noEntriesFoundLabel="'No se encontrarn resultados'"
       >
-      </ngx-mat-select-search>-->
+      </ngx-mat-select-search>
     </mat-option>
     <mat-option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}
     </mat-option>
-  </mat-select>
+  </mat-select>-->
+<mat-form-field appearance="fill">
+  <mat-label [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
+    <ng-content select="[header]"></ng-content>
+  </mat-label>
+  <input matInput [attr.type]="type" [(ngModel)]="value" [disabled]="disabled" [attr.placeholder]="placeholder"
+     [maxlength]="maxlength"
+    [ngClass]="{ 'is-invalid-input u-mb0': error }" />
+    <mat-icon (click)="modal()" matSuffix class="my-icon">keyboard_arrow_down</mat-icon>
   <ng-content></ng-content>
- </mat-form-field>
-<div *ngIf="complementary" class="upload-wrapper" (click)="modal()">Búsqueda completa de {{ label }}</div><br>
+</mat-form-field>

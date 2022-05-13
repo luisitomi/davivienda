@@ -1,18 +1,11 @@
+<p [ngClass]="{ 'error-message u-mb0': error }" style="text-align: left;">{{ label }}
+    <ng-content select="[header]"></ng-content>
+</p>
 <mat-form-field appearance="fill">
-    <p [ngClass]="{ 'error-message u-mb0': error }">{{ label }}
-        <ng-content select="[header]"></ng-content>
-    </p>
-    <input matInput  style="display: none;">
-    <ng-number-input
-        [customStyle]="style ? customStyle1 : customStyle"
-        [(ngModel)]="value"
-        [disabled]="disabled"
-        [limitTo]="limitTo"
-        [attr.placeholder]="placeholder"
-        [@fade]="'in'"
-        #validators="ngModel"
-        [ngClass]="{ 'is-invalid-input u-mb0': error }"
-    >
+    <input matInput style="display: none;">
+    <ng-number-input style="background-color: transparent;" [customStyle]="style ? customStyle1 : customStyle"
+        [(ngModel)]="value" [disabled]="disabled" [limitTo]="limitTo" [max]="max"[attr.placeholder]="placeholder" [@fade]="'in'"
+        #validators="ngModel" [ngClass]="{ 'is-invalid-input u-mb0': error }">
     </ng-number-input>
     <ng-content></ng-content>
 </mat-form-field>
