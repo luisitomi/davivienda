@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
-import { ResultadoCarga } from 'src/app/shared';
 import { AuthService } from '../../../core/services/auth.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { UtilServices } from '../../../shared/component/general/util.sevice';
@@ -37,6 +36,14 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
 
   ngOnInit(): void {
     this.utilServices.setTextValue('Carga Masivo');
+  }
+
+  downloadFile(): void {
+    window.location.href = `/assets/files/${this.getFileNameDownload()}`;
+  }
+
+  getFileNameDownload(): string {
+    return 'plantilla_carga_asiento.csv';
   }
 
   cargar(): void {
