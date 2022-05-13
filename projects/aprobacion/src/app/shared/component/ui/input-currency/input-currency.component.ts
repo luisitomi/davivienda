@@ -26,7 +26,7 @@ export class InputCurrencyComponent implements OnChanges {
   @Input() label: string;
   @Input() placeholder: string;
   @Input() valueInput: string;
-  @Input() maxlength: string;
+  @Input() maxlength: number;
   @Input() decimal: boolean;
   @Input() style: boolean;
   @Input() limitTo: number;
