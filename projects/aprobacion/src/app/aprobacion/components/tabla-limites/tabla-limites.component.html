@@ -23,10 +23,10 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="estado">
-          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
           <ng-container *matCellDef="let element;let index=index" [ngSwitch]="element.estado">
             <td style="display: block;margin: auto;text-align: center;" *ngSwitchCase="0">
-              <app-actions [class]="'flat'" [color]="'primary'" (click)="onChange(element,index)" [label]="'Activo'"></app-actions>
+              <app-actions (click)="onChange(element, index)" [icon]="'delete'" [class]="'icon'"></app-actions>
             </td>
             <td style="display: block;margin: auto;text-align: center;" *ngSwitchCase="1">
               <app-actions [class]="'flat'" [color]="'accent'" (click)="onChange(element,index)" [label]="'Desactivo'"></app-actions>

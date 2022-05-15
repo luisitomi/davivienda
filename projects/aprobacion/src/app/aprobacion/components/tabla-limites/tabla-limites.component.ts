@@ -125,7 +125,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   }
 
   onChange(data: any, index: number): void {
-    if(data?.estado === 1){
+    /*if(data?.estado === 1){
       if ((this.limites[index - 1]?.estado || 0) === 0){
         if (this.limites[index - 1]?.nuevoValor === data?.nuevoValor) {
           if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(data?.importeMaximoNew)) {
@@ -142,12 +142,11 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
           }
         }
       }
-    }
-    return
+    }*/
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { name: `¿Esta seguro que desea cambiar el estado`},
+      data: { name: `¿Esta seguro que desea eliminar el registro`},
       panelClass: 'my-dialog',
        disableClose: true,
     });

@@ -43,7 +43,7 @@ export class LimitHeaderService {
   }
 
   consultAsient(filters: any): Observable<any[]> {
-    return this.configService.getApiUrlTsFAHConfiguracionLimiteHeaderById().pipe(
+    return this.configService.getApiUrlTsFAHConfiguracionLimiteAccountDetail().pipe(
       first(),
       switchMap(url => this.http.post<any[]>(url, filters)),
     );

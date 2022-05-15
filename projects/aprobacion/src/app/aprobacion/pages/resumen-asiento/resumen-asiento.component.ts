@@ -66,17 +66,14 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   ngOnInit(): void {
     this.authService.getUsuarioV2().subscribe(
       (nombre) => {
-        this.nombreUsuario = 'empleado2' || ''
+        this.nombreUsuario = nombre || ''
       }
     );
     this.getByRolUser();
   }
 
   getListData(filtros: any) {
-    filtros.aprobador = Number(this.aprobador);
-    filtros.aprobadorName = this.nombreUsuario;
-    filtros.cuenta = this.cuentaid;
-    filtros.id = this.id;
+    filtros.Id = this.id;
     this.spinner = true;
     const $subas = this.lineHeaderService
       .consultAsient(filtros)
@@ -106,9 +103,9 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   }
 
   ChangeFormateDate(oldDate: any): string {
-    if (oldDate.split('-').length === 1) {
+    /*if (oldDate.split('-').length === 1) {
       return oldDate.toString().split("/").reverse().join("/").replace('/', '-').replace('/', '-');
-    }
+    }*/
     return oldDate;
   }
 

@@ -66,6 +66,15 @@ export interface AccountLine {
   Neto: number;
 }
 
+export interface AccountDetail {
+  Usuario: string;
+  Comprobante: string;
+  Contable: Date;
+  Descripcion: string;
+  Origen: string;
+}
+
+
 export interface AccountLineDownload {
   JH_LEDGER_NAME: string;
   JH_JE_SOURCE_NAME: string;

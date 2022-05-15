@@ -17,7 +17,7 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
   selectLimits: Array<DropdownItem> = [];
   spinner = false;
   form: FormGroup;
-  activeSelect: any = [{value: '', label: 'Todos'},{value: 0, label: 'Activo'},{value: 1, label: 'Desactivo'}];
+  activeSelect: any = [{value: '', label: 'Todos'},{value: 0, label: 'Activo'}];
   
   constructor(
     private limitService: LimitService,
@@ -81,9 +81,9 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             estado: data?.Estado,
             id: data?.Id,
           }))
-          this.limits.sort(function (a: any, b: any) {   
+          /*this.limits.sort(function (a: any, b: any) {   
             return a.codigo - b.codigo || a.nuevoValor - b.nuevoValor;
-          });
+          });*/
           this.limitsCopy = this.limits;
         }
       );

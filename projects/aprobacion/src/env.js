@@ -14,5 +14,6 @@
     window.__env.TsLimitActiveProfile = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/678877db794047e4951deb34680603f2/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5YRByhJjiiP3ShVdgHjR7fcNkXxAMFd_iXKwFJOJLPo";
     window.__env.TsFAHConfiguracionLimiteFilter = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/549c4ebf997f47e79f0179a9d924e6f6/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Pyl41jq6l0FphyYisJ88fRECBqsTPYVuoqkv7HBa88c";
     window.__env.TsFAHConfiguracionLimiteHeaderById = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/5b627de19cd646ddaf1bdb088dedfb03/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lnPWmjfyQxsoXxdYYOmC-COdNCvbxs-Fb-mipgSTLks";
+    window.__env.TsFAHConfiguracionLimiteAccountDetail = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/8680c62cd6324217b17fa238bf97716b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Q7FR_gMVAJG7ZIlu3-pnxIcnAc8Y6OKz8NxtJKeyDhg";
   }(this));
   

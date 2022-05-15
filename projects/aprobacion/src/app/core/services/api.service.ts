@@ -18,6 +18,7 @@ export class ApiService {
   TsLimitActiveProfile: string = '';
   TsFAHConfiguracionLimiteFilter: string = '';
   TsFAHConfiguracionLimiteHeaderById: string = '';
+  TsFAHConfiguracionLimiteAccountDetail: string = '';
 
   constructor() { }
 }
