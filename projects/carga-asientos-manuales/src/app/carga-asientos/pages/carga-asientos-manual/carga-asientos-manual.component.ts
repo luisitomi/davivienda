@@ -23,6 +23,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
   message: string;
   urlBlob: string;
   nombreUsuario: string;
+  messageLink: string;
 
   constructor(
     private asientoManualService: HeaderLineService,
@@ -31,7 +32,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
     private utilServices: UtilServices,
   ) {
     super();
-    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
+    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = 'empleado1' || '');
   }
 
   ngOnInit(): void {
@@ -61,6 +62,8 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
           const archivo = new Blob([message], { type: 'text/plain' });
           const url = URL.createObjectURL(archivo);
           this.urlBlob = url;
+          this.messageLink = `log_ejecucion_${new Date().toLocaleDateString()?.replace('/','_')?.replace('/','_')
+        }_${new Date().toLocaleTimeString()?.replace(':','_')?.replace(':','_')}`
           this.dialog.open(ConfirmationComponent, {
             width: '80%',
             maxWidth: '400px',
@@ -75,6 +78,8 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
           }).join("\n");
           const archivo = new Blob([message], { type: 'text/plain' });
           const url = URL.createObjectURL(archivo);
+          this.messageLink = `log_ejecucion_${new Date().toLocaleDateString()?.replace('/','_')?.replace('/','_')
+        }_${new Date().toLocaleTimeString()?.replace(':','_')?.replace(':','_')}`
           this.urlBlob = url;
         }
       )

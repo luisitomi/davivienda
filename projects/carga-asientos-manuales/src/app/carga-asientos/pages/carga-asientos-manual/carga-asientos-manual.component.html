@@ -25,7 +25,7 @@
           <app-list-item [title]="'Asientos Rechazados'" [subtitle]="resultado?.asientosRechazados?.toString() || ''" [divider]="true"></app-list-item>
           <app-list-item [title]="'Asientos Aprobados'" [subtitle]="resultado?.asientosAprobadosAutomaticamente?.toString() || ''" [divider]="true"></app-list-item>
           <app-list-item [title]="'Asientos Pendientes'" [subtitle]="resultado?.asientosPendientesAprobacion?.toString() || ''" [divider]="true"></app-list-item>
-          <app-list-item [title]="'Log'" [subtitleLink]="'Link'" [Link]="urlBlob || ''"></app-list-item>
+          <app-list-item [title]="'Log'" [subtitleLink]="messageLink" [Link]="urlBlob || 'erefre'"></app-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>
