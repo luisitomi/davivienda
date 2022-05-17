@@ -246,12 +246,12 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           permission = false;
           return;
         }
-        if (!element.informacionReferencial?.length) {
+        /*if (!element.informacionReferencial?.length) {
           this.toastr.warning("Falta agregar Información Referencial en el " + (index + 1 ) + " registro.", 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
-        }
+        }*/
         if (element?.segTipoComprobante !== lineSaveComprobante) {
           this.toastr.warning("Los tipos de comprobante son diferentes", 'Advertencia');
           this.spinner = false;

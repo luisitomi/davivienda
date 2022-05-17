@@ -14,6 +14,7 @@ import { DirectivesModule } from '../../../shared/component/ui/directives/direct
 import { MatInputModule } from '@angular/material/input';
 import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ActionsModule,
     LoaderModule,
     MatDialogModule,
+    MatButtonModule,
   ],
   exports: [CargaAsientosManualComponent],
 })

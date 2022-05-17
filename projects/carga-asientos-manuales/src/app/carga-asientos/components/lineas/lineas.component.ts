@@ -148,9 +148,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         if (!element?.combinationAccount) {
           validateConta += 1;
         }
-        if (!element?.columnasReferenciales.length) {
+        /*if (!element?.columnasReferenciales.length) {
           validateRefe += 1;
-        }
+        }*/
       });
       if (this.visibleTable && Boolean(this.lines.data.length && !validateConta && !validateRefe)) {
         const dialogRef = this.dialog.open(EditarLineaComponent, {
