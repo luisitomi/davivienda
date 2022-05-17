@@ -11,7 +11,7 @@
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions class="evol-footer-actions">
-          <a mat-flat-button  style="margin-top: 20px;" [color]="'accent'" href="./../../../../assets/files/plantilla_carga_asiento.csv" (click)="downloadFile()">Descargar plantilla</a>
+          <a mat-flat-button  style="margin-top: 20px;" [color]="'accent'" href="./carga-asientos-manuales/assets/files/plantilla_carga_asiento.csv">Descargar plantilla</a>
           <app-actions [class]="'flat'" [disabled]="!cargaForm.valid" [color]="'accent'" (click)="cargar()" [label]="'Cargar asientos'"></app-actions>
         </mat-card-actions>
       </form>

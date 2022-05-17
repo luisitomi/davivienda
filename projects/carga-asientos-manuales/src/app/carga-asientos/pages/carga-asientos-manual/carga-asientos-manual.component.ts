@@ -32,7 +32,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
     private utilServices: UtilServices,
   ) {
     super();
-    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = 'empleado1' || '');
+    this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
   }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
   }
 
   downloadFile(): void {
-    window.location.href = `../../../../assets/files/${this.getFileNameDownload()}`;
+    window.location.href = `/carga-asientos-manuales/assets/files/assets/files/${this.getFileNameDownload()}`;
   }
 
   getFileNameDownload(): string {
