@@ -40,7 +40,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
   }
 
   downloadFile(): void {
-    window.location.href = `../assets/files/${this.getFileNameDownload()}`;
+    window.location.href = `../../../../assets/files/${this.getFileNameDownload()}`;
   }
 
   getFileNameDownload(): string {
