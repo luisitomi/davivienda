@@ -88,6 +88,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
         Obligatorio: currentValue?.Obligatorio,
         NumeroParametro: currentValue?.NumeroParametro,
         Descripcion: currentValue?.Descripcion,
+        Query: currentValue?.Query,
       }));
     });
   }
@@ -250,6 +251,18 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
 
   modalCrearLov(data: any, index: number) {
     console.log("index", index)
+
+    if (data.Query.includes(':')) {
+      for (let index = 0; index < this.items.value.length; index++) {
+        const element = this.items.value[index];
+        if (data.Query.includes(':'+element.NombreParametro)) {
+          data.Query = data.Query.replace(':'+element.NombreParametro,(element.ValorParametro == null || element.ValorParametro == '')? "''": "'" +element.ValorParametro+"'");
+
+        }
+        
+      }
+   
+    }
     var dataLov = {};
     /* if (data == null) {
         dataLov = {
@@ -266,7 +279,7 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
 
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '80%',
-      maxWidth: '1000px',
+      maxWidth: '500x',
       data: data.Query,
       panelClass: 'my-dialog',
     });
@@ -274,23 +287,57 @@ export class NewParameterComponent extends UnsubcribeOnDestroy implements OnInit
     dialogRef.afterClosed().subscribe(result => {
       //  data = result;
       //  console.log('resul Data: ',data);
-      console.log('resul result: ', result);
+     // console.log('resul result: ', result);
       //  this.refrescar();
       if (result?.valor) {
-        console.log(result)
-        this.toastr.success(result?.message, 'Registrado')
+       
         //    this.form.controls['parametros']['ValorParametro'].setValue('cities_array');
         
         this.items.value[index].ValorParametro = result.codigo;
         this.informationsParam[index].ValorParametro = result.codigo;
-        console.log(this.items)
-        console.log(this.informationsParam)
+
+        this.validarLovGenerico(this.items.value[index]);
+    //    console.log(this.items)
+     //   console.log(this.informationsParam)
       }
       // this.postTsFahModuloReporteLovListaWS();
     });
   }
 
+  validarLovGenerico(parametroModify: any) {
+    for (let index = 0; index < this.items.value.length; index++) {
+      const element = this.items.value[index];
+      if (element.TipoParametro =='Menu' && element.Query.includes(':'+parametroModify.NombreParametro) ) {
+        var query = element.Query.replace(':'+parametroModify.NombreParametro,parametroModify.ValorParametro);
+        element.Query= query;
+          if (!query.includes(':')) {
+              this.search(element,index);
+          }
+      }
+      
+    }
+  }
 
+  search(prmData: any,index: number): void {
+    this.spinner = true;
+    const valueForm = this.form.value;
+    const request = {
+      query:prmData.Query.replace('VALOR','valor').replace('CODIGO','codigo')
+    }
+    const $event = this.reporteEjecucion
+      .posTsFahModuloReporteEjecucionQueryWS(request)
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any) => {
+          if (response.length == 1) {
+            this.items.value[index].ValorParametro = response[0].codigo;
+          this.informationsParam[index].ValorParametro = response[0].codigo;
+          }
+          
+        }
+      )
+    this.arrayToDestroy.push($event)
+  }
   updateItemV2() {
     this.informationsParam.splice(0, 0)
     this.informationsParam?.forEach((currentValue) => {

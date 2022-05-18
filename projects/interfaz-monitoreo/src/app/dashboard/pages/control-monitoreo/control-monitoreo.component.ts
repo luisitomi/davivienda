@@ -104,14 +104,23 @@ export class ControlMonitoreoComponent implements OnInit, OnDestroy, AfterViewCh
       prmBean
     ).subscribe(
       data => {
+     
+      if (data == null ) {
         this.cargas = data;
+      } else {
+        this.cargas = data;
+      }
+        
+       
         this.statusInitial = true;
         this.inputFiltro = false;
       },
       () => {
+   
         this.inputFiltro = false;
       },
       () => {
+       
         this.loadingCargas = false;
         this.inputFiltro = false;
       },
