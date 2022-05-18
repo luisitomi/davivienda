@@ -41,49 +41,47 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     var operateNum = num.split('').reverse()
     var result = [], len = operateNum.length
     for (var i = 0; i < len; i++) {
-        result.push(operateNum[i])
-        if (((i + 1) % 3 === 0) && (i !== len - 1)) {
-            result.push(',')
-        }
+      result.push(operateNum[i])
+      if (((i + 1) % 3 === 0) && (i !== len - 1)) {
+        result.push(',')
+      }
     }
 
     if (dotNum) {
-        result.reverse().push('.', ...dotNum)
-        return result.join('')
+      result.reverse().push('.', ...dotNum)
+      return result.join('')
     } else {
-        return result.reverse().join('')
+      return result.reverse().join('')
     }
   }
 
   tranformerTwoDecimal(value: number): string {
-    return Number(value*1.00)?.toFixed(2);
+    return Number(value * 1.00)?.toFixed(2);
   }
 
   grabar(): void {
     let total = 0;
+    console.log(this.limites)
     const countModifi = this.limites.filter(l =>
       l.estado === 0 && (
-      l.codigo !== l.codigoNew ||
-      Number(l.nuevoValorNew) !== Number(l.nuevoValor) ||
-      Number(l.importeMaximo) !== Number(l.importeMaximoNew))).length;
+        l.codigo !== l.codigoNew ||
+        Number(l.nuevoValorNew) !== Number(l.nuevoValor) ||
+        Number(l.importeMaximo) !== Number(l.importeMaximoNew))).length;
     if (!this.sinCambios) {
       this.spinner = true;
       this.limites.forEach((element: any, index: number) => {
         if (Number(element.importeMaximoNew) !== Number(element.importeMaximo)) {
-          if (this.limites[index - 1]?.nuevoValor === element.nuevoValor && element.estado === 0 && this.limites[index - 1]?.estado === 0) {
-            if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(element.importeMaximoNew)) {
-              this.spinner = false;
-              this.toastr.warning('No puede agregar un importe menor al registro anterior', 'Adevertencia');
-              return;
-            }
+          if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(element.importeMaximoNew)) {
+            this.spinner = false;
+            this.toastr.warning('No puede agregar un importe menor al registro anterior', 'Adevertencia');
+            return;
           }
-          if (this.limites[index + 1]?.nuevoValor === element.nuevoValor && element.estado === 0 && this.limites[index - 1]?.estado === 0) {
-            if (Number(this.limites[index + 1]?.importeMaximoNew) <= Number(element.importeMaximoNew)) {
-              this.spinner = false;
-              this.toastr.warning('No puede agregar un importe mayor al registro posterior', 'Adevertencia');
-              return;
-            }
+          if (Number(this.limites[index + 1]?.importeMaximoNew) <= Number(element.importeMaximoNew)) {
+            this.spinner = false;
+            this.toastr.warning('No puede agregar un importe mayor al registro posterior', 'Adevertencia');
+            return;
           }
+
           const request = {
             Id: element?.id,
             Descripcion: element?.codigoNew,
@@ -119,9 +117,9 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     this.limites[index].importeMaximoNew = Number(event?.target?.value?.replace(/,/g, ""))
     this.sinCambios = this.limites.filter(l =>
       l.estado === 0 && (
-      l.codigo !== l.codigoNew ||
-      (l.nuevoValorNew) !== (l.nuevoValor) ||
-      (l.importeMaximo) !== (l.importeMaximoNew))).length === 0;
+        l.codigo !== l.codigoNew ||
+        (l.nuevoValorNew) !== (l.nuevoValor) ||
+        (l.importeMaximo) !== (l.importeMaximoNew))).length === 0;
   }
 
   onChange(data: any, index: number): void {
@@ -146,9 +144,9 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { name: `¿Esta seguro que desea eliminar el registro`},
+      data: { name: `¿Esta seguro que desea eliminar el registro` },
       panelClass: 'my-dialog',
-       disableClose: true,
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
