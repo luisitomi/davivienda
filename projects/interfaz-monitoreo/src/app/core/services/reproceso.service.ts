@@ -86,10 +86,10 @@ export class ReprocesoService {
     );
   }
 
-  viewProfile(): Observable<any[]> {
+  viewProfile(id: number): Observable<any[]> {
     return this.configService.getApiUrl().pipe(
       first(),
-      switchMap(url => this.http.get<any[]>(this.configService.TsFAHConfiguracionProfileIM)),
+      switchMap(url => this.http.post<any[]>(this.configService.TsFAHConfiguracionProfileIM, { "tipo": id})),
     );
   }
 

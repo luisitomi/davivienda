@@ -84,7 +84,7 @@ export class TablaSalidasComponent extends UnsubcribeOnDestroy implements OnInit
     this.dialog.open(FiltroPerfilComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: null,
+      data: {id: 1},
       panelClass: 'my-dialog',
     });
   }

@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { finalize } from "rxjs/operators";
 import { ReprocesoService } from "../../../core/services/reproceso.service";
@@ -38,6 +38,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
     private reprocesoService: ReprocesoService,
     private cdRef:ChangeDetectorRef,
     private toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     super();
     dialogRef.disableClose = true;
@@ -177,7 +178,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
   viewgetProfile(): void {
     this.spinner = true
     const $getview = this.reprocesoService
-      .viewProfile()
+      .viewProfile(this.data.id || 2)
       .pipe(finalize(() => this.spinner = false))
       .subscribe((response: any) => {
         Object.entries(JSON.parse(response[0]?.JSON)).forEach((element, index) => {
