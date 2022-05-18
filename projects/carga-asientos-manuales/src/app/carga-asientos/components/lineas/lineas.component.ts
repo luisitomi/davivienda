@@ -61,7 +61,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         number++;
       });
       let validateConta: number = 0;
-      let validateRefe: number = 0;
+      
       model?.line?.forEach((element: any) => {
         if (!element?.combinationAccount) {
           validateConta += 1;
@@ -70,7 +70,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
           validateRefe += 1;
         }*/
       });
-      this.proceesLine.emit(Boolean(this.lines.data.length && !validateConta && !validateRefe));
+      this.proceesLine.emit(Boolean(this.lines.data.length && !validateConta));
     } else {
       this.lines.data = [];
       this.proceesLineRefresh.emit(this.refreshLine);
@@ -142,7 +142,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   newLine(event: any): void {
     if (event?.srcElement?.tagName == "MAT-ICON") {
       let validateConta: number = 0;
-      let validateRefe: number = 0;
+      
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       model?.line?.forEach((element: any) => {
         if (!element?.combinationAccount) {
@@ -152,7 +152,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
           validateRefe += 1;
         }*/
       });
-      if (this.visibleTable && Boolean(this.lines.data.length && !validateConta && !validateRefe)) {
+      if (this.visibleTable && Boolean(this.lines.data.length && !validateConta)) {
         const dialogRef = this.dialog.open(EditarLineaComponent, {
           width: '80%',
           maxWidth: '400px',
@@ -261,18 +261,18 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     localStorage.removeItem(appConstants.modelSave.NEWSEAT);
     localStorage.setItem(appConstants.modelSave.NEWSEAT, JSON.stringify(request));
     let validateConta: number = 0;
-    let validateRefe: number = 0;
+    
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     model?.line?.forEach((element: any) => {
-      if (element?.combinationAccount) {
+      if (!element?.combinationAccount) {
         validateConta += 1;
       }
       /*if (element?.columnasReferenciales.length) {
         validateRefe += 1;
       }*/
     });
-    this.proceesLine.emit(Boolean(this.lines.data.length && validateConta && validateRefe));
     this.lines.data = lits;
+    this.proceesLine.emit(Boolean(this.lines.data.length && !validateConta));
     let number = 1;
     this.lines.data.forEach((element: any) => {
       element.nroLinea = number;
