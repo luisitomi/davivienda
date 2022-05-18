@@ -80,7 +80,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
 
   addReference(index: number): void {
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    /*this.lineName = model?.header?.SourceName;*/
+    this.lineName = model?.header?.SourceName;
     this.validateInfo = model?.line[index]?.combinationAccount?.SegGlAccountValue || undefined;
     /*if (this.validateInfo) {*/
       this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName, this.validateInfo],
