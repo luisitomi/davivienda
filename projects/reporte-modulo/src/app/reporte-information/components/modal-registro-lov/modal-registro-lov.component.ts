@@ -87,25 +87,63 @@ export class ModalRegistroLovComponent extends UnsubcribeOnDestroy implements On
   */
 
   createForm(): void {
- 
+ debugger;
     this.form = this.formBuilder.group({
       Id: [this.data.Id,[Validators.required]],
       IdLov: [this.data.IdLov],
       NombreLov: [this.data.NombreLov, [Validators.required]],
-      TipoLov: [this.data.TipoLov, [Validators.required]],
-      CampoValor: [this.data.CampoValor, [Validators.required]],
-      CampoKey: [this.data.CampoKey, [Validators.required]],
-      TablaConsulta: [this.data.TablaConsulta, [Validators.required]],
-      QueryWhere: [this.data.QueryWhere, [Validators.required]],
+      TipoLov: [this.data.TipoLov?.toString(), [Validators.required]],
+      CampoValor: [this.data.CampoValor],
+      CampoKey: [this.data.CampoKey],
+      TablaConsulta: [this.data.TablaConsulta],
+      QueryWhere: [this.data.QueryWhere],
       Query: [this.data.Query],
       Usuario: [this.data.Usuario],
-      Estado: [this.data.Estado,[Validators.required]],
+      Estado: [this.data.Estado],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
     });
   }
-
+  onChangeForm() {
+      var nombreLov =this.form.value.NombreLov;
+      var tipoLov = this.form.value.TipoLov;
+    if (this.form.value.TipoLov == '1') {
+      this.form = this.formBuilder.group({
+        Id: [this.data.Id,[Validators.required]],
+        IdLov: [this.data.IdLov],
+        NombreLov: [nombreLov, [Validators.required]],
+        TipoLov: [tipoLov?.toString(), [Validators.required]],
+        CampoValor: [this.data.CampoValor, [Validators.required]],
+        CampoKey: [this.data.CampoKey, [Validators.required]],
+        TablaConsulta: [this.data.TablaConsulta, [Validators.required]],
+        QueryWhere: [this.data.QueryWhere, [Validators.required]],
+        Query: [this.data.Query],
+        Usuario: [this.data.Usuario],
+        Estado: [this.data.Estado],
+      });
+      this.form.valueChanges.subscribe(() => {
+        this.formInvalid.emit(this.form.invalid);
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        Id: [this.data.Id,[Validators.required]],
+        IdLov: [this.data.IdLov],
+        NombreLov: [nombreLov],
+        TipoLov: [tipoLov?.toString()],
+        CampoValor: [this.data.CampoValor],
+        CampoKey: [this.data.CampoKey],
+        TablaConsulta: [this.data.TablaConsulta],
+        QueryWhere: [this.data.QueryWhere],
+        Query: [this.data.Query, [Validators.required]],
+        Usuario: [this.data.Usuario],
+        Estado: [this.data.Estado],
+      });
+      this.form.valueChanges.subscribe(() => {
+        this.formInvalid.emit(this.form.invalid);
+      });
+    }
+  }
   onFocusOutEvent(control: string) {
     this.form.get(`${control}`)?.clearValidators();
     if (!this.form.get(`${control}`)?.value) {

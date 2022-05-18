@@ -49,8 +49,8 @@ export class AuthService {
     );
   }
   getUsuarioV2() {
-    //return this.usuario.value?.email;
-    return "empleado1";
+    return this.usuario.value?.email;
+    //return "empleado1";
   /*  return this.usuario.asObservable().pipe(
       map(u => u?.email),
     );*/

@@ -11,27 +11,29 @@
         <app-form-errors [control]="form.controls['TipoLov']"></app-form-errors>
         </app-select>
 
-        <app-input   (input)="onFocusOutEvent('CampoValor')" (focusout)="onFocusOutEvent('CampoValor')" [label]="'Columna Valor'" formControlName="CampoValor" [error]="showErrors('CampoValor')"></app-input>
+        <app-input *ngIf="form.value.TipoLov == 1"   (input)="onFocusOutEvent('CampoValor')" (focusout)="onFocusOutEvent('CampoValor')" [label]="'Columna Valor'" formControlName="CampoValor" [error]="showErrors('CampoValor')"></app-input>
         <app-form-errors [control]="form.controls['CampoValor']"></app-form-errors>
 
-        <app-input   (input)="onFocusOutEvent('CampoKey')" (focusout)="onFocusOutEvent('CampoKey')" [label]="'Columna Codigo'" formControlName="CampoKey" [error]="showErrors('CampoKey')"></app-input>
+        <app-input *ngIf="form.value.TipoLov == 1"   (input)="onFocusOutEvent('CampoKey')" (focusout)="onFocusOutEvent('CampoKey')" [label]="'Columna Codigo'" formControlName="CampoKey" [error]="showErrors('CampoKey')"></app-input>
         <app-form-errors [control]="form.controls['CampoKey']"></app-form-errors>
         
-        <app-input   (input)="onFocusOutEvent('TablaConsulta')" (focusout)="onFocusOutEvent('TablaConsulta')" [label]="'Tabla de Consulta'" formControlName="TablaConsulta" [error]="showErrors('TablaConsulta')"></app-input>
+        <app-input *ngIf="form.value.TipoLov == 1"   (input)="onFocusOutEvent('TablaConsulta')" (focusout)="onFocusOutEvent('TablaConsulta')" [label]="'Tabla de Consulta'" formControlName="TablaConsulta" [error]="showErrors('TablaConsulta')"></app-input>
         <app-form-errors [control]="form.controls['TablaConsulta']"></app-form-errors>
 
-        <app-input   (input)="onFocusOutEvent('QueryWhere')" (focusout)="onFocusOutEvent('QueryWhere')" [label]="'Consulta Where'" formControlName="QueryWhere" [error]="showErrors('QueryWhere')"></app-input>
+        <app-input   *ngIf="form.value.TipoLov == 1"  (input)="onFocusOutEvent('QueryWhere')" (focusout)="onFocusOutEvent('QueryWhere')" [label]="'Consulta Where'" formControlName="QueryWhere" [error]="showErrors('QueryWhere')"></app-input>
         <app-form-errors [control]="form.controls['QueryWhere']"></app-form-errors>
-
-
+        {{form.value.TipoLov}}
+  
+       
        <textarea matInput placeholder="Ingrese consulta SQL"
+       *ngIf="form.value.TipoLov == 2"
             cdkTextareaAutosize
             cdkAutosizeMinRows="1"
             formControlName="Query" 
             cols="100"
             rows="10"
             cdkAutosizeMaxRows="50" >
-        </textarea>
+        </textarea> 
 
       
         <!--
