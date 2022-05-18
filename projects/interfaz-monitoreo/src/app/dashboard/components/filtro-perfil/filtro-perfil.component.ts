@@ -178,7 +178,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
   viewgetProfile(): void {
     this.spinner = true
     const $getview = this.reprocesoService
-      .viewProfile(this.data.id || 2)
+      .viewProfile(this.data?.id || 2)
       .pipe(finalize(() => this.spinner = false))
       .subscribe((response: any) => {
         Object.entries(JSON.parse(response[0]?.JSON)).forEach((element, index) => {
