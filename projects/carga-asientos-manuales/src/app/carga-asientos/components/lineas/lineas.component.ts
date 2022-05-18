@@ -66,9 +66,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         if (!element?.combinationAccount) {
           validateConta += 1;
         }
-        if (!element?.columnasReferenciales.length) {
+        /*if (!element?.columnasReferenciales.length) {
           validateRefe += 1;
-        }
+        }*/
       });
       this.proceesLine.emit(Boolean(this.lines.data.length && !validateConta && !validateRefe));
     } else {
@@ -79,10 +79,10 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   }
 
   addReference(index: number): void {
-    /*const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
-    this.lineName = model?.header?.SourceName;
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    /*this.lineName = model?.header?.SourceName;*/
     this.validateInfo = model?.line[index]?.combinationAccount?.SegGlAccountValue || undefined;
-    if (this.validateInfo) {*/
+    /*if (this.validateInfo) {*/
       this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName, this.validateInfo],
         {
           queryParams: this.queryParams,
@@ -267,9 +267,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       if (element?.combinationAccount) {
         validateConta += 1;
       }
-      if (element?.columnasReferenciales.length) {
+      /*if (element?.columnasReferenciales.length) {
         validateRefe += 1;
-      }
+      }*/
     });
     this.proceesLine.emit(Boolean(this.lines.data.length && validateConta && validateRefe));
     this.lines.data = lits;

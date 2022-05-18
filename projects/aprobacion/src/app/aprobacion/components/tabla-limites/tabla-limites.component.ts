@@ -71,12 +71,14 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
       this.spinner = true;
       this.limites.forEach((element: any, index: number) => {
         if (Number(element.importeMaximoNew) !== Number(element.importeMaximo)) {
-          if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(element.importeMaximoNew)) {
+          if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(element.importeMaximoNew) &&
+            element?.nuevoValor === this.limites[index - 1]?.nuevoValor) {
             this.spinner = false;
             this.toastr.warning('No puede agregar un importe menor al registro anterior', 'Adevertencia');
             return;
           }
-          if (Number(this.limites[index + 1]?.importeMaximoNew) <= Number(element.importeMaximoNew)) {
+          if (Number(this.limites[index + 1]?.importeMaximoNew) <= Number(element.importeMaximoNew) &&
+            element?.nuevoValor === this.limites[index + 1]?.nuevoValor) {
             this.spinner = false;
             this.toastr.warning('No puede agregar un importe mayor al registro posterior', 'Adevertencia');
             return;
