@@ -23,11 +23,13 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
   visibleParam3: boolean;
   visibleParam4: boolean;
   visibleParam5: boolean;
+  visibleParam6: boolean;
   lblparam1: string;
   lblparam2: string;
   lblparam3: string;
   lblparam4: string;
   lblparam5: string;
+  lblparam6: string;
   perfilOptionsCopy = [];
   perfilOptions: Array<DropdownItem>;
   selectId = 0;
@@ -60,6 +62,8 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
       param2: [null],
       param3: [null],
       param4: [null],
+      param5: [null],
+      param6: [null],
     });
     this.form.valueChanges.subscribe(() => {
       this.formInvalid.emit(this.form.invalid);
@@ -105,7 +109,7 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
     if (this.form.valid)  {
       const dataForm = this.form.value;
       let message = '{'
-      const dataThis: any = this.perfilOptionsCopy.find((p:any) => p?.ID === dataForm?.perfil)
+      const dataThis: any = this.perfilOptionsCopy.find((p:any) => p?.ID === dataForm?.perfil || this.perfilOptionsCopy[0])
       Object.entries(JSON.parse(dataThis?.JSON)).forEach((element, index) => {
         if (index === 0) {
           message += `"${element[0]}": "${dataForm?.param1}"`
@@ -117,7 +121,13 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
           message += `,"${element[0]}": "${dataForm?.param3}"`
         }
         if (index === 3) {
-          message += `,"${element[0]}": "${dataForm?.param3}"`
+          message += `,"${element[0]}": "${dataForm?.param4}"`
+        }
+        if (index === 4) {
+          message += `,"${element[0]}": "${dataForm?.param5}"`
+        }
+        if (index === 5) {
+          message += `,"${element[0]}": "${dataForm?.param6}"`
         }
       });
       message += '}'
@@ -145,6 +155,8 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
       param2: null,
       param3: null,
       param4: null,
+      param5: null,
+      param6: null,
     })
     this.visibleParam2 = false
     this.onFocusOutEventNorequerid('param2')
@@ -152,6 +164,10 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
     this.onFocusOutEventNorequerid('param3')
     this.visibleParam4 = false
     this.onFocusOutEventNorequerid('param4')
+    this.visibleParam5 = false
+    this.onFocusOutEventNorequerid('param5')
+    this.visibleParam6 = false
+    this.onFocusOutEventNorequerid('param6')
     Object.entries(JSON.parse(dataSelect?.JSON)).forEach((element, index) => {
       if (index === 0) {
         this.lblparam1 = element[0]
@@ -170,6 +186,16 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
         this.lblparam4 = element[0]
         this.visibleParam4 = true
         this.onFocusOutEvent('param4')
+      }
+      if (index === 4) {
+        this.lblparam5 = element[0]
+        this.visibleParam5 = true
+        this.onFocusOutEvent('param5')
+      }
+      if (index === 5) {
+        this.lblparam6 = element[0]
+        this.visibleParam6 = true
+        this.onFocusOutEvent('param6')
       }
     });
     this.selectId = dataSelect?.ID
@@ -199,6 +225,16 @@ export class FiltroPerfilComponent extends UnsubcribeOnDestroy implements OnInit
             this.lblparam4 = element[0]
             this.visibleParam4 = true
             this.onFocusOutEvent('param4')
+          }
+          if (index === 4) {
+            this.lblparam5 = element[0]
+            this.visibleParam5 = true
+            this.onFocusOutEvent('param5')
+          }
+          if (index === 5) {
+            this.lblparam6 = element[0]
+            this.visibleParam6 = true
+            this.onFocusOutEvent('param6')
           }
         });
         this.selectId = response[0]?.ID
