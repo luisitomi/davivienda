@@ -28,6 +28,7 @@
     "moment": "^2.29.1",
     "ng-number-input": "^1.0.2",
     "ngx-mat-select-search": "^4.0.2",
+    "ngx-material-file-input": "^3.0.0",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.4.0",
