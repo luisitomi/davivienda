@@ -5,7 +5,9 @@
       <form [formGroup]="cargaForm">
         <app-title-header [Title]="'Carga de Asientos Masivos'"></app-title-header>
         <mat-card-content>
-          <mat-form-field appearance="fill">
+          <!--Descomentar cuando se agrgeue funcionalidad de limpiar adjunto-->
+          <!--
+            <mat-form-field appearance="fill">
             <mat-label for="archivo">Adjuntar</mat-label>
             <ngx-mat-file-input
               #removableInput
@@ -20,6 +22,8 @@
               <mat-icon>folder</mat-icon>
             </button>
           </mat-form-field>
+          -->
+          <ngx-mat-file-input formControlName="archivo" [accept]="accept"></ngx-mat-file-input>
         </mat-card-content>
         <mat-card-actions class="evol-footer-actions">
           <a mat-flat-button  style="margin-top: 20px;" [color]="'accent'" href="./assets/files/plantilla_carga_asiento.csv">Descargar plantilla</a>
