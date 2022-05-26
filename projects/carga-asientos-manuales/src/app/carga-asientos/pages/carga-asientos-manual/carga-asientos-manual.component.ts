@@ -52,7 +52,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
     const postArchivoSub = this.asientoManualService
       //descomentar cuando se agregue funcion de eliminar adjunto
       //.cargarAsientos(this.cargaForm.value.archivo._files, this.nombreUsuario)
-      .cargarAsientos(this.cargaForm.value.archivo, this.nombreUsuario)
+      .cargarAsientos(this.cargaForm.value.archivo, this.nombreUsuario)//esto se descomenta
       .pipe(finalize(() => this.spinner= false))
       .subscribe(
         (res) => {

@@ -14,7 +14,9 @@ import { LoaderModule } from '../../../shared/component/ui/loader/loader.module'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
+//descomentar si aplica el cambio de limpiar
+//import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatListModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialFileInputModule ,
+    //MaterialFileInputModule ,
     TitleHeaderModule,
     ListItemModule,
     ActionsModule,
@@ -37,6 +39,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    NgxMatFileInputModule,// esto se comenta
   ],
   exports: [CargaAsientosManualComponent],
 })
