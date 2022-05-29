@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProgressModule } from '../../../shared/component/ui/progress/progress.module';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ProgressModule,
     ActionsModule,
     MatExpansionModule,
+    MatPaginatorModule,
   ],
   exports: [TablaAsientosComponent],
 })

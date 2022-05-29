@@ -1,5 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
@@ -15,6 +17,8 @@ import { LimitService } from '../../services/limit.service';
 export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnChanges, OnInit {
 
   @Input() asientos: Asiento[] = [];
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @Input() loading: boolean = false;
   queryParams: any;
   @Output() aprobar = new EventEmitter<Asiento[]>();
@@ -35,11 +39,11 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
     super();
   }
   
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.authService.getUsuarioV2().subscribe(
       (nombre) => 
       {
-        this.nombreUsuario = nombre || ''
+        this.nombreUsuario = 'empleado1' || ''
       }
     );
     this.getByRolUser();
@@ -47,6 +51,9 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
 
   ngOnChanges(): void {
     this.selection.clear();
+    this.dataSource.connect().next(this.dataSource.data = this.asientos || [])
+    
+    this.dataSource.paginator = this.paginator;
   }
 
   numerTranfors(number: any): string {
@@ -74,8 +81,7 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
   }
 
   ChangeFormateDate2(oldDate: any): any{
-    var p = oldDate.split(/\D/g)
-    return [p[2],p[1],p[0] ].join("/")
+    return new Date(oldDate).getTime() ? new Date(oldDate).toLocaleDateString('en-GB') : oldDate;
   }
 
   getByRolUser(): void {

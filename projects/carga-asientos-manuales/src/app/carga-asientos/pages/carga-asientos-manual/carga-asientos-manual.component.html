@@ -27,6 +27,9 @@
           <!--esto se comenta-->
           <mat-form-field appearance="fill">
             <ngx-mat-file-input formControlName="archivo" [accept]="accept"></ngx-mat-file-input>
+            <button (click)="cleanInput()" mat-icon-button matSuffix *ngIf="cargaForm.get('archivo')?.value">
+              <mat-icon>clear</mat-icon>
+            </button>
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions class="evol-footer-actions">

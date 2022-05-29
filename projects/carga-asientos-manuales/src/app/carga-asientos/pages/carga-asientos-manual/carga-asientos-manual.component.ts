@@ -88,4 +88,9 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
     this.arrayToDestroy.push(postArchivoSub);
   }
 
+  cleanInput(): void {
+    this.cargaForm.patchValue({
+      archivo: null,
+    })
+  }
 }
