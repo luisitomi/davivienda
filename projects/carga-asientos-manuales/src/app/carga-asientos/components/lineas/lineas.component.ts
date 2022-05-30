@@ -22,7 +22,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   title = "Líneas";
   lineList: Array<LineaAsientoInsert> = [];
   lines: MatTableDataSource<LineaAsientoInsert> = new MatTableDataSource();
-  displayedColumns: string[] = ['index', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'descripcion', 'acciones'];
+  displayedColumns: string[] = ['index', 'duplicate', 'combinacion', 'moneda', 'debito', 'credito', 'referenciales', 'descripcion', 'acciones'];
   queryParams: any;
   lineName: string;
   validateInfo: any;
@@ -277,6 +277,32 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     this.lines.data.forEach((element: any) => {
       element.nroLinea = number;
       number++;
+    });
+  }
+
+  copyLine(position: number): void {
+    const dialogRef = this.dialog.open(EditarLineaComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: { data: null, type: appConstants.typeEvent.SAVE },
+      panelClass: 'my-dialog',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+      this.lineList = model?.line || [];
+      if (result?.SegCurrency) {
+        result.nroLinea = this.lineList.length + 1;
+        result.columnasReferenciales = this.lineList[position].columnasReferenciales;
+        result.combinationAccount = this.lineList[position].combinationAccount;
+        this.lineList.push(result);
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList,
+        }
+        this.setDataLocal(request, this.lineList);
+      }
     });
   }
 }
