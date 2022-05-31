@@ -51,7 +51,8 @@ export interface LimitHeader
   
   Origen: string;
   Cuenta: string;
-
+  NivelActual: string;
+  Aprobador: string;
   NivelLimit: number;
 }
 

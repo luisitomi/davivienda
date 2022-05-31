@@ -43,7 +43,7 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
     this.authService.getUsuarioV2().subscribe(
       (nombre) => 
       {
-        this.nombreUsuario = 'empleado1' || ''
+        this.nombreUsuario = nombre || ''
       }
     );
     this.getByRolUser();

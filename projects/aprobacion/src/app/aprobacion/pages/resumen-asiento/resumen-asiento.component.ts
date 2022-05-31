@@ -95,6 +95,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             estado: item?.Estado,
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
+            nivelActual: item?.NivelActual,
+            aprobador: item?.Aprobador
           }))
           this.asiento = this.listFilter.length ? this.listFilter[0] : undefined
         }
@@ -115,10 +117,14 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       .getAccountLine(this.id, this.cuentaid, this.eventNumber)
       .pipe(finalize(() => this.spinner = false))
       .subscribe(
+        
         (asiento: AccountLine[]) => {
           this.accountInfo = asiento;
         }
       );
+
+
+
     this.arrayToDestroy.push($subas);
   }
 
@@ -213,6 +219,31 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     LimitHeaderService.exportToCsv('test.csv', this.dataProceesCsv);
     this.spinner = false
   }
+
+  numerTranfors(number: any): string {
+    var num = Number(number)?.toFixed(2)
+    var numArr = num.split('.')
+    // eslint-disable-next-line no-redeclare
+    var [num, dotNum] = numArr
+
+
+    var operateNum = num.split('').reverse()
+    var result = [], len = operateNum.length
+    for (var i = 0; i < len; i++) {
+      result.push(operateNum[i])
+      if (((i + 1) % 3 === 0) && (i !== len - 1)) {
+        result.push(',')
+      }
+    }
+
+    if (dotNum) {
+      result.reverse().push('.', ...dotNum)
+      return result.join('')
+    } else {
+      return result.reverse().join('')
+    }
+  }
+
 
   download(): void {
     this.spinner = true;
