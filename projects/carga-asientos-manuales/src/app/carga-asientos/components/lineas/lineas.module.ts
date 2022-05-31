@@ -12,6 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { ActionsModule } from '../../../shared/component/ui/actions/actions.module';
 import { CmbinacionContableModule } from '../combinacion-contable/combinacion-contable.module';
 import { EditarValueModule } from '../editar-value/editar-value.module';
+import { LoaderModule } from '../../../shared/component/ui/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { EditarValueModule } from '../editar-value/editar-value.module';
     ActionsModule,
     CmbinacionContableModule,
     EditarValueModule,
+    LoaderModule,
   ],
   exports: [LineasComponent],
 })

@@ -3,10 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs/operators';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
+import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
 import { CombinacionContable } from '../../models/combinacion-contable.model';
+import { HeaderLineService } from '../../services/header-line.service';
 import { CombinacionContableComponent } from '../combinacion-contable/combinacion-contable.component';
 import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
 import { EditarValueComponent } from '../editar-value/editar-value.component';
@@ -16,7 +19,7 @@ import { EditarValueComponent } from '../editar-value/editar-value.component';
   templateUrl: './lineas.component.html',
   styleUrls: ['./lineas.component.scss'],
 })
-export class LineasComponent implements OnInit, AfterViewChecked {
+export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, AfterViewChecked {
   @Input() visibleTable: boolean;
   @Input() refreshLine: boolean;
   @Output() proceesLine = new EventEmitter<boolean>();
@@ -28,6 +31,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   queryParams: any;
   lineName: string;
   validateInfo: any;
+  spinner: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -35,7 +39,9 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
+    private headerLineService: HeaderLineService,
   ) {
+    super();
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryParams = params;
     });
@@ -63,7 +69,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         number++;
       });
       let validateConta: number = 0;
-      
+
       model?.line?.forEach((element: any) => {
         if (!element?.combinationAccount) {
           validateConta += 1;
@@ -85,13 +91,13 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     this.lineName = model?.header?.SourceName;
     this.validateInfo = model?.line[index]?.combinationAccount?.SegGlAccountValue || undefined;
     /*if (this.validateInfo) {*/
-      this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName, this.validateInfo],
-        {
-          queryParams: this.queryParams,
-          skipLocationChange: false,
-          queryParamsHandling: 'merge',
-        }
-      );
+    this.router.navigate(['carga-asientos/referencias-complementarias', index, this.lineName, this.validateInfo],
+      {
+        queryParams: this.queryParams,
+        skipLocationChange: false,
+        queryParamsHandling: 'merge',
+      }
+    );
     /*} else {
       this.toastr.warning(`Falta agregar Combinación Contable en el ${index + 1} registro.`, 'Advertencia');
       return;
@@ -144,7 +150,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
   newLine(event: any): void {
     if (event?.srcElement?.tagName == "MAT-ICON") {
       let validateConta: number = 0;
-      
+
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       model?.line?.forEach((element: any) => {
         if (!element?.combinationAccount) {
@@ -245,17 +251,17 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     var operateNum = num.split('').reverse()
     var result = [], len = operateNum.length
     for (var i = 0; i < len; i++) {
-        result.push(operateNum[i])
-        if (((i + 1) % 3 === 0) && (i !== len - 1)) {
-            result.push(',')
-        }
+      result.push(operateNum[i])
+      if (((i + 1) % 3 === 0) && (i !== len - 1)) {
+        result.push(',')
+      }
     }
 
     if (dotNum) {
-        result.reverse().push('.', ...dotNum)
-        return result.join('')
+      result.reverse().push('.', ...dotNum)
+      return result.join('')
     } else {
-        return result.reverse().join('')
+      return result.reverse().join('')
     }
   }
 
@@ -263,7 +269,7 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     localStorage.removeItem(appConstants.modelSave.NEWSEAT);
     localStorage.setItem(appConstants.modelSave.NEWSEAT, JSON.stringify(request));
     let validateConta: number = 0;
-    
+
     const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
     model?.line?.forEach((element: any) => {
       if (!element?.combinationAccount) {
@@ -308,11 +314,11 @@ export class LineasComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  refreshValue(value: string, index: number, typeId: number): void{
+  refreshValue(value: string, index: number, typeId: number): void {
     const dialogRef = this.dialog.open(EditarValueComponent, {
       width: '80%',
       maxWidth: '400px',
-      data: { data: {valor: value}, type: appConstants.typeEvent.EDIT },
+      data: { data: { valor: value }, type: appConstants.typeEvent.EDIT },
       panelClass: 'my-dialog',
       disableClose: true,
     });
@@ -320,333 +326,563 @@ export class LineasComponent implements OnInit, AfterViewChecked {
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
       this.lineList = model?.line || [];
       let data = this.lineList[index]?.combinationAccount;
-      if(result.valor) {
-        switch(typeId){
+      if (result?.valor) {
+        switch (typeId) {
           case 0:
-            const valueData0: CombinacionContable = {
-              Company: result.valor || '',
-              SegF1: data?.SegF1 || '',
-              SegF2: data?.SegF2 || '',
-              SegGlAccount: data?.SegGlAccount || '',
-              SegGlAccountValue: data?.SegGlAccountValue || '',
-              SegIntecompany: data?.SegIntecompany || '',
-              SegOficina: data?.SegOficina || '',
-              SegProyecto: data?.SegProyecto || '',
-              SegSubProyecto: data?.SegSubProyecto || '',
-              SegSucursal: data?.SegSucursal || '',
-              SegTipoComprobante: data?.SegTipoComprobante || '',
-              SegVinculado: data?.SegVinculado || '',
-              ValueInformation: data?.ValueInformation || '',
-              addCuenta: '',
-              addFuturo1: '',
-              addFuturo2: '',
-              addIntercompañia: '',
-              addOficina: '',
-              addProyecto: '',
-              addSubProyecto: '',
-              addSucursal: '',
-              addTipoComprobante: '',
-              addVinculado: '',
-              nameSucursal: ''
+            const request = {
+              tipo: appConstants.segmentValue.Compania,
+              valor: result.valor,
             }
-            this.lineList[index].combinationAccount = valueData0
+            this.spinner = true;
+            const $event = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response?.length) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData0: CombinacionContable = {
+                    Company: result.valor || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData0
+                  const request: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request, this.lineList);
+                }
+              )
+            this.arrayToDestroy.push($event)
             break;
           case 1:
-            const valueData1: CombinacionContable = {
-              Company: data?.Company || '',
-              SegF1: data?.SegF1 || '',
-              SegF2: data?.SegF2 || '',
-              SegGlAccount: result.valor || '',
-              SegGlAccountValue: data?.SegGlAccountValue || '',
-              SegIntecompany: data?.SegIntecompany || '',
-              SegOficina: data?.SegOficina || '',
-              SegProyecto: data?.SegProyecto || '',
-              SegSubProyecto: data?.SegSubProyecto || '',
-              SegSucursal: data?.SegSucursal || '',
-              SegTipoComprobante: data?.SegTipoComprobante || '',
-              SegVinculado: data?.SegVinculado || '',
-              ValueInformation: data?.ValueInformation || '',
-              addCuenta: '',
-              addFuturo1: '',
-              addFuturo2: '',
-              addIntercompañia: '',
-              addOficina: '',
-              addProyecto: '',
-              addSubProyecto: '',
-              addSucursal: '',
-              addTipoComprobante: '',
-              addVinculado: '',
-              nameSucursal: ''
+            const request1 = {
+              tipo: appConstants.segmentValue.Cuenta,
+              codigo: result.valor,
             }
-            this.lineList[index].combinationAccount = valueData1
+            this.spinner = true;
+            const $event1 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request1)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData1: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: result.valor || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData1
+                  const request1: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request1, this.lineList);
+                }
+              )
+            this.arrayToDestroy.push($event1)
             break;
           case 2:
-              const valueData2: CombinacionContable = {
-                Company: data?.Company || '',
-                SegF1: data?.SegF1 || '',
-                SegF2: data?.SegF2 || '',
-                SegGlAccount: data?.SegGlAccount || '',
-                SegGlAccountValue: data?.SegGlAccountValue || '',
-                SegIntecompany: data?.SegIntecompany || '',
-                SegOficina: result.valor || '',
-                SegProyecto: data?.SegProyecto || '',
-                SegSubProyecto: data?.SegSubProyecto || '',
-                SegSucursal: data?.SegSucursal || '',
-                SegTipoComprobante: data?.SegTipoComprobante || '',
-                SegVinculado: data?.SegVinculado || '',
-                ValueInformation: data?.ValueInformation || '',
-                addCuenta: '',
-                addFuturo1: '',
-                addFuturo2: '',
-                addIntercompañia: '',
-                addOficina: '',
-                addProyecto: '',
-                addSubProyecto: '',
-                addSucursal: '',
-                addTipoComprobante: '',
-                addVinculado: '',
-                nameSucursal: ''
-              }
-              this.lineList[index].combinationAccount = valueData2
-              break;
-            case 3:
-                const valueData3: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: result.valor || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData3
-                break;
-            case 4:
-                const valueData4: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: result.valor || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData4
-                break;
-            case 5:
-                const valueData5: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: result.valor || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData5
-                break;
-            case 6:
-                const valueData6: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: result.valor || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData6
-                break;
-            case 7:
-                const valueData7: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: result.valor || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData7
-                break;
-            case 8:
-                const valueData8: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: result.valor || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData8
-                break;
-            case 9:
-                const valueData9: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: result.valor || '',
-                  SegF2: data?.SegF2 || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData9
-                break;
-            case 10:
-                const valueData10: CombinacionContable = {
-                  Company: data?.Company || '',
-                  SegF1: data?.SegF1 || '',
-                  SegF2: result.valor || '',
-                  SegGlAccount: data?.SegGlAccount || '',
-                  SegGlAccountValue: data?.SegGlAccountValue || '',
-                  SegIntecompany: data?.SegIntecompany || '',
-                  SegOficina: data?.SegOficina || '',
-                  SegProyecto: data?.SegProyecto || '',
-                  SegSubProyecto: data?.SegSubProyecto || '',
-                  SegSucursal: data?.SegSucursal || '',
-                  SegTipoComprobante: data?.SegTipoComprobante || '',
-                  SegVinculado: data?.SegVinculado || '',
-                  ValueInformation: data?.ValueInformation || '',
-                  addCuenta: '',
-                  addFuturo1: '',
-                  addFuturo2: '',
-                  addIntercompañia: '',
-                  addOficina: '',
-                  addProyecto: '',
-                  addSubProyecto: '',
-                  addSucursal: '',
-                  addTipoComprobante: '',
-                  addVinculado: '',
-                  nameSucursal: ''
-                }
-                this.lineList[index].combinationAccount = valueData10
-                break;
+            const request2 = {
+              tipo: appConstants.segmentValue.Oficina,
+              codigo: result.valor,
+              padre: data?.SegSucursal,
+            }
+            this.spinner = true;
+            const $event2 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request2)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData2: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: result.valor || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData2
+                  const request2: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request2, this.lineList);
+                })
+            this.arrayToDestroy.push($event2)
+            break;
+          case 3:
+            const request3 = {
+              tipo: appConstants.segmentValue.Sucursal,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event3 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request3)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData3: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: result.valor || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData3
+                  const request3: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request3, this.lineList);
+                })
+            this.arrayToDestroy.push($event3)
+            break;
+          case 4:
+            const request4 = {
+              tipo: appConstants.segmentValue.Proyecto,
+              codigo: result.valor,
+              padre: data?.Company,
+            }
+            this.spinner = true;
+            const $event4 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request4)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData4: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: result.valor || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData4
+                  const request4: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request4, this.lineList);
+                })
+            this.arrayToDestroy.push($event4)
+            break;
+          case 5:
+            const request5 = {
+              tipo: appConstants.segmentValue.Subproyecto,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event5 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request5)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData5: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: result.valor || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData5
+                  const request5: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request5, this.lineList);
+                })
+            this.arrayToDestroy.push($event5)
+            break;
+          case 6:
+            const request6 = {
+              tipo: appConstants.segmentValue.Tipo_Comprobante,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event6 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request6)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData6: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: result.valor || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData6
+                  const request6: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request6, this.lineList);
+                })
+            this.arrayToDestroy.push($event6)
+            break;
+          case 7:
+            const request7 = {
+              tipo: appConstants.segmentValue.Intercompañía,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event7 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request7)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData7: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: result.valor || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData7
+                  const request7: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request7, this.lineList);
+                })
+            this.arrayToDestroy.push($event7)
+            break;
+          case 8:
+            const request8 = {
+              tipo: appConstants.segmentValue.Vinculado,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event8 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request8)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData8: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: result.valor || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData8
+                  const request8: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request8, this.lineList);
+                })
+            this.arrayToDestroy.push($event8)
+            break;
+          case 9:
+            const request9 = {
+              tipo: appConstants.segmentValue.Futuro_1,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event9 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request9)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData9: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: result.valor || '',
+                    SegF2: data?.SegF2 || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData9
+                  const request9: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request9, this.lineList);
+                })
+            this.arrayToDestroy.push($event9)
+            break;
+          case 10:
+            const request10 = {
+              tipo: appConstants.segmentValue.Futuro_2,
+              codigo: result.valor,
+            }
+            this.spinner = true;
+            const $event10 = this.headerLineService
+              .getApiUrlTsFahGetSegmentosWS(request10)
+              .pipe(finalize(() => this.spinner = false))
+              .subscribe(
+                (response: any) => {
+                  if (!response) {
+                    this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
+                    return;
+                  }
+                  const valueData10: CombinacionContable = {
+                    Company: data?.Company || '',
+                    SegF1: data?.SegF1 || '',
+                    SegF2: result.valor || '',
+                    SegGlAccount: data?.SegGlAccount || '',
+                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegIntecompany: data?.SegIntecompany || '',
+                    SegOficina: data?.SegOficina || '',
+                    SegProyecto: data?.SegProyecto || '',
+                    SegSubProyecto: data?.SegSubProyecto || '',
+                    SegSucursal: data?.SegSucursal || '',
+                    SegTipoComprobante: data?.SegTipoComprobante || '',
+                    SegVinculado: data?.SegVinculado || '',
+                    ValueInformation: data?.ValueInformation || '',
+                    addCuenta: '',
+                    addFuturo1: '',
+                    addFuturo2: '',
+                    addIntercompañia: '',
+                    addOficina: '',
+                    addProyecto: '',
+                    addSubProyecto: '',
+                    addSucursal: '',
+                    addTipoComprobante: '',
+                    addVinculado: '',
+                    nameSucursal: ''
+                  }
+                  this.lineList[index].combinationAccount = valueData10
+                  const request10: ManualLading = {
+                    header: model?.header,
+                    line: this.lineList,
+                  }
+                  this.setDataLocal(request10, this.lineList);
+                })
+            this.arrayToDestroy.push($event10)
+            break;
         }
-        const request: ManualLading = {
-          header: model?.header,
-          line: this.lineList,
-        }
-        this.setDataLocal(request, this.lineList);
       }
     })
   }
