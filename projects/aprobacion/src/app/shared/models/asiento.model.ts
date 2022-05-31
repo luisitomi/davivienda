@@ -13,4 +13,6 @@ export interface Asiento {
   estado: string;
   cargoTotal: number;
   abonoTotal: number;
+  nivelActual: string;
+  aprobador:string;
 }

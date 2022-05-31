@@ -182,6 +182,8 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             estado: item?.Estado,
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
+            nivelActual: '',
+            aprobador:'' 
           }))
         }
       );
