@@ -54,7 +54,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     this.authService.getUsuarioV2().subscribe(
       (nombre) => 
       {
-        this.nombreUsuario = 'empleado1' || ''
+        this.nombreUsuario = nombre || ''
       }
     );
     this.getByRolUser();
