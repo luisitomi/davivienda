@@ -1,5 +1,6 @@
 <mat-card>
-  <app-title-header [Title]="title" [ViewIcon]="visibleTable" [IconType]="'add'" (click)="newLine($event)"></app-title-header>
+  <app-title-header [Title]="title" [ViewIcon]="visibleTable" [IconType]="'add'" (click)="newLine($event)">
+  </app-title-header>
   <mat-card-content class="evol-card-content">
     <div class="evol-tabla-container">
       <table mat-table [dataSource]="lines">
@@ -10,13 +11,38 @@
         <ng-container matColumnDef="duplicate">
           <th mat-header-cell *matHeaderCellDef>Duplicar</th>
           <td mat-cell *matCellDef="let element; let i = index;">
-            <app-actions (click)="copyLine(i)"[icon]="'file_copy'" [class]="'icon'"></app-actions>
+            <app-actions (click)="copyLine(i)" [icon]="'file_copy'" [class]="'icon'"></app-actions>
           </td>
         </ng-container>
         <ng-container matColumnDef="combinacion">
           <th mat-header-cell *matHeaderCellDef>Combinación Contable</th>
-          <td mat-cell *matCellDef="let element; let i = index;">
-            {{ element?.combinationAccount?.ValueInformation }}<app-actions (click)="complementary(i)" [icon]="'more_horiz'" [class]="'icon'"></app-actions>
+          <td mat-cell *matCellDef="let element; let i = index;" style="cursor: pointer;">
+            <p>
+              <span (click)="refreshValue(element?.combinationAccount?.Company,i,0)">{{
+                element?.combinationAccount?.Company }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegGlAccount,i,1)">{{
+                element?.combinationAccount?.SegGlAccount }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegOficina,i,2)">{{
+                element?.combinationAccount?.SegOficina }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegSucursal,i,3)">{{
+                element?.combinationAccount?.SegSucursal }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegProyecto,i,4)">{{
+                element?.combinationAccount?.SegProyecto }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegSubProyecto,i,5)">{{
+                element?.combinationAccount?.SegSubProyecto }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegTipoComprobante,i,6)">{{
+                element?.combinationAccount?.SegTipoComprobante }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegIntecompany,i,7)">{{
+                element?.combinationAccount?.SegIntecompany }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegVinculado,i,8)">{{
+                element?.combinationAccount?.SegVinculado }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegF1,i,9)">{{
+                element?.combinationAccount?.SegF1 }}</span>-
+              <span (click)="refreshValue(element?.combinationAccount?.SegF2,i,10)">{{
+                element?.combinationAccount?.SegF2 }}</span>
+            </p>
+            <br />
+            <app-actions (click)="complementary(i)" [icon]="'more_horiz'" [class]="'icon'"></app-actions>
           </td>
         </ng-container>
         <ng-container matColumnDef="moneda">
@@ -30,7 +56,7 @@
         <ng-container matColumnDef="credito">
           <th mat-header-cell *matHeaderCellDef>Crédito</th>
           <td mat-cell *matCellDef="let element">{{ numerTranfors(element.EnteredCredit) }}</td>
-        </ng-container>        
+        </ng-container>
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef>Descripción</th>
           <td mat-cell *matCellDef="let element">{{ element.Description }}</td>

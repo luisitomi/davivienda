@@ -6,8 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { LineaAsientoInsert } from '../../../shared/models/linea-asiento-insert.model';
 import { ManualLading } from '../../../shared/models/manualLoading.model';
+import { CombinacionContable } from '../../models/combinacion-contable.model';
 import { CombinacionContableComponent } from '../combinacion-contable/combinacion-contable.component';
 import { EditarLineaComponent } from '../editar-linea/editar-linea.component';
+import { EditarValueComponent } from '../editar-value/editar-value.component';
 
 @Component({
   selector: 'app-lineas',
@@ -304,5 +306,348 @@ export class LineasComponent implements OnInit, AfterViewChecked {
         this.setDataLocal(request, this.lineList);
       }
     });
+  }
+
+  refreshValue(value: string, index: number, typeId: number): void{
+    const dialogRef = this.dialog.open(EditarValueComponent, {
+      width: '80%',
+      maxWidth: '400px',
+      data: { data: {valor: value}, type: appConstants.typeEvent.EDIT },
+      panelClass: 'my-dialog',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+      this.lineList = model?.line || [];
+      let data = this.lineList[index]?.combinationAccount;
+      if(result.valor) {
+        switch(typeId){
+          case 0:
+            const valueData0: CombinacionContable = {
+              Company: result.valor || '',
+              SegF1: data?.SegF1 || '',
+              SegF2: data?.SegF2 || '',
+              SegGlAccount: data?.SegGlAccount || '',
+              SegGlAccountValue: data?.SegGlAccountValue || '',
+              SegIntecompany: data?.SegIntecompany || '',
+              SegOficina: data?.SegOficina || '',
+              SegProyecto: data?.SegProyecto || '',
+              SegSubProyecto: data?.SegSubProyecto || '',
+              SegSucursal: data?.SegSucursal || '',
+              SegTipoComprobante: data?.SegTipoComprobante || '',
+              SegVinculado: data?.SegVinculado || '',
+              ValueInformation: data?.ValueInformation || '',
+              addCuenta: '',
+              addFuturo1: '',
+              addFuturo2: '',
+              addIntercompañia: '',
+              addOficina: '',
+              addProyecto: '',
+              addSubProyecto: '',
+              addSucursal: '',
+              addTipoComprobante: '',
+              addVinculado: '',
+              nameSucursal: ''
+            }
+            this.lineList[index].combinationAccount = valueData0
+            break;
+          case 1:
+            const valueData1: CombinacionContable = {
+              Company: data?.Company || '',
+              SegF1: data?.SegF1 || '',
+              SegF2: data?.SegF2 || '',
+              SegGlAccount: result.valor || '',
+              SegGlAccountValue: data?.SegGlAccountValue || '',
+              SegIntecompany: data?.SegIntecompany || '',
+              SegOficina: data?.SegOficina || '',
+              SegProyecto: data?.SegProyecto || '',
+              SegSubProyecto: data?.SegSubProyecto || '',
+              SegSucursal: data?.SegSucursal || '',
+              SegTipoComprobante: data?.SegTipoComprobante || '',
+              SegVinculado: data?.SegVinculado || '',
+              ValueInformation: data?.ValueInformation || '',
+              addCuenta: '',
+              addFuturo1: '',
+              addFuturo2: '',
+              addIntercompañia: '',
+              addOficina: '',
+              addProyecto: '',
+              addSubProyecto: '',
+              addSucursal: '',
+              addTipoComprobante: '',
+              addVinculado: '',
+              nameSucursal: ''
+            }
+            this.lineList[index].combinationAccount = valueData1
+            break;
+          case 2:
+              const valueData2: CombinacionContable = {
+                Company: data?.Company || '',
+                SegF1: data?.SegF1 || '',
+                SegF2: data?.SegF2 || '',
+                SegGlAccount: data?.SegGlAccount || '',
+                SegGlAccountValue: data?.SegGlAccountValue || '',
+                SegIntecompany: data?.SegIntecompany || '',
+                SegOficina: result.valor || '',
+                SegProyecto: data?.SegProyecto || '',
+                SegSubProyecto: data?.SegSubProyecto || '',
+                SegSucursal: data?.SegSucursal || '',
+                SegTipoComprobante: data?.SegTipoComprobante || '',
+                SegVinculado: data?.SegVinculado || '',
+                ValueInformation: data?.ValueInformation || '',
+                addCuenta: '',
+                addFuturo1: '',
+                addFuturo2: '',
+                addIntercompañia: '',
+                addOficina: '',
+                addProyecto: '',
+                addSubProyecto: '',
+                addSucursal: '',
+                addTipoComprobante: '',
+                addVinculado: '',
+                nameSucursal: ''
+              }
+              this.lineList[index].combinationAccount = valueData2
+              break;
+            case 3:
+                const valueData3: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: result.valor || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData3
+                break;
+            case 4:
+                const valueData4: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: result.valor || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData4
+                break;
+            case 5:
+                const valueData5: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: result.valor || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData5
+                break;
+            case 6:
+                const valueData6: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: result.valor || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData6
+                break;
+            case 7:
+                const valueData7: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: result.valor || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData7
+                break;
+            case 8:
+                const valueData8: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: result.valor || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData8
+                break;
+            case 9:
+                const valueData9: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: result.valor || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData9
+                break;
+            case 10:
+                const valueData10: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: result.valor || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: data?.SegSubProyecto || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: ''
+                }
+                this.lineList[index].combinationAccount = valueData10
+                break;
+        }
+        const request: ManualLading = {
+          header: model?.header,
+          line: this.lineList,
+        }
+        this.setDataLocal(request, this.lineList);
+      }
+    })
   }
 }
