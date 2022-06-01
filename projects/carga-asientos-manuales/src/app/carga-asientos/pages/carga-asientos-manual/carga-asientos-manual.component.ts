@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
@@ -30,6 +31,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
     private authService: AuthService,
     private dialog: MatDialog,
     private utilServices: UtilServices,
+    private toastr: ToastrService,
   ) {
     super();
     this.authService.getUsuarioV2().subscribe(rpta => this.nombreUsuario = rpta || '');
@@ -49,6 +51,11 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
 
   cargar(): void {
     this.spinner = true;
+    if (!this.cargaForm.value?.archivo?.toString()?.endsWith(".csv")) {
+      this.toastr.warning(`Documento debe ser formato .csv`, 'Advertencia');
+      this.spinner = false;
+      return;
+    }
     const postArchivoSub = this.asientoManualService
       //descomentar cuando se agregue funcion de eliminar adjunto
       //.cargarAsientos(this.cargaForm.value.archivo._files, this.nombreUsuario)
