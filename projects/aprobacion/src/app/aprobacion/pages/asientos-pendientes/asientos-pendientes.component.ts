@@ -37,7 +37,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
     aprobadorName: '',
   };;
   aprobador: boolean;
-
+  autorizacion: string;
   constructor(
     private snackBar: MatSnackBar,
     private lineHeaderService: LimitHeaderService,
@@ -55,6 +55,11 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       (nombre) => 
       {
         this.nombreUsuario = nombre/*'empleado1'*/ || ''
+      }
+    );
+    this.authService.getToken().subscribe(
+      (token) => {
+        this.autorizacion = 'Bearer ' + token;
       }
     );
     this.getByRolUser();
@@ -118,7 +123,8 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
             nivelActual: '',
-            aprobador:'' 
+            aprobador:'' ,
+            enviado: ''
           }));
           this.asientosCopy = this.eliminarObjetosDuplicados(this.asientosCopy, 'id');
         }
@@ -155,6 +161,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
           Status: 1,
           Id: element?.id,
           Message: '',
+          Jwt: this.autorizacion,
         }
         this.spinner = true;
         const $subas = this.lineHeaderService
@@ -190,6 +197,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
               Status: 2,
               Id: element?.id,
               Message: result?.description,
+              Jwt: this.autorizacion,
             }
             this.spinner = true;
             const $subas = this.lineHeaderService

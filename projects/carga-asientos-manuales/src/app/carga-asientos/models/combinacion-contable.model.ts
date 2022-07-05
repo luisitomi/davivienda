@@ -13,6 +13,7 @@ export class CombinacionContable {
 	SegF2:string;
 	ValueInformation: string;
 	nameSucursal: string;
+	nameOficina: string;
 	addCuenta: any;
 	addSucursal: any;
 	addOficina: any;

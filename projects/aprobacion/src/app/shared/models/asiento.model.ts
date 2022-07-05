@@ -15,4 +15,5 @@ export interface Asiento {
   abonoTotal: number;
   nivelActual: string;
   aprobador:string;
+  enviado: string;
 }

@@ -83,7 +83,10 @@ export class DetalleArchivoComponent implements OnDestroy {
     let boo = archivo.includes('REV');
     return boo;
   }
-
+  validarManual(archivo : String) {
+    let boo = archivo.includes('_M_');
+    return boo;
+  }
   getByRolUser(): void {
     this.spinner = true;
     const $rol = this.authService

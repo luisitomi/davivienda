@@ -34,14 +34,14 @@
 
       <mat-list-item>
         <h3>Job Import Accounting</h3>
-        <h3>{{ numerTranfors(carga.jobImportAccounting) }}</h3>
+        <h3>{{ carga.jobImportAccounting }}</h3>
       </mat-list-item>
 
       <mat-divider></mat-divider>
 
       <mat-list-item>
         <h3>Job Create Accounting</h3>
-        <h3>{{ numerTranfors(carga.jobCreateAccounting) }}</h3>
+        <h3>{{ carga.jobCreateAccounting }}</h3>
       </mat-list-item>
     </mat-list>
 
@@ -65,11 +65,11 @@
   
     <button mat-flat-button color="accent"  (click)="reversar()" [disabled]="loadingCargas" *ngIf="carga.reversado !== reversado"  >Reversar</button>
  
-
+<div *ngIf="!validarManual(carga.nombreArchivo)">
     <button mat-flat-button color="accent" disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estadoProceso != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Cabeceras, carga.origen]">Corregir Cabeceras</button>
   <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estadoProceso != 'REPROCESADO'" [routerLink]="['dashboard/reproceso', carga.id, elemento.Lineas, carga.origen]">Corregir Líneas</button>
   <button mat-flat-button color="accent"  disabled="{{bloqueo}}" *ngIf="carga.reversado == reversado && carga.estadoProceso != 'REPROCESADO'" (click)="reprocesar()">Reprocesar</button>
-
+</div>
 
   <!--
   <ng-template appHasPermission [feature]="reverso" [permission]="canReversar">

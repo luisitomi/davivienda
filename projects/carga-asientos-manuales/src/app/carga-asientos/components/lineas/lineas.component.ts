@@ -339,7 +339,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response?.length) {
+                  if (response == null || response?.length != 1  ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -367,7 +367,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData0
                   const request: ManualLading = {
@@ -390,16 +391,29 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
+                  var cuentaSeleccionada = response[0];
+                  var typeCuenta = 
+                  ( 
+                    (
+                      cuentaSeleccionada.REQUIERE_IDENTIFICACION_CLI == 'Y' && 
+                      cuentaSeleccionada.REQUIERE_AUXILIAR_CONCILIACION == 'Y' )? "Y" :
+                      
+                     ( (cuentaSeleccionada.REQUIERE_IDENTIFICACION_CLI == 'Y') ?"Y1":  
+                     
+                     ( (cuentaSeleccionada.REQUIERE_AUXILIAR_CONCILIACION == 'Y') ? "Y2" :"")
+                     )
+                     // event?.result?.REQUIERE_IDENTIFICACION_CLI == 'Y' || event?.result?.REQUIERE_IDENTIFICACION_CLI == 'Y') ? 'Y': event?.result?.tipo 
+                    )
                   const valueData1: CombinacionContable = {
                     Company: data?.Company || '',
                     SegF1: data?.SegF1 || '',
                     SegF2: data?.SegF2 || '',
                     SegGlAccount: result.valor || '',
-                    SegGlAccountValue: data?.SegGlAccountValue || '',
+                    SegGlAccountValue: typeCuenta || 'N',
                     SegIntecompany: data?.SegIntecompany || '',
                     SegOficina: data?.SegOficina || '',
                     SegProyecto: data?.SegProyecto || '',
@@ -418,7 +432,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData1
                   const request1: ManualLading = {
@@ -442,7 +457,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -470,7 +485,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData2
                   const request2: ManualLading = {
@@ -492,7 +508,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -520,7 +536,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData3
                   const request3: ManualLading = {
@@ -543,7 +560,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -571,7 +588,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData4
                   const request4: ManualLading = {
@@ -593,7 +611,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -621,7 +639,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData5
                   const request5: ManualLading = {
@@ -643,7 +662,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -671,7 +690,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData6
                   const request6: ManualLading = {
@@ -693,7 +713,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -721,7 +741,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData7
                   const request7: ManualLading = {
@@ -743,7 +764,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -771,7 +792,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData8
                   const request8: ManualLading = {
@@ -793,7 +815,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -821,7 +843,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData9
                   const request9: ManualLading = {
@@ -843,7 +866,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               .pipe(finalize(() => this.spinner = false))
               .subscribe(
                 (response: any) => {
-                  if (!response) {
+                  if (response == null || response?.length != 1 ) {
                     this.toastr.warning(`El valor ingresado no es correcto`, 'Advertencia');
                     return;
                   }
@@ -871,7 +894,8 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     addSucursal: '',
                     addTipoComprobante: '',
                     addVinculado: '',
-                    nameSucursal: ''
+                    nameSucursal: '',
+                    nameOficina: ''
                   }
                   this.lineList[index].combinationAccount = valueData10
                   const request10: ManualLading = {

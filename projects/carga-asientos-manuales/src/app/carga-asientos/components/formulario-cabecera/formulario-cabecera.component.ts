@@ -235,32 +235,59 @@ export class FormularioCabeceraComponent extends UnsubcribeOnDestroy implements 
   }
 
   onSelectCalendarMont(event: any): void {
-    const valueFecha = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
-    event?.value?.getMonth()+1 < 10 ? 
-      event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
-      event?.value?.getFullYear()+''+(event?.value?.getMonth()+1)
-    : 1))?.closing_status === 'O';
-    if (!valueFecha) {
-      this.toastr.warning('Periodo no esta activo', 'Advertencia');
-      this.fechaIsValid = false;
-      return;
-    } else {
-      this.fechaIsValid = true;
-      this.form.patchValue({
-        period: this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
-        event?.value?.getMonth()+1 < 10 ? 
-          event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
-          event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
-        : 1))?.period_name,
-      });
-      this.selectPeriod = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
-      event?.value?.getMonth()+1 < 10 ? 
-        event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
-        event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
-      : 1))?.period_name;
-      this.processValidate.emit(this.form.valid && this.fechaIsValid);
-      this.dataValidate.emit(this.form.value);
-    }
+
+    this.spinner = true;
+    var fechaSTR ="";
+if (event?.value?.getMonth()+1 < 10 ) {
+  fechaSTR = 
+  (event?.value?.getDate() >= 10 ? ''+ event?.value?.getDate() : '0'+ event?.value?.getDate() )
+  + "" + '0'+ (event?.value?.getMonth() + 1) + "" + event?.value?.getFullYear()
+} else {
+  fechaSTR = (event?.value?.getDate() >= 10 ? ''+ event?.value?.getDate() : '0'+ event?.value?.getDate() )+ "" + (event?.value?.getMonth() + 1) + "" + event?.value?.getFullYear()
+}
+    this.periodoContableService.getTsFahValidacionFechaCerradaGLWS(fechaSTR).pipe(finalize(() => this.spinner = false)).subscribe(
+      (response:any)=> {
+          if (response!= null && response.valor == 'Y') {
+             /* inicio if*/
+            const valueFecha = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
+            event?.value?.getMonth()+1 < 10 ? 
+              event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
+              event?.value?.getFullYear()+''+(event?.value?.getMonth()+1)
+            : 1))?.closing_status === 'O';
+            if (!valueFecha) {
+              this.toastr.warning('Periodo no esta activo', 'Advertencia');
+              this.fechaIsValid = false;
+              return;
+            } else {
+              this.fechaIsValid = true;
+              this.form.patchValue({
+                period: this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
+                event?.value?.getMonth()+1 < 10 ? 
+                  event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
+                  event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
+                : 1))?.period_name,
+              });
+              this.selectPeriod = this.periodData.find(p => Number(p?.period_num) === Number(event?.value?.getMonth() < 12 ?
+              event?.value?.getMonth()+1 < 10 ? 
+                event?.value?.getFullYear()+'0'+(event?.value?.getMonth()+1) :
+                event?.value?.getFullYear()+''+(event?.value?.getMonth()+1) 
+              : 1))?.period_name;
+              this.processValidate.emit(this.form.valid && this.fechaIsValid);
+              this.dataValidate.emit(this.form.value);
+            }
+            /* fin if*/
+          } else if (response!= null && response.valor == 'N'){
+            this.toastr.warning('La fecha seleccionada se encuentra inactiva', 'Advertencia');
+            this.fechaIsValid = false;
+            return;
+          } else{
+            this.toastr.warning(response.valor, 'Advertencia');
+            this.fechaIsValid = false;
+            return;
+          }
+      } 
+    );
+  
   }
 
   removeChanges(): void {

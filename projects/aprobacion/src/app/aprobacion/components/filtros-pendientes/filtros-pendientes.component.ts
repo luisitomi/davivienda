@@ -183,7 +183,8 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
             nivelActual: '',
-            aprobador:'' 
+            aprobador:'',
+            enviado: ''
           }))
         }
       );

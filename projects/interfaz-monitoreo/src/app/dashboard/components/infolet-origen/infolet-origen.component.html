@@ -8,44 +8,44 @@
       <mat-list-item *ngIf="infolet?.origen !== null">
         <h2 class="evol-infolet-item-desc">Origen</h2>
       
-        <h2>{{ infolet?.origen }}</h2>
+        <h2  class="evol-infolet-item-val">{{ infolet?.origen }}</h2>
           
 
       </mat-list-item>
       <mat-divider *ngIf="infolet?.origen !== null"></mat-divider>
       <mat-list-item *ngIf="infolet?.estado !== undefined">
         <h2 class="evol-infolet-item-desc">Estado de integración</h2>
-        <h2>{{ infolet?.estado }}</h2>
+        <h2  class="evol-infolet-item-val">{{ infolet?.estado }}</h2>
       </mat-list-item>
       <mat-divider *ngIf="infolet?.estado !== undefined"></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Archivos procesados</h2>
-        <h2>{{ infolet?.archivosProcesados }}</h2>
+        <h2  class="evol-infolet-item-val">{{ infolet?.archivosProcesados }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Transacciones cargadas</h2>
-        <h2>{{ infolet?.transaccionesCargadas }}</h2>
+        <h2  class="evol-infolet-item-val">{{ infolet?.transaccionesCargadas }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Asientos Accounting Hub</h2>
-        <h2>{{ infolet?.asientosAccountingHub }}</h2>
+        <h2  class="evol-infolet-item-val">{{ infolet?.asientosAccountingHub }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Asientos General Accounting</h2>
-        <h2>{{ infolet?.asientosGeneralAccounting }}</h2>
+        <h2  class="evol-infolet-item-val">{{ infolet?.asientosGeneralAccounting }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Movimiento neto de hoy</h2>
-        <h2>COP {{ numerTranfors(infolet?.movimientoNetoHoy) }}</h2>
+        <h2  class="evol-infolet-item-val">COP {{ numerTranfors(infolet?.movimientoNetoHoy) }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <h2 class="evol-infolet-item-desc">Movimiento neto de ayer</h2>
-        <h2>COP {{ numerTranfors(infolet?.movimientoNetoAyer) }}</h2>
+        <h2 class="evol-infolet-item-val">COP {{ numerTranfors(infolet?.movimientoNetoAyer) }}</h2>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>

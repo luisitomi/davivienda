@@ -70,6 +70,13 @@ export class LimitHeaderService {
     );
   }
 
+  postTsAprobacionUsuarioPreparadorWS(filters: any): Observable<any[]> {
+    return this.configService.getApiUrlTsAprobacionUsuarioPreparadorWS().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url, filters)),
+    );
+  }
+
   static exportToCsv(filename: string, rows: any[]) {
     if (!rows || !rows.length) {
       return;

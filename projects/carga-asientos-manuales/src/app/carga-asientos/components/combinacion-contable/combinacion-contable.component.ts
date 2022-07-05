@@ -388,6 +388,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
         SegOficina: valueForm.comp3,
         SegSucursal: valueForm.comp4,
         nameSucursal: this.parte1Options.find(p => p.value === valueForm.comp4)?.label || '',
+        nameOficina: this.parte3Options.find(p => p.value === valueForm.comp3)?.label || '',
         SegProyecto: valueForm.comp5,
         SegSubProyecto: valueForm.comp6,
         SegTipoComprobante: valueForm.comp7,
@@ -425,14 +426,25 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
           this.addCuenta = {
             label: `${event?.result?.codigo} - ${event?.result?.valor}`,
             value: event?.result?.codigo,
-            type: event?.result?.tipo,
+            type: ( 
+              (
+                event?.result?.REQUIERE_IDENTIFICACION_CLI == 'Y' && 
+                event?.result?.REQUIERE_AUXILIAR_CONCILIACION == 'Y' )? "Y" :
+                
+               ( (event?.result?.REQUIERE_IDENTIFICACION_CLI == 'Y') ?"Y1":  
+               
+               ( (event?.result?.REQUIERE_AUXILIAR_CONCILIACION == 'Y') ? "Y2" :"")
+               )
+               // event?.result?.REQUIERE_IDENTIFICACION_CLI == 'Y' || event?.result?.REQUIERE_IDENTIFICACION_CLI == 'Y') ? 'Y': event?.result?.tipo 
+              ),
           }
         }
         this.form.patchValue({
           comp2: event?.result?.codigo,
         })
         this.comp2Select = event?.result?.codigo
-        this.validateClient = event?.result?.tipo || 'N'
+        this.validateClient = this.addCuenta?.type || 'N'
+       // this.validateClient = event?.result?.tipo || 'N'
         break;
       case appConstants.segment.Compania:
         const id_1 = this.parte1Options.find(p => p.value?.toString() === event?.result?.codigo?.toString())

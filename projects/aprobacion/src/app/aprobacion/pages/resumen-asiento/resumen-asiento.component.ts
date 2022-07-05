@@ -41,7 +41,7 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   preparador = false;
   trabajo = false;
   dataProceesCsv: Array<AccountLineDownloadProcess> = [];
-
+  autorizacion: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -67,6 +67,11 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
     this.authService.getUsuarioV2().subscribe(
       (nombre) => {
         this.nombreUsuario = nombre || ''
+      }
+    );
+    this.authService.getToken().subscribe(
+      (token) => {
+        this.autorizacion = 'Bearer ' + token;
       }
     );
     this.getByRolUser();
@@ -96,7 +101,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
             nivelActual: item?.NivelActual,
-            aprobador: item?.Aprobador
+            aprobador: item?.Aprobador,
+            enviado: item?.Enviado
           }))
           this.asiento = this.listFilter.length ? this.listFilter[0] : undefined
         }
@@ -135,8 +141,9 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       .pipe(finalize(() => this.getListData(this.filtrosData)))
       .subscribe(
         (response: any) => {
+      
           this.aprobador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_APROBADOR'));
-          this.preparador = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_PREPARADOR'));
+          this.preparador = Boolean(response?.find((p: any) => p.nombre_comun_rol.toUpperCase() === 'DAV_FAH_ROL_PREPARADOR'));
           this.trabajo = Boolean(response?.find((p: any) => p.nombre_comun_rol === 'DAV_FAH_ROL_DE_TRABAJO'));
         }
       )
@@ -149,8 +156,9 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       Status: 1,
       Id: this.id || 0,
       Message: '',
+      Jwt: this.autorizacion
     }
-    console.log(request)
+   // console.log(request)
     this.spinner = true;
     const $subas = this.lineHeaderService
       .saveStatusAsient(request)
@@ -180,7 +188,8 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
           Usuario: this.nombreUsuario,
           Status: 2,
           Id: this.id || 0,
-          Message: '',
+          Message: result?.description,
+          Jwt: this.autorizacion
         }
         this.spinner = true;
         const $subas = this.lineHeaderService
@@ -253,65 +262,103 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
       .subscribe(
         (response: AccountLineDownload[]) => {
           const dataprocess = (response || []).map((item) => ({
-            JH_LEDGER_NAME: item?.JH_LEDGER_NAME,
-            JH_JE_SOURCE_NAME: item?.JH_JE_SOURCE_NAME,
-            JH_ACCOUNTING_DATE: item?.JH_ACCOUNTING_DATE,
-            JH_DESCRIPTION: item?.JH_DESCRIPTION,
-            JL_SEG_COMPANY: item?.JL_SEG_COMPANY,
-            JL_SEG_GL_ACCOUNT: item?.JL_SEG_GL_ACCOUNT,
-            JL_SEG_OFICINA: item?.JL_SEG_OFICINA,
-            JL_SEG_SUCURSAL: item?.JL_SEG_SUCURSAL,
-            JL_SEG_PROYECTO: item?.JL_SEG_PROYECTO,
-            JL_SEG_SUBPROYECTO: item?.JL_SEG_SUBPROYECTO,
-            JL_SEG_TIPO_COMPROBANTE: item?.JL_SEG_TIPO_COMPROBANTE,
-            JL_SEG_INTERCOMPANY: item?.JL_SEG_INTERCOMPANY,
-            JL_SEG_VINCULADO: item?.JL_SEG_VINCULADO,
-            JL_SEG_F1: item?.JL_SEG_F1,
-            JL_SEG_F2: item?.JL_SEG_F2,
-            JL_CURRENCY: item?.JL_CURRENCY,
-            JL_ENTERED_DEBIT: item?.JL_ENTERED_DEBIT,
-            JL_ENTERED_CREDIT: item?.JL_ENTERED_CREDIT,
-            JL_DESCRIPTION: item?.JL_DESCRIPTION,
-            JL_REF1: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[0]?.JL_REFERENCIA_COM || '',
-            JL_REF1_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[0]?.VALOR || '',
-            JL_REF2: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[1]?.JL_REFERENCIA_COM || '',
-            JL_REF2_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[1]?.VALOR || '',
-            JL_REF3: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[2]?.JL_REFERENCIA_COM || '',
-            JL_REF3_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[2]?.VALOR || '',
-            JL_REF4: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[3]?.JL_REFERENCIA_COM || '',
-            JL_REF4_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[3]?.VALOR || '',
-            JL_REF5: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[4]?.JL_REFERENCIA_COM || '',
-            JL_REF5_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[4]?.VALOR || '',
-            JL_REF6: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[5]?.JL_REFERENCIA_COM || '',
-            JL_REF6_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[5]?.VALOR || '',
-            JL_REF7: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[6]?.JL_REFERENCIA_COM || '',
-            JL_REF7_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[6]?.VALOR || '',
-            JL_REF8: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[7]?.JL_REFERENCIA_COM || '',
-            JL_REF8_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[7]?.VALOR || '',
-            JL_REF9: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[8]?.JL_REFERENCIA_COM || '',
-            JL_REF9_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[8]?.VALOR || '',
-            JL_REF10: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[9]?.JL_REFERENCIA_COM || '',
-            JL_REF10_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[9]?.VALOR || '',
-            JL_REF11: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[10]?.JL_REFERENCIA_COM || '',
-            JL_REF11_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[10]?.VALOR || '',
-            JL_REF12: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[11]?.JL_REFERENCIA_COM || '',
-            JL_REF12_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[11]?.VALOR || '',
-            JL_REF13: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[12]?.JL_REFERENCIA_COM || '',
-            JL_REF13_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[12]?.VALOR || '',
-            JL_REF14: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[13]?.JL_REFERENCIA_COM || '',
-            JL_REF14_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[13]?.VALOR || '',
-            JL_REF15: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[14]?.JL_REFERENCIA_COM || '',
-            JL_REF15_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[14]?.VALOR || '',
-            JL_REF16: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[15]?.JL_REFERENCIA_COM || '',
-            JL_REF16_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[15]?.VALOR || '',
-            JL_REF17: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[16]?.JL_REFERENCIA_COM || '',
-            JL_REF17_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[16]?.VALOR || '',
-            JL_REF18: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[17]?.JL_REFERENCIA_COM || '',
-            JL_REF18_VAL: response.filter(p => p.NRO_LINEA === item.NRO_LINEA && p.NRO_REF_COM === item.NRO_REF_COM && p.JH_LEDGER_NAME === item.JH_LEDGER_NAME)[17]?.VALOR || '',
+            "LIBRO": item?.JH_LEDGER_NAME,
+            "ORIGEN": item?.JH_JE_SOURCE_NAME,
+            "FECHA CONTABLE": item?.JH_ACCOUNTING_DATE,
+            "DESCRIPCION": item?.JH_DESCRIPTION,
+            "COMPANIA": item?.JL_SEG_COMPANY,
+            "CUENTA CONTABLE": item?.JL_SEG_GL_ACCOUNT,
+            "OFICINA": item?.JL_SEG_OFICINA,
+            "SUCURSAL": item?.JL_SEG_SUCURSAL,
+            "PROYECTO": item?.JL_SEG_PROYECTO,
+            "SUBPROYECTO": item?.JL_SEG_SUBPROYECTO,
+            "TIPO COMPROBANTE": item?.JL_SEG_TIPO_COMPROBANTE,
+            "INTERCOMPANIA": item?.JL_SEG_INTERCOMPANY,
+            "VINCULADO": item?.JL_SEG_VINCULADO,
+            "FUTURO1": item?.JL_SEG_F1,
+            "FUTURO2": item?.JL_SEG_F2,
+            "MONEDA": item?.JL_CURRENCY,
+            "DEBITO": item?.JL_ENTERED_DEBIT,
+            "CREDITO": item?.JL_ENTERED_CREDIT,
+            "DESCRIPCION LINEA": item?.JL_DESCRIPTION,
+            "REFERENCIA COMPLEMENTARIA 1": item?.JL_REF1 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 1": item?.JL_REF1_VAL || '',
+            
+            "REFERENCIA COMPLEMENTARIA 2": item?.JL_REF2 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 2": item?.JL_REF2_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 3": item?.JL_REF3 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 3": item?.JL_REF3_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 4": item?.JL_REF4 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 4": item?.JL_REF4_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 5": item?.JL_REF5 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 5": item?.JL_REF5_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 6": item?.JL_REF6 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 6": item?.JL_REF6_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 7": item?.JL_REF7 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 7": item?.JL_REF7_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 8": item?.JL_REF8 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 8": item?.JL_REF8_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 9": item?.JL_REF9 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 9": item?.JL_REF9_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 10": item?.JL_REF10 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 10": item?.JL_REF10_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 11": item?.JL_REF11 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 11": item?.JL_REF11_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 12": item?.JL_REF12 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 12": item?.JL_REF12_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 13": item?.JL_REF13 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 13": item?.JL_REF13_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 14": item?.JL_REF14 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 14": item?.JL_REF14_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 15": item?.JL_REF15 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 15": item?.JL_REF15_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 16": item?.JL_REF16 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 16": item?.JL_REF16_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 17": item?.JL_REF17 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 17": item?.JL_REF17_VAL || '',
+
+            "REFERENCIA COMPLEMENTARIA 18": item?.JL_REF18 || '',
+            "VALOR DE REFERENCIA COMPLEMENTARIA 18": item?.JL_REF18_VAL || '',
           }))
           this.dataProceesCsv = this.dataProceesCsv.concat(dataprocess)
         }
       );
     this.arrayToDestroy.push($download);
+  }
+  enviarAsiento() {
+    const request = {
+      Usuario: this.nombreUsuario,
+      Id: this.id || 0,
+      Jwt: this.autorizacion
+    }
+   // console.log(request)
+    this.spinner = true;
+    const $subas = this.lineHeaderService
+      .postTsAprobacionUsuarioPreparadorWS(request)
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any) => {
+          if (response?.status === appConstants.responseStatus.OK) {
+            this.toastr.success(response?.message, 'Enviado');
+            this.volver();
+          }
+        }
+      );
+    this.arrayToDestroy.push($subas);
   }
 }

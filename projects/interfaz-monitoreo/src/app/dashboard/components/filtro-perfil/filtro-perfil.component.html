@@ -3,19 +3,19 @@
 <h1 mat-dialog-title>Filtro de perfil a procesar</h1>
 <form [formGroup]="form" autocomplete="off">
   <div mat-dialog-content>
-    <app-select [selected]="selectId" (changeOption)="changeOption($event)" [label]="'Perfil'" formControlName="perfil" [options]="perfilOptions" [error]="showErrors('perfil')"></app-select>
+    <app-select  [selected]="selectId" (changeOption)="changeOption($event)" [label]="'Perfil'" formControlName="perfil" [options]="perfilOptions" [error]="showErrors('perfil')"></app-select>
     <app-form-errors [control]="form.controls['perfil']"></app-form-errors>
-    <app-input (input)="onFocusOutEvent('param1')" (focusout)="onFocusOutEvent('param1')" [label]="lblparam1" formControlName="param1" [error]="showErrors('param1')"></app-input>
+    <app-input [disabled]="lbBolean1" (input)="onFocusOutEvent('param1')" (focusout)="onFocusOutEvent('param1')" [label]="lblparam1" formControlName="param1" [error]="showErrors('param1')"></app-input>
     <app-form-errors [control]="form.controls['param1']"></app-form-errors>
-    <app-input *ngIf="visibleParam2" (input)="onFocusOutEvent('param2')" (focusout)="onFocusOutEvent('param2')" [label]="lblparam2" formControlName="param2" [error]="showErrors('param2')"></app-input>
+    <app-input [disabled]="lbBolean2" *ngIf="visibleParam2" (input)="onFocusOutEvent('param2')" (focusout)="onFocusOutEvent('param2')" [label]="lblparam2" formControlName="param2" [error]="showErrors('param2')"></app-input>
     <app-form-errors *ngIf="visibleParam2" [control]="form.controls['param2']"></app-form-errors>
-    <app-input *ngIf="visibleParam3" (input)="onFocusOutEvent('param3')" (focusout)="onFocusOutEvent('param3')" [label]="lblparam3" formControlName="param3" [error]="showErrors('param3')"></app-input>
+    <app-input [disabled]="lbBolean3" *ngIf="visibleParam3" (input)="onFocusOutEvent('param3')" (focusout)="onFocusOutEvent('param3')" [label]="lblparam3" formControlName="param3" [error]="showErrors('param3')"></app-input>
     <app-form-errors *ngIf="visibleParam3" [control]="form.controls['param3']"></app-form-errors>
-    <app-input *ngIf="visibleParam4" (input)="onFocusOutEvent('param4')" (focusout)="onFocusOutEvent('param4')" [label]="lblparam4" formControlName="param4" [error]="showErrors('param4')"></app-input>
+    <app-input [disabled]="lbBolean4" *ngIf="visibleParam4" (input)="onFocusOutEvent('param4')" (focusout)="onFocusOutEvent('param4')" [label]="lblparam4" formControlName="param4" [error]="showErrors('param4')"></app-input>
     <app-form-errors *ngIf="visibleParam4" [control]="form.controls['param4']"></app-form-errors>
-    <app-input *ngIf="visibleParam5" (input)="onFocusOutEvent('param5')" (focusout)="onFocusOutEvent('param5')" [label]="lblparam5" formControlName="param5" [error]="showErrors('param5')"></app-input>
+    <app-input [disabled]="lbBolean5" *ngIf="visibleParam5" (input)="onFocusOutEvent('param5')" (focusout)="onFocusOutEvent('param5')" [label]="lblparam5" formControlName="param5" [error]="showErrors('param5')"></app-input>
     <app-form-errors *ngIf="visibleParam5" [control]="form.controls['param5']"></app-form-errors>
-    <app-input *ngIf="visibleParam6" (input)="onFocusOutEvent('param6')" (focusout)="onFocusOutEvent('param6')" [label]="lblparam6" formControlName="param6" [error]="showErrors('param6')"></app-input>
+    <app-input [disabled]="lbBolean6" *ngIf="visibleParam6" (input)="onFocusOutEvent('param6')" (focusout)="onFocusOutEvent('param6')" [label]="lblparam6" formControlName="param6" [error]="showErrors('param6')"></app-input>
     <app-form-errors *ngIf="visibleParam6" [control]="form.controls['param5']"></app-form-errors>
 </div>
   <mat-dialog-actions class="evol-footer-actions">

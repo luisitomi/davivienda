@@ -25,7 +25,7 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
   urlBlob: string;
   nombreUsuario: string;
   messageLink: string;
-
+  autorizacion: string;
   constructor(
     private asientoManualService: HeaderLineService,
     private authService: AuthService,
@@ -39,6 +39,11 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
 
   ngOnInit(): void {
     this.utilServices.setTextValue('Carga Masivo');
+    this.authService.getToken().subscribe(
+      (token) => {
+        this.autorizacion = 'Bearer ' + token;
+      }
+    );
   }
 
   downloadFile(): void {
@@ -51,15 +56,22 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
 
   cargar(): void {
     this.spinner = true;
-    if (!this.cargaForm.value?.archivo?.toString()?.endsWith(".csv")) {
+   if (!this.cargaForm.value?.archivo?.name?.toString()?.endsWith(".csv")) {
       this.toastr.warning(`Documento debe ser formato .csv`, 'Advertencia');
       this.spinner = false;
       return;
     }
+   // console.log(this.cargaForm.value.archivo)
+   /* if (this.cargaForm.value.archivo.type == 'application/vnd.ms-excel'){
+      this.toastr.warning('Documento debe ser formato .csv, el formato enviado es application/vnd.ms-excel', 'Advertencia');
+      this.spinner = false;
+      return;
+    }*/
+ 
     const postArchivoSub = this.asientoManualService
       //descomentar cuando se agregue funcion de eliminar adjunto
       //.cargarAsientos(this.cargaForm.value.archivo._files, this.nombreUsuario)
-      .cargarAsientos(this.cargaForm.value.archivo, this.nombreUsuario)//esto se descomenta
+      .cargarAsientos(this.cargaForm.value.archivo, this.nombreUsuario,this.autorizacion)//esto se descomenta
       .pipe(finalize(() => this.spinner= false))
       .subscribe(
         (res) => {

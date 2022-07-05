@@ -41,7 +41,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   restForm = false;
   valorupdateForm: string;
   leaders: Array<DropdownItem>;
-
+  autorizacion: string;
   constructor(
     private cdRef:ChangeDetectorRef,
     private datePipe: DatePipe,
@@ -62,6 +62,11 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   }
   
   ngOnInit(): void {
+    this.authService.getToken().subscribe(
+      (token) => {
+        this.autorizacion = 'Bearer ' + token;
+      }
+    );
     this.utilServices.setTextValue('Carga Manual');
     this.getLeader();
   }
@@ -202,6 +207,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
       const lineSave: LineSave[] = (line || []).map((data, index) => ({
         id: 0,
         nameSucursal: data?.combinationAccount?.nameSucursal || '',
+        nameOficina: data?.combinationAccount?.nameOficina || '',
         nroLinea: index + 1,
         company: data?.combinationAccount?.Company?.split(' ')[0],
         segGlAccount: data?.combinationAccount?.SegGlAccount,
@@ -238,10 +244,10 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
 
       let permission = true;
       lineSave.forEach((element, index) => {
-        const totalDebito = lineSave.filter(p => p?.segSucursal === element?.segSucursal).map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
-        const totalCredito = lineSave.filter(p => p?.segSucursal === element?.segSucursal).map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+        const totalDebito = lineSave.filter(p => p?.segSucursal === element?.segSucursal &&  p?.segOficina === element?.segOficina ).map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+        const totalCredito = lineSave.filter(p => p?.segSucursal === element?.segSucursal && p?.segOficina === element?.segOficina ).map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
         if (totalDebito !== totalCredito) {
-          this.toastr.warning(`La suma entre los montos de crédito y débito son diferentes en la sucursal ${element?.nameSucursal}`, 'Advertencia');
+          this.toastr.warning(`La suma entre los montos de crédito y débito son diferentes en la sucursal ${element?.nameSucursal} y oficina ${element?.nameOficina}`, 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
@@ -273,14 +279,43 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         }
         let exist = 0;
         let message = "";
+
+        var valIden = false;
+        var valAux = false;
+        var validacionSegmento = "";
         if (element.segGlAccountValue === 'Y') {
-          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Número de Identificación') === -1 &&
-            this.typeReference.find(p => p.value === 'Número de Identificación') === -1) {
+          valIden = true;
+          valAux = true;
+          validacionSegmento = 'Y';
+        } else if (element.segGlAccountValue === 'Y1')  {
+          valIden = true;
+          valAux = false;
+          validacionSegmento = 'Y';
+        } else if (element.segGlAccountValue === 'Y2')  {
+          valAux = true;
+          valIden = false;
+          validacionSegmento = 'Y';
+        } else {
+          valIden = false;
+          valAux = false;
+          validacionSegmento ="";
+        }
+
+        if (validacionSegmento === 'Y') {
+       //   console.log('element.segGlAccountValue === Y')
+        //  console.log(element?.informacionReferencial)
+          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'DAV_NRO_IDENTIFICACION') === -1 
+          && valIden /*&&
+            this.typeReference.find(p => p.value === 'DAV_NRO_IDENTIFICACION') === -1*/) {
             exist += 1;
               message = "Número de Identificación";
           }
-          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'Auxiliar de Conciliación') === -1 &&
-            this.typeReference.find(p => p.value === 'Auxiliar de Conciliación') === -1) {
+       //   let inexxx =    this.typeReference.findIndex(p => p.label === 'DAV_AUXILIAR_CONCILIACION');
+
+    
+          if (element?.informacionReferencial?.findIndex(p => p.referenciaComprobanteValue === 'DAV_AUXILIAR_CONCILIACION') === -1 &&
+          this.dataHeader?.origen === 'SIF'/* this.typeReference.findIndex(p => p.label === 'DAV_AUXILIAR_CONCILIACION') >= 0  */
+            && valAux) {
             exist += 1;
               message = "Auxiliar de Conciliación";
           }
@@ -292,6 +327,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           }
         }
       });
+      //return;
       if (permission) {
         const request: InserHeaderLine = {
           id: 0,
@@ -302,7 +338,9 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           description: model?.header?.Description,
           usuario: this.nombreUsuario,
           linea: lineSave || undefined,
+          Jwt: this.autorizacion
         }
+
         const $save = this.headerLineService
           .saveHeaderLine(request)
           .pipe(finalize(() => this.spinner = false))

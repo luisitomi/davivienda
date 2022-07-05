@@ -82,6 +82,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
 
     dialogRef.afterClosed().subscribe((result: any) => {
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+
       if (model?.line) {
         this.lineList = model?.line;
       }
@@ -177,18 +178,44 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
   }
 
   goToBack(): void {
+
     let valueFormat = 4;
     let message = '';
+
+    var valIden = false;
+    var valAux = false;
+    var validacionSegmento = "";
     if (this.isIdentity === 'Y') {
-      if (this.references.data.findIndex(p => p.nombre === 'Auxiliar de Conciliación') === -1 &&
-      this.typeReference.find(p => p.value === 'Auxiliar de Conciliación') === -1) {
+      valIden = true;
+      valAux = true;
+      validacionSegmento = 'Y';
+    } else if (this.isIdentity === 'Y1')  {
+      valIden = true;
+      valAux = false;
+      validacionSegmento = 'Y';
+    } else if (this.isIdentity === 'Y2')  {
+      valAux = true;
+      valIden = false;
+      validacionSegmento = 'Y';
+    } else {
+      valIden = false;
+      valAux = false;
+      validacionSegmento ="";
+    }
+    if (validacionSegmento === 'Y') {
+      if (this.references.data.findIndex(p => p.nombre === 'DAV_NRO_IDENTIFICACION') === -1
+      && valIden /*&&
+      this.typeReference.find(p => p.value === 'DAV_NRO_IDENTIFICACION') === -1*/) {
         valueFormat = 1;
-        message = 'Auxiliar de Conciliación';
+        message = 'DAV_NRO_IDENTIFICACION';
       }
-      if (this.references.data.findIndex(p => p.nombre === 'Número de Identificación') === -1 &&
-      this.typeReference.find(p => p.value === 'Número de Identificación') === -1) {
+      let inexxx =    this.typeReference.findIndex(p => p.label === 'DAV_AUXILIAR_CONCILIACION');
+      if (this.references.data.findIndex(p => p.nombre === 'DAV_AUXILIAR_CONCILIACION') === -1 &&
+     /* this.typeReference.findIndex(p => p.label === 'DAV_AUXILIAR_CONCILIACION') >= 0 */ 
+     this.line == 'SIF'
+      && valAux) {
         valueFormat = 3;
-        message = 'Número de Identificación';
+        message = 'DAV_AUXILIAR_CONCILIACION';
       }
     }
     if (valueFormat !== 4) {

@@ -26,6 +26,6 @@ export class ApiService {
   TsFahCargaAsientosCSVWS: string = '';
   TsCargaAsientoManualSaveWS: string = '';
   TsFahGetSegmentosWS: string = '';
-
+  TsFahValidacionFechaCerradaGLWS: string = '';
   constructor() { }
 }

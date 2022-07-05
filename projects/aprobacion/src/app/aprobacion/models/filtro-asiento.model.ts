@@ -14,5 +14,6 @@ export interface FiltroAsientoLimit {
   Usuario: string;
   Status: number;
   Message: string;
+  Jwt: string;
 }
 

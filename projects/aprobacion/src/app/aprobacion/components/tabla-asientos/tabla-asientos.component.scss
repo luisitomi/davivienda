@@ -17,13 +17,24 @@ table {
 }
 
 %column {
-  padding: 0 1em;
+  background-color: rgba($color: #ffffff, $alpha: 1.0);
+  min-width: 8em;
+  padding-left: 1em;
+  padding-right: 1em;
   text-align: center;
-  width: 100%;
+ // padding: 0 1em;
+  //text-align: center;
+  //width: 100%;
 }
+.mat-column-seleccion {
 
+  text-align: center;
+  width: 0.5em;
+}
 .mat-column-fechaCarga {
-  @extend %column;
+   @extend %column;
+//text-align: center;
+//width: 4em;
 }
 
 .mat-column-usuario {

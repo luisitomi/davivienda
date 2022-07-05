@@ -9,25 +9,25 @@
   <mat-card-content>
     <div class="evol-tabla-wrapper">
       <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="seleccion" sticky>
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="aprobador && $event ? masterToggle() : null"
+        <ng-container matColumnDef="seleccion" sticky >
+          <th mat-header-cell *matHeaderCellDef >
+            <mat-checkbox (change)="aprobador && $event ? masterToggle() : null"      
               [checked]="aprobador && selection.hasValue() && isAllSelected()"
               [indeterminate]="aprobador && selection.hasValue() && !isAllSelected()"
-              [aria-label]="checkboxLabel()"></mat-checkbox>
+              [aria-label]="checkboxLabel()" *ngIf="aprobador"></mat-checkbox>
           </th>
-          <td mat-cell *matCellDef="let element">
-            <mat-checkbox (click)="aprobador && $event.stopPropagation()"
+          <td mat-cell *matCellDef="let element" >
+            <mat-checkbox (click)="aprobador && $event.stopPropagation()" 
               (change)="aprobador && $event ? selection.toggle(element) : null"
               [checked]="aprobador && selection.isSelected(element)"
-              [aria-label]="checkboxLabel(element)"></mat-checkbox>
+              [aria-label]="checkboxLabel(element)" *ngIf="aprobador"></mat-checkbox>
           </td>
         </ng-container>
-        <ng-container matColumnDef="fechaCarga">
+        <ng-container matColumnDef="fechaCarga" >
           <th mat-header-cell *matHeaderCellDef>Fecha Carga</th>
           <td mat-cell *matCellDef="let element">{{ ChangeFormateDate2(element?.fechaCarga) }}</td>
         </ng-container>
-        <ng-container matColumnDef="usuario">
+        <ng-container matColumnDef="usuario" >
           <th mat-header-cell *matHeaderCellDef>Usuario</th>
           <td mat-cell *matCellDef="let element">{{ element?.usuario }}</td>
         </ng-container>

@@ -43,10 +43,10 @@
       <mat-card-content>
         <mat-list>
           <app-list-item [title]="'Estado Archivo'" [subtitle]="message || ''" [divider]="true"></app-list-item>
-          <app-list-item [title]="'Asientos Cargados'" [subtitle]="resultado?.asientosCargados?.toString() || ''" [divider]="true"></app-list-item>
-          <app-list-item [title]="'Asientos Rechazados'" [subtitle]="resultado?.asientosRechazados?.toString() || ''" [divider]="true"></app-list-item>
-          <app-list-item [title]="'Asientos Aprobados'" [subtitle]="resultado?.asientosAprobadosAutomaticamente?.toString() || ''" [divider]="true"></app-list-item>
-          <app-list-item [title]="'Asientos Pendientes'" [subtitle]="resultado?.asientosPendientesAprobacion?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Lineas Cargadas'" [subtitle]="resultado?.asientosCargados?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Lineas Rechazadas'" [subtitle]="resultado?.asientosRechazados?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Lineas Aprobadas'" [subtitle]="resultado?.asientosAprobadosAutomaticamente?.toString() || ''" [divider]="true"></app-list-item>
+          <app-list-item [title]="'Lineas Pendientes'" [subtitle]="resultado?.asientosPendientesAprobacion?.toString() || ''" [divider]="true"></app-list-item>
           <app-list-item [title]="'Log'" [subtitleLink]="messageLink" [Link]="urlBlob || 'erefre'"></app-list-item>
         </mat-list>
       </mat-card-content>

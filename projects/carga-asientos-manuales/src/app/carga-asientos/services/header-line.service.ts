@@ -45,17 +45,18 @@ export class HeaderLineService {
     );
   }
 
-  validateCliente360  (id: number): Observable<any> {
+  validateCliente360  (id: string): Observable<any> {
     return this.configService.getApiUrlvalidateCliente360().pipe(
       first(),
       switchMap(url => this.http.post<any>(url,{ NroIdentificacion: id } )),
     );
   }
 
-  cargarAsientos(file: any, usuario: string): Observable<any> {
+  cargarAsientos(file: any, usuario: string, autorization: string): Observable<any> {
     let formData = new FormData();
     formData.append('archivo', file);
     formData.append('usuario', usuario);
+    formData.append('token', autorization);
     return this.configService.getApiUrlcargarAsientos().pipe(
       first(),
       switchMap(url => this.http.post<any>(url, formData )),
@@ -66,6 +67,13 @@ export class HeaderLineService {
     return this.configService.getApiUrlTsFahGetSegmentosWS().pipe(
       first(),
       switchMap(url => this.http.post<any>(url, request)),
+    );
+  }
+
+  getTsFahValidacionFechaCerradaGLWS (fecha: string): Observable<any> {
+    return this.configService.getApiUrlTsFahValidacionFechaCerradaGLWS().pipe(
+      first(),
+      switchMap(url => this.http.post<any>(url,{Fecha: fecha} )),
     );
   }
 }

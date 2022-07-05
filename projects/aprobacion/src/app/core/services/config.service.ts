@@ -68,6 +68,10 @@ export class ConfigService {
     /\/$/,
     ''
   );
+  TsAprobacionUsuarioPreparadorWS = this.enviroment.TsAprobacionUsuarioPreparadorWS?.replace(
+    /\/$/,
+    ''
+  );
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
   apiUrlSubjectTsConfigutLimitAsientSave: BehaviorSubject<string> = new BehaviorSubject(this.TsConfigutLimitAsientSave);
   apiUrlSubjectTSFAHConfigLimitDesAct: BehaviorSubject<string> = new BehaviorSubject(this.TSFAHConfigLimitDesAct);
@@ -82,7 +86,7 @@ export class ConfigService {
   _TsFAHConfiguracionLimiteFilter: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimiteFilter);
   _TsFAHConfiguracionLimiteHeaderById: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimiteHeaderById);
   _TsFAHConfiguracionLimiteAccountDetail: BehaviorSubject<string> = new BehaviorSubject(this.TsFAHConfiguracionLimiteAccountDetail);
-
+  _TsAprobacionUsuarioPreparadorWS: BehaviorSubject<string> = new BehaviorSubject(this.TsAprobacionUsuarioPreparadorWS);
   constructor(
     private enviroment: ApiService
   ) { }
@@ -142,5 +146,9 @@ export class ConfigService {
   getApiUrlTsFAHConfiguracionLimiteHeaderById(): Observable<string> {
     return this._TsFAHConfiguracionLimiteHeaderById.asObservable().pipe(first());
   }
+  getApiUrlTsAprobacionUsuarioPreparadorWS(): Observable<string> {
+    return this._TsAprobacionUsuarioPreparadorWS.asObservable().pipe(first());
+  }
+  
 }
 

@@ -10,14 +10,15 @@
         <app-list-item [title]="'Usuario'" [subtitle]="asiento?.usuario || ''"></app-list-item>
         <app-list-item [title]="'Nivel'" [subtitle]="asiento?.aprobador || ''"></app-list-item>
 
-        <app-list-item [title]="'Debito Total'" [subtitle]="numerTranfors(asiento?.cargos) || ''"></app-list-item>
-        <app-list-item [title]="'Credito Total'" [subtitle]="numerTranfors(asiento?.abonos)  || ''"></app-list-item>
+        <app-list-item [title]="'Total Debito'" [subtitle]="numerTranfors(asiento?.cargos) || ''"></app-list-item>
+        <app-list-item [title]="'Total Credito'" [subtitle]="numerTranfors(asiento?.abonos)  || ''"></app-list-item>
 
         <app-list-item [title]="'Agrupar cuenta a 6 dígitos'" [toogle]="true" (click)="event()"></app-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions class="evol-footer-actions">
       <app-actions [color]="'primary'" (click)="volver()" [label]="'Volver'"></app-actions>
+      <app-actions [color]="'primary'"*ngIf="asiento?.enviado === 'N' && preparador "  [class]="'flat'" (click)="enviarAsiento()"  [label]="'Contabilizar'"></app-actions>
       <app-actions [color]="'primary'"*ngIf="aprobador"  [class]="'flat'" (click)="aprobar()"  [label]="'Aprobar'"></app-actions>
       <app-actions [color]="'warn'" *ngIf="aprobador" [class]="'flat'" (click)="rechazar()" [label]="'Rechazar'"></app-actions>
       <app-actions [class]="'flat'" id="export" (click)="download()" [label]="'Descargar'"></app-actions>

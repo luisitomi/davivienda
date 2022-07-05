@@ -6,6 +6,7 @@ export class InserHeaderLine {
 	accountingDate:string;
 	description:string;
 	usuario:string;
+	Jwt:string;
     linea: Array<LineSave>;
 }
 
@@ -31,6 +32,7 @@ export class LineSave {
 	usuario?: string;
     informacionReferencial?: Array<ItemsLine>;
 	nameSucursal: string;
+	nameOficina: string;
 }
 
 export class ItemsLine {

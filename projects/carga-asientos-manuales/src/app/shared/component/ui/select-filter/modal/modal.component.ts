@@ -78,7 +78,8 @@ export class ModalComponent extends UnsubcribeOnDestroy implements OnInit {
       .subscribe(
         (response: any) => {
           if (valueForm?.codigo && response?.length === 1)  {
-            this.dialogRef.close({codigo: response[0]?.codigo, valor: response[0]?.valor});
+            this.dialogRef.close(response[0]);
+          //  this.dialogRef.close({codigo: response[0]?.codigo, valor: response[0]?.valor});
           } else {
             this.dataSource.data = response || [];
             this.dataSource.paginator = this.paginator;

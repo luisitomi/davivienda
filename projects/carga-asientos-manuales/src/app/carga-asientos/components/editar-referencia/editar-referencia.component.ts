@@ -89,6 +89,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
 
   updateForm(): void {
+    console.log('Data Update' ,this.data?.data)
     const dateFormat = this.data?.data?.valor.split('/') || '';
     const dateValue = new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`);
     this.form.patchValue({
@@ -176,8 +177,9 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   save(): void {
     if (this.form.valid) {
       const valueForm = this.form.value;
-      if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'Número de Identificación') {
-        const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
+      //if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'DAV_NRO_IDENTIFICACION') {
+      if (valueForm.name ==='DAV_NRO_IDENTIFICACION') {
+      const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
           (resposne: any) => {
             if (!resposne?.codigo) {
               this.toastr.warning(resposne?.mensaje, 'Advertencia');
@@ -188,10 +190,11 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
       }
       const request: ReferenciaComplementaria = {
         index: 0,
-        nombre: this.typeReference.find((p: any) => p.value === valueForm.name)?.label || this.typeReference.find((p: any) => p.label === valueForm.name)?.label || '',
-        nombreValue: valueForm.name,
+        nombre:this.typeReference.find((p: any) => p.value === valueForm.name)?.value || this.typeReference.find((p: any) => p.label === valueForm.name)?.value || '',
+        nombreValue:  this.typeReference.find((p: any) => p.value === valueForm.name)?.label || this.typeReference.find((p: any) => p.label === valueForm.name)?.label || '',
         valor: valueForm.value,
       };
+      console.log(request)
       this.dialogRef.close(request);
     }
   }
