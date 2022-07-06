@@ -89,7 +89,6 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
 
   updateForm(): void {
-    console.log('Data Update' ,this.data?.data)
     const dateFormat = this.data?.data?.valor.split('/') || '';
     const dateValue = new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`);
     this.form.patchValue({
@@ -99,6 +98,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
 
   changeOption(event: DropdownItem): void {
+    console.log(event?.type)
     this.isNumber = event?.type === appConstants.typeDate.NUMERICO;
     this.isDate = event?.type === appConstants.typeDate.FECHA;
   }
@@ -106,8 +106,8 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   onFocusOutEvent(control: string) {
     this.focusoutValue = this.focusoutValue && !this.form.get(`${control}`)?.value ? true : control === 'value' && !this.focusoutValue ? true : false;
     this.form.get(`${control}`)?.updateValueAndValidity();
-    const validNumber = control === 'name' && this.isNumber;
-    const isDate = control === 'name' && this.isDate;
+    const validNumber = this.isNumber;
+    const isDate = this.isDate;
     if (!this.form.get(`${control}`)?.value && !validNumber) {
       this.form.get(`${control}`)?.clearValidators();
       this.form.get(`${control}`)?.setValidators([
@@ -117,9 +117,15 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
     } else {
       if (validNumber) {
         this.form.get(`value`)?.clearValidators();
-        this.form.get(`value`)?.setValidators([
-          this.validateNumber,
-        ]);
+        if(isNaN(this.form.get(`value`)?.value)) {
+          this.form.get(`value`)?.setValidators([
+            this.validateNumber,
+          ]);
+        } else {
+          this.form.get(`value`)?.setValidators([
+            Validators.required
+          ]);
+        }
         this.form.get(`value`)?.updateValueAndValidity();
       } else {
         if (isDate) {
@@ -128,19 +134,6 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
             this.validateRequirementPeriod.bind(this),
           ]);
           this.form.get(`value`)?.updateValueAndValidity();
-        } else {
-          if (control === 'value') {
-            this.form.get(`${control}`)?.clearValidators();
-            this.form.get(`${control}`)?.setValidators([
-              Validators.required,
-            ]);
-            this.form.get(`${control}`)?.updateValueAndValidity();
-          } else {
-            this.form.get(`value`)?.clearValidators();
-            this.form.get(`value`)?.setValidators([
-            ]);
-            this.form.get(`value`)?.updateValueAndValidity();
-          }
         }
       }      
     }
@@ -177,9 +170,8 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   save(): void {
     if (this.form.valid) {
       const valueForm = this.form.value;
-      //if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'DAV_NRO_IDENTIFICACION') {
-      if (valueForm.name ==='DAV_NRO_IDENTIFICACION') {
-      const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
+      if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'Número de Identificación') {
+        const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
           (resposne: any) => {
             if (!resposne?.codigo) {
               this.toastr.warning(resposne?.mensaje, 'Advertencia');
@@ -190,11 +182,10 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
       }
       const request: ReferenciaComplementaria = {
         index: 0,
-        nombre:this.typeReference.find((p: any) => p.value === valueForm.name)?.value || this.typeReference.find((p: any) => p.label === valueForm.name)?.value || '',
-        nombreValue:  this.typeReference.find((p: any) => p.value === valueForm.name)?.label || this.typeReference.find((p: any) => p.label === valueForm.name)?.label || '',
+        nombre: this.typeReference.find((p: any) => p.value === valueForm.name)?.label || this.typeReference.find((p: any) => p.label === valueForm.name)?.label || '',
+        nombreValue: valueForm.name,
         valor: valueForm.value,
       };
-      console.log(request)
       this.dialogRef.close(request);
     }
   }
