@@ -23,8 +23,7 @@
     window.__env.TsCargaAsientoManualSaveWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/8a9447c21fa343e1a27b33302e3b9091/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SvIyCN85XU-f_dOEr5IhOxR6RmFdN4IWCCyb7QePn7I";
     window.__env.TsFahGetSegmentosWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net/workflows/90da79d5b3004f26b097fe5a46cb507d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=wj-gS29Nnvufp5nLOy3DQJqWpoDtnceb89RRMuTHRRk";
     window.__env.TsFahValidacionFechaCerradaGLWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/080a01e473ff46e48f6bbed56a1b406b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=snmzSFgNNtaWpzI3fBGA2yWl-312e7ZitmwFv3GWF2U";
-  }(this));
-  */
+  }(this)); */
   (function (window) {
     window.__env = window.__env || {};
     window.__env.apiUrl = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443";
@@ -51,4 +50,3 @@
 	window.__env.TsFahGetSegmentosWS = "https://prod-00-02p-fahise-l01-f5xn3dwjhctve.eastus2.environments.microsoftazurelogicapps.net:443/workflows/b79bcc42bae5419ab62fa8e806de115b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kQQf5_Dym_giuQdl4t4rBDAf7cSAX-eDxpLqPidzrMA";
 	window.__env.TsFahValidacionFechaCerradaGLWS  = "https://prod-00-02p-fahise-l01-f5xn3dwjhctve.eastus2.environments.microsoftazurelogicapps.net:443/workflows/fce9f90ddd8d4572bb2cb91020a46e8a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zRy4uWtnLoiWJXgjcOn7FgP5T_QPsOwX4RrfugNQlq4";
  }(this));
-  

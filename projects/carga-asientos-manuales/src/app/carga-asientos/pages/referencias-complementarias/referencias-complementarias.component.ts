@@ -81,22 +81,26 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+      if (result.nombre != null || result.nombre != undefined) {
+        debugger;
+        const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
 
-      if (model?.line) {
-        this.lineList = model?.line;
-      }
-      this.references.data.splice(index, 1);
-      if (result?.nombre) {
-        result.index = index + 1;
-        this.references.data.splice(index, 0, result);
-        this.lineList[this.index].columnasReferenciales = this.references.data || [];
-        const request: ManualLading = {
-          header: model?.header,
-          line: this.lineList,
+        if (model?.line) {
+          this.lineList = model?.line;
         }
-        this.setDataLocal(request);
+        this.references.data.splice(index, 1);
+        if (result?.nombre) {
+          result.index = index + 1;
+          this.references.data.splice(index, 0, result);
+          this.lineList[this.index].columnasReferenciales = this.references.data || [];
+          const request: ManualLading = {
+            header: model?.header,
+            line: this.lineList,
+          }
+          this.setDataLocal(request);
+        }
       }
+     
     });
   }
 
@@ -135,6 +139,18 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
         this.lineList = model?.line;
       }
       let indexList: Array<ReferenciaComplementaria> = this.lineList[this.index].columnasReferenciales || [];
+
+      
+      if (this.references.data != null && this.references.data.length > 0) {
+        for (let i = 0; i < this.references.data.length; i++) {
+          const element = this.references.data[i];
+          if (element.nombreValue == result.nombreValue) {
+            this.toastr.warning(`Ya existe la complementaria:  ${result.nombreValue}`, 'Advertencia');
+            return;
+          }
+          
+        }
+      }
       if (result?.nombre) {
         result.index = this.lineList[this.index]?.columnasReferenciales?.length || 0 + 1;
         indexList = this.lineList[this.index].columnasReferenciales || [];
@@ -202,6 +218,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
       valAux = false;
       validacionSegmento ="";
     }
+  
     if (validacionSegmento === 'Y') {
       if (this.references.data.findIndex(p => p.nombre === 'DAV_NRO_IDENTIFICACION') === -1
       && valIden /*&&

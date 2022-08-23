@@ -69,6 +69,15 @@ export class AuthService {
 
   postTsFahObtenerUsuarioWS (tokenJson: any) : Observable<Usuario> {
     const data = {usuario: tokenJson.prn};
+/*    let jsonUsuario :Usuario;
+   
+   jsonUsuario = {
+    id: 0,
+    nombre: "",
+    email: data+'',
+    permisosACaracteristicas: []
+  };
+  this.usuario.next(jsonUsuario) */
     return this.configService.getApiUrl().pipe(
       first(),
       switchMap(url => this.http.post<Usuario>(this.configService.TsFahObtenerUsuarioWS,data).pipe(

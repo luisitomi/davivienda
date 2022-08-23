@@ -160,4 +160,18 @@ export class TablaControlComponent implements OnInit {
     });
   }
 
+  mostrarEstadosEspaniol(estado: string) {
+    var estadoEsp = '';
+    if(estado == 'SUCCEEDED') {
+      estadoEsp = 'Correcto'
+    } else if (estado == 'ERROR') {
+      estadoEsp = 'Error'
+    }else if (estado == 'WARNING') {
+      estadoEsp = 'Advertencia'
+    } else {
+      estadoEsp = ''
+    }
+    return estadoEsp;
+  }
+
 }

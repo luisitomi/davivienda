@@ -206,6 +206,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   changeSelection(event: any): void {
     this.getOptions3(event?.value);
     this.valueId1 = event?.value;
+  
   }
 
   getOptions3(name: string): void {
@@ -592,6 +593,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
           comp4: event?.result?.codigo,
         })
         this.comp4Select = event?.result?.codigo
+        this.form.controls['comp3'].setValue(null);
         this.getOptions3(event?.result?.codigo);
         this.valueId1 = event?.result?.codigo;
         break;

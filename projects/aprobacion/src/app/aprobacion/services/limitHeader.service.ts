@@ -92,9 +92,10 @@ export class LimitHeaderService {
           cell = cell instanceof Date
             ? cell.toLocaleString()
             : cell.toString().replace(/"/g, '""');
-          if (cell.search(/("|,|\n)/g) >= 0) {
+
+         /* if (cell.search(/("|,|\n)/g) >= 0) {
             cell = `"${cell}"`;
-          }
+          } */
           return cell;
         }).join(separator);
       }).join('\n');

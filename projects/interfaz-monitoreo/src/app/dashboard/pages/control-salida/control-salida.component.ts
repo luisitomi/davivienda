@@ -23,7 +23,14 @@ export class ControlSalidaComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.filtrar({
+
+
+    this.salidasService.postAnticsrf().subscribe(rest=> {
+      console.log('rest:')
+      console.log(rest)
+
+    });
+    /*this.filtrar({
       interfaz: '',
       estado: '',
       genInicio: new Date(),
@@ -31,7 +38,7 @@ export class ControlSalidaComponent implements OnInit, OnDestroy {
       readInicio: new Date(),
       readFin: new Date(),
       nombreArchivo: '',
-    });
+    }); */
   }
 
   ngOnDestroy(): void {
@@ -87,5 +94,10 @@ let fechaFin ="";
       () => this.loadingSalidas = false,
     );
   }
+
+
+
+
+
 
 }

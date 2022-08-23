@@ -64,7 +64,7 @@
 
       <ng-container matColumnDef="estadoImportingAcc" sticky>
         <th mat-header-cell *matHeaderCellDef>Estado de proceso de transacciones contables</th>
-        <td mat-cell *matCellDef="let element"> {{ element.estadoImporting }} </td>
+        <td mat-cell *matCellDef="let element"> {{ mostrarEstadosEspaniol(element.estadoImporting) }} </td>
       </ng-container>
 
       <!-- Columna Job Create Accounting -->
@@ -81,7 +81,7 @@
 
       <ng-container matColumnDef="estadoAccountingDataset" sticky>
         <th mat-header-cell *matHeaderCellDef>Estado de creaci&oacute;n de contabilidad</th>
-        <td mat-cell *matCellDef="let element"> {{ element.estadoAccountingDataSet }} </td>
+        <td mat-cell *matCellDef="let element"> {{ mostrarEstadosEspaniol(element.estadoAccountingDataSet) }} </td>
       </ng-container>
       
       <!-- Columna Cantidad H -->

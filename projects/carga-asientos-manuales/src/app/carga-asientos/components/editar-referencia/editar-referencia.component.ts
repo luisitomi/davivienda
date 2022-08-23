@@ -43,11 +43,10 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
   
   ngOnInit(): void {
-    this.getListReference();
     this.createForm();
-    if (this.data?.type === appConstants.typeEvent.EDIT) {
-      this.updateForm();
-    }
+   
+    this.getListReference();
+   
   }
 
   ngAfterViewChecked(){
@@ -70,9 +69,15 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
             value: data?.codigo,
             type: data?.tipo,
           }));
+        
           const dataValue = this.typeReference.find((p: any) => p.label === this.data?.data?.nombre);
           this.selectType = dataValue?.value || '';
+          console.log(this.selectType)
           this.arrayToDestroy.push($typeReference);
+
+          if (this.data?.type === appConstants.typeEvent.EDIT) {
+            this.updateForm();
+          }
         }
       );
     this.arrayToDestroy.push($line);
@@ -89,21 +94,35 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
 
   updateForm(): void {
+    var referencia = this.typeReference.find((p: any) => p.value === this.data?.data?.nombreValue ) ;
     const dateFormat = this.data?.data?.valor.split('/') || '';
     const dateValue = new Date(`${dateFormat[2]}/${dateFormat[1]}/${dateFormat[0]}`);
+    var valor ;
+    if (referencia?.type == 'Numerico') {
+      valor= this.data?.data?.valor;
+    } else if (referencia?.type == 'Texto') {
+      valor= this.data?.data?.valor;
+    } else{
+      valor = dateValue;
+    }
+
     this.form.patchValue({
-      name: this.data?.data?.nombre,
-      value: !isNaN(dateValue.getTime()) ? dateValue : this.data?.data?.valor,
+      name: this.data?.data?.nombreValue,
+      value: valor,
+      // value: !isNaN(dateValue.getTime()) ? dateValue : this.data?.data?.valor,
     });
   }
 
   changeOption(event: DropdownItem): void {
+    debugger;
+    console.log('data')
     console.log(event?.type)
     this.isNumber = event?.type === appConstants.typeDate.NUMERICO;
     this.isDate = event?.type === appConstants.typeDate.FECHA;
   }
 
   onFocusOutEvent(control: string) {
+    debugger;
     this.focusoutValue = this.focusoutValue && !this.form.get(`${control}`)?.value ? true : control === 'value' && !this.focusoutValue ? true : false;
     this.form.get(`${control}`)?.updateValueAndValidity();
     const validNumber = this.isNumber;
@@ -170,7 +189,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   save(): void {
     if (this.form.valid) {
       const valueForm = this.form.value;
-      if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'Número de Identificación') {
+      if (this.typeReference.find((p: any) => p.value === valueForm.name)?.label === 'DAV_NRO_IDENTIFICACION') {
         const $validate360 = this.headerLineService.validateCliente360(valueForm.value).subscribe(
           (resposne: any) => {
             if (!resposne?.codigo) {

@@ -4,7 +4,7 @@
     <mat-card-content>
       <mat-list class="evol-resumen-asiento-list">
         <app-list-item [title]="'Origen'" [subtitle]="asiento?.origen || ''"></app-list-item>
-        <app-list-item [title]="'Comprobante'" [subtitle]="asiento?.comprobante || ''"></app-list-item>
+        <app-list-item [title]="'N° Transacción'" [subtitle]="asiento?.comprobante || ''"></app-list-item>
         <app-list-item [title]="'Fecha Contable'" [isDate]="asiento?.fechaContable"></app-list-item>
         <app-list-item [title]="'Descripción'" [subtitle]="asiento?.descripcion || ''"></app-list-item>
         <app-list-item [title]="'Usuario'" [subtitle]="asiento?.usuario || ''"></app-list-item>

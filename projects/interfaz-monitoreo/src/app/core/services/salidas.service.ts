@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
@@ -68,6 +68,49 @@ getEstados(): Observable<Maestra[]> {
     );
   }
 
+
+  postAnticsrf(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Sec-Fetch-Site':'none',
+      'Sec-Fetch-Mode':'navigate'
+    });
+   /* const headers = new HttpHeaders({'Access-Control-Allow-Origin':'*'
+  ,'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS'
+  ,'Access-Control-Max-Age':'3600'
+  ,'Access-Control-Allow-Headers':'X-PINGOTHER,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization'
+  ,'Access-Control-Expose-Headers':'xsrf-token'
+}); */
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.post<any>("https://login.microsoftonline.com/common/oauth2/v2.0/token",null)),
+    );
+  }
+  
+  postTokenRelay(xsrftoken: string): Observable<any> {
+    const headers = new HttpHeaders({'xsrftoken':xsrftoken});
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<any>("https://emtz-dev1.fa.us2.oraclecloud.com/fscmRestApi/tokenrelay",{headers})),
+    );
+  }
+/*
+  postTokenAzure(xsrftoken: string): Observable<any> {
+    const TenantID = "";
+    const Token_Endpoint = `https://login.microsoftonline.com/${TenantID}/oauth2/v2.0/token`;
+    const Grant_Type = 'authorization_code';
+    const Code = req.body.code;
+    const Redirect_Uri = 'http://localhost:8000/give/me/the/code';
+    const Client_Id = process.env.CLIENT_ID;
+    const Client_Secret = process.env.CLIENT_SECRET;
+    const Scope = process.env.SCOPE;
+
+    const headers = new HttpHeaders({'xsrftoken':xsrftoken});
+    return this.configService.getApiUrl().pipe(
+      first(),
+      switchMap(url => this.http.get<any>("https://emtz-dev1.fa.us2.oraclecloud.com/fscmRestApi/tokenrelay",{headers})),
+    );
+  }
+  */
   
 /*
   getSalidas(

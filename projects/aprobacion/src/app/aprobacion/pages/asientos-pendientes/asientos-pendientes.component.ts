@@ -8,6 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Asiento } from '../../../shared';
 import { appConstants } from '../../../shared/component/app-constants/app-constants';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
+import { DropdownItem } from '../../../shared/component/ui/select/select.model';
 import { ReboteInformationComponent } from '../../components/rebote-information/rebote-information.component';
 import { FiltroAsientoLimit } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
@@ -21,6 +22,11 @@ import { LimitHeaderService } from '../../services/limitHeader.service';
   providers: [DatePipe],
 })
 export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements OnInit {
+  origenOptionsv2: Array<DropdownItem>;
+  usuarioOptions: Array<DropdownItem>;
+  cuentaOptions: Array<DropdownItem>;
+  estadoOptions: Array<DropdownItem>;
+  listFilter: Asiento[] = [];
   asientos: Asiento[] = [];
   asientosCopy: Asiento[] = [];
   loadingAsientos: boolean = false;
@@ -89,8 +95,9 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
 
   filtrar(filtros: any): void {
     this.loadingAsientos = true;
+    this.getListDataFiltros();
     const request = {
-      estado: filtros?.estado || '',
+      estado: ((this.aprobador == true)? 'Pendiente Aprobación' : ( filtros?.estado || '')),
       origen: filtros?.origen || '',
       usuario: filtros?.usuario || '',
       fin: this.datePipe.transform(filtros?.fin, appConstants.eventDate.format3) || '',
@@ -126,10 +133,98 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             aprobador:'' ,
             enviado: ''
           }));
+          this.asientosCopy = this.aprobador ? this.asientosCopy.filter(o => o.estado === 'Pendiente Aprobación') : this.asientosCopy.filter(o => o.usuario === this.nombreUsuario);
+   
           this.asientosCopy = this.eliminarObjetosDuplicados(this.asientosCopy, 'id');
+/*
+          this.origenOptionsv2 = (this.asientosCopy || []).map((item) => ({
+            label: item?.origen,
+            value: item?.origen,
+          }))
+          this.origenOptionsv2 = this.eliminarObjetosDuplicados(this.origenOptionsv2, 'label');
+          this.origenOptionsv2.unshift({label: 'Todos', value: ''});
+*/
+
+          //this.setData(this.asientosCopy)
+
         }
       );
     this.arrayToDestroy.push($subas);
+  }
+
+  getListDataFiltros() {
+
+    this.spinner = true;
+    const request = {
+      estado: ((this.aprobador == true)? 'Pendiente Aprobación' : ('')),
+      origen: '',
+      usuario: '',
+      fin: '',
+      inicio:  '',
+      cuenta:  '',
+      aprobador: Number(this.aprobador),
+      aprobadorName: this.nombreUsuario,
+
+    }
+    const $subas = this.lineHeaderService
+      .getLimitsHeader(request)
+    //  .pipe(finalize(() =>  this.setData()))
+      .subscribe(
+        (asiento: LimitHeader[]) => {
+
+          this.listFilter = (asiento || []).map((item) => ({
+            id: item?.Id,
+            origen: item?.Origen,
+            fechaCarga: this.ChangeFormateDate(item?.Carga),
+            usuario: item?.Usuario,
+            comprobante: item?.Comprobante,
+            fechaContable: item?.Contable,
+            descripcion: item?.Descripcion,
+            cargos: Number(item?.Cargo),
+            abonos: Number(item?.Abono),
+            cuentas: item.Cuenta,
+            nivel: item.NivelLimit,
+            estado: item?.Estado,
+            abonoTotal: Number(item?.AbonoTodo),
+            cargoTotal: Number(item?.CargoTodo),
+            nivelActual: '',
+            aprobador:'',
+            enviado: ''
+          }))
+          this.setData(this.listFilter);
+
+          this.spinner = false;
+        }
+      );
+    this.arrayToDestroy.push($subas);
+  }
+  setData(listFilter: Asiento[]): void {
+    this.origenOptionsv2 = (listFilter || []).map((item) => ({
+      label: item?.origen,
+      value: item?.origen,
+    }))
+
+    this.origenOptionsv2 = this.eliminarObjetosDuplicados(this.origenOptionsv2, 'label');
+    this.origenOptionsv2.unshift({label: 'Todos', value: ''});
+    this.usuarioOptions = (listFilter || []).map((item) => ({
+      label: item?.usuario,
+      value: item?.usuario,
+    }))
+    this.usuarioOptions = this.eliminarObjetosDuplicados(this.usuarioOptions, 'label');
+    this.usuarioOptions.unshift({label: 'Todos', value: ''});
+    this.cuentaOptions = (listFilter || []).map((item) => ({
+      label: item?.cuentas,
+      value: item?.cuentas,
+    }))
+    this.cuentaOptions = this.eliminarObjetosDuplicados(this.cuentaOptions, 'label');
+    this.cuentaOptions.unshift({label: 'Todos', value: ''});
+    this.estadoOptions = (listFilter || []).map((item) => ({
+      label: item?.estado,
+      value: item?.estado,
+    }))
+    this.estadoOptions = this.eliminarObjetosDuplicados(this.estadoOptions, 'label');
+    this.estadoOptions.unshift({label: 'Todos', value: ''});
+    this.spinner = false;
   }
 
   ChangeFormateDate(oldDate: any): string{

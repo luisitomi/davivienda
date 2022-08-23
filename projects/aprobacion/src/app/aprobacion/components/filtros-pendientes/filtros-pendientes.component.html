@@ -24,8 +24,15 @@
         <app-form-errors [control]="filtrosForm.controls['usuario']"></app-form-errors>
       </div>
       <div class="evol-filtro-section">
-        <app-select (changeOption)="onFocusOutEvent('cuenta');" [label]="'Cuenta'" formControlName="cuenta"
-          [options]="cuentaOptions" [error]="showErrors('cuenta')"></app-select>
+
+        <app-input (input)="onFocusOutEvent('cuenta')" 
+          (focusout)="onFocusOutEvent('cuenta')" 
+          [label]="'Cuenta'" formControlName="cuenta" 
+          [error]="showErrors('cuenta')" 
+          [onlyNumber]="true">
+        </app-input>
+       <!-- <app-select (changeOption)="onFocusOutEvent('cuenta');" [label]="'Cuenta'" formControlName="cuenta"
+          [options]="cuentaOptions" [error]="showErrors('cuenta')"></app-select>-->
         <app-form-errors [control]="filtrosForm.controls['cuenta']"></app-form-errors>
         <app-select (changeOption)="onFocusOutEvent('estado');" [label]="'Estado'" formControlName="estado"
           [options]="estadoOptions" [error]="showErrors('estado')"></app-select>

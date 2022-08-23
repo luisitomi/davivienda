@@ -519,7 +519,7 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
                     SegGlAccount: data?.SegGlAccount || '',
                     SegGlAccountValue: data?.SegGlAccountValue || '',
                     SegIntecompany: data?.SegIntecompany || '',
-                    SegOficina: data?.SegOficina || '',
+                    SegOficina: 'OFICINA' || '',
                     SegProyecto: data?.SegProyecto || '',
                     SegSubProyecto: data?.SegSubProyecto || '',
                     SegSucursal: result.valor || '',

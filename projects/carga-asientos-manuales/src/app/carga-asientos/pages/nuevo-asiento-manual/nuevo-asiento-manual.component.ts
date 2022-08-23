@@ -197,6 +197,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   }
 
   send(): void {
+    
     if (this.validateTable) {
       this.spinner = true;
       const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
@@ -270,9 +271,16 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           permission = false;
           return;
         }*/
-
+       
         if (element?.segOficina !== lineSaveOficina) {
           this.toastr.warning("Los valores de oficina son diferentes", 'Advertencia');
+          this.spinner = false;
+          permission = false;
+          return;
+        }
+
+        if (element?.segOficina === 'OFICINA') {
+          this.toastr.warning(`Debe elegir una oficina en la linea ${index + 1} `, 'Advertencia');
           this.spinner = false;
           permission = false;
           return;

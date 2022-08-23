@@ -61,7 +61,7 @@
   </div>
 </div>
 <div *ngIf="!validarReversa(carga.nombreArchivo)">
-<mat-dialog-actions *ngIf="admistrador && carga.estadoImporting== 'SUCCEEDED' && carga.estadoProceso !='CERRADO' " >
+<mat-dialog-actions *ngIf="admistrador && carga.estadoAccountingDataSet== 'SUCCEEDED' && carga.estadoProceso !='CERRADO' " >
   
     <button mat-flat-button color="accent"  (click)="reversar()" [disabled]="loadingCargas" *ngIf="carga.reversado !== reversado"  >Reversar</button>
  

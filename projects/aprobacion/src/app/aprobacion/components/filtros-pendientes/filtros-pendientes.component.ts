@@ -19,15 +19,20 @@ import { LimitHeaderService } from '../../services/limitHeader.service';
   styleUrls: ['./filtros-pendientes.component.scss'],
 })
 export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements OnInit {
+  @Input() asientos: Asiento[] = [];
+  @Input() origenOptions: Array<DropdownItem>;
+  @Input() usuarioOptions: Array<DropdownItem>;
+  @Input() cuentaOptions: Array<DropdownItem>;
+  @Input() estadoOptions: Array<DropdownItem>;
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
   listFilter: Asiento[];
   @Output() filtros = new EventEmitter<FiltroAsiento>();
   filtrosForm: FormGroup;
-  origenOptions: Array<DropdownItem>;
-  usuarioOptions: Array<DropdownItem>;
-  cuentaOptions: Array<DropdownItem>;
-  estadoOptions: Array<DropdownItem>;
+//  origenOptions: Array<DropdownItem>;
+ // usuarioOptions: Array<DropdownItem>;
+ // cuentaOptions: Array<DropdownItem>;
+ // estadoOptions: Array<DropdownItem>;
   spinner: boolean;
   filtrosData: FiltroAsiento = {
     inicio: '',
@@ -50,7 +55,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
   ) {
     super();
   }
-
+  
   ngOnInit() {
     this.authService.getUsuarioV2().subscribe(
       (nombre) => 
@@ -114,6 +119,16 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     this.arrayToDestroy.push($rol);
   }
 
+  listarOrigenes(){
+    
+    this.origenOptions = (this.asientos || []).map((item) => ({
+      label: item?.origen,
+      value: item?.origen,
+    }))
+    this.origenOptions = this.eliminarObjetosDuplicados(this.origenOptions, 'label');
+    this.origenOptions.unshift({label: 'Todos', value: ''});
+    return this.origenOptions;
+  }
   setData(): void {
     this.listFilter = this.isAprobad ? this.listFilter.filter(o => o.estado === 'Pendiente') : this.listFilter.filter(o => o.usuario === this.nombreUsuario);
     this.origenOptions = (this.listFilter || []).map((item) => ({
@@ -186,6 +201,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             aprobador:'',
             enviado: ''
           }))
+          this.setData();
         }
       );
     this.arrayToDestroy.push($subas);

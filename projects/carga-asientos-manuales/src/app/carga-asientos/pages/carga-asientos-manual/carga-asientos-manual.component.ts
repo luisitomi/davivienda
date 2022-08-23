@@ -55,6 +55,12 @@ export class CargaAsientosManualComponent extends UnsubcribeOnDestroy implements
   }
 
   cargar(): void {
+
+    if (this.nombreUsuario == undefined || this.nombreUsuario == null || this.nombreUsuario== '' ) {
+      this.toastr.warning("El usuario no se ha cargado, intentelo mas tarde.", 'Advertencia');
+      return;
+    }
+
     this.spinner = true;
    if (!this.cargaForm.value?.archivo?.name?.toString()?.endsWith(".csv")) {
       this.toastr.warning(`Documento debe ser formato .csv`, 'Advertencia');
