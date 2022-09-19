@@ -3,7 +3,7 @@
 <h1 mat-dialog-title>Nueva Referencia Complementaria</h1>
 <form [formGroup]="form" autocomplete="off">
     <div mat-dialog-content class="evol-editar-linea-container">
-        <app-select [selected]="selectType" (changeOption)="changeOption($event);onFocusOutEvent('name')" [label]="'Referencia Complementaria'" formControlName="name" [options]="typeReference" [error]="showErrors('name')"></app-select>
+        <app-select [selected]="selectType" (changeOption)="changeOption($event);onFocusOutEvent('name')" [disabled]="data?.type==1" [label]="'Referencia Complementaria'" formControlName="name" [options]="typeReference" [error]="showErrors('name')"></app-select>
         <app-form-errors [control]="form.controls['name']"></app-form-errors>
         <app-input *ngIf="!isDate" [onlyNumber]="isNumber"  (input)="onFocusOutEvent('value')" (focusout)="onFocusOutEvent('value')" [label]="'Valor'" formControlName="value" [error]="showErrors('value')"></app-input>
         <app-calendar *ngIf="isDate" [label]="'Valor'" formControlName="value" [error]="showErrors('value')"></app-calendar>

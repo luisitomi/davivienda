@@ -76,4 +76,13 @@ export class HeaderLineService {
       switchMap(url => this.http.post<any>(url,{Fecha: fecha} )),
     );
   }
+
+  getTsFahCargaAsientoCrossCuentasWS (): Observable<any> {
+    return this.configService.getApiUrlTsFahCargaAsientoCrossCuentasWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+
+
 }

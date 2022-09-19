@@ -21,5 +21,12 @@ export class ApiService {
   TsFAHConfiguracionLimiteAccountDetail: string = '';
   TsAprobacionUsuarioPreparadorWS: string = '';
 
+  TsFAHOrigenCargaContableWS: string = '';
+  TsFahGetAprobacionTipoComprobanteFiltroWS: string = '';
+  TsFahGetAprobacionPreparadorFiltroWS: string = '';
+  TsFahGetAprobacionAprobadoresFiltroWS: string = '';
+  TsFahGetAprobacionPoliticaLimiteFiltroWS: string = '';
+  TsFahGetAprobacionEstadoFiltroWS: string = '';
+
   constructor() { }
 }

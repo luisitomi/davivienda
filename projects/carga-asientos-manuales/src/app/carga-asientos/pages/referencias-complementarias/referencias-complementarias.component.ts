@@ -82,7 +82,6 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.nombre != null || result.nombre != undefined) {
-        debugger;
         const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
 
         if (model?.line) {
@@ -145,7 +144,7 @@ export class ReferenciasComplementariasComponent extends UnsubcribeOnDestroy imp
         for (let i = 0; i < this.references.data.length; i++) {
           const element = this.references.data[i];
           if (element.nombreValue == result.nombreValue) {
-            this.toastr.warning(`Ya existe la complementaria:  ${result.nombreValue}`, 'Advertencia');
+            this.toastr.warning(`Ya existe la referencia complementaria:  ${result.nombreValue}`, 'Advertencia');
             return;
           }
           

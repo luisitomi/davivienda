@@ -33,6 +33,7 @@ export class LineSave {
     informacionReferencial?: Array<ItemsLine>;
 	nameSucursal: string;
 	nameOficina: string;
+	validacionReglaCuenta: string;
 }
 
 export class ItemsLine {

@@ -61,5 +61,9 @@ export const appConstants = {
         Futuro_1: 'FUTURO1',
         Futuro_2: 'FUTURO2',
         Sucursal: 'SUCURSAL',
+    },
+    origen: {
+      // ORIGEN_SIF:'SIF1'
+       ORIGEN_SIF:'SIF'
     }
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { FiltroAsientoLimit } from '../../models/filtro-asiento.model';
-import { AccountLine, AccountLineDownload, AccountLineDownloadProcess, LimitHeader } from '../../models/limite.model';
+import { AccountLine, AccountLineDownload, AccountLineDownloadProcess, LimitHeader, LimitHeaderDetailResumen } from '../../models/limite.model';
 import { LimitHeaderService } from '../../services/limitHeader.service';
 import { LimitService } from '../../services/limit.service';
 import { Asiento } from '../../../shared';
@@ -78,36 +78,53 @@ export class ResumenAsientoComponent extends UnsubcribeOnDestroy implements OnIn
   }
 
   getListData(filtros: any) {
+ 
     filtros.Id = this.id;
     this.spinner = true;
     const $subas = this.lineHeaderService
       .consultAsient(filtros)
       .pipe(finalize(() => this.getListAaccount()))
       .subscribe(
-        (asiento: LimitHeader[]) => {
+        (asiento: LimitHeaderDetailResumen[]) => {
           this.listFilter = (asiento || []).map((item) => ({
-            id: item?.Id,
+            id: /*item?.Id */ this.id,
             origen: item?.Origen,
-            fechaCarga: this.ChangeFormateDate(item?.Carga),
+            fechaCarga: /*this.ChangeFormateDate(item?.Carga)*/'',
             usuario: item?.Usuario,
             comprobante: item?.Comprobante,
             fechaContable: item?.Contable,
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: item.Cuenta,
-            nivel: item.NivelLimit,
-            estado: item?.Estado,
-            abonoTotal: Number(item?.AbonoTodo),
-            cargoTotal: Number(item?.CargoTodo),
-            nivelActual: item?.NivelActual,
+            cuentas: /*item.Cuenta*/ '',
+            nivel: /*item.NivelLimit*/0,
+            estado: /*item?.Estado*/'',
+            abonoTotal: /*Number(item?.AbonoTodo)*/0,
+            cargoTotal: /*Number(item?.CargoTodo)*/0,
+            nivelActual: /*item?.NivelActual*/'',
             aprobador: item?.Aprobador,
-            enviado: item?.Enviado
+            enviado: item?.Enviado,
+            tipoComprobante: '',
+            cantidadLineas: '',
+            nombrePreparadorN1: '',
+            fechayHoraGrabacionPreN1: '',
+            nombreAprobadorN2: '',
+            fechayHoraGrabacionPreN2: '',
+            nombreAprobadorN3: '',
+            fechayHoraGrabacionPreN3: '',
+            nombreAprobadorN4: '',
+            fechayHoraGrabacionPreN4: '',
+            nombreAprobadorN5: '',
+            fechayHoraGrabacionPreN5: '',
+            mensajeInformativo: '',
+            justificacionRechazo: '',
+            limitePoliticaContable: '',
+            nivelLimit: 0
           }))
           this.asiento = this.listFilter.length ? this.listFilter[0] : undefined
         }
       );
-    this.arrayToDestroy.push($subas);
+    this.arrayToDestroy.push($subas); 
   }
 
   ChangeFormateDate(oldDate: any): string {

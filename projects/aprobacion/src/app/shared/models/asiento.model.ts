@@ -16,4 +16,22 @@ export interface Asiento {
   nivelActual: string;
   aprobador:string;
   enviado: string;
+  
+  tipoComprobante: string;
+  cantidadLineas: string;
+  nombrePreparadorN1: string;
+  fechayHoraGrabacionPreN1: string;
+  nombreAprobadorN2: string;
+  fechayHoraGrabacionPreN2: string;
+  nombreAprobadorN3: string;
+  fechayHoraGrabacionPreN3: string;
+  nombreAprobadorN4: string;
+  fechayHoraGrabacionPreN4: string;
+  nombreAprobadorN5: string;
+  fechayHoraGrabacionPreN5: string;
+  mensajeInformativo: string;
+  justificacionRechazo: string;
+  limitePoliticaContable: string;
+  nivelLimit: number;
+  
 }

@@ -605,6 +605,54 @@ export class LineasComponent extends UnsubcribeOnDestroy implements OnInit, Afte
               tipo: appConstants.segmentValue.Subproyecto,
               codigo: result.valor,
             }
+            const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+            let origen = ""; 
+            let origenSIF = "";
+            if (model?.header) {
+                origen = model?.header?.SourceName;
+                origenSIF = appConstants.origen.ORIGEN_SIF;
+              }
+              if (origen == origenSIF) {
+                if (result.valor== undefined || result.valor == null || result.valor == '') {
+                  this.toastr.warning(`Debe ingresar un valor`, 'Advertencia');
+                    return;
+                }
+
+                const valueData5: CombinacionContable = {
+                  Company: data?.Company || '',
+                  SegF1: data?.SegF1 || '',
+                  SegF2: data?.SegF2 || '',
+                  SegGlAccount: data?.SegGlAccount || '',
+                  SegGlAccountValue: data?.SegGlAccountValue || '',
+                  SegIntecompany: data?.SegIntecompany || '',
+                  SegOficina: data?.SegOficina || '',
+                  SegProyecto: data?.SegProyecto || '',
+                  SegSubProyecto: result.valor || '',
+                  SegSucursal: data?.SegSucursal || '',
+                  SegTipoComprobante: data?.SegTipoComprobante || '',
+                  SegVinculado: data?.SegVinculado || '',
+                  ValueInformation: data?.ValueInformation || '',
+                  addCuenta: '',
+                  addFuturo1: '',
+                  addFuturo2: '',
+                  addIntercompañia: '',
+                  addOficina: '',
+                  addProyecto: '',
+                  addSubProyecto: '',
+                  addSucursal: '',
+                  addTipoComprobante: '',
+                  addVinculado: '',
+                  nameSucursal: '',
+                  nameOficina: ''
+                }
+                this.lineList[index].combinationAccount = valueData5
+                const request5: ManualLading = {
+                  header: model?.header,
+                  line: this.lineList,
+                }
+                this.setDataLocal(request5, this.lineList);
+                return;
+              }
             this.spinner = true;
             const $event5 = this.headerLineService
               .getApiUrlTsFahGetSegmentosWS(request5)

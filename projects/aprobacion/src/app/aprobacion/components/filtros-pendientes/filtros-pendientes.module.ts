@@ -11,6 +11,8 @@ import { CalendarModule } from '../../../shared/component/ui/calendar/calendar.m
 import { FormErrorsModule } from '../../../shared/component/ui/form-errors/form-errors.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../shared/material.module';
+import { SelectFilterModule } from '../../../shared/component/ui/select-filter/selectFilter.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { MatIconModule } from '@angular/material/icon';
     FormErrorsModule,
     MatExpansionModule,
     MatIconModule,
+    MaterialModule,
+    SelectFilterModule
   ],
   exports: [FiltrosPendientesComponent],
 })

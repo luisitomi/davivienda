@@ -13,6 +13,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatInputModule } from '@angular/material/input';
 import { SelectFilterModule } from '../../../shared/component/ui/select-filter/selectFilter.module';
 import { SelectModule } from '../../../shared/component/ui/select/select.module';
+import { InputModule } from '../../../shared/component/ui/input/input.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SelectModule } from '../../../shared/component/ui/select/select.module'
     ReactiveFormsModule,
     SelectFilterModule,
     CloseModule,
+    InputModule,
     FormErrorsModule,
     ActionsModule,
     MatDialogModule,

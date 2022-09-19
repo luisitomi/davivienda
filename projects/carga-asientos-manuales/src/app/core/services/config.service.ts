@@ -100,6 +100,11 @@ export class ConfigService {
     /\/$/,
     ''
   );
+
+  TsFahCargaAsientoCrossCuentasWS = this.enviroment.TsFahCargaAsientoCrossCuentasWS?.replace(
+    /\/$/,
+    ''
+  );
   apiUrlSubject: BehaviorSubject<string> = new BehaviorSubject(this.apiUrl);
   _getOptions2: BehaviorSubject<string> = new BehaviorSubject(this.getOptions2);
   _getOptions1: BehaviorSubject<string> = new BehaviorSubject(this.getParte1);
@@ -122,6 +127,7 @@ export class ConfigService {
   _saveHeaderLine: BehaviorSubject<string> = new BehaviorSubject(this.saveHeaderLine);
   _TsFahGetSegmentosWS: BehaviorSubject<string> = new BehaviorSubject(this.TsFahGetSegmentosWS);
   _TsFahValidacionFechaCerradaGLWS: BehaviorSubject<string> = new BehaviorSubject(this.TsFahValidacionFechaCerradaGLWS);
+  _TsFahCargaAsientoCrossCuentasWS:BehaviorSubject<string> = new BehaviorSubject(this.TsFahCargaAsientoCrossCuentasWS);
   constructor(
     private enviroment: ApiService
   ) { }
@@ -213,4 +219,7 @@ export class ConfigService {
     return this._TsFahValidacionFechaCerradaGLWS.asObservable().pipe(first());
   }
 
+  getApiUrlTsFahCargaAsientoCrossCuentasWS(): Observable<string> {
+    return this._TsFahCargaAsientoCrossCuentasWS.asObservable().pipe(first());
+  }
 }

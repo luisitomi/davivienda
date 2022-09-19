@@ -1,4 +1,4 @@
-/*(function (window) {
+(function (window) {
     window.__env = window.__env || {};
     window.__env.apiUrl = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443";
     window.__env.TsFahObtenerUsuarioWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/6fb371a135fa404bad7fe40ce3225ef9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5CEEXkzdXYb1pT4Svzl7PxL0aN2-vO7RUVTbvdN6hoU";
@@ -16,10 +16,16 @@
     window.__env.TsFAHConfiguracionLimiteHeaderById = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/5b627de19cd646ddaf1bdb088dedfb03/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lnPWmjfyQxsoXxdYYOmC-COdNCvbxs-Fb-mipgSTLks";
     window.__env.TsFAHConfiguracionLimiteAccountDetail = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/8680c62cd6324217b17fa238bf97716b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Q7FR_gMVAJG7ZIlu3-pnxIcnAc8Y6OKz8NxtJKeyDhg";
     window.__env.TsAprobacionUsuarioPreparadorWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/4ef751073c9446dfabc9808c851c49ef/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YuNYZAbb8N5RtP56tg4HVhgt7mE9oVlSzQGkZYgM-WY";
-  
-  }(this));
-  */
+  //
+  window.__env.TsFAHOrigenCargaContableWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/df64cec7a27c48d4ac5a2d85125ee9f6/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xldpRtwM-lQCTyyz5s5hJuGQGbQIyV_62FQ7s_5t9-w";
+  window.__env.TsFahGetAprobacionTipoComprobanteFiltroWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/6dbd6f6d74fa4af998efa9d3ea3c18fa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=W129yQjWIwlCZt4Sdwntik0iTPfndYKAVRkGFV1OOEM";
+  window.__env.TsFahGetAprobacionPreparadorFiltroWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/2c5a258175354f0d8fd15e3b6ebe16ae/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5sRgNd9pBdnPyvkbOgDUNDV4JunHkOfc4HdW-nLgzFU";
+  window.__env.TsFahGetAprobacionAprobadoresFiltroWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/47c1592846bb40b2be2dbd9d48cf77e2/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FhhnwJ05avx6LUdz06_o7ORNUuWm_DN5qN-pTwMUSFE";
+  window.__env.TsFahGetAprobacionPoliticaLimiteFiltroWS  = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/95ade88278bd4f348e0b5e70ac0b9fab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Fge75l6T_T1ZVX5SKO-ew-tfYR7VKlHh3V9LMbqIG4M";
+  window.__env.TsFahGetAprobacionEstadoFiltroWS = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443/workflows/8c6a902962004eaca3162449ee7858d9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=DH_0hKWHbu-WpzSt0mfB88nZ15CpQy3up9dUWFwe0DM"; 
+}(this));
 
+/*
   (function (window) {
     window.__env = window.__env || {};
     window.__env.apiUrl = "https://prod-00-02p-fahise-d01-gxwid5k2w6aee.eastus2.environments.microsoftazurelogicapps.net:443";
@@ -40,4 +46,4 @@
 	window.__env.TsFAHConfiguracionLimiteAccountDetail = "https://prod-00-02p-fahise-l01-f5xn3dwjhctve.eastus2.environments.microsoftazurelogicapps.net:443/workflows/ab8324d2291044e8bd751cb494b845ff/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zuBMMzy8fidbOwndD20lTVS3M29Rxx1UAkOStlXzbKQ"; 
     window.__env.TsAprobacionUsuarioPreparadorWS = "https://prod-00-02p-fahise-l01-f5xn3dwjhctve.eastus2.environments.microsoftazurelogicapps.net:443/workflows/4307e1a64e0345fb8f146d7ff4fc31a5/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sf-hRVda2cf3aNmnBe0n0DcSHiwssQZqUH6NDEsHxaI";
   }(this));
-  
+    */

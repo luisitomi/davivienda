@@ -7,6 +7,8 @@ export interface Limite {
   nuevoValor: number;
   nuevoValorNew: number;
   estado: number;
+  flMensajeInformativo: string;
+  flMensajeInformativoOld: string;
 }
 
 export interface Limit {
@@ -16,6 +18,8 @@ export interface Limit {
   ValueFinish: number;
   Rol: string;
   Estado: number;
+  flMensajeInformativo: string;
+  flMensajeInformativoOld: string;
 }
 
 export interface LimitSave {
@@ -36,6 +40,7 @@ export interface LimitEdit {
 
 export interface LimitHeader
 {
+  /*
   Id: number;
   Carga: Date;
   Usuario: string;
@@ -54,9 +59,98 @@ export interface LimitHeader
   NivelActual: string;
   Aprobador: string;
   NivelLimit: number;
-  Enviado: string;
+  Enviado: string;*/
+  Id: number;
+  Carga: Date;
+  Usuario: string;
+  Comprobante: string;
+  Contable: Date;
+  Descripcion: string;
+  Estado: string;
+  Abono: string;
+  Cargo: string;
+  AbonoTodo: string;
+  CargoTodo: string;
+  Origen: string;
+  TipoComprobante: string;
+  CantidadLineas: string;
+  NombrePreparadorN1: string;
+  FechayHoraGrabacionPreN1: string;
+  NombreAprobadorN2: string;
+  FechayHoraGrabacionPreN2: string;
+  NombreAprobadorN3: string;
+  FechayHoraGrabacionPreN3: string;
+  NombreAprobadorN4: string;
+  FechayHoraGrabacionPreN4: string;
+  NombreAprobadorN5: string;
+  FechayHoraGrabacionPreN5: string;
+  MensajeInformativo: string;
+  JustificacionRechazo: string;
+  LimitePoliticaContable: string;
+  NivelLimit: number;
 }
 
+export interface LimitHeaderDetailResumen
+{
+  Comprobante: string;
+  Origen: string;
+  Contable: Date;
+  Descripcion: string;
+  Usuario: string;
+  Aprobador: string;
+
+  Abono: string;
+  Cargo: string;
+  Enviado:string;
+
+}
+export interface AsientoResumen
+{
+  origen: string;
+  usuario: string;
+  comprobante: Date;
+  fechaContable: string;
+  descripcion: string;
+  cargos: string;
+
+  abonos: string;
+  aprobador: string;
+  enviado:string;
+
+}
+/*
+export interface LimitHeaderObject
+{
+  Id: number;
+  Carga: Date;
+  Usuario: string;
+  Comprobante: string;
+  Contable: Date;
+  Descripcion: string;
+  Estado: string;
+  Abono: string;
+  Cargo: string;
+  AbonoTodo: string;
+  CargoTodo: string;
+  Origen: string;
+  TipoComprobante: string;
+  CantidadLineas: string;
+  NombrePreparadorN1: string;
+  FechayHoraGrabacionPreN1: string;
+  NombreAprobadorN2: string;
+  FechayHoraGrabacionPreN2: string;
+  NombreAprobadorN3: string;
+  FechayHoraGrabacionPreN3: string;
+  NombreAprobadorN4: string;
+  FechayHoraGrabacionPreN4: string;
+  NombreAprobadorN5: string;
+  FechayHoraGrabacionPreN5: string;
+  MensajeInformativo: string;
+  JustificacionRechazo: string;
+  LimitePoliticaContable: string;
+  NivelLimit: number;
+}
+*/
 export interface AccountLine {
   Num: number;
   Dig: number;

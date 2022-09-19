@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/services/config.service';
 import { StrinUtil } from '../../shared/component/helpers/string.util';
-import { FiltroAsiento, FiltroAsientoLimit } from '../models/filtro-asiento.model';
+import { FiltroAsiento, FiltroAsientoLimit, FiltroAsientoLimitHeader } from '../models/filtro-asiento.model';
 import { AccountLineDownload, LimitHeader } from '../models/limite.model';
 
 declare global {
@@ -28,7 +28,7 @@ export class LimitHeaderService {
     private configService: ConfigService,
   ) { }
 
-  getLimitsHeader(filters: FiltroAsiento): Observable<LimitHeader[]> {
+  getLimitsHeader(filters: FiltroAsientoLimitHeader): Observable<LimitHeader[]> {
     return this.configService.getApiUrlTsFAHConfiguracionLimiteHeader().pipe(
       first(),
       switchMap(url => this.http.post<LimitHeader[]>(url,filters)),
@@ -116,5 +116,46 @@ export class LimitHeaderService {
         document.body.removeChild(link);
       }
     }
+  }
+
+
+  getTsFAHOrigenCargaContableWS(): Observable<any> {
+    return this.configService.getApiUrlTsFAHOrigenCargaContableWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+
+  getTsFahGetAprobacionTipoComprobanteFiltroWS(): Observable<any> {
+    return this.configService.getApiUrlTsFahGetAprobacionTipoComprobanteFiltroWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+
+  getTsFahGetAprobacionPreparadorFiltroWS(): Observable<any> {
+    return this.configService.getApiUrlTsFahGetAprobacionPreparadorFiltroWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+
+  getTsFahGetAprobacionAprobadoresFiltroWS(): Observable<any> {
+    return this.configService.getApiUrlTsFahGetAprobacionAprobadoresFiltroWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+  getTsFahGetAprobacionPoliticaLimiteFiltroWS(): Observable<any> {
+    return this.configService.getApiUrlTsFahGetAprobacionPoliticaLimiteFiltroWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
+  }
+  getTsFahGetAprobacionEstadoFiltroWS(): Observable<any> {
+    return this.configService.getApiUrlTsFahGetAprobacionEstadoFiltroWS().pipe(
+      first(),
+      switchMap(url => this.http.get<any>(url)),
+    );
   }
 }

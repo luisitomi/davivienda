@@ -10,30 +10,47 @@
     </mat-expansion-panel-header>
     <div class="evol-filtro-container">
       <div class="evol-filtro-section">
-        <app-calendar [label]="'Fecha Carga'" formControlName="inicio" [error]="showErrors('inicio')"></app-calendar>
-        <app-form-errors [control]="filtrosForm.controls['inicio']"></app-form-errors>
-        <app-calendar [label]="'Fecha Contable'" formControlName="fin" [error]="showErrors('fin')"></app-calendar>
-        <app-form-errors [control]="filtrosForm.controls['fin']"></app-form-errors>
+
+        <app-select (changeOption)="onFocusOutEvent('origen');" [label]="'Origen'" formControlName="origen"
+        [options]="origenOptions" [error]="showErrors('origen')"></app-select>
+      <app-form-errors [control]="filtrosForm.controls['origen']"></app-form-errors>
+
+      <app-select (changeOption)="onFocusOutEvent('tipoComprobante');" [label]="'tipoComprobante'" formControlName="tipoComprobante"
+        [options]="tipoComprobanteOptions" [error]="showErrors('tipoComprobante')"></app-select>
+      <app-form-errors [control]="filtrosForm.controls['tipoComprobante']"></app-form-errors>
+     
+
       </div>
       <div class="evol-filtro-section">
-        <app-select (changeOption)="onFocusOutEvent('origen');" [label]="'Origen'" formControlName="origen"
-          [options]="origenOptions" [error]="showErrors('origen')"></app-select>
-        <app-form-errors [control]="filtrosForm.controls['origen']"></app-form-errors>
-        <app-select (changeOption)="onFocusOutEvent('usuario');" [label]="'Usuario'" formControlName="usuario"
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Carga</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matInput matStartDate formControlName="fechaCargaInicio" placeholder="Fecha Carga Inicio" autocomplete="off">
+            <input matInput matEndDate formControlName="fechaCargaFin" placeholder="Fecha Carga Fin" autocomplete="off">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+        </mat-form-field>
+
+    
+
+        <app-select *ngIf="isAprobad" (changeOption)="onFocusOutEvent('usuario');" [label]="'Usuario'" formControlName="usuario"
           [options]="usuarioOptions" [error]="showErrors('usuario')"></app-select>
         <app-form-errors [control]="filtrosForm.controls['usuario']"></app-form-errors>
+
+        <app-select  *ngIf="!isAprobad" (changeOption)="onFocusOutEvent('aprobador');" [label]="'aprobador'" formControlName="aprobador"
+        [options]="aprobadoresOptions" [error]="showErrors('aprobador')"></app-select>
+      <app-form-errors [control]="filtrosForm.controls['aprobador']"></app-form-errors>
       </div>
       <div class="evol-filtro-section">
 
-        <app-input (input)="onFocusOutEvent('cuenta')" 
-          (focusout)="onFocusOutEvent('cuenta')" 
-          [label]="'Cuenta'" formControlName="cuenta" 
-          [error]="showErrors('cuenta')" 
-          [onlyNumber]="true">
-        </app-input>
-       <!-- <app-select (changeOption)="onFocusOutEvent('cuenta');" [label]="'Cuenta'" formControlName="cuenta"
-          [options]="cuentaOptions" [error]="showErrors('cuenta')"></app-select>-->
-        <app-form-errors [control]="filtrosForm.controls['cuenta']"></app-form-errors>
+        
+        <app-select (changeOption)="onFocusOutEvent('limitePolitica');" [label]="'limitePolitica'" formControlName="limitePolitica"
+          [options]="LimitePoliticaOptions" [error]="showErrors('limitePolitica')"></app-select>
+        <app-form-errors [control]="filtrosForm.controls['limitePolitica']"></app-form-errors>
+
+
         <app-select (changeOption)="onFocusOutEvent('estado');" [label]="'Estado'" formControlName="estado"
           [options]="estadoOptions" [error]="showErrors('estado')"></app-select>
         <app-form-errors [control]="filtrosForm.controls['estado']"></app-form-errors>

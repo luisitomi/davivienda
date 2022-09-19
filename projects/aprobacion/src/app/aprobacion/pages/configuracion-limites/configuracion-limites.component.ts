@@ -80,6 +80,8 @@ export class ConfiguracionLimitesComponent extends UnsubcribeOnDestroy implement
             importeMaximoNew: data?.ValueFinish?.toFixed(2),
             estado: data?.Estado,
             id: data?.Id,
+            flMensajeInformativo:data?.flMensajeInformativo,
+            flMensajeInformativoOld:data?.flMensajeInformativoOld
           }))
           /*this.limits.sort(function (a: any, b: any) {   
             return a.codigo - b.codigo || a.nuevoValor - b.nuevoValor;

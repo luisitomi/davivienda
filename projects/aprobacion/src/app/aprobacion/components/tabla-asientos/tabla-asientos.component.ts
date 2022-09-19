@@ -9,6 +9,7 @@ import { Asiento } from '../../../shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { LimitService } from '../../services/limit.service';
 
+
 @Component({
   selector: 'app-tabla-asientos',
   templateUrl: './tabla-asientos.component.html',
@@ -24,7 +25,7 @@ export class TablaAsientosComponent extends UnsubcribeOnDestroy implements OnCha
   @Output() aprobar = new EventEmitter<Asiento[]>();
   @Output() rechazar = new EventEmitter<Asiento[]>();
   spinner = false;
-  displayedColumns: string[] = ['seleccion', 'fechaCarga', 'usuario', 'comprobante', 'fechaContable', 'descripcion', 'cargos', 'abonos', 'cargosTotal', 'abonosTotal', 'estado', 'acciones'];
+  displayedColumns: string[] = ['seleccion', 'fechaCarga', 'usuario', 'comprobante', 'fechaContable', 'descripcion', 'Debito', 'Credito', 'Origen', 'TipoComprobante', 'CantidadLineas','NombrePreparador','HorayFechaPreparador','NombreAprobadorN2','FechayHoraAprobadorN2','NombreAprobadorN3','FechayHoraAprobadorN3','NombreAprobadorN4','FechayHoraAprobadorN4','NombreAprobadorN5','FechayHoraAprobadorN5','MensajeInformativo','Estado','JustificacionRechazo','LimitePolitica', 'acciones'];
   nombreUsuario: string;
   selection = new SelectionModel<any>(true, []);
   aprobador = false;

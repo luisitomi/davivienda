@@ -32,6 +32,10 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   loadingAsientos: boolean = false;
   spinner = false;
   nombreUsuario: string;
+
+  
+
+
   filtros = {
     inicio: '',
     fin: '',
@@ -96,6 +100,19 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
   filtrar(filtros: any): void {
     this.loadingAsientos = true;
     this.getListDataFiltros();
+
+    const request = {
+      usuarioSesion: this.nombreUsuario,
+      aprobador: filtros?.aprobador || '',
+      usuario: filtros?.usuario || '',
+      fechaCargaInicio: this.datePipe.transform(filtros?.fechaCargaInicio, appConstants.eventDate.format3) || '',
+      fechaCargaFin: this.datePipe.transform(filtros?.fechaCargaFin, appConstants.eventDate.format3) || '',
+      origen:  filtros?.origen || '',
+      tipoComprobante: filtros?.tipoComprobante,
+      limitePolitica: filtros?.limitePolitica,
+      estado: filtros?.estado || '',
+    }
+/*
     const request = {
       estado: ((this.aprobador == true)? 'Pendiente Aprobación' : ( filtros?.estado || '')),
       origen: filtros?.origen || '',
@@ -106,14 +123,15 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
       aprobador: Number(this.aprobador),
       aprobadorName: this.nombreUsuario,
 
-    }
+    } */
     this.spinner = true;
     const $subas = this.lineHeaderService
   
       .getLimitsHeader(request)
       .pipe(finalize(() =>  this.method()))
       .subscribe(
-        (asiento: LimitHeader[]) => {
+      
+       (asiento: LimitHeader[]) => {
           this.asientosCopy = (asiento || []).map((item) => ({
             id: item?.Id,
             origen: item?.Origen,
@@ -124,37 +142,44 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: item.Cuenta,
+            cuentas: '',
             nivel: item.NivelLimit,
             estado: item?.Estado,
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
             nivelActual: '',
             aprobador:'' ,
-            enviado: ''
+            enviado: '',
+            tipoComprobante: item?.TipoComprobante,
+            cantidadLineas: item?.CantidadLineas,
+            nombrePreparadorN1: item?.NombrePreparadorN1,
+            fechayHoraGrabacionPreN1: item?.FechayHoraGrabacionPreN1,
+            nombreAprobadorN2: item?.NombreAprobadorN2,
+            fechayHoraGrabacionPreN2: item?.FechayHoraGrabacionPreN2,
+            nombreAprobadorN3: item?.NombreAprobadorN3,
+            fechayHoraGrabacionPreN3: item?.FechayHoraGrabacionPreN3,
+            nombreAprobadorN4: item?.NombreAprobadorN4,
+            fechayHoraGrabacionPreN4: item?.FechayHoraGrabacionPreN4,
+            nombreAprobadorN5: item?.NombreAprobadorN5,
+            fechayHoraGrabacionPreN5: item?.FechayHoraGrabacionPreN5,
+            mensajeInformativo: item?.MensajeInformativo,
+            justificacionRechazo: item?.JustificacionRechazo,
+            limitePoliticaContable: item?.LimitePoliticaContable,
+            nivelLimit: item?.NivelLimit
           }));
-          this.asientosCopy = this.aprobador ? this.asientosCopy.filter(o => o.estado === 'Pendiente Aprobación') : this.asientosCopy.filter(o => o.usuario === this.nombreUsuario);
+         // this.asientosCopy = this.aprobador ? this.asientosCopy.filter(o => o.estado === 'Pendiente Aprobación') : this.asientosCopy.filter(o => o.usuario === this.nombreUsuario);
    
           this.asientosCopy = this.eliminarObjetosDuplicados(this.asientosCopy, 'id');
-/*
-          this.origenOptionsv2 = (this.asientosCopy || []).map((item) => ({
-            label: item?.origen,
-            value: item?.origen,
-          }))
-          this.origenOptionsv2 = this.eliminarObjetosDuplicados(this.origenOptionsv2, 'label');
-          this.origenOptionsv2.unshift({label: 'Todos', value: ''});
-*/
 
-          //this.setData(this.asientosCopy)
 
-        }
+        } 
       );
     this.arrayToDestroy.push($subas);
   }
 
   getListDataFiltros() {
 
-    this.spinner = true;
+ /*   this.spinner = true;
     const request = {
       estado: ((this.aprobador == true)? 'Pendiente Aprobación' : ('')),
       origen: '',
@@ -196,7 +221,7 @@ export class AsientosPendientesComponent extends UnsubcribeOnDestroy implements 
           this.spinner = false;
         }
       );
-    this.arrayToDestroy.push($subas);
+    this.arrayToDestroy.push($subas); */
   }
   setData(listFilter: Asiento[]): void {
     this.origenOptionsv2 = (listFilter || []).map((item) => ({

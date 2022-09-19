@@ -53,19 +53,83 @@ table {
   @extend %column;
 }
 
-.mat-column-cargos {
+.mat-column-Debito {
   @extend %column;
 }
 
-.mat-column-abonos {
+.mat-column-Credito {
   @extend %column;
 }
 
-.mat-column-cargosTotal {
+.mat-column-Origen {
   @extend %column;
 }
 
-.mat-column-abonosTotal {
+.mat-column-TipoComprobante {
+  @extend %column;
+}
+
+
+.mat-column-CantidadLineas {
+  @extend %column;
+}
+
+.mat-column-NombrePreparador {
+  @extend %column;
+}
+.mat-column-HorayFechaPreparador {
+  @extend %column;
+}
+
+.mat-column-NombreAprobadorN2 {
+  @extend %column;
+}
+
+.mat-column-FechayHoraAprobadorN2 {
+  @extend %column;
+}
+
+
+.mat-column-NombreAprobadorN3 {
+  @extend %column;
+}
+
+.mat-column-FechayHoraAprobadorN3 {
+  @extend %column;
+}
+
+
+.mat-column-NombreAprobadorN4 {
+  @extend %column;
+}
+
+.mat-column-FechayHoraAprobadorN4 {
+  @extend %column;
+}
+
+
+.mat-column-NombreAprobadorN5 {
+  @extend %column;
+}
+
+.mat-column-FechayHoraAprobadorN5 {
+  @extend %column;
+}
+
+
+.mat-column-MensajeInformativo {
+  @extend %column;
+}
+
+.mat-column-Estado {
+  @extend %column;
+}
+
+.mat-column-JustificacionRechazo {
+  @extend %column;
+}
+
+.mat-column-LimitePolitica {
   @extend %column;
 }
 
@@ -73,3 +137,4 @@ table {
 .mat-column-acciones {
   @extend %column;
 }
+

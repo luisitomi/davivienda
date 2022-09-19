@@ -19,9 +19,11 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
   @Output() updateLis = new EventEmitter<boolean>();
   @Input() limites: Limite[];
   @Input() loading: boolean = false;
-  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValorFinish', 'estado'];
+  displayedColumns: string[] = ['descripcion', 'empiezaCon', 'importeMaximo', 'nuevoValorFinish', 'Informativo','estado'];
   spinner = false;
   sinCambios: boolean = true;
+  flInformativoAll: boolean = false;
+  
 
   constructor(
     private dialog: MatDialog,
@@ -70,7 +72,8 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
     if (!this.sinCambios) {
       this.spinner = true;
       this.limites.forEach((element: any, index: number) => {
-        if (Number(element.importeMaximoNew) !== Number(element.importeMaximo)) {
+
+        if (Number(element.importeMaximoNew) !== Number(element.importeMaximo) || element.flMensajeInformativo != element.flMensajeInformativoOld) {
           if (Number(this.limites[index - 1]?.importeMaximoNew) >= Number(element.importeMaximoNew) &&
             element?.nuevoValor === this.limites[index - 1]?.nuevoValor) {
             this.spinner = false;
@@ -90,6 +93,7 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
             Valor: element?.nuevoValorNew,
             ValorFinal: element?.importeMaximoNew,
             Usuario: '',
+            FlInformativo:element.flMensajeInformativo
           }
           const $edit = this.limitService
             .EditLimit(request)
@@ -185,6 +189,39 @@ export class TablaLimitesComponent extends UnsubcribeOnDestroy {
         }
       });
     }
+  }
+
+  
+  /* JJGP 2022 09 07 */ 
+  seleccionarTodosMI() {
+    this.sinCambios = false;
+    if (this.flInformativoAll) {
+      this.limites.forEach((element: any, index: number) => {
+        this.limites[index].flMensajeInformativo ='N';
+        this.flInformativoAll = false;
+      });
+    } else{
+      this.limites.forEach((element: any, index: number) => {
+        this.limites[index].flMensajeInformativo ='Y';
+        this.flInformativoAll = true;
+      });
+    }
+    
+    
+  }
+  validarCheckedMI(object : Limite) {
+    if (object?.flMensajeInformativo != null && object?.flMensajeInformativo == 'Y') {
+      return true;
+    }
+    return false;
+  }
+  selectEnviarInformativo(object : Limite) {
+    this.sinCambios = false;
+    this.limites.forEach((element: any, index: number) => {
+      if (element.id == object.id) {
+        this.limites[index].flMensajeInformativo = ( (this.limites[index].flMensajeInformativo != null && this.limites[index].flMensajeInformativo == 'Y' )? 'N': 'Y');
+      }
+    });
   }
 }
 

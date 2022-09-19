@@ -32,7 +32,7 @@
           <td mat-cell *matCellDef="let element">{{ element?.usuario }}</td>
         </ng-container>
         <ng-container matColumnDef="comprobante">
-          <th mat-header-cell *matHeaderCellDef>Comprobante</th>
+          <th mat-header-cell *matHeaderCellDef>N° Transacci&oacute;n</th>
           <td mat-cell *matCellDef="let element">{{ element?.comprobante }}</td>
         </ng-container>
         <ng-container matColumnDef="fechaContable">
@@ -43,25 +43,86 @@
           <th mat-header-cell *matHeaderCellDef>Descripción</th>
           <td mat-cell *matCellDef="let element">{{ element?.descripcion }}</td>
         </ng-container>
-        <ng-container matColumnDef="cargos">
-          <th mat-header-cell *matHeaderCellDef>Cargos Pendientes</th>
+        <ng-container matColumnDef="Debito">
+          <th mat-header-cell *matHeaderCellDef>Débitos</th>
           <td mat-cell *matCellDef="let element">{{ numerTranfors(element?.cargos) }}</td>
         </ng-container>
-        <ng-container matColumnDef="abonos">
-          <th mat-header-cell *matHeaderCellDef>Abonos Pendientes</th>
+        <ng-container matColumnDef="Credito">
+          <th mat-header-cell *matHeaderCellDef>Créditos</th>
           <td mat-cell *matCellDef="let element">{{ numerTranfors(element?.abonos) }}</td>
         </ng-container>
-        <ng-container matColumnDef="cargosTotal">
-          <th mat-header-cell *matHeaderCellDef>Cargos Totales</th>
-          <td mat-cell *matCellDef="let element">{{ numerTranfors(element?.cargoTotal) }}</td>
+        <ng-container matColumnDef="Origen">
+          <th mat-header-cell *matHeaderCellDef>Origen</th>
+          <td mat-cell *matCellDef="let element">{{ element?.origen }}</td>
         </ng-container>
-        <ng-container matColumnDef="abonosTotal">
-          <th mat-header-cell *matHeaderCellDef>Abonos Totales</th>
-          <td mat-cell *matCellDef="let element">{{ numerTranfors(element?.abonoTotal) }}</td>
+        <ng-container matColumnDef="TipoComprobante">
+          <th mat-header-cell *matHeaderCellDef>Tipo de Comprobante</th>
+          <td mat-cell *matCellDef="let element">{{ element?.tipoComprobante }}</td>
         </ng-container>
-        <ng-container matColumnDef="estado">
+        <ng-container matColumnDef="CantidadLineas">
+          <th mat-header-cell *matHeaderCellDef>Cantidad de Líneas</th>
+          <td mat-cell *matCellDef="let element">{{ element?.cantidadLineas }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="NombrePreparador">
+          <th mat-header-cell *matHeaderCellDef>Nombre del Preparador</th>
+          <td mat-cell *matCellDef="let element">{{ element?.nombrePreparadorN1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="HorayFechaPreparador">
+          <th mat-header-cell *matHeaderCellDef>Fecha y Hora de Grabación</th>
+          <td mat-cell *matCellDef="let element">{{ element?.fechayHoraGrabacionPreN1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="NombreAprobadorN2">
+          <th mat-header-cell *matHeaderCellDef>Nombre del Aprobador (Nivel 2)</th>
+          <td mat-cell *matCellDef="let element">{{ element?.nombreAprobadorN2 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="FechayHoraAprobadorN2">
+          <th mat-header-cell *matHeaderCellDef>Fecha y Hora de Grabación</th>
+          <td mat-cell *matCellDef="let element">{{ element?.fechayHoraGrabacionPreN2 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="NombreAprobadorN3">
+          <th mat-header-cell *matHeaderCellDef>Nombre del Aprobador (Nivel 3)</th>
+          <td mat-cell *matCellDef="let element">{{ element?.nombreAprobadorN3 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="FechayHoraAprobadorN3">
+          <th mat-header-cell *matHeaderCellDef>Fecha y Hora de Grabación</th>
+          <td mat-cell *matCellDef="let element">{{ element?.fechayHoraGrabacionPreN3}}</td>
+        </ng-container>
+        <ng-container matColumnDef="NombreAprobadorN4">
+          <th mat-header-cell *matHeaderCellDef>Nombre del Aprobador (Nivel 4)</th>
+          <td mat-cell *matCellDef="let element">{{ element?.nombreAprobadorN4 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="FechayHoraAprobadorN4">
+          <th mat-header-cell *matHeaderCellDef>Fecha y Hora de Grabación</th>
+          <td mat-cell *matCellDef="let element">{{ element?.fechayHoraGrabacionPreN4 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="NombreAprobadorN5">
+          <th mat-header-cell *matHeaderCellDef>Nombre del Aprobador (Nivel 5)</th>
+          <td mat-cell *matCellDef="let element">{{ element?.nombreAprobadorN5 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="FechayHoraAprobadorN5">
+          <th mat-header-cell *matHeaderCellDef>Fecha y Hora de Grabación</th>
+          <td mat-cell *matCellDef="let element">{{ element?.fechayHoraGrabacionPreN5 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="MensajeInformativo">
+          <th mat-header-cell *matHeaderCellDef>Mensaje Informativo</th>
+          <td mat-cell *matCellDef="let element">{{ element?.mensajeInformativo }}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Estado">
           <th mat-header-cell *matHeaderCellDef>Estado</th>
           <td mat-cell *matCellDef="let element">{{ element?.estado }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="JustificacionRechazo">
+          <th mat-header-cell *matHeaderCellDef>Justificación Rechazo</th>
+          <td mat-cell *matCellDef="let element">{{ element?.justificacionRechazo }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="LimitePolitica">
+          <th mat-header-cell *matHeaderCellDef>Límite de Política Contable</th>
+          <td mat-cell *matCellDef="let element">{{ element?.limitePoliticaContable }}</td>
         </ng-container>
         <ng-container matColumnDef="acciones" stickyEnd >
           <th mat-header-cell *matHeaderCellDef>Acciones</th>

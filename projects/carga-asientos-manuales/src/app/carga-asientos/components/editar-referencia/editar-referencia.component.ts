@@ -72,7 +72,10 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
         
           const dataValue = this.typeReference.find((p: any) => p.label === this.data?.data?.nombre);
           this.selectType = dataValue?.value || '';
-          console.log(this.selectType)
+        
+          this.isNumber = dataValue?.type === appConstants.typeDate.NUMERICO;
+          this.isDate = dataValue?.type === appConstants.typeDate.FECHA;
+
           this.arrayToDestroy.push($typeReference);
 
           if (this.data?.type === appConstants.typeEvent.EDIT) {
@@ -114,19 +117,22 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
   }
 
   changeOption(event: DropdownItem): void {
-    debugger;
-    console.log('data')
-    console.log(event?.type)
+  
+    
     this.isNumber = event?.type === appConstants.typeDate.NUMERICO;
     this.isDate = event?.type === appConstants.typeDate.FECHA;
   }
 
   onFocusOutEvent(control: string) {
-    debugger;
+  
     this.focusoutValue = this.focusoutValue && !this.form.get(`${control}`)?.value ? true : control === 'value' && !this.focusoutValue ? true : false;
     this.form.get(`${control}`)?.updateValueAndValidity();
     const validNumber = this.isNumber;
     const isDate = this.isDate;
+
+    this.form.get(`value`)?.clearValidators();
+
+    // Valida que no sea nulo y que no sea numero
     if (!this.form.get(`${control}`)?.value && !validNumber) {
       this.form.get(`${control}`)?.clearValidators();
       this.form.get(`${control}`)?.setValidators([
@@ -134,6 +140,7 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
         this.validate,
       ]);
     } else {
+      // valida que sera numerico
       if (validNumber) {
         this.form.get(`value`)?.clearValidators();
         if(isNaN(this.form.get(`value`)?.value)) {
@@ -153,7 +160,9 @@ export class EditarReferenciaComponent extends UnsubcribeOnDestroy implements On
             this.validateRequirementPeriod.bind(this),
           ]);
           this.form.get(`value`)?.updateValueAndValidity();
-        }
+        } 
+
+
       }      
     }
   }

@@ -20,8 +20,18 @@
       <app-form-errors [control]="form.controls['comp3']"></app-form-errors>
       <app-select-filter [disabled]="true" [valueId2]="valueId2" [valueId1]="valueId1" (optionAdd)="optionAdd($event)" [complementary]="true" [selected]="comp5Select" (changeOption)="onFocusOutEvent('comp5')" [label]="'Proyecto'" formControlName="comp5"  [options1]="parte5Options" [options]="parte5Options" [error]="showErrors('comp5')"></app-select-filter>
       <app-form-errors [control]="form.controls['comp5']"></app-form-errors>
-      <app-select-filter [disabled]="true" [valueId2]="valueId2" [valueId1]="valueId1" (optionAdd)="optionAdd($event)" [complementary]="true" [selected]="comp6Select" (changeOption)="onFocusOutEvent('comp6')" [label]="'Subproyecto'" formControlName="comp6" [options1]="parte6Options" [options]="parte6Options" [error]="showErrors('comp6')"></app-select-filter>
+      <!-- SUBPROYECTO -->
+      <app-select-filter [disabled]="true" *ngIf="origen != origenSIF" [valueId2]="valueId2" [valueId1]="valueId1" (optionAdd)="optionAdd($event)" [complementary]="true" [selected]="comp6Select" (changeOption)="onFocusOutEvent('comp6')" [label]="'Subproyecto'" formControlName="comp6" [options1]="parte6Options" [options]="parte6Options" [error]="showErrors('comp6')"></app-select-filter>
+      <app-input [maxlength]="'30'" 
+      *ngIf="origen == origenSIF"
+        (input)="onFocusOutEvent('comp6')" 
+        (focusout)="onFocusOutEvent('comp6')" 
+        [label]="'Subproyecto'" 
+        formControlName="comp6" 
+        [error]="showErrors('comp6')">
+      </app-input>
       <app-form-errors [control]="form.controls['comp6']"></app-form-errors>
+      <!-- FIN SUBPROYECTO -->
       <app-select-filter [disabled]="true" [valueId2]="valueId2" [valueId1]="valueId1" (optionAdd)="optionAdd($event)" [complementary]="true" [selected]="comp7Select" (changeOption)="onFocusOutEvent('comp7')" [label]="'Tipo Comprobante'" formControlName="comp7" [options1]="parte7Options" [options]="parte7Options" [error]="showErrors('comp7')"></app-select-filter>
       <app-form-errors [control]="form.controls['comp7']"></app-form-errors>
       <app-select-filter [disabled]="true" [valueId2]="valueId2" [valueId1]="valueId1" (optionAdd)="optionAdd($event)" [complementary]="true" [selected]="comp8Select" (changeOption)="onFocusOutEvent('comp8')" [label]="'Intercompañía'" formControlName="comp8" [options1]="parte8Options" [options]="parte8Options" [error]="showErrors('comp8')"></app-select-filter>

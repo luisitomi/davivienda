@@ -20,6 +20,8 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
   filteredParte1Options: Observable<DropdownItem[]>;
+  origen: string;
+  origenSIF: string;
   parte1Options: Array<DropdownItem> = [];
   parte2Options: Array<DropdownItem> = [];
   parte3Options: Array<DropdownItem> = [];
@@ -93,6 +95,7 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
   }
 
   ngOnInit(): void {
+    this.obtenerHeader();
     this.getOptions1();
     this.getOptions2();
     this.getOptions4();
@@ -104,6 +107,14 @@ export class CombinacionContableComponent extends UnsubcribeOnDestroy implements
     this.createForm();
   }
 
+  obtenerHeader() {
+   
+    const model = JSON.parse(localStorage.getItem(appConstants.modelSave.NEWSEAT) || '{}');
+    if (model?.header) {
+      this.origen = model?.header?.SourceName;
+      this.origenSIF = appConstants.origen.ORIGEN_SIF;
+    }
+  }
   updateForm() {
     this.form.patchValue({
       comp1: this.data?.data?.Company,

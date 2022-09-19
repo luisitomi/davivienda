@@ -22,6 +22,19 @@
             <app-input-currency [disabled]="element?.estado === 1" [maxlength]="999999999999999" [limitTo]="2" (input)="onCambio($event, i)" [valueInput]="element.importeMaximoNew"></app-input-currency>
           </td>
         </ng-container>
+        <ng-container matColumnDef="Informativo">
+
+          <th mat-header-cell *matHeaderCellDef>
+
+            <mat-checkbox color="primary" (change)="seleccionarTodosMI()">Mensaje Informativo</mat-checkbox>
+
+          </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <mat-checkbox [checked]="validarCheckedMI(element)" (change)="selectEnviarInformativo(element)"></mat-checkbox>
+          </td>
+
+        </ng-container>
+
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef>Acciones</th>
           <ng-container *matCellDef="let element;let index=index" [ngSwitch]="element.estado">

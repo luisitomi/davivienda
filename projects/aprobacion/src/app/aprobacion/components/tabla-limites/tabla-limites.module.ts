@@ -15,6 +15,7 @@ import { NewLimitModule } from '../new-limit/new-limit.module';
 import { ConfirmationModule } from '../confirmation/confirmation.module';
 import { InputCurrencyModule } from '../../../shared/component/ui/input-currency/input-currency.module';
 import { ConfirmationModalModule } from '../confirmation-modal/confirmation.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ConfirmationModalModule } from '../confirmation-modal/confirmation.modu
     ConfirmationModule,
     InputCurrencyModule,
     ConfirmationModalModule,
+    MatCheckboxModule,
   ],
   exports: [TablaLimitesComponent],
 })

@@ -17,3 +17,16 @@ export interface FiltroAsientoLimit {
   Jwt: string;
 }
 
+
+export interface FiltroAsientoLimitHeader {
+  usuarioSesion?: string;
+  aprobador?: string;
+  usuario: string;
+  fechaCargaInicio: string;
+  fechaCargaFin: string;
+  origen: string;
+  tipoComprobante: string;
+  limitePolitica: string;
+  estado: string;
+}
+

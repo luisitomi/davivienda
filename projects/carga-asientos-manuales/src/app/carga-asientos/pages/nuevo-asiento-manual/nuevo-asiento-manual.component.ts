@@ -42,6 +42,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
   valorupdateForm: string;
   leaders: Array<DropdownItem>;
   autorizacion: string;
+  listValidacionCuenta: any[]
   constructor(
     private cdRef:ChangeDetectorRef,
     private datePipe: DatePipe,
@@ -69,6 +70,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
     );
     this.utilServices.setTextValue('Carga Manual');
     this.getLeader();
+    this.getTsFahCargaAsientoCrossCuentasWS();
   }
 
   ngAfterViewChecked(){
@@ -136,6 +138,26 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           }),
         )}
       );
+    this.arrayToDestroy.push($leader);
+  }
+
+  getTsFahCargaAsientoCrossCuentasWS(): void {
+    const $leader = this.periodoContableService
+      .getTsFahCargaAsientoCrossCuentasWS()
+      .pipe(finalize(() => this.spinner = false))
+      .subscribe(
+        (response: any[]) => {
+          this.listValidacionCuenta = response;
+          /*
+          this.leaders = (response || []).map((data) => ({
+            label: data?.BU_NAME,
+            value: data?.LEDGER_ID,
+          }),
+        )
+       */
+      }
+      );
+    
     this.arrayToDestroy.push($leader);
   }
 
@@ -227,6 +249,7 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
         enteredCredit: data?.EnteredCredit,
         description: '',
         usuario: this.nombreUsuario,
+        validacionReglaCuenta: this.listValidacionCuenta.filter(p => data?.combinationAccount?.SegGlAccount.startsWith( p?.valorRegla) == true ).map(item => item.reglaValidacion) +'',
         informacionReferencial: (data?.columnasReferenciales || []).map((refere: ReferenciaComplementaria, subindex) => ({
           nroRefCom: subindex + 1,
           referenciaComprobante: refere?.nombreValue,
@@ -245,10 +268,10 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
 
       let permission = true;
       lineSave.forEach((element, index) => {
-        const totalDebito = lineSave.filter(p => p?.segSucursal === element?.segSucursal &&  p?.segOficina === element?.segOficina ).map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
-        const totalCredito = lineSave.filter(p => p?.segSucursal === element?.segSucursal && p?.segOficina === element?.segOficina ).map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+        const totalDebito = lineSave.filter(p => p?.segSucursal === element?.segSucursal &&  p?.segOficina === element?.segOficina &&  p?.validacionReglaCuenta === element?.validacionReglaCuenta ).map(item => Number(item.enteredDebit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+        const totalCredito = lineSave.filter(p => p?.segSucursal === element?.segSucursal && p?.segOficina === element?.segOficina &&  p?.validacionReglaCuenta === element?.validacionReglaCuenta ).map(item => Number(item.enteredCredit)).reduce((prev, curr) => Number(prev) + Number(curr), 0);
         if (totalDebito !== totalCredito) {
-          this.toastr.warning(`La suma entre los montos de crédito y débito son diferentes en la sucursal ${element?.nameSucursal} y oficina ${element?.nameOficina}`, 'Advertencia');
+          this.toastr.warning(`La suma entre los montos de crédito y débito son diferentes en la sucursal ${element?.nameSucursal}, oficina ${element?.nameOficina} y la ${element?.validacionReglaCuenta}`, 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
@@ -271,13 +294,13 @@ export class NuevoAsientoManualComponent extends UnsubcribeOnDestroy implements 
           permission = false;
           return;
         }*/
-       
+       /*
         if (element?.segOficina !== lineSaveOficina) {
           this.toastr.warning("Los valores de oficina son diferentes", 'Advertencia');
           this.spinner = false;
           permission = false;
           return;
-        }
+        } */
 
         if (element?.segOficina === 'OFICINA') {
           this.toastr.warning(`Debe elegir una oficina en la linea ${index + 1} `, 'Advertencia');

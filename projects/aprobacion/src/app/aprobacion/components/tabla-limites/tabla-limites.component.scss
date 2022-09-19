@@ -51,3 +51,10 @@ table {
   text-align: center;
   width: 150px;
 }
+.mat-column-Informativo {
+  @extend %column;
+  text-align: center;
+  width: 150px;
+}
+
+

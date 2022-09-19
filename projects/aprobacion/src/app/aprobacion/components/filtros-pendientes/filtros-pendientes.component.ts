@@ -3,12 +3,13 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { finalize } from 'rxjs/operators';
+import { Maestra } from '../../../carga-asientos/models/maestra.model';
 import { AuthService } from '../../../core/services/auth.service';
-import { Asiento } from '../../../shared';
+import { Asiento, Origen } from '../../../shared';
 import { UnsubcribeOnDestroy } from '../../../shared/component/general/unsubscribe-on-destroy';
 import { isEmpty } from '../../../shared/component/helpers/general.helper';
 import { DropdownItem } from '../../../shared/component/ui/select/select.model';
-import { FiltroAsiento } from '../../models/filtro-asiento.model';
+import { FiltroAsiento, FiltroAsientoLimitHeader } from '../../models/filtro-asiento.model';
 import { LimitHeader } from '../../models/limite.model';
 import { LimitService } from '../../services/limit.service';
 import { LimitHeaderService } from '../../services/limitHeader.service';
@@ -20,29 +21,34 @@ import { LimitHeaderService } from '../../services/limitHeader.service';
 })
 export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements OnInit {
   @Input() asientos: Asiento[] = [];
-  @Input() origenOptions: Array<DropdownItem>;
-  @Input() usuarioOptions: Array<DropdownItem>;
-  @Input() cuentaOptions: Array<DropdownItem>;
-  @Input() estadoOptions: Array<DropdownItem>;
+   origenOptions: Array<DropdownItem>;
+   usuarioOptions: Array<DropdownItem>;
+   cuentaOptions: Array<DropdownItem>;
+  estadoOptions: Array<DropdownItem>;
   @Output() formInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild(MatExpansionPanel) panel?: MatExpansionPanel;
   listFilter: Asiento[];
   @Output() filtros = new EventEmitter<FiltroAsiento>();
   filtrosForm: FormGroup;
+
+  aprobadoresOptions: Array<DropdownItem>;
+  tipoComprobanteOptions: Array<DropdownItem>;
+  LimitePoliticaOptions: Array<DropdownItem>;
 //  origenOptions: Array<DropdownItem>;
  // usuarioOptions: Array<DropdownItem>;
  // cuentaOptions: Array<DropdownItem>;
  // estadoOptions: Array<DropdownItem>;
   spinner: boolean;
-  filtrosData: FiltroAsiento = {
-    inicio: '',
-    fin: '',
-    origen: '',
+  filtrosData: FiltroAsientoLimitHeader = {
+    usuarioSesion: '',
+    aprobador: '',
     usuario: '',
-    estado: '',
-    cuenta: '',
-    aprobador: 0,
-    aprobadorName: '',
+    fechaCargaInicio: '',
+    fechaCargaFin: '',
+    origen:  '',
+    tipoComprobante: '',
+    limitePolitica: '',
+    estado: ''
   };
   nombreUsuario: string;
   isAprobad: boolean;
@@ -64,16 +70,143 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
       }
     );
     this.getByRolUser();
+    this.getPreparador();
+    this.getAprobadores();
+    this.getLimitePolitica();
+    this.getTipoComprobante();
+    this.getEstado();
+    this.getOrigen();
     this.createForm();
   }
+  getPreparador() {
+    this.spinner = true;
+    const $rol = this.lineHeaderService
+                  .getTsFahGetAprobacionPreparadorFiltroWS()
+                  .pipe(finalize( () =>  this.spinner = false))
+                  .subscribe(
+                    (response: Maestra[]) => {
+                  
+          this.usuarioOptions = (response || []).map((item) => ({
+            label: item?.valor,
+            value: item?.codigo,
+          }))
+          this.usuarioOptions.unshift({label: 'Todos', value: ''});
+          this.spinner = false;
+        }
+        )
+    this.arrayToDestroy.push($rol);
+  }
+  getAprobadores() {
+    this.spinner = true;
+    const $rol = this.lineHeaderService
+                  .getTsFahGetAprobacionAprobadoresFiltroWS()
+                  .pipe(finalize( () =>  this.spinner = false))
+                  .subscribe(
+                    (response: Maestra[]) => {
+                  
+          this.aprobadoresOptions = (response || []).map((item) => ({
+            label: item?.valor,
+            value: item?.codigo,
+          }))
+          this.aprobadoresOptions.unshift({label: 'Todos', value: ''});
+          this.spinner = false;
+        }
+        )
+    this.arrayToDestroy.push($rol);
+  }
 
+  getLimitePolitica() {
+    this.spinner = true;
+    const $rol = this.lineHeaderService
+                  .getTsFahGetAprobacionPoliticaLimiteFiltroWS()
+                  .pipe(finalize( () =>  this.spinner = false))
+                  .subscribe(
+                    (response: Maestra[]) => {
+                  
+          this.LimitePoliticaOptions = (response || []).map((item) => ({
+            label: item?.valor,
+            value: item?.valor,
+          }))
+          this.LimitePoliticaOptions.unshift({label: 'Todos', value: ''});
+          this.spinner = false;
+        }
+        )
+    this.arrayToDestroy.push($rol);
+  }
+  getTipoComprobante() {
+    this.spinner = true;
+    const $rol = this.lineHeaderService
+                  .getTsFahGetAprobacionTipoComprobanteFiltroWS()
+                  .pipe(finalize( () =>  this.spinner = false))
+                  .subscribe(
+                    (response: Maestra[]) => {
+                  
+          this.tipoComprobanteOptions = (response || []).map((item) => ({
+            label: item?.valor,
+            value: item?.codigo,
+          }))
+          this.tipoComprobanteOptions.unshift({label: 'Todos', value: ''});
+          this.spinner = false;
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
+  }
+  getEstado() {
+    this.spinner = true;
+    const $rol = this.lineHeaderService
+                  .getTsFahGetAprobacionEstadoFiltroWS()
+                  .pipe(finalize( () =>  this.spinner = false))
+                  .subscribe(
+                    (response: Maestra[]) => {
+                  
+          this.estadoOptions = (response || []).map((item) => ({
+            label: item?.valor,
+            value: item?.valor,
+          }))
+          this.estadoOptions.unshift({label: 'Todos', value: ''});
+          this.spinner = false;
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
+  }
+  getOrigen() {
+    this.spinner = true;
+    const $rol = this.lineHeaderService
+                  .getTsFAHOrigenCargaContableWS()
+                  .pipe(finalize( () =>  this.spinner = false))
+                  .subscribe(
+                    (response: Origen[]) => {
+                  
+          this.origenOptions = (response || []).map((item) => ({
+            label: item?.ORIGEN,
+            value: item?.ORIGEN,
+          }))
+          this.origenOptions.unshift({label: 'Todos', value: ''});
+          this.spinner = false;
+                    }
+                  )
+    this.arrayToDestroy.push($rol);
+  }
+/*
+  filterForm = new FormGroup({
+    origen: new FormControl(0),
+    estado: new FormControl(''),
+    despuesDe: new FormControl(new Date()),
+    antesDe: new FormControl(new Date()),
+    jobId: new FormControl(''),
+    nombreArchivo: new FormControl(''),
+    tipoCarga: new FormControl(''),
+  });
+*/
   createForm(): void {
     this.filtrosForm = this.formBuilder.group({
-      inicio: [null, []],
-      fin: [null, []],
+      fechaCargaInicio: [null, []],
+      fechaCargaFin: [null, []],
+      aprobador: [null, []],
       usuario: [null, []],
       origen: [null, []],
-      cuenta: [null, []],
+      tipoComprobante: [null, []],
+      limitePolitica: [null, []],
       estado: [null, []],
     });
     this.filtrosForm.valueChanges.subscribe(() => {
@@ -105,6 +238,8 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     );
   }
 
+ 
+
    getByRolUser() {
     this.spinner = true;
     const $rol = this.limitService
@@ -120,16 +255,17 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
   }
 
   listarOrigenes(){
-    
+    /*
     this.origenOptions = (this.asientos || []).map((item) => ({
       label: item?.origen,
       value: item?.origen,
     }))
     this.origenOptions = this.eliminarObjetosDuplicados(this.origenOptions, 'label');
     this.origenOptions.unshift({label: 'Todos', value: ''});
-    return this.origenOptions;
+    return this.origenOptions;*/
   }
   setData(): void {
+    /*
     this.listFilter = this.isAprobad ? this.listFilter.filter(o => o.estado === 'Pendiente') : this.listFilter.filter(o => o.usuario === this.nombreUsuario);
     this.origenOptions = (this.listFilter || []).map((item) => ({
       label: item?.origen,
@@ -156,6 +292,7 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     this.estadoOptions = this.eliminarObjetosDuplicados(this.estadoOptions, 'label');
     this.estadoOptions.unshift({label: 'Todos', value: ''});
     this.spinner = false;
+    */
   }
 
   eliminarObjetosDuplicados(arr: any, prop: any): any {
@@ -173,9 +310,11 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
     return nuevoArray;
   }
 
-   getListData(filtros: FiltroAsiento) {
-    filtros.aprobador = Number(this.isAprobad)
-    filtros.aprobadorName = this.nombreUsuario
+   getListData(filtros: FiltroAsientoLimitHeader) {
+  return;
+   // filtros.aprobador = Number(this.isAprobad)
+   // filtros.aprobadorName = this.nombreUsuario
+   filtros.usuarioSesion = this.nombreUsuario;
     this.spinner = true;
     const $subas = this.lineHeaderService
       .getLimitsHeader(filtros)
@@ -192,19 +331,36 @@ export class FiltrosPendientesComponent extends UnsubcribeOnDestroy implements O
             descripcion: item?.Descripcion,
             cargos: Number(item?.Cargo),
             abonos: Number(item?.Abono),
-            cuentas: item.Cuenta,
+            cuentas: '',
             nivel: item.NivelLimit,
             estado: item?.Estado,
             abonoTotal: Number(item?.AbonoTodo),
             cargoTotal: Number(item?.CargoTodo),
             nivelActual: '',
-            aprobador:'',
-            enviado: ''
+            aprobador:'' ,
+            enviado: '',
+            tipoComprobante: item?.TipoComprobante,
+            cantidadLineas: item?.CantidadLineas,
+            nombrePreparadorN1: item?.NombrePreparadorN1,
+            fechayHoraGrabacionPreN1: item?.FechayHoraGrabacionPreN1,
+            nombreAprobadorN2: item?.NombreAprobadorN2,
+            fechayHoraGrabacionPreN2: item?.FechayHoraGrabacionPreN2,
+            nombreAprobadorN3: item?.NombreAprobadorN3,
+            fechayHoraGrabacionPreN3: item?.FechayHoraGrabacionPreN3,
+            nombreAprobadorN4: item?.NombreAprobadorN4,
+            fechayHoraGrabacionPreN4: item?.FechayHoraGrabacionPreN4,
+            nombreAprobadorN5: item?.NombreAprobadorN5,
+            fechayHoraGrabacionPreN5: item?.FechayHoraGrabacionPreN5,
+            mensajeInformativo: item?.MensajeInformativo,
+            justificacionRechazo: item?.JustificacionRechazo,
+            limitePoliticaContable: item?.LimitePoliticaContable,
+            nivelLimit: item?.NivelLimit
           }))
           this.setData();
         }
       );
     this.arrayToDestroy.push($subas);
+
   }
 
   ChangeFormateDate(oldDate: any): string{
